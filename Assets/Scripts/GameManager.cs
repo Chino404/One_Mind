@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -16,15 +17,15 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            if(_animalsList.Count > 0)
-            {
-                for (int i = 0; i < _animalsList.Count; i++)
-                {
-                    _animalsList[i].Action();
-                }
-            }
-        }
+        //if(Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    if(_animalsList.Count > 0)
+        //    {
+        //        for (int i = 0; i < _animalsList.Count; i++)
+        //        {
+        //            _animalsList[i].Action();
+        //        }
+        //    }
+        //}
     }
 }
