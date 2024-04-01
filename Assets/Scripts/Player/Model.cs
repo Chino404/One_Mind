@@ -4,16 +4,18 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(Animator))]
-public class Model : MonoBehaviour
+public class Model : MonoBehaviour, IDamageable, ICure
 {
     [Header("Values General")]
+    [SerializeField] private float _maxLife;
+    [SerializeField] private float _actualLife;
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _forceGravity;
     [SerializeField] private float _jumpForce;
 
     [Header("Coyote Time")]
     public float groundDistance = 2;
-    [SerializeField, Range(0, 0.2f)] private float _coyoteTime = 0.2f;
+    [SerializeField, Range(0, 0.4f)] private float _coyoteTime = 0.2f;
     private float _coyoteTimeCounter;
 
     [Header("Reference")]
@@ -36,6 +38,11 @@ public class Model : MonoBehaviour
 
         _view = new View(_animator);
         _controller = new Controller(this, _view);
+    }
+
+    private void Start()
+    {
+        _actualLife = _maxLife;
     }
 
     private void Update()
@@ -92,5 +99,34 @@ public class Model : MonoBehaviour
         _coyoteTimeCounter = 0;
         _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y * 0.5f);
     }
+
     #endregion
+
+
+    public void Damage(float dmg)
+    {
+        if(_actualLife >0)
+        {
+            _actualLife -= dmg;
+
+            if(_actualLife <= 0)
+            {
+                Debug.Log("Game Over");
+                _actualLife = 0;
+            }
+
+            EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
+        }
+    }
+
+    public void Heal(float life)
+    {
+        if(_actualLife < _maxLife)
+        {
+            _actualLife += life;
+            if (_actualLife > _maxLife) _actualLife = _maxLife;
+
+            EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
+        }
+    }
 }
