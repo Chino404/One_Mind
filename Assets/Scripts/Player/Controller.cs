@@ -18,15 +18,12 @@ public class Controller
 
     public void ArtificialUpdate()
     {
-        if (Input.GetButtonDown("Jump"))
-        {
-            _model.Jump();
-        }
+        if (Input.GetButtonDown("Jump")) _model.Jump();
 
-        if (Input.GetButtonUp("Jump"))
-        {
-            _model.CutJump();
-        }
+        if (Input.GetButtonUp("Jump")) _model.CutJump();
+
+
+        if (Input.GetButtonDown("Fire1")) _model.Punch();
     }
 
     public void ListenFixedKeys()

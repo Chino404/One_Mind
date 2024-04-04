@@ -8,10 +8,15 @@ public class Model : MonoBehaviour, IDamageable, ICure
 {
     [Header("Values General")]
     [SerializeField] private float _maxLife;
-    [SerializeField] private float _actualLife;
-    [SerializeField] private float _moveSpeed = 5f;
+    private float _actualLife;
+    [SerializeField] private float _speed = 5f;
+    private float _actualSpeed;
     [SerializeField] private float _forceGravity;
     [SerializeField] private float _jumpForce;
+    private int _currentCombo;
+    private bool _punching;
+    [SerializeField, Range(0, 2f)]private float _comboTime = 1.25f;
+    private float _comboTimeCounter;
 
     [Header("Coyote Time")]
     public float groundDistance = 2;
@@ -43,12 +48,17 @@ public class Model : MonoBehaviour, IDamageable, ICure
     private void Start()
     {
         _actualLife = _maxLife;
+        _actualSpeed = _speed;
+        _comboTimeCounter = _comboTime;
     }
 
     private void Update()
     {
         if(IsGrounded()) _coyoteTimeCounter = _coyoteTime;
         else _coyoteTimeCounter -= Time.deltaTime;
+
+        if (_comboTimeCounter > 0) _comboTimeCounter -= Time.deltaTime;
+        else _currentCombo = 0;
 
         _controller.ArtificialUpdate();
 
@@ -60,11 +70,12 @@ public class Model : MonoBehaviour, IDamageable, ICure
         _controller.ListenFixedKeys();
     }
 
+    #region Movement
     public void Movement(Vector3 dirRaw, Vector3 dir)
     {
-        if (dirRaw.sqrMagnitude != 0)
+        if (dirRaw.sqrMagnitude != 0 && !_punching)
         {
-            _rb.MovePosition(transform.position + dir.normalized * _moveSpeed * Time.fixedDeltaTime);
+            _rb.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
             Rotate(dir);
         }
     }
@@ -72,6 +83,46 @@ public class Model : MonoBehaviour, IDamageable, ICure
     public void Rotate(Vector3 dirForward)
     {
         transform.forward = dirForward;
+    }
+    #endregion
+
+    public void Punch()
+    {
+        if (_punching) return;
+
+        _currentCombo++;
+
+        switch (_currentCombo)
+        {
+            case 1:
+                Debug.Log("1er golpe");
+                StartCoroutine(SystemCombo(5));
+                _comboTimeCounter = _comboTime;
+                break;
+
+            case 2:
+                Debug.Log("2do golpe");
+                StartCoroutine(SystemCombo(9));
+                _comboTimeCounter = _comboTime;
+                break;
+
+            case 3:
+                Debug.Log("3er golpe");
+                StartCoroutine(SystemCombo(14));
+                _comboTimeCounter = 0;
+                break;
+        }
+    }
+
+    IEnumerator SystemCombo(float powerForce)
+    {
+        _punching = true;
+        _actualSpeed = 0;
+        _rb.AddForce(transform.forward * powerForce, ForceMode.VelocityChange);
+        yield return new WaitForSeconds(0.3f);
+        _actualSpeed = _speed;
+        _punching = false;
+
     }
 
     #region JUMP
@@ -102,7 +153,7 @@ public class Model : MonoBehaviour, IDamageable, ICure
 
     #endregion
 
-
+    #region Damage / Life
     public void Damage(float dmg)
     {
         if(_actualLife >0)
@@ -129,4 +180,5 @@ public class Model : MonoBehaviour, IDamageable, ICure
             EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
         }
     }
+    #endregion
 }
