@@ -6,7 +6,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-     
+    public GameObject[] _players;
+    int _playerIndex;
 
     public List<Animal> _animalsList;
     public List<Human> _humanList;
@@ -24,15 +25,13 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        //if(Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    if(_animalsList.Count > 0)
-        //    {
-        //        for (int i = 0; i < _animalsList.Count; i++)
-        //        {
-        //            _animalsList[i].Action();
-        //        }
-        //    }
-        //}
+        if (Input.GetKeyDown(KeyCode.C))
+            ChangePlayer(_players[0], _players[1]);
+
+    }
+
+    void ChangePlayer(GameObject player1, GameObject player2)
+    {
+        
     }
 }

@@ -4,28 +4,56 @@ using UnityEngine;
 
 public class CameraSwitch : MonoBehaviour
 {
+    [Header("Field of view")]
+    public float newFov;
+    float _oldFov;
+
     public Camera cameraA, cameraB;
+    Vector3 _cameraApos, _cameraBpos;
+    Quaternion _cameraArot, _cameraBrot;
     //[SerializeField] LayerMask playerLayer;
 
-    private void OnTriggerEnter(Collider other)
+    bool _camera2D;
+
+    private void Start()
+    {
+        cameraA = Camera.main;
+        _oldFov = cameraA.fieldOfView;
+    }
+
+    private void Update()
+    {
+        if(!_camera2D)
+        {
+            if (cameraA.fieldOfView > _oldFov)
+            {
+                cameraA.fieldOfView-=0.05f;
+
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.layer == 3)
         {
-            Debug.Log("entre");
-            cameraA.gameObject.SetActive(false);
-            cameraB.gameObject.SetActive(true);
+            _camera2D = true;
+            if(cameraA.fieldOfView<newFov)
+            {
+                cameraA.fieldOfView+=0.5f;
+            }
+            
         }
+        
 
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.layer == 3)
-        {
-            Debug.Log("sali");
-            cameraA.gameObject.SetActive(true);
-            cameraB.gameObject.SetActive(false);
-        }
-
+            _camera2D = false;
     }
+
+    
+
 }
