@@ -8,7 +8,7 @@ public class Human : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance._humanList.Add(this);
+        GameManager.instance._humanList.Add(this);
     }
 
     public void GetDamage()
