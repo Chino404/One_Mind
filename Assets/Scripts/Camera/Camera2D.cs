@@ -5,6 +5,7 @@ using UnityEngine;
 public class Camera2D : MonoBehaviour
 {
     [SerializeField] Transform _target;
+
     [Header("Smoothing Values")]
     [Range(0.01f, 0.125f)] [SerializeField] float _smoothSpeed;
 
@@ -12,8 +13,9 @@ public class Camera2D : MonoBehaviour
 
     private void Start()
     {
+        
         _offset = transform.position;
-
+        
     }
 
     private void Update()
