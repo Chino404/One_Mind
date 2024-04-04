@@ -5,14 +5,21 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    public static GameManager instance;
+     
 
     public List<Animal> _animalsList;
     public List<Human> _humanList;
 
     private void Awake()
     {
-        Instance = this;
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+            Destroy(gameObject);
     }
 
     void Update()

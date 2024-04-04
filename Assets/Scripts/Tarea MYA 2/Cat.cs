@@ -13,7 +13,7 @@ public class Cat : Animal
 
     private void Start()
     {
-        GameManager.Instance._animalsList.Add(this);
+        GameManager.instance._animalsList.Add(this);
     }
 
     public override void Action()
