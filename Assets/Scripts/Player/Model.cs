@@ -108,7 +108,7 @@ public class Model : MonoBehaviour, IDamageable, ICure
 
             case 3:
                 Debug.Log("3er golpe");
-                StartCoroutine(SystemCombo(14));
+                StartCoroutine(SystemCombo(12));
                 _comboTimeCounter = 0;
                 break;
         }
