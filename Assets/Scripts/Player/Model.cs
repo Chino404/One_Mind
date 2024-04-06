@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(Animator))]
-public class Model : MonoBehaviour, IDamageable, ICure
+public class Model : Characters, IDamageable, ICure
 {
     [Header("Values General")]
     [SerializeField] private float _maxLife;
