@@ -23,7 +23,9 @@ public class Controller
         if (Input.GetButtonUp("Jump")) _model.CutJump();
 
 
-        if (Input.GetButtonDown("Fire1")) _model.Punch();
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetButtonDown("Fire1")) _model.SpinAttack();
+        else if (Input.GetButtonDown("Fire1")) _model.NormalPunch();
+
     }
 
     public void ListenFixedKeys()
