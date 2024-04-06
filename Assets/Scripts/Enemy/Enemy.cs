@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
 
         if(damageable != null)
         {
-            damageable.Damage(_dmg);
+            damageable.TakeDamage(_dmg);
         }
     }
 }

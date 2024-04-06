@@ -15,6 +15,8 @@ public class Model : Characters, IDamageable, ICure
     [SerializeField] private float _jumpForce;
     private int _currentCombo;
     private bool _punching;
+    [SerializeField] private int _damage;
+    [SerializeField, Range(2f, 7f) ,Tooltip("Fuerza de empuje del golpe")] private float _pushingForce = 5f;
     [SerializeField, Range(0, 2f)]private float _comboTime = 1.25f;
     private float _comboTimeCounter;
 
@@ -27,19 +29,23 @@ public class Model : Characters, IDamageable, ICure
     [SerializeField] private LayerMask _floorLayer;
 
 
+    //Referencias
     private Rigidbody _rb;
     private Controller _controller;
     private View _view;
+    [SerializeField]private PunchSystemPlayer _punchSystem;
     public Animator _animator;
 
 
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
+        _punchSystem = GetComponentInChildren<PunchSystemPlayer>();
 
         _rb = GetComponent<Rigidbody>();
         _rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ; //De esta manera para que se freezeen los dos
         _rb.angularDrag = 1f; //Friccion de la rotacion
+
 
         _view = new View(_animator);
         _controller = new Controller(this, _view);
@@ -86,7 +92,8 @@ public class Model : Characters, IDamageable, ICure
     }
     #endregion
 
-    public void Punch()
+    #region Attacks
+    public void NormalPunch()
     {
         if (_punching) return;
 
@@ -96,34 +103,51 @@ public class Model : Characters, IDamageable, ICure
         {
             case 1:
                 Debug.Log("1er golpe");
-                StartCoroutine(SystemCombo(5));
+                StartCoroutine(SystemNormalCombo(_pushingForce));
                 _comboTimeCounter = _comboTime;
                 break;
 
             case 2:
                 Debug.Log("2do golpe");
-                StartCoroutine(SystemCombo(9));
+                StartCoroutine(SystemNormalCombo(_pushingForce + (_pushingForce * 0.5f)));
                 _comboTimeCounter = _comboTime;
                 break;
 
             case 3:
                 Debug.Log("3er golpe");
-                StartCoroutine(SystemCombo(12));
+                StartCoroutine(SystemNormalCombo(_pushingForce + (_pushingForce * 0.75f)));
                 _comboTimeCounter = 0;
                 break;
         }
     }
 
-    IEnumerator SystemCombo(float powerForce)
+    IEnumerator SystemNormalCombo(float powerForce)
     {
         _punching = true;
         _actualSpeed = 0;
         _rb.AddForce(transform.forward * powerForce, ForceMode.VelocityChange);
+        EventManager.Trigger("NormalAttack", _damage, 0.3f);
         yield return new WaitForSeconds(0.3f);
         _actualSpeed = _speed;
         _punching = false;
 
     }
+
+    public void SpinAttack()
+    {
+        Debug.Log("Spin");
+        _actualSpeed = 2;
+
+        StartCoroutine(normalSpeed());
+    }
+
+    IEnumerator normalSpeed()
+    {
+        yield return new WaitForSeconds(0.5f);
+        _actualSpeed = _speed;
+    }
+
+    #endregion
 
     #region JUMP
     public bool IsGrounded()
@@ -154,7 +178,7 @@ public class Model : Characters, IDamageable, ICure
     #endregion
 
     #region Damage / Life
-    public void Damage(float dmg)
+    public void TakeDamage(float dmg)
     {
         if(_actualLife >0)
         {
