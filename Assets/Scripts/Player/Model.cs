@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -13,17 +14,17 @@ public class Model : Characters, IDamageable, ICure
     private float _actualSpeed;
     [SerializeField] private float _forceGravity;
     [SerializeField] private float _jumpForce;
-    private int _currentCombo;
-    private bool _punching;
-    [SerializeField] private int _damage;
-    [SerializeField, Range(2f, 7f) ,Tooltip("Fuerza de empuje del golpe")] private float _pushingForce = 5f;
-    [SerializeField, Range(0, 2f)]private float _comboTime = 1.25f;
-    private float _comboTimeCounter;
-
-    [Header("Coyote Time")]
     public float groundDistance = 2;
     [SerializeField, Range(0, 0.4f)] private float _coyoteTime = 0.2f;
     private float _coyoteTimeCounter;
+    private int _currentCombo;
+    private bool _punching;
+    [SerializeField] private int _damage;
+    [SerializeField, Range(0, 2f)]private float _comboTime = 1.25f;
+    private float _comboTimeCounter;
+    [SerializeField] public bool _holdPower;
+    [SerializeField, Range(2f, 7f) ,Tooltip("Fuerza de empuje del golpe")] private float _pushingForce = 5f;
+
 
     [Header("Reference")]
     [SerializeField] private LayerMask _floorLayer;
@@ -33,14 +34,12 @@ public class Model : Characters, IDamageable, ICure
     private Rigidbody _rb;
     private Controller _controller;
     private View _view;
-    [SerializeField]private PunchSystemPlayer _punchSystem;
     public Animator _animator;
 
 
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
-        _punchSystem = GetComponentInChildren<PunchSystemPlayer>();
 
         _rb = GetComponent<Rigidbody>();
         _rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ; //De esta manera para que se freezeen los dos
@@ -64,8 +63,11 @@ public class Model : Characters, IDamageable, ICure
         else _coyoteTimeCounter -= Time.deltaTime;
 
         if (_comboTimeCounter > 0) _comboTimeCounter -= Time.deltaTime;
-        else _currentCombo = 0;
-
+        else
+        {
+            _currentCombo = 0;
+            _actualSpeed = _speed;
+        }
         _controller.ArtificialUpdate();
 
     }
@@ -93,6 +95,14 @@ public class Model : Characters, IDamageable, ICure
     #endregion
 
     #region Attacks
+    public void Attack()
+    {
+        if (_holdPower)
+            SpinAttack();
+        else
+            NormalPunch();
+    }
+
     public void NormalPunch()
     {
         if (_punching) return;
@@ -135,16 +145,9 @@ public class Model : Characters, IDamageable, ICure
 
     public void SpinAttack()
     {
-        Debug.Log("Spin");
+        _comboTimeCounter = _comboTime * 0.25f;
+        EventManager.Trigger("SpinAttack", _damage, _comboTimeCounter);
         _actualSpeed = 2;
-
-        StartCoroutine(normalSpeed());
-    }
-
-    IEnumerator normalSpeed()
-    {
-        yield return new WaitForSeconds(0.5f);
-        _actualSpeed = _speed;
     }
 
     #endregion

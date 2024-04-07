@@ -18,13 +18,14 @@ public class Controller
 
     public void ArtificialUpdate()
     {
+        if (Input.GetKey(KeyCode.LeftShift)) _model._holdPower = true;
+        else _model._holdPower = false;
+
         if (Input.GetButtonDown("Jump")) _model.Jump();
 
         if (Input.GetButtonUp("Jump")) _model.CutJump();
 
-
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetButtonDown("Fire1")) _model.SpinAttack();
-        else if (Input.GetButtonDown("Fire1")) _model.NormalPunch();
+        if (Input.GetButtonDown("Fire1")) _model.Attack();
 
     }
 
