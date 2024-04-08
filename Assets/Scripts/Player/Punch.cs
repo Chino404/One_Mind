@@ -12,7 +12,7 @@ public class Punch : MonoBehaviour
 
         if (target != null)
         {
-            target.TakeDamage(_damagePunch);
+            target.TakeDamageEntity(_damagePunch, transform);
         }
     }
 }
