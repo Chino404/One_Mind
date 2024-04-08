@@ -19,12 +19,14 @@ public class Model : Characters, IDamageable, ICure
     private float _coyoteTimeCounter;
     private int _currentCombo;
     private bool _punching;
-    [SerializeField] private int _damage;
     [SerializeField, Range(0, 2f)]private float _comboTime = 1.25f;
     private float _comboTimeCounter;
     [SerializeField] public bool _holdPower;
     [SerializeField, Range(2f, 7f) ,Tooltip("Fuerza de empuje del golpe")] private float _pushingForce = 5f;
 
+    [Header("Daños")]
+    [SerializeField] private int _normalDamage;
+    [SerializeField] private int _spinDamage;
 
     [Header("Reference")]
     [SerializeField] private LayerMask _floorLayer;
@@ -136,7 +138,7 @@ public class Model : Characters, IDamageable, ICure
         _punching = true;
         _actualSpeed = 0;
         _rb.AddForce(transform.forward * powerForce, ForceMode.VelocityChange);
-        EventManager.Trigger("NormalAttack", _damage, 0.3f);
+        EventManager.Trigger("NormalAttack", _normalDamage, 0.3f);
         yield return new WaitForSeconds(0.3f);
         _actualSpeed = _speed;
         _punching = false;
@@ -146,7 +148,7 @@ public class Model : Characters, IDamageable, ICure
     public void SpinAttack()
     {
         _comboTimeCounter = _comboTime * 0.25f;
-        EventManager.Trigger("SpinAttack", _damage, _comboTimeCounter);
+        EventManager.Trigger("SpinAttack", _spinDamage, _comboTimeCounter);
         _actualSpeed = 2;
     }
 
@@ -181,7 +183,7 @@ public class Model : Characters, IDamageable, ICure
     #endregion
 
     #region Damage / Life
-    public void TakeDamage(float dmg)
+    public void TakeDamageEntity(float dmg, Transform target)
     {
         if(_actualLife >0)
         {
