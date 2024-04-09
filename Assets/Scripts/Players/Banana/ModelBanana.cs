@@ -21,14 +21,5 @@ public class ModelBanana : Characters
         _view = new ViewBanana(_animatorCharacter);
         _controller = new ControllerBanana(this);
     }
-    void Start()
-    {
-        
 
-    }
-
-    void Update()
-    {
-        
-    }
 }
