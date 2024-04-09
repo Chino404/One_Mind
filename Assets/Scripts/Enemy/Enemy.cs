@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour, IDamageable
+public class Enemy : Entity, IDamageable
 {
     [SerializeField] private float _dmg;
     [SerializeField] private float _life;
@@ -20,11 +20,11 @@ public class Enemy : MonoBehaviour, IDamageable
 
         if(damageable != null)
         {
-            damageable.TakeDamageEntity(_dmg, transform);
+            damageable.TakeDamageEntity(_dmg, transform.position);
         }
     }
 
-    public void TakeDamageEntity(float dmg, Transform target)
+    public void TakeDamageEntity(float dmg, Vector3 target)
     {
         if(_life > 0)
         {
@@ -33,12 +33,11 @@ public class Enemy : MonoBehaviour, IDamageable
                 _life = 0;
         }
 
-
-        Vector3 direction = target.position - transform.position;
+        Vector3 direction = target - transform.position;
         Quaternion rotation = Quaternion.LookRotation(direction);
-        transform.rotation = rotation;
+        transform.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
 
-        _rigidbody.AddForce(-transform.forward * 5, ForceMode.VelocityChange);
+        _rigidbody.AddForce(-transform.forward * 7, ForceMode.VelocityChange);
 
     }
 }
