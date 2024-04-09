@@ -23,7 +23,7 @@ public class PunchSystemPlayer : MonoBehaviour
 
     public void NoramlAttack(params object[] parameters)
     {
-        _normalPunch._damagePunch = (int)parameters[0];
+        _normalPunch.Damage = (int)parameters[0];
 
         var timeActive = (float)parameters[1]; //Provisorio, dsp es el tiempo de la animacion
 
@@ -39,7 +39,7 @@ public class PunchSystemPlayer : MonoBehaviour
 
     public void SpinAttack(params object[] parameters)
     {
-        _spinPunch._damagePunch = (int)parameters[0];
+        _spinPunch.Damage = (int)parameters[0];
 
         var timeActive = (float)parameters[1]; //Provisorio, dsp es el tiempo de la animacion
 

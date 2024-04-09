@@ -35,7 +35,7 @@ public class Controller
         _dirRaw.z = Input.GetAxisRaw("Vertical");
 
         _dir.x = Input.GetAxis("Horizontal");
-        _dir.z = Input.GetAxisRaw("Vertical");
+        _dir.z = Input.GetAxis("Vertical");
 
         _model.Movement(_dirRaw, _dir);
     }
