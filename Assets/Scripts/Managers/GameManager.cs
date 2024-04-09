@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     [Header("Character Swap")]
-    public Characters character;
+    public Characters actualCharacter;
     public Characters[] possibleCharacters;
     public KeyCode keyToChangeCharacter;
 
@@ -33,10 +33,10 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        if(character==null&&possibleCharacters.Length>=1)
-        {
-            character = possibleCharacters[0];
-        }
+        //if(character==null&&possibleCharacters.Length>=1)
+        //{
+        //    character = possibleCharacters[0];
+        //}
         Swap();
         //cam = GetComponent<CameraTracker>();
 
@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < possibleCharacters.Length; i++)
             {
                 _playerIndex = i;
-                if (possibleCharacters[i] == character)
+                if (possibleCharacters[i] == actualCharacter)
                 {
                     if (_playerIndex >= 0)
                     {
@@ -64,9 +64,7 @@ public class GameManager : MonoBehaviour
 
                 }
                 Swap();
-                return;
-                
-                
+                return;       
 
             }
         }
@@ -74,17 +72,18 @@ public class GameManager : MonoBehaviour
 
     public void Swap()
     {
-        character = possibleCharacters[_playerIndex];
-        character.GetComponent<Model>().enabled = true;
+        actualCharacter = possibleCharacters[_playerIndex]; //Me guarda el personaje q se controla en el momento
+        actualCharacter.GetComponent<Characters>().enabled = true;
+
         for (int i = 0; i < possibleCharacters.Length; i++)
         {
-            if(possibleCharacters[i]!=character)
+            if(possibleCharacters[i]!=actualCharacter)
             {
-                possibleCharacters[i].GetComponent<Model>().enabled = false;
+                possibleCharacters[i].GetComponent<Characters>().enabled = false;
             }
         }
         //cam.target = character;
-        Debug.Log(character.name);
+        Debug.Log(actualCharacter.name);
         Debug.Log(_playerIndex);
         
     }

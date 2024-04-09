@@ -801,6 +801,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dmg: 25
+  _life: 0
 --- !u!135 &681376171
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -916,10 +917,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff8ebde42c34a33418337d336a94bcb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 1660486872}
+  actualCharacter: {fileID: 0}
   possibleCharacters:
-  - {fileID: 1660486872}
-  - {fileID: 1418950849}
+  - {fileID: 0}
+  - {fileID: 0}
   keyToChangeCharacter: 99
   _animalsList: []
   _humanList: []
@@ -1827,7 +1828,7 @@ GameObject:
   - component: {fileID: 1418950846}
   - component: {fileID: 1418950851}
   - component: {fileID: 1418950850}
-  - component: {fileID: 1418950849}
+  - component: {fileID: 1418950852}
   m_Layer: 3
   m_Name: BananaGuide
   m_TagString: Untagged
@@ -1923,29 +1924,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1418950844}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1418950849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1418950844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48cf34968ebb2b74b87a96102b26f7c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxLife: 100
-  _speed: 5
-  _forceGravity: 1.5
-  _jumpForce: 25
-  _comboTime: 0
-  groundDistance: 1
-  _coyoteTime: 0.029
-  _floorLayer:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  _animator: {fileID: 0}
 --- !u!95 &1418950850
 Animator:
   serializedVersion: 5
@@ -1994,6 +1972,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1418950852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418950844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bbe3232c3957cd4a8b6cc089cfb8a1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1444639803
 GameObject:
   m_ObjectHideFlags: 0
@@ -2334,13 +2324,16 @@ MonoBehaviour:
   _speed: 5
   _forceGravity: 1.5
   _jumpForce: 25
-  _comboTime: 1.25
   groundDistance: 1
   _coyoteTime: 0.2
+  _holdPower: 0
+  _pushingForce: 5
+  _normalDamage: 0
+  _comboTime: 1.25
+  _spinDamage: 0
   _floorLayer:
     serializedVersion: 2
     m_Bits: 64
-  _animator: {fileID: 0}
 --- !u!23 &1660486873
 MeshRenderer:
   m_ObjectHideFlags: 0

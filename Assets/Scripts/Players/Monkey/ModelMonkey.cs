@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(Animator))]
-public class Model : Characters, IDamageable, ICure
+public class ModelMonkey : Characters, IDamageable, ICure
 {
     [Header("Values General")]
     [SerializeField] private float _maxLife;
@@ -33,23 +33,28 @@ public class Model : Characters, IDamageable, ICure
 
 
     //Referencias
-    private Rigidbody _rb;
-    private Controller _controller;
-    private View _view;
-    public Animator _animator;
+    private ControllerMonkey _controller;
+    private ViewMonkey _view;
+    //private Rigidbody _rbCharacter;
+    //public Animator _animator;
+
+
 
 
     private void Awake()
     {
-        _animator = GetComponentInChildren<Animator>();
+        GameManager.instance.actualCharacter = this;
+        GameManager.instance.possibleCharacters[0] = this;
 
-        _rb = GetComponent<Rigidbody>();
-        _rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ; //De esta manera para que se freezeen los dos
-        _rb.angularDrag = 1f; //Friccion de la rotacion
+        _animatorCharacter = GetComponentInChildren<Animator>();
+
+        _rbCharacter = GetComponent<Rigidbody>();
+        _rbCharacter.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ; //De esta manera para que se freezeen los dos
+        _rbCharacter.angularDrag = 1f; //Friccion de la rotacion
 
 
-        _view = new View(_animator);
-        _controller = new Controller(this, _view);
+        _view = new ViewMonkey(_animatorCharacter);
+        _controller = new ControllerMonkey(this);
     }
 
     private void Start()
@@ -76,7 +81,8 @@ public class Model : Characters, IDamageable, ICure
 
     private void FixedUpdate()
     {
-        _rb.AddForce(Vector3.down * _forceGravity, ForceMode.Impulse);
+        _rbCharacter.AddForce(Vector3.down * _forceGravity, ForceMode.Impulse);
+        // if (!usa) return;
         _controller.ListenFixedKeys();
     }
 
@@ -85,7 +91,7 @@ public class Model : Characters, IDamageable, ICure
     {
         if (dirRaw.sqrMagnitude != 0 && !_punching)
         {
-            _rb.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
+            _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
             Rotate(dir);
         }
     }
@@ -137,7 +143,7 @@ public class Model : Characters, IDamageable, ICure
     {
         _punching = true;
         _actualSpeed = 0;
-        _rb.AddForce(transform.forward * powerForce, ForceMode.VelocityChange);
+        _rbCharacter.AddForce(transform.forward * powerForce, ForceMode.VelocityChange);
         EventManager.Trigger("NormalAttack", _normalDamage, 0.3f);
         yield return new WaitForSeconds(0.3f);
         _actualSpeed = _speed;
@@ -170,14 +176,14 @@ public class Model : Characters, IDamageable, ICure
     {
         if (_coyoteTimeCounter > 0f)
         {
-            _rb.velocity = new Vector3(_rb.velocity.x, _jumpForce);
+            _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _jumpForce);
         }
     }
 
     public void CutJump()
     {
         _coyoteTimeCounter = 0;
-        _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y * 0.5f);
+        _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _rbCharacter.velocity.y * 0.5f);
     }
 
     #endregion

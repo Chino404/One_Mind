@@ -2,18 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Controller
+public class ControllerMonkey
 {
-    private Model _model;
+    private ModelMonkey _model;
     private Vector3 _dirRaw = new Vector3();
     private Vector3 _dir = new Vector3();
 
-    private View _view;
 
-    public Controller(Model model, View view)
+    public ControllerMonkey(ModelMonkey model)
     {
         _model = model;
-        _view = view;
     }
 
     public void ArtificialUpdate()
