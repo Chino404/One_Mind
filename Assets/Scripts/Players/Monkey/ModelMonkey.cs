@@ -16,7 +16,7 @@ public class ModelMonkey : Characters, IDamageable, ICure
     [SerializeField] private float _jumpForce;
     public float groundDistance = 2;
     [SerializeField, Range(0, 0.4f)] private float _coyoteTime = 0.2f;
-    private float _coyoteTimeCounter;
+    [SerializeField] private float _coyoteTimeCounter;
     [SerializeField] public bool _holdPower;
     [SerializeField, Range(2f, 7f) ,Tooltip("Fuerza de empuje del golpe")] private float _pushingForce = 5f;
 
@@ -24,8 +24,12 @@ public class ModelMonkey : Characters, IDamageable, ICure
     [SerializeField] private int _normalDamage;
     [SerializeField, Range(0, 2f)]private float _comboTime = 1.25f;
     [SerializeField] private int _spinDamage;
+    [SerializeField] private float _timePressed;
+    public float TimePressed { set{ _timePressed = value; } }
+    public bool chargeGetUp;
+    [SerializeField, Tooltip("Tiempo para el levantamiento"), Range(0.1f, 1f)] private float _timeWaitingForGetUp;
     private int _currentCombo;
-    private bool _punching;
+    [SerializeField] private bool _punching;
     private float _comboTimeCounter;
 
     [Header("Reference")]
@@ -35,11 +39,6 @@ public class ModelMonkey : Characters, IDamageable, ICure
     //Referencias
     private ControllerMonkey _controller;
     private ViewMonkey _view;
-    //private Rigidbody _rbCharacter;
-    //public Animator _animator;
-
-
-
 
     private void Awake()
     {
@@ -66,8 +65,10 @@ public class ModelMonkey : Characters, IDamageable, ICure
 
     private void Update()
     {
-        if(IsGrounded()) _coyoteTimeCounter = _coyoteTime;
-        else _coyoteTimeCounter -= Time.deltaTime;
+        if (IsGrounded())
+            _coyoteTimeCounter = _coyoteTime;
+        else 
+            _coyoteTimeCounter -= Time.deltaTime;
 
         if (_comboTimeCounter > 0) _comboTimeCounter -= Time.deltaTime;
         else
@@ -75,21 +76,24 @@ public class ModelMonkey : Characters, IDamageable, ICure
             _currentCombo = 0;
             _actualSpeed = _speed;
         }
+
         _controller.ArtificialUpdate();
 
     }
 
     private void FixedUpdate()
     {
-        _rbCharacter.AddForce(Vector3.down * _forceGravity, ForceMode.Impulse);
-        // if (!usa) return;
+
         _controller.ListenFixedKeys();
+        _rbCharacter.AddForce(Vector3.down * _forceGravity, ForceMode.VelocityChange);
     }
 
     #region Movement
     public void Movement(Vector3 dirRaw, Vector3 dir)
     {
-        if (dirRaw.sqrMagnitude != 0 && !_punching)
+        if (_punching || chargeGetUp) return;
+
+        if (dirRaw.sqrMagnitude != 0)
         {
             _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
             Rotate(dir);
@@ -143,7 +147,7 @@ public class ModelMonkey : Characters, IDamageable, ICure
     {
         _punching = true;
         _actualSpeed = 0;
-        _rbCharacter.AddForce(transform.forward * powerForce, ForceMode.VelocityChange);
+        _rbCharacter.AddForce(transform.forward * powerForce, ForceMode.Impulse);
         EventManager.Trigger("NormalAttack", _normalDamage, 0.3f);
         yield return new WaitForSeconds(0.3f);
         _actualSpeed = _speed;
@@ -158,6 +162,29 @@ public class ModelMonkey : Characters, IDamageable, ICure
         _actualSpeed = 2;
     }
 
+    /// <summary>
+    /// Ataque de levantamiendo
+    /// </summary>
+    public void UprisingAttack()
+    {
+        if (chargeGetUp) return;
+
+        _timePressed += Time.deltaTime;
+
+        if(_timePressed >= _timeWaitingForGetUp && !chargeGetUp)
+        {
+            EventManager.Trigger("GetUpAttack", _spinDamage, 0.5f);
+            StartCoroutine(TimeToGetUp());
+            _timePressed = 0;
+            chargeGetUp = true;
+        }
+    }
+
+    IEnumerator TimeToGetUp()
+    {
+        yield return new WaitForSeconds(0.25f);
+        _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _jumpForce);
+    }
     #endregion
 
     #region JUMP
@@ -203,6 +230,11 @@ public class ModelMonkey : Characters, IDamageable, ICure
 
             EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
         }
+    }
+
+    public void GetUpDamage()
+    {
+
     }
 
     public void Heal(float life)

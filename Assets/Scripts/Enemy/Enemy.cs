@@ -40,4 +40,9 @@ public class Enemy : Entity, IDamageable
         _rigidbody.AddForce(-transform.forward * 7, ForceMode.VelocityChange);
 
     }
+
+    public void GetUpDamage()
+    {
+
+    }
 }

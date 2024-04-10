@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Character Swap")]
     public Characters actualCharacter;
-    public Characters[] possibleCharacters;
+    public Characters[] possibleCharacters = new Characters[2];
     public KeyCode keyToChangeCharacter;
 
     //public CameraTracker cam;
