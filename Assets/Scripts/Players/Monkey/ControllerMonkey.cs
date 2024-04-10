@@ -9,6 +9,7 @@ public class ControllerMonkey
     private Vector3 _dir = new Vector3();
 
 
+
     public ControllerMonkey(ModelMonkey model)
     {
         _model = model;
@@ -23,8 +24,15 @@ public class ControllerMonkey
 
         if (Input.GetButtonUp("Jump")) _model.CutJump();
 
+
         if (Input.GetButtonDown("Fire1")) _model.Attack();
 
+        if (Input.GetButton("Fire1")) _model.UprisingAttack();
+        else
+        {
+            _model.TimePressed = 0;
+            _model.chargeGetUp = false;
+        }
     }
 
     public void ListenFixedKeys()
