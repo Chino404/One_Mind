@@ -24,9 +24,11 @@ public class ModelMonkey : Characters, IDamageable, ICure
     [SerializeField] private int _normalDamage;
     [SerializeField, Range(0, 2f)]private float _comboTime = 1.25f;
     [SerializeField] private int _spinDamage;
-    [SerializeField] private float _timePressed;
+    private float _timePressed;
     public float TimePressed { set{ _timePressed = value; } }
-    public bool chargeGetUp;
+    [SerializeField] private int _getUpDamage;
+    [SerializeField] private float _forceToGetUp;
+    [HideInInspector]public bool chargeGetUp;
     [SerializeField, Tooltip("Tiempo para el levantamiento"), Range(0.1f, 1f)] private float _timeWaitingForGetUp;
     private int _currentCombo;
     [SerializeField] private bool _punching;
@@ -173,7 +175,7 @@ public class ModelMonkey : Characters, IDamageable, ICure
 
         if(_timePressed >= _timeWaitingForGetUp && !chargeGetUp)
         {
-            EventManager.Trigger("GetUpAttack", _spinDamage, 0.5f);
+            EventManager.Trigger("GetUpAttack", _getUpDamage, (_timeWaitingForGetUp /2), _forceToGetUp);
             StartCoroutine(TimeToGetUp());
             _timePressed = 0;
             chargeGetUp = true;
@@ -232,7 +234,7 @@ public class ModelMonkey : Characters, IDamageable, ICure
         }
     }
 
-    public void GetUpDamage()
+    public void GetUpDamage(float dmg, Vector3 target, float forceToUp)
     {
 
     }
@@ -247,5 +249,6 @@ public class ModelMonkey : Characters, IDamageable, ICure
             EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
         }
     }
+
     #endregion
 }
