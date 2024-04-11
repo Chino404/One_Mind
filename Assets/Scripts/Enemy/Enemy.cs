@@ -6,12 +6,18 @@ public class Enemy : Entity, IDamageable
 {
     [SerializeField] private float _dmg;
     [SerializeField] private float _life;
+    [SerializeField] private float _forceGravity;
     private Rigidbody _rigidbody;
 
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+    }
+
+    private void FixedUpdate()
+    {
+        _rigidbody.AddForce(Vector3.down * _forceGravity, ForceMode.VelocityChange);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -41,8 +47,19 @@ public class Enemy : Entity, IDamageable
 
     }
 
-    public void GetUpDamage()
+    public void GetUpDamage(float dmg, Vector3 target, float forceToUp)
     {
+        if (_life > 0)
+        {
+            _life -= dmg;
+            if (_life <= 0)
+                _life = 0;
+        }
 
+        Vector3 direction = target - transform.position;
+        Quaternion rotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
+
+        _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, forceToUp);
     }
 }

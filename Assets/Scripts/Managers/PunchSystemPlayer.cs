@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PunchSystemPlayer : MonoBehaviour
 {
-    private Punch _normalPunch;
-    [SerializeField] private Punch _spinPunch;
-    [SerializeField] private Punch _getUpPunch;
+    private NormalPunch _normalPunch;
+    [SerializeField] private SpinPunch _spinPunch;
+    [SerializeField] private getUpPunch _getUpPunch;
 
     private void Awake()
     {
-        _normalPunch = GetComponentInChildren<Punch>();
+        _normalPunch = GetComponentInChildren<NormalPunch>();
     }
 
     private void Start()
@@ -58,18 +58,20 @@ public class PunchSystemPlayer : MonoBehaviour
 
     public void GetUpAttack(params object[] parameters)
     {
-        _spinPunch.Damage = (int)parameters[0];
+        _getUpPunch.Damage = (int)parameters[0];
 
         var timeActive = (float)parameters[1]; //Provisorio, dsp es el tiempo de la animacion
 
-        StartCoroutine(SpinPunch(timeActive));
+        _getUpPunch.ForceToUp = (float)parameters[2];
+
+        StartCoroutine(GetUpPunch(timeActive));
     }
 
     IEnumerator GetUpPunch(float time)
     {
-        _spinPunch.gameObject.SetActive(true);
+        _getUpPunch.gameObject.SetActive(true);
         yield return new WaitForSeconds(time);
-        _spinPunch.gameObject.SetActive(false);
+        _getUpPunch.gameObject.SetActive(false);
     }
 
 }
