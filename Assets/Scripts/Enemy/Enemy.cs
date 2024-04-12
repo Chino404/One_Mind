@@ -9,6 +9,9 @@ public class Enemy : Entity, IDamageable
     [SerializeField] private float _forceGravity;
     private Rigidbody _rigidbody;
 
+    ObjectPool<Enemy> _objectPool;
+    public float counter;
+
 
     private void Awake()
     {
@@ -18,6 +21,29 @@ public class Enemy : Entity, IDamageable
     private void FixedUpdate()
     {
         _rigidbody.AddForce(Vector3.down * _forceGravity, ForceMode.VelocityChange);
+    }
+
+    void Update()
+    {
+        if(counter>=2)
+        {
+            _objectPool.StockAdd(this);
+        }
+    }
+
+    public void AddReference(ObjectPool<Enemy> en)
+    {
+        _objectPool = en;
+    }
+
+    public static void TurnOff(Enemy enemy)
+    {
+        enemy.gameObject.SetActive(false);
+    }
+    public static void TurnOn(Enemy enemy)
+    {
+        enemy.counter = 0;
+        enemy.gameObject.SetActive(true);
     }
 
     private void OnTriggerEnter(Collider other)
