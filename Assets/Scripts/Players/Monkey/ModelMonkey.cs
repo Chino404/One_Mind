@@ -13,10 +13,11 @@ public class ModelMonkey : Characters, IDamageable, ICure
     [SerializeField] private float _speed = 5f;
     private float _actualSpeed;
     [SerializeField] private float _forceGravity;
+    private float _initialForceGravity;
     [SerializeField] private float _jumpForce;
     public float groundDistance = 2;
     [SerializeField, Range(0, 0.4f)] private float _coyoteTime = 0.2f;
-    [SerializeField] private float _coyoteTimeCounter;
+    private float _coyoteTimeCounter;
     [SerializeField] public bool _holdPower;
     [SerializeField, Range(2f, 7f) ,Tooltip("Fuerza de empuje del golpe")] private float _pushingForce = 5f;
 
@@ -62,6 +63,7 @@ public class ModelMonkey : Characters, IDamageable, ICure
     {
         _actualLife = _maxLife;
         _actualSpeed = _speed;
+        _initialForceGravity = _forceGravity;
         _comboTimeCounter = _comboTime;
     }
 
@@ -151,10 +153,24 @@ public class ModelMonkey : Characters, IDamageable, ICure
         _actualSpeed = 0;
         _rbCharacter.AddForce(transform.forward * powerForce, ForceMode.Impulse);
         EventManager.Trigger("NormalAttack", _normalDamage, 0.3f);
+        if(!IsGrounded())CancelarTodasLasFuerzas();
         yield return new WaitForSeconds(0.3f);
-        _actualSpeed = _speed;
         _punching = false;
+        yield return new WaitForSeconds(0.2f);
+        if(!_punching)
+        {
+            _actualSpeed = _speed;
+            _forceGravity = _initialForceGravity;
 
+        }
+    }
+
+    void CancelarTodasLasFuerzas()
+    {
+        _forceGravity = 0.07f;
+        _rbCharacter.velocity = Vector3.zero; // Establece la velocidad del Rigidbody a cero
+        _rbCharacter.angularVelocity = Vector3.zero; // Establece la velocidad angular del Rigidbody a cero
+        _rbCharacter.Sleep(); // Detiene toda la simulación dinámica en el Rigidbody
     }
 
     public void SpinAttack()
@@ -169,7 +185,7 @@ public class ModelMonkey : Characters, IDamageable, ICure
     /// </summary>
     public void UprisingAttack()
     {
-        if (chargeGetUp) return;
+        if (chargeGetUp || !IsGrounded()) return;
 
         _timePressed += Time.deltaTime;
 
@@ -177,6 +193,7 @@ public class ModelMonkey : Characters, IDamageable, ICure
         {
             EventManager.Trigger("GetUpAttack", _getUpDamage, (_timeWaitingForGetUp /2), _forceToGetUp);
             StartCoroutine(TimeToGetUp());
+            _currentCombo = 0;
             _timePressed = 0;
             chargeGetUp = true;
         }
@@ -198,7 +215,7 @@ public class ModelMonkey : Characters, IDamageable, ICure
 
         Debug.DrawLine(pos, pos + (dir * dist));
 
-        return Physics.SphereCast(pos, 1, dir, out RaycastHit hit, dist, _floorLayer);
+        return Physics.Raycast(pos, dir, out RaycastHit hit, dist, _floorLayer);
     }
 
     public void Jump()

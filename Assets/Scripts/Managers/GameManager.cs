@@ -15,9 +15,6 @@ public class GameManager : MonoBehaviour
     //public CameraTracker cam;
     int _playerIndex;
 
-    [Header("Tarea de Mod y Alg")]
-    public List<Animal> _animalsList;
-    public List<Human> _humanList;
 
     private void Awake()
     {
