@@ -15,7 +15,6 @@ public class ModelMonkey : Characters, IDamageable, ICure
     [SerializeField] private float _forceGravity;
     private float _initialForceGravity;
     [SerializeField] private float _jumpForce;
-    public float groundDistance = 2;
     [SerializeField, Range(0, 0.4f)] private float _coyoteTime = 0.2f;
     private float _coyoteTimeCounter;
     [SerializeField] public bool _holdPower;
@@ -37,6 +36,7 @@ public class ModelMonkey : Characters, IDamageable, ICure
 
     [Header("Reference")]
     [SerializeField] private LayerMask _floorLayer;
+    public float groundDistance = 2;
 
 
     //Referencias
@@ -110,11 +110,47 @@ public class ModelMonkey : Characters, IDamageable, ICure
     }
     #endregion
 
+    #region JUMP
+    public bool IsGrounded()
+    {
+        Vector3 pos = transform.position;
+        Vector3 dir = Vector3.down;
+        float dist = groundDistance;
+
+        Debug.DrawLine(pos, pos + (dir * dist));
+
+        return Physics.Raycast(pos, dir, out RaycastHit hit, dist, _floorLayer);
+    }
+
+    public void Jump()
+    {
+        if (_coyoteTimeCounter > 0f)
+        {
+            _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _jumpForce);
+        }
+    }
+
+    public void CutJump()
+    {
+        _coyoteTimeCounter = 0;
+        _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _rbCharacter.velocity.y * 0.5f);
+    }
+
+    #endregion
+
+    void CancelarTodasLasFuerzas()
+    {
+        _forceGravity = 0.05f;
+        _rbCharacter.velocity = Vector3.zero; // Establece la velocidad del Rigidbody a cero
+        _rbCharacter.angularVelocity = Vector3.zero; // Establece la velocidad angular del Rigidbody a cero
+        _rbCharacter.Sleep(); // Detiene toda la simulación dinámica en el Rigidbody
+    }
+
     #region Attacks
     public void Attack()
     {
         if (_holdPower)
-            SpinAttack();
+            PowerUpAttack();
         else
             NormalPunch();
     }
@@ -165,12 +201,11 @@ public class ModelMonkey : Characters, IDamageable, ICure
         }
     }
 
-    void CancelarTodasLasFuerzas()
+
+    public void PowerUpAttack()
     {
-        _forceGravity = 0.07f;
-        _rbCharacter.velocity = Vector3.zero; // Establece la velocidad del Rigidbody a cero
-        _rbCharacter.angularVelocity = Vector3.zero; // Establece la velocidad angular del Rigidbody a cero
-        _rbCharacter.Sleep(); // Detiene toda la simulación dinámica en el Rigidbody
+        if (IsGrounded()) SpinAttack();
+        else AttackGoToDown();
     }
 
     public void SpinAttack()
@@ -181,9 +216,9 @@ public class ModelMonkey : Characters, IDamageable, ICure
     }
 
     /// <summary>
-    /// Ataque de levantamiendo
+    /// Ataque para levantar y bajar
     /// </summary>
-    public void UprisingAttack()
+    public void AttackGoToUp()
     {
         if (chargeGetUp || !IsGrounded()) return;
 
@@ -202,36 +237,22 @@ public class ModelMonkey : Characters, IDamageable, ICure
     IEnumerator TimeToGetUp()
     {
         yield return new WaitForSeconds(0.25f);
-        _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _jumpForce);
+        Jump();
     }
-    #endregion
 
-    #region JUMP
-    public bool IsGrounded()
+    public void AttackGoToDown()
     {
-        Vector3 pos = transform.position;
-        Vector3 dir = Vector3.down;
-        float dist = groundDistance;
-
-        Debug.DrawLine(pos, pos + (dir * dist));
-
-        return Physics.Raycast(pos, dir, out RaycastHit hit, dist, _floorLayer);
+        EventManager.Trigger("GetUpAttack", _getUpDamage, (_timeWaitingForGetUp / 2), - _forceToGetUp);
+        _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, -_jumpForce);
+        //CancelarTodasLasFuerzas();
+        //StartCoroutine(ReturnGravity());
     }
 
-    public void Jump()
+    IEnumerator ReturnGravity()
     {
-        if (_coyoteTimeCounter > 0f)
-        {
-            _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _jumpForce);
-        }
+        yield return new WaitForSeconds((_timeWaitingForGetUp/2));
+        _forceGravity = _initialForceGravity;
     }
-
-    public void CutJump()
-    {
-        _coyoteTimeCounter = 0;
-        _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _rbCharacter.velocity.y * 0.5f);
-    }
-
     #endregion
 
     #region Damage / Life

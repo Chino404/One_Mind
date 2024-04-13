@@ -27,7 +27,7 @@ public class ControllerMonkey
 
         if (Input.GetButtonDown("Fire1")) _model.Attack();
 
-        if (Input.GetButton("Fire1")) _model.UprisingAttack();
+        if (Input.GetButton("Fire1")) _model.AttackGoToUp();
         else
         {
             _model.TimePressed = 0;
