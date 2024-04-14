@@ -23,16 +23,17 @@ public class ModelMonkey : Characters, IDamageable, ICure
     [Header("Daños")]
     [SerializeField] private int _normalDamage;
     [SerializeField, Range(0, 2f)]private float _comboTime = 1.25f;
+    private int _currentCombo;
+    private float _comboTimeCounter;
     [SerializeField] private int _spinDamage;
     private float _timePressed;
     public float TimePressed { set{ _timePressed = value; } }
     [SerializeField] private int _getUpDamage;
     [SerializeField] private float _forceToGetUp;
-    [HideInInspector]public bool chargeGetUp;
-    [SerializeField, Tooltip("Tiempo para el levantamiento"), Range(0.1f, 1f)] private float _timeWaitingForGetUp;
-    private int _currentCombo;
+    [HideInInspector] public bool chargeGetUp;
+    [SerializeField, Tooltip("Tiempo para el que salte el player"), Range(0.1f, 1f)] private float _timeWaitingForGetUp;
     [SerializeField] private bool _punching;
-    private float _comboTimeCounter;
+    public event Action PowerUp;
 
     [Header("Reference")]
     [SerializeField] private LayerMask _floorLayer;
@@ -70,9 +71,15 @@ public class ModelMonkey : Characters, IDamageable, ICure
     private void Update()
     {
         if (IsGrounded())
+        {
             _coyoteTimeCounter = _coyoteTime;
-        else 
+            PowerUp = SpinAttack;
+        }
+        else
+        {
             _coyoteTimeCounter -= Time.deltaTime;
+            PowerUp = GoToDownAttack;
+        }
 
         if (_comboTimeCounter > 0) _comboTimeCounter -= Time.deltaTime;
         else
@@ -110,7 +117,7 @@ public class ModelMonkey : Characters, IDamageable, ICure
     }
     #endregion
 
-    #region JUMP
+    #region Jump
     public bool IsGrounded()
     {
         Vector3 pos = transform.position;
@@ -149,10 +156,8 @@ public class ModelMonkey : Characters, IDamageable, ICure
     #region Attacks
     public void Attack()
     {
-        if (_holdPower)
-            PowerUpAttack();
-        else
-            NormalPunch();
+        if (_holdPower) PowerUp();
+        else NormalPunch();
     }
 
     public void NormalPunch()
@@ -193,19 +198,13 @@ public class ModelMonkey : Characters, IDamageable, ICure
         yield return new WaitForSeconds(0.3f);
         _punching = false;
         yield return new WaitForSeconds(0.2f);
+
         if(!_punching)
         {
             _actualSpeed = _speed;
             _forceGravity = _initialForceGravity;
 
         }
-    }
-
-
-    public void PowerUpAttack()
-    {
-        if (IsGrounded()) SpinAttack();
-        else AttackGoToDown();
     }
 
     public void SpinAttack()
@@ -218,7 +217,7 @@ public class ModelMonkey : Characters, IDamageable, ICure
     /// <summary>
     /// Ataque para levantar y bajar
     /// </summary>
-    public void AttackGoToUp()
+    public void GoToUpAttack()
     {
         if (chargeGetUp || !IsGrounded()) return;
 
@@ -240,7 +239,7 @@ public class ModelMonkey : Characters, IDamageable, ICure
         Jump();
     }
 
-    public void AttackGoToDown()
+    public void GoToDownAttack()
     {
         EventManager.Trigger("GetUpAttack", _getUpDamage, (_timeWaitingForGetUp / 2), - _forceToGetUp);
         _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, -_jumpForce);
