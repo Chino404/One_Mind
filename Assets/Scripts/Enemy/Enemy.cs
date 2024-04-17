@@ -6,13 +6,17 @@ using UnityEngine;
 public class Enemy : Entity, IDamageable
 {
     [SerializeField] private float _dmg;
-    [SerializeField] private float _life;
+    [SerializeField] private float _life = 100;
     [SerializeField] private float _forceGravity;
     private float _initalForceGravity;
-    private bool _takingDamage;
+    [SerializeField]private float _timeInvencible = 0.5f;
+    private float _timerCounterInveencible;
+    [SerializeField] private bool _takingDamage;
+    [SerializeField] private float _recoilForce = 10f;
 
-    ObjectPool<Enemy> _objectPool;
+    [Header("Object Pool")]
     public float counter;
+    ObjectPool<Enemy> _objectPool;
 
     [Header("Reference")]
     public float groundDistance = 1.3f;
@@ -30,13 +34,28 @@ public class Enemy : Entity, IDamageable
     private void Start()
     {
         _initalForceGravity = _forceGravity;
+        _timerCounterInveencible = _timeInvencible;
     }
 
 
     void Update()
     {
+        
+        _inAir = IsGrounded() ? false : true;
 
-       _inAir = IsGrounded() ? true : false;
+        if (_takingDamage)
+        {
+            _timerCounterInveencible -= Time.deltaTime;
+
+            if (_timerCounterInveencible <= 0)
+            {
+                _takingDamage = false;
+                _timerCounterInveencible = _timeInvencible;
+
+                if(_inAir) StartCoroutine(ReturnGravity());
+            }
+        }
+
 
         if(counter>=2)
         {
@@ -77,34 +96,26 @@ public class Enemy : Entity, IDamageable
     public void TakeDamageEntity(float dmg, Vector3 target)
     {
         _takingDamage = true;
+        _timerCounterInveencible = _timeInvencible;
 
-        TakeDamage(dmg, target);
+        ViewTakeDamage(dmg, target);
 
-        if (_inAir)
-            _rigidbody.AddForce(-transform.forward * 7, ForceMode.VelocityChange);
-        else
-        { 
-            CancelarTodasLasFuerzas();
-            StartCoroutine(ReturnGravity());
-        }
+        if (!_inAir) _rigidbody.AddForce(-transform.forward * _recoilForce, ForceMode.VelocityChange);
+        else CancelarTodasLasFuerzas();
 
-        StartCoroutine(ViewDamage());
-    }
-
-    IEnumerator ViewDamage()
-    {
-        yield return new WaitForSeconds(0.5f);
-        _takingDamage = false;
     }
 
     public void GetUpDamage(float dmg, Vector3 target, float forceToUp)
     {
-        TakeDamage(dmg, target);
+        _takingDamage = true;
+        _timerCounterInveencible = _timeInvencible;
 
-        _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, forceToUp);
+        ViewTakeDamage(dmg, target);
+
+        _rigidbody.velocity = Vector3.up * forceToUp;
     }
 
-    private void TakeDamage(float damage, Vector3 viewTarget)
+    private void ViewTakeDamage(float damage, Vector3 viewTarget)
     {
         if (_life > 0)
         {
@@ -139,7 +150,7 @@ public class Enemy : Entity, IDamageable
 
     IEnumerator ReturnGravity()
     {
-        yield return new WaitForSeconds(0.5f);
-        _forceGravity = _initalForceGravity;
+        yield return new WaitForSeconds(0.15f);
+        if(!_takingDamage)_forceGravity = _initalForceGravity;
     }
 }

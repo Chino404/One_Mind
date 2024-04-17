@@ -133,7 +133,8 @@ public class ModelMonkey : Characters, IDamageable, ICure
     {
         if (_coyoteTimeCounter > 0f)
         {
-            _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _jumpForce);
+            //_rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _jumpForce);
+            _rbCharacter.velocity = Vector3.up * _jumpForce;
         }
     }
 
