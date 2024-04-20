@@ -15,6 +15,10 @@ public class GameManager : MonoBehaviour
     //public CameraTracker cam;
     int _playerIndex;
 
+    public List<Enemy> enemies = new();
+
+    [Range(0f, 4f)]
+    public float weightSeparation;
 
     private void Awake()
     {
