@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Enemy : Entity, IDamageable
 {
+    [Header("Values")]
     [SerializeField] private float _dmg;
     [SerializeField] private float _life = 100;
     [SerializeField] private float _forceGravity;
@@ -24,7 +25,13 @@ public class Enemy : Entity, IDamageable
     private Rigidbody _rigidbody;
     [SerializeField]private bool _inAir;
 
-
+    [Header("Flocking")]
+    public float viewRadius;
+    public float separationRadius;
+    public float maxVelocity;
+    public float maxForce;
+   public static Transform target;
+    Vector3 _velocity;
 
     private void Awake()
     {
@@ -35,12 +42,30 @@ public class Enemy : Entity, IDamageable
     {
         _initalForceGravity = _forceGravity;
         _timerCounterInveencible = _timeInvencible;
+        AddForce(new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)));
+        GameManager.instance.enemies.Add(this);
+
     }
 
+    public Vector3 Velocity
+    {
+        get
+        {
+            return _velocity;
+        }
+    }
 
     void Update()
     {
-        
+        //target = gameObject.GetComponent<ModelMonkey>().transform;
+
+        Flocking();
+
+        if (_velocity != Vector3.zero)
+            transform.forward = _velocity;
+
+        AddForce(Seek(target.position));
+
         _inAir = IsGrounded() ? false : true;
 
         if (_takingDamage)
@@ -152,5 +177,54 @@ public class Enemy : Entity, IDamageable
     {
         yield return new WaitForSeconds(0.15f);
         if(!_takingDamage)_forceGravity = _initalForceGravity;
+    }
+
+    void Flocking()
+    {
+        AddForce(Separation(GameManager.instance.enemies, separationRadius) * GameManager.instance.weightSeparation);
+    }
+
+    Vector3 Separation(List<Enemy> enemies, float radius)
+    {
+        Vector3 desired = Vector3.zero;
+        foreach (var item in enemies)
+        {
+            var dir = item.transform.position - transform.position;
+            if (dir.magnitude > radius || item == this)
+                continue;
+
+            desired -= dir;
+
+        }
+        if (desired == Vector3.zero)
+            return desired;
+
+        desired.Normalize();
+        desired *= maxVelocity;
+
+        return CalculateSteering(desired);
+    }
+
+    public Vector3 Seek(Vector3 target)
+    {
+        var desired = target - transform.position;
+        desired.Normalize();
+        desired *= maxVelocity;
+
+        return CalculateSteering(desired);
+    }
+
+    Vector3 CalculateSteering(Vector3 desired)
+    {
+        var steering = desired - _velocity;
+        steering = Vector3.ClampMagnitude(steering, maxForce);
+        return steering;
+    }
+
+    public void AddForce(Vector3 dir)
+    {
+        _velocity += dir;
+
+        _velocity = Vector3.ClampMagnitude(_velocity, maxVelocity);
     }
 }

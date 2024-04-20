@@ -44,6 +44,7 @@ public class ModelMonkey : Characters, IDamageable, ICure
     private ControllerMonkey _controller;
     private ViewMonkey _view;
 
+    
     private void Awake()
     {
         GameManager.instance.actualCharacter = this;
@@ -66,6 +67,8 @@ public class ModelMonkey : Characters, IDamageable, ICure
         _actualSpeed = _speed;
         _initialForceGravity = _forceGravity;
         _comboTimeCounter = _comboTime;
+
+        Enemy.target = this.transform;
     }
 
     private void Update()
