@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     public List<Enemy> enemies = new();
 
     [Range(0f, 4f)]
-    public float weightSeparation;
+    public float weightSeparation, weightAlignment;
 
     private void Awake()
     {

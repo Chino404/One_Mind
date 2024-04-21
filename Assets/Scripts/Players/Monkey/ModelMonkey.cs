@@ -44,6 +44,7 @@ public class ModelMonkey : Characters, IDamageable, ICure
     private ControllerMonkey _controller;
     private ViewMonkey _view;
 
+    public Enemy enemy;
     
     private void Awake()
     {
@@ -68,11 +69,16 @@ public class ModelMonkey : Characters, IDamageable, ICure
         _initialForceGravity = _forceGravity;
         _comboTimeCounter = _comboTime;
 
-        Enemy.target = this.transform;
     }
 
     private void Update()
     {
+        if(enemy==null)
+        enemy = GetComponent<Enemy>();
+
+        if (enemy.target==null)
+        enemy.target = this.gameObject;
+
         if (IsGrounded())
         {
             _coyoteTimeCounter = _coyoteTime;
