@@ -30,12 +30,15 @@ public class Enemy : Entity, IDamageable
     public float separationRadius;
     public float maxVelocity;
     public float maxForce;
-   public static Transform target;
+    public GameObject target;
+    [SerializeField] float _minDistance, _maxDistance;
+    
     Vector3 _velocity;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        
     }
 
     private void Start()
@@ -57,14 +60,22 @@ public class Enemy : Entity, IDamageable
 
     void Update()
     {
-        //target = gameObject.GetComponent<ModelMonkey>().transform;
+        //target = _monkey.transform;
 
         Flocking();
 
         if (_velocity != Vector3.zero)
             transform.forward = _velocity;
 
-        AddForce(Seek(target.position));
+
+        Debug.Log((transform.position - target.transform.position).sqrMagnitude);
+
+        if((transform.position - target.transform.position).sqrMagnitude <= _maxDistance * _maxDistance&& (transform.position - target.transform.position).sqrMagnitude >= _minDistance * _minDistance)
+        {
+            AddForce(Seek(target.transform.position));
+            transform.position += _velocity * Time.deltaTime;
+        }
+         
 
         _inAir = IsGrounded() ? false : true;
 
@@ -182,6 +193,7 @@ public class Enemy : Entity, IDamageable
     void Flocking()
     {
         AddForce(Separation(GameManager.instance.enemies, separationRadius) * GameManager.instance.weightSeparation);
+        AddForce(Alignment(GameManager.instance.enemies, viewRadius) * GameManager.instance.weightAlignment);
     }
 
     Vector3 Separation(List<Enemy> enemies, float radius)
@@ -205,11 +217,36 @@ public class Enemy : Entity, IDamageable
         return CalculateSteering(desired);
     }
 
+    Vector3 Alignment(List<Enemy> enemies, float radius)
+    {
+        var desired = Vector3.zero;
+        int count = 0;
+        foreach (var item in enemies)
+        {
+            if (item == this)
+                continue;
+            if (Vector3.Distance(transform.position, item.transform.position) <= radius)
+            {
+                desired += item._velocity;
+                count++;
+            }
+        }
+        if (count <= 0)
+            return desired;
+
+        desired /= count;
+        desired.Normalize();
+        desired *= maxVelocity;
+
+        return CalculateSteering(desired);
+    }
+
     public Vector3 Seek(Vector3 target)
     {
         var desired = target - transform.position;
         desired.Normalize();
         desired *= maxVelocity;
+        desired.y = 0;
 
         return CalculateSteering(desired);
     }

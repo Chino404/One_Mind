@@ -31,6 +31,7 @@ public class InstantiateEnemies : MonoBehaviour
             enemy.AddReference(_objectPool);
             enemy.transform.position = item.transform.position;
             
+            
         }
     }
 }
