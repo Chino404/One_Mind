@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(Animator))]
-public class ModelMonkey : Characters, IDamageable, ICure
+public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 {
     [Header("Values General")]
     [SerializeField] private float _maxLife;
@@ -44,12 +44,13 @@ public class ModelMonkey : Characters, IDamageable, ICure
     private ControllerMonkey _controller;
     private ViewMonkey _view;
 
-    public Enemy enemy;
+   // public Enemy enemy;
     
     private void Awake()
     {
         GameManager.instance.actualCharacter = this;
         GameManager.instance.possibleCharacters[0] = this;
+        GameManager.instance.playerGM = this;
 
         _animatorCharacter = GetComponentInChildren<Animator>();
 
@@ -73,11 +74,9 @@ public class ModelMonkey : Characters, IDamageable, ICure
 
     private void Update()
     {
-        if(enemy==null)
-        enemy = GetComponent<Enemy>();
+        //if(enemy==null) enemy = GetComponent<Enemy>();
 
-        if (enemy.target==null)
-        enemy.target = this.gameObject;
+        //if (enemy.target==null) enemy.target = this.gameObject;
 
         if (IsGrounded())
         {
@@ -124,6 +123,15 @@ public class ModelMonkey : Characters, IDamageable, ICure
     {
         transform.forward = dirForward;
     }
+
+    void CancelarTodasLasFuerzas()
+    {
+        _forceGravity = 0.05f;
+        _rbCharacter.velocity = Vector3.zero; // Establece la velocidad del Rigidbody a cero
+        _rbCharacter.angularVelocity = Vector3.zero; // Establece la velocidad angular del Rigidbody a cero
+        _rbCharacter.Sleep(); // Detiene toda la simulación dinámica en el Rigidbody
+    }
+
     #endregion
 
     #region Jump
@@ -154,14 +162,6 @@ public class ModelMonkey : Characters, IDamageable, ICure
     }
 
     #endregion
-
-    void CancelarTodasLasFuerzas()
-    {
-        _forceGravity = 0.05f;
-        _rbCharacter.velocity = Vector3.zero; // Establece la velocidad del Rigidbody a cero
-        _rbCharacter.angularVelocity = Vector3.zero; // Establece la velocidad angular del Rigidbody a cero
-        _rbCharacter.Sleep(); // Detiene toda la simulación dinámica en el Rigidbody
-    }
 
     #region Attacks
     public void Attack()
@@ -296,6 +296,34 @@ public class ModelMonkey : Characters, IDamageable, ICure
             EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
         }
     }
-
     #endregion
+
+    public void Grab()
+    {
+        if (_grappList.Count == 0) return;
+
+        foreach (var item in _grappList)
+        {
+            EventManager.Trigger("Hook", transform);
+            item.Action();
+        }
+    }
+
+    public List<IObserverGrappeable> _grappList = new List<IObserverGrappeable>();
+
+    public void Subscribe(IObserverGrappeable obs)
+    {
+        if(!_grappList.Contains(obs))
+        {
+            _grappList.Add(obs);
+        }
+    }
+
+    public void Unsubscribe(IObserverGrappeable obs)
+    {
+        if (_grappList.Contains(obs))
+        {
+            _grappList.Remove(obs);
+        }
+    }
 }

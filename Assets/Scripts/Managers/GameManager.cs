@@ -6,6 +6,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public ModelMonkey playerGM;
 
     [Header("Character Swap")]
     public Characters actualCharacter;
