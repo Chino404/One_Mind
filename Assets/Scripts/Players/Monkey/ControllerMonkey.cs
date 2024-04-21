@@ -22,7 +22,7 @@ public class ControllerMonkey
 
         if (Input.GetButtonDown("Jump")) _model.Jump();
 
-        if (Input.GetButtonUp("Jump")) _model.CutJump();
+        else if (Input.GetButtonUp("Jump")) _model.CutJump();
 
 
         if (Input.GetButtonDown("Fire1")) _model.Attack();
@@ -33,6 +33,8 @@ public class ControllerMonkey
             _model.TimePressed = 0;
             _model.chargeGetUp = false;
         }
+
+        if (Input.GetButton("Fire2")) _model.Grab();
     }
 
     public void ListenFixedKeys()
