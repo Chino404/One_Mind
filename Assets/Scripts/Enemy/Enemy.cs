@@ -35,6 +35,11 @@ public class Enemy : Entity, IDamageable
     
     Vector3 _velocity;
 
+    [Header("Hit")]
+    public GameObject hit;
+    public float damage;
+    [HideInInspector] FSM fsm;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -48,6 +53,10 @@ public class Enemy : Entity, IDamageable
         AddForce(new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)));
         GameManager.instance.enemies.Add(this);
 
+        fsm = new FSM();
+
+        fsm.CreateState("Attack", new Attack(this));
+
     }
 
     public Vector3 Velocity
@@ -60,7 +69,7 @@ public class Enemy : Entity, IDamageable
 
     void Update()
     {
-        //target = _monkey.transform;
+        
 
         Flocking();
 
@@ -68,13 +77,16 @@ public class Enemy : Entity, IDamageable
             transform.forward = _velocity;
 
 
-        Debug.Log((transform.position - target.transform.position).sqrMagnitude);
+       
 
-        if((transform.position - target.transform.position).sqrMagnitude <= _maxDistance * _maxDistance&& (transform.position - target.transform.position).sqrMagnitude >= _minDistance * _minDistance)
+        if ((transform.position - target.transform.position).sqrMagnitude <= _maxDistance * _maxDistance && (transform.position - target.transform.position).sqrMagnitude >= _minDistance * _minDistance)
         {
             AddForce(Seek(target.transform.position));
             transform.position += _velocity * Time.deltaTime;
         }
+
+        else if ((transform.position - target.transform.position).sqrMagnitude <= _minDistance * _minDistance)
+            fsm.ChangeState("Attack");
          
 
         _inAir = IsGrounded() ? false : true;
