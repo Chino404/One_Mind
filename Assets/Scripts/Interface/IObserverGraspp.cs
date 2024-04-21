@@ -4,5 +4,6 @@ using UnityEngine;
 
 public interface IObserverGrappeable
 {
-    public void Action();
+    //public void Action();
+    public Vector3 ReturnPosition();
 }

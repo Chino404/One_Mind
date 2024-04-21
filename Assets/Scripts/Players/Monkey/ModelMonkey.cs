@@ -44,7 +44,7 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     private ControllerMonkey _controller;
     private ViewMonkey _view;
 
-   // public Enemy enemy;
+    public Enemy enemy;
     
     private void Awake()
     {
@@ -74,9 +74,9 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 
     private void Update()
     {
-        //if(enemy==null) enemy = GetComponent<Enemy>();
+        if (enemy == null) enemy = GetComponent<Enemy>();
 
-        //if (enemy.target==null) enemy.target = this.gameObject;
+        if (enemy.target == null) enemy.target = this.gameObject;
 
         if (IsGrounded())
         {
@@ -304,8 +304,8 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 
         foreach (var item in _grappList)
         {
-            EventManager.Trigger("Hook", transform);
-            item.Action();
+            EventManager.Trigger("Hook", transform, item.ReturnPosition());
+            //Debug.Log("Gancho");
         }
     }
 

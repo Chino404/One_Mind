@@ -16,8 +16,9 @@ public class Grappeable : MonoBehaviour, IObserverGrappeable
             other.gameObject.GetComponent<IObservableGrapp>().Unsubscribe(this);
     }
 
-    public void Action()
+
+    public Vector3 ReturnPosition()
     {
-        Debug.Log("Gancho");
+        return transform.position;
     }
 }
