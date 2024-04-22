@@ -6,11 +6,13 @@ using System;
 public class Attack : IState
 {
     Enemy _enemy;
+    FSM _fsm;
     bool _isHitting;
 
-    public Attack (Enemy enemy)
+    public Attack (Enemy enemy, FSM fsm)
     {
         _enemy = enemy;
+        _fsm = fsm;
     }
     public void OnEnter()
     {
@@ -20,7 +22,11 @@ public class Attack : IState
     public void OnUpdate()
     {
         Debug.Log("estoy atacando");
-        _isHitting = true;
+        _enemy.Hit();
+        if ((_enemy.transform.position - _enemy.target.transform.position).sqrMagnitude <= _enemy.maxDistance * _enemy.maxDistance && (_enemy.transform.position - _enemy.target.transform.position).sqrMagnitude >= _enemy.minDistance * _enemy.minDistance)
+        {
+            _fsm.ChangeState("Follow Player");
+        }
     }
 
     public void OnExit()
@@ -28,13 +34,5 @@ public class Attack : IState
         Debug.Log("dejo de atacar");
     }
 
-    void Hit()
-    {
-        if (_isHitting == true)
-        {
-            _enemy.hit.SetActive(true);
-            new WaitForSeconds(0.5f);
-            _enemy.hit.SetActive(false);
-        }
-    }
+    
 }
