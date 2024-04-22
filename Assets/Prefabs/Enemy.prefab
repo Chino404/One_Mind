@@ -204,7 +204,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
@@ -350,10 +350,13 @@ MonoBehaviour:
   maxVelocity: 5
   maxForce: 0.1
   target: {fileID: 0}
-  _minDistance: 2
-  _maxDistance: 10
+  minDistance: 1.5
+  maxDistance: 10
+  _velocity: {x: 0, y: 0, z: 0}
   hit: {fileID: 7373691650799600539}
   damage: 5
+  _cooldownHit: 1
+  conchadetumadre: 
 --- !u!54 &3653403646046013688
 Rigidbody:
   m_ObjectHideFlags: 0

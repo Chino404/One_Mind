@@ -7,7 +7,7 @@ public class Attack : IState
 {
     Enemy _enemy;
     FSM _fsm;
-    bool _isHitting;
+    
 
     public Attack (Enemy enemy, FSM fsm)
     {
