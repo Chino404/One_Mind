@@ -23,7 +23,7 @@ public class Enemy : Entity, IDamageable
     public float groundDistance = 1.3f;
     [SerializeField] private LayerMask _floorLayer;
     private Rigidbody _rigidbody;
-    [SerializeField]private bool _inAir;
+    public bool _inAir;
 
     [Header("Flocking")]
     public float viewRadius;
@@ -45,7 +45,6 @@ public class Enemy : Entity, IDamageable
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        
     }
 
     private void Start()
@@ -60,6 +59,8 @@ public class Enemy : Entity, IDamageable
         fsm.CreateState("Attack", new Attack(this, fsm));
         fsm.CreateState("Follow Player", new FollowPlayer(this, fsm));
         fsm.ChangeState("Follow Player");
+
+        target = GameManager.instance.playerGM.gameObject;
     }
 
     public Vector3 Velocity
@@ -79,10 +80,11 @@ public class Enemy : Entity, IDamageable
         if (_velocity != Vector3.zero)
             transform.forward = _velocity;
 
-
+        if(!_inAir)
         fsm.Execute();
 
-        
+        if (_life <= 0)
+            this.gameObject.SetActive(false);
 
         _inAir = IsGrounded() ? false : true;
 
@@ -250,12 +252,18 @@ public class Enemy : Entity, IDamageable
 
     public Vector3 Seek(Vector3 target)
     {
-        var desired = target - transform.position;
-        desired.Normalize();
-        desired *= maxVelocity;
-        desired.y = 0;
+            var desired = target - transform.position;
+        //if (!_inAir)
+        
+            desired.Normalize();
+            desired *= maxVelocity;
 
+            desired.y = 0;
+        
+
+        
         return CalculateSteering(desired);
+
     }
 
     Vector3 CalculateSteering(Vector3 desired)
@@ -274,26 +282,21 @@ public class Enemy : Entity, IDamageable
 
     public void Hit()
     {
-        
+        if(!_isHitting)
         StartCoroutine(HitCoolDown());
        
     }
 
     IEnumerator HitCoolDown()
     {
-        if(!_isHitting)
-        {
+
             hit.SetActive(true);
             yield return new WaitForSeconds(1f);
             _isHitting = true;
-            
-        }
-        else if(_isHitting)
-        {
+
             hit.SetActive(false);
             yield return new WaitForSeconds(_cooldownHit);
             _isHitting = false;
-        }
-       
+
     }
 }
