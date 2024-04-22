@@ -35,6 +35,7 @@ public class ControllerMonkey
         }
 
         if (Input.GetButton("Fire2")) _model.Grab();
+        else if (Input.GetButtonUp("Fire2")) EventManager.Trigger("StopHook");
     }
 
     public void ListenFixedKeys()
