@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(Animator))]
@@ -74,9 +75,9 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 
     private void Update()
     {
-        if (enemy == null) enemy = GetComponent<Enemy>();
+        //if (enemy == null) enemy = GetComponent<Enemy>();
 
-        if (enemy.target == null) enemy.target = this.gameObject;
+        //if (enemy.target == null) enemy.target = this.gameObject;
 
         if (IsGrounded())
         {
@@ -300,13 +301,30 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 
     public void Grab()
     {
-        if (_grappList.Count == 0) return;
+        if (_grappList.Count == 0)
+        {
+            EventManager.Trigger("StopHook");
+            return;
+        }
 
         foreach (var item in _grappList)
         {
-            EventManager.Trigger("Hook", transform, item.ReturnPosition());
+            var posGrappeable = item.ReturnPosition();
+
+            EventManager.Trigger("Hook", transform, posGrappeable);
+
+            Vector3 direction = posGrappeable - transform.position;
+            Quaternion rotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
+
+            //gameObject.AddComponent<HingeJoint>();
             //Debug.Log("Gancho");
         }
+    }
+
+    public void StopGrab()
+    {
+        //gameObject.
     }
 
     public List<IObserverGrappeable> _grappList = new List<IObserverGrappeable>();
