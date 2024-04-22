@@ -31,14 +31,16 @@ public class Enemy : Entity, IDamageable
     public float maxVelocity;
     public float maxForce;
     public GameObject target;
-    [SerializeField] float _minDistance, _maxDistance;
+    public float minDistance, maxDistance;
     
-    Vector3 _velocity;
+    [HideInInspector]public Vector3 _velocity;
 
     [Header("Hit")]
     public GameObject hit;
     public float damage;
     [HideInInspector] FSM fsm;
+    [SerializeField] float _cooldownHit;
+    bool _isHitting;
 
     private void Awake()
     {
@@ -55,8 +57,9 @@ public class Enemy : Entity, IDamageable
 
         fsm = new FSM();
 
-        fsm.CreateState("Attack", new Attack(this));
-
+        fsm.CreateState("Attack", new Attack(this, fsm));
+        fsm.CreateState("Follow Player", new FollowPlayer(this, fsm));
+        fsm.ChangeState("Follow Player");
     }
 
     public Vector3 Velocity
@@ -77,17 +80,9 @@ public class Enemy : Entity, IDamageable
             transform.forward = _velocity;
 
 
-       
+        fsm.Execute();
 
-        if ((transform.position - target.transform.position).sqrMagnitude <= _maxDistance * _maxDistance && (transform.position - target.transform.position).sqrMagnitude >= _minDistance * _minDistance)
-        {
-            AddForce(Seek(target.transform.position));
-            transform.position += _velocity * Time.deltaTime;
-        }
-
-        else if ((transform.position - target.transform.position).sqrMagnitude <= _minDistance * _minDistance)
-            fsm.ChangeState("Attack");
-         
+        
 
         _inAir = IsGrounded() ? false : true;
 
@@ -275,5 +270,30 @@ public class Enemy : Entity, IDamageable
         _velocity += dir;
 
         _velocity = Vector3.ClampMagnitude(_velocity, maxVelocity);
+    }
+
+    public void Hit()
+    {
+        
+        StartCoroutine(HitCoolDown());
+       
+    }
+
+    IEnumerator HitCoolDown()
+    {
+        if(!_isHitting)
+        {
+            hit.SetActive(true);
+            yield return new WaitForSeconds(1f);
+            _isHitting = true;
+            
+        }
+        else if(_isHitting)
+        {
+            hit.SetActive(false);
+            yield return new WaitForSeconds(_cooldownHit);
+            _isHitting = false;
+        }
+       
     }
 }
