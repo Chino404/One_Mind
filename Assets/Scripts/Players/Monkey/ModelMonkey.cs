@@ -8,7 +8,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody), typeof(Animator))]
 public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 {
-    [Header("Values General")]
+    [Header("Values Character")]
     [SerializeField] private float _maxLife;
     private float _actualLife;
     [SerializeField] private float _speed = 5f;
@@ -18,8 +18,9 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     [SerializeField] private float _jumpForce;
     [SerializeField, Range(0, 0.4f)] private float _coyoteTime = 0.2f;
     private float _coyoteTimeCounter;
-    [SerializeField] public bool _holdPower;
+    [HideInInspector]public bool _holdPower;
     [SerializeField, Range(2f, 7f) ,Tooltip("Fuerza de empuje del golpe")] private float _pushingForce = 5f;
+    private bool _grabbed;
 
     [Header("Daños")]
     [SerializeField] private int _normalDamage;
@@ -27,18 +28,21 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     private int _currentCombo;
     private float _comboTimeCounter;
     [SerializeField] private int _spinDamage;
-    private float _timePressed;
+    [SerializeField]private float _timePressed;
     public float TimePressed { set{ _timePressed = value; } }
     [SerializeField] private int _getUpDamage;
     [SerializeField] private float _forceToGetUp;
-    [HideInInspector] public bool chargeGetUp;
-    [SerializeField, Tooltip("Tiempo para el que salte el player"), Range(0.1f, 1f)] private float _timeWaitingForGetUp;
+    [HideInInspector]public bool chargeGetUp;
+    [SerializeField, Tooltip("Tiempo para el que salte el player"), Range(0.3f, 1f)] private float _timeForGetUp;
     [SerializeField] private bool _punching;
     public event Action PowerUp;
 
     [Header("Reference")]
     [SerializeField] private LayerMask _floorLayer;
     public float groundDistance = 2;
+    [SerializeField] private Transform _pointRotation;
+    [SerializeField] private Transform _pointPlayer;
+    [SerializeField] private MeshRenderer _meshRendererHook;
 
 
     //Referencias
@@ -111,7 +115,7 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     #region Movement
     public void Movement(Vector3 dirRaw, Vector3 dir)
     {
-        if (_punching || chargeGetUp) return;
+        if (_punching || chargeGetUp || _grabbed) return;
 
         if (dirRaw.sqrMagnitude != 0)
         {
@@ -234,9 +238,9 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 
         _timePressed += Time.deltaTime;
 
-        if(_timePressed >= _timeWaitingForGetUp && !chargeGetUp)
+        if(_timePressed >= _timeForGetUp && !chargeGetUp)
         {
-            EventManager.Trigger("GetUpAttack", _getUpDamage, (_timeWaitingForGetUp /2), _forceToGetUp);
+            EventManager.Trigger("GetUpAttack", _getUpDamage, (_timeForGetUp /2), _forceToGetUp);
             StartCoroutine(TimeToGetUp());
             _currentCombo = 0;
             _timePressed = 0;
@@ -252,7 +256,7 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 
     public void GoToDownAttack()
     {
-        EventManager.Trigger("GetUpAttack", _getUpDamage, (_timeWaitingForGetUp / 2), - _forceToGetUp);
+        EventManager.Trigger("GetUpAttack", _getUpDamage, (_timeForGetUp / 2), - _forceToGetUp * 1.5f);
         _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, -_jumpForce);
         //CancelarTodasLasFuerzas();
         //StartCoroutine(ReturnGravity());
@@ -260,7 +264,7 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 
     IEnumerator ReturnGravity()
     {
-        yield return new WaitForSeconds((_timeWaitingForGetUp/2));
+        yield return new WaitForSeconds((_timeForGetUp/2));
         _forceGravity = _initialForceGravity;
     }
     #endregion
@@ -310,21 +314,32 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
         foreach (var item in _grappList)
         {
             var posGrappeable = item.ReturnPosition();
+            _meshRendererHook.enabled = true;
+            _grabbed = true;
 
-            EventManager.Trigger("Hook", transform, posGrappeable);
+            //EventManager.Trigger("Hook", transform, posGrappeable);
 
-            Vector3 direction = posGrappeable - transform.position;
+            Vector3 direction = posGrappeable.position - transform.position;
             Quaternion rotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
 
-            //gameObject.AddComponent<HingeJoint>();
-            //Debug.Log("Gancho");
+            _pointRotation.position = posGrappeable.position;
+            //Quaternion rotacionActual = Quaternion.Euler(-90, 0, 0);
+            //_pointRotation.rotation = rotacionActual;
+
+            Quaternion rotacionDelPuntoA = posGrappeable.rotation;
+            _pointRotation.rotation = rotacionDelPuntoA;
+
+            //_pointRotation.rotation = posGrappeable.rotation;
+            transform.position = _pointPlayer.position;
         }
     }
 
     public void StopGrab()
     {
         //gameObject.
+        _grabbed = false;
+        _meshRendererHook.enabled = false;
     }
 
     public List<IObserverGrappeable> _grappList = new List<IObserverGrappeable>();
