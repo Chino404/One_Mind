@@ -1,12 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Grappeable : MonoBehaviour, IObserverGrappeable
 {
-    public Transform grappPoint;
-    public float velocidadRotacion = 30.0f; // Velocidad de rotación gradual en grados por segundo
+    [SerializeField] private Transform _grappPoint;
+    [SerializeField]private float _speedRotation; // Velocidad de rotación gradual en grados por segundo
+    public float timerForMaxVelocity;
+    private float _timmer;
+
+    //public float velocidadTemporal;
+
+    public float maxVelocity = 400f;
+    public float minVelocity = 250f;
+
+    private bool _enganchado;
     float _anguloRotacion;
 
     [SerializeField] private Quaternion rotacionOriginal;
@@ -14,16 +24,6 @@ public class Grappeable : MonoBehaviour, IObserverGrappeable
 
     Quaternion _rotacionActual;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.GetComponent<IObservableGrapp>() != null)
-            other.gameObject.GetComponent<IObservableGrapp>().Subscribe(this);
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.GetComponent<IObservableGrapp>() != null)
-            other.gameObject.GetComponent<IObservableGrapp>().Unsubscribe(this);
-    }
 
     private void Start()
     {
@@ -32,17 +32,39 @@ public class Grappeable : MonoBehaviour, IObserverGrappeable
 
         // Calcular la rotación final (volver a la rotación original)
         rotacionFinal = Quaternion.identity;
+
+        _speedRotation = minVelocity;
+
+        EventManager.Subscribe("Rotate", ExecuteRotate);
     }
 
 
     public Transform ReturnPosition()
     {
-        var dir = Input.GetAxisRaw("Horizontal");
+        return _grappPoint;
+    }
 
-        if(dir != 0)
+    public void ExecuteRotate(params object[] parameters)
+    {
+        //var dir = Input.GetAxisRaw("Horizontal");
+
+        var dir = (float)parameters[0];
+
+        if (dir != 0 && _enganchado)
         {
+            //if (_timmer < timerForMaxVelocity)
+            //{
+            //    //velocidadTemporal = maxVelocity  / (timerForMaxVelocity / _timmer);
+            //    //_speedRotation = velocidadTemporal;
+
+
+            //    _timmer += Time.deltaTime;
+            //}
+
+            _speedRotation = Mathf.Lerp(minVelocity, maxVelocity, timerForMaxVelocity);
+
             // Calcular el ángulo de rotación en función del tiempo transcurrido
-            _anguloRotacion = dir * velocidadRotacion * Time.deltaTime;
+            _anguloRotacion = dir * _speedRotation * Time.deltaTime;
 
             // Crear un quaternion de rotación gradual en el eje Z
             _rotacionActual = Quaternion.Euler(0, 0, _anguloRotacion);
@@ -54,10 +76,28 @@ public class Grappeable : MonoBehaviour, IObserverGrappeable
 
         else
         {
-
+            _timmer = 0;
+            _speedRotation = minVelocity;
             transform.rotation = Quaternion.Lerp(rotacionFinal, rotacionOriginal, 2);
         }
 
-        return grappPoint;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.GetComponent<IObservableGrapp>() != null)
+        {
+            other.gameObject.GetComponent<IObservableGrapp>().Subscribe(this);
+            _enganchado = true;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.GetComponent<IObservableGrapp>() != null)
+        {
+            other.gameObject.GetComponent<IObservableGrapp>().Unsubscribe(this);
+            _enganchado = false;
+        }
+    }
+
 }
