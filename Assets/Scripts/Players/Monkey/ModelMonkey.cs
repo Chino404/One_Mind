@@ -41,7 +41,7 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     [SerializeField] private LayerMask _floorLayer;
     public float groundDistance = 2;
     [SerializeField] private Transform _pointRotation;
-    [SerializeField] private Transform _pointPlayer;
+    [SerializeField] private Transform _pointFromPlayer;
     [SerializeField] private MeshRenderer _meshRendererHook;
 
 
@@ -115,7 +115,9 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     #region Movement
     public void Movement(Vector3 dirRaw, Vector3 dir)
     {
-        if (_punching || chargeGetUp || _grabbed) return;
+        if (_punching || chargeGetUp) return;
+
+        if (_grabbed) EventManager.Trigger("Rotate", dirRaw.x);
 
         if (dirRaw.sqrMagnitude != 0)
         {
@@ -153,6 +155,12 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 
     public void Jump()
     {
+        if(_grabbed)
+        {
+            StopGrab();
+            Debug.Log("Soltar");
+        }
+
         if (_coyoteTimeCounter > 0f)
         {
             //_rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _jumpForce);
@@ -171,6 +179,7 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     #region Attacks
     public void Attack()
     {
+        if (_grabbed) return;
         if (_holdPower) PowerUp();
         else NormalPunch();
     }
@@ -305,41 +314,35 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 
     public void Grab()
     {
-        if (_grappList.Count == 0)
-        {
-            EventManager.Trigger("StopHook");
-            return;
-        }
+        if (_grappList.Count == 0) return;
 
+
+        _grabbed = true;
         foreach (var item in _grappList)
         {
             var posGrappeable = item.ReturnPosition();
+
             _meshRendererHook.enabled = true;
-            _grabbed = true;
 
-            //EventManager.Trigger("Hook", transform, posGrappeable);
-
+            //El player mira al objeto q se agarra
             Vector3 direction = posGrappeable.position - transform.position;
             Quaternion rotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
 
+            //El punto en el que se encaja para rotar
             _pointRotation.position = posGrappeable.position;
-            //Quaternion rotacionActual = Quaternion.Euler(-90, 0, 0);
-            //_pointRotation.rotation = rotacionActual;
+            _pointRotation.rotation = posGrappeable.rotation;
 
-            Quaternion rotacionDelPuntoA = posGrappeable.rotation;
-            _pointRotation.rotation = rotacionDelPuntoA;
-
-            //_pointRotation.rotation = posGrappeable.rotation;
-            transform.position = _pointPlayer.position;
+            transform.position = _pointFromPlayer.position;
         }
     }
 
     public void StopGrab()
     {
-        //gameObject.
+
         _grabbed = false;
         _meshRendererHook.enabled = false;
+        _rbCharacter.velocity = Vector3.up * (_jumpForce);
     }
 
     public List<IObserverGrappeable> _grappList = new List<IObserverGrappeable>();
