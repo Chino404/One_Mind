@@ -73,8 +73,6 @@ public class Enemy : Entity, IDamageable
 
     void Update()
     {
-        
-
         Flocking();
 
         if (_velocity != Vector3.zero)

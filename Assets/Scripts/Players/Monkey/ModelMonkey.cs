@@ -85,6 +85,7 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 
         if (IsGrounded())
         {
+            
             _coyoteTimeCounter = _coyoteTime;
             PowerUp = SpinAttack;
         }
@@ -107,8 +108,10 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 
     private void FixedUpdate()
     {
-
-        _controller.ListenFixedKeys();
+        if(!CameraSwitch._camera2D)
+        {
+            _controller.ListenFixedKeys();
+        }
         _rbCharacter.AddForce(Vector3.down * _forceGravity, ForceMode.VelocityChange);
     }
 
@@ -144,12 +147,13 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     #region Jump
     public bool IsGrounded()
     {
+        
         Vector3 pos = transform.position;
         Vector3 dir = Vector3.down;
         float dist = groundDistance;
 
         Debug.DrawLine(pos, pos + (dir * dist));
-
+        
         return Physics.Raycast(pos, dir, out RaycastHit hit, dist, _floorLayer);
     }
 
@@ -157,6 +161,7 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     {
         if(_grabbed)
         {
+
             StopGrab();
             Debug.Log("Soltar");
         }
@@ -164,6 +169,8 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
         if (_coyoteTimeCounter > 0f)
         {
             //_rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _jumpForce);
+            Debug.Log("entro a Jump");
+
             _rbCharacter.velocity = Vector3.up * _jumpForce;
         }
     }
