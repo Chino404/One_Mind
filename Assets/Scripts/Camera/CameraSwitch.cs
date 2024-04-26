@@ -11,12 +11,15 @@ public class CameraSwitch : MonoBehaviour
     public Camera cameraA, cameraB;
     Vector3 _cameraApos, _cameraBpos;
     Quaternion _cameraArot, _cameraBrot;
+    public ModelMonkey monkey;
     //[SerializeField] LayerMask playerLayer;
 
-    bool _camera2D;
+    public static bool _camera2D;
+
 
     private void Start()
     {
+        
         cameraA = Camera.main;
         _oldFov = cameraA.fieldOfView;
     }
@@ -35,6 +38,12 @@ public class CameraSwitch : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        Vector3 newDirRaw = Vector3.zero;
+        Vector3 newDir = Vector3.zero;
+
+        newDirRaw.x = Input.GetAxisRaw("Horizontal");
+        newDir.x = Input.GetAxis("Horizontal");
+        
         if (other.gameObject.layer == 3)
         {
             _camera2D = true;
@@ -42,6 +51,7 @@ public class CameraSwitch : MonoBehaviour
             {
                 cameraA.fieldOfView+=0.5f;
             }
+            monkey.Movement(newDirRaw, newDir);
             
         }
         
