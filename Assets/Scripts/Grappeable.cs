@@ -9,9 +9,9 @@ public class Grappeable : MonoBehaviour, IObserverGrappeable
     [SerializeField] private Transform _grappPoint;
     [SerializeField]private float _speedRotation; // Velocidad de rotación gradual en grados por segundo
     public float timerForMaxVelocity;
-    private float _timmer;
-
-    //public float velocidadTemporal;
+    private float _timerSpeed;
+    public float timeToOrigin;
+    private float _timerRotation;
 
     public float maxVelocity = 400f;
     public float minVelocity = 250f;
@@ -36,6 +36,8 @@ public class Grappeable : MonoBehaviour, IObserverGrappeable
         _speedRotation = minVelocity;
 
         EventManager.Subscribe("Rotate", ExecuteRotate);
+        EventManager.Subscribe("StopRotate", StopRotate);
+
     }
 
 
@@ -46,22 +48,17 @@ public class Grappeable : MonoBehaviour, IObserverGrappeable
 
     public void ExecuteRotate(params object[] parameters)
     {
-        //var dir = Input.GetAxisRaw("Horizontal");
 
         var dir = (float)parameters[0];
 
         if (dir != 0 && _enganchado)
         {
-            //if (_timmer < timerForMaxVelocity)
-            //{
-            //    //velocidadTemporal = maxVelocity  / (timerForMaxVelocity / _timmer);
-            //    //_speedRotation = velocidadTemporal;
+            _timerRotation = 0;
+            _timerSpeed += Time.deltaTime;
+            float t = Mathf.Clamp01(_timerSpeed / timerForMaxVelocity);
+            if (_timerSpeed >= timerForMaxVelocity) t = timerForMaxVelocity;
 
-
-            //    _timmer += Time.deltaTime;
-            //}
-
-            _speedRotation = Mathf.Lerp(minVelocity, maxVelocity, timerForMaxVelocity);
+            _speedRotation = Mathf.Lerp(minVelocity, maxVelocity, t);
 
             // Calcular el ángulo de rotación en función del tiempo transcurrido
             _anguloRotacion = dir * _speedRotation * Time.deltaTime;
@@ -76,11 +73,26 @@ public class Grappeable : MonoBehaviour, IObserverGrappeable
 
         else
         {
-            _timmer = 0;
+            _timerSpeed = 0;
             _speedRotation = minVelocity;
-            transform.rotation = Quaternion.Lerp(rotacionFinal, rotacionOriginal, 2);
+
+            //_timerRotation += Time.deltaTime;
+            //float t = Mathf.Clamp01(_timerRotation / timeToOrigin);
+            //if(_timerRotation >= timeToOrigin) t = timeToOrigin;
+
+            //transform.rotation = Quaternion.Lerp(rotacionFinal, rotacionOriginal, t);
+            transform.rotation = rotacionOriginal;
+
         }
 
+    }
+
+    private void StopRotate(params object[] parameters)
+    {
+        _enganchado = false;
+        _timerSpeed = 0;
+        _speedRotation = minVelocity;
+        transform.rotation = rotacionOriginal;
     }
 
     private void OnTriggerEnter(Collider other)
