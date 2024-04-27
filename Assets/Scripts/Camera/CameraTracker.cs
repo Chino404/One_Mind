@@ -9,7 +9,7 @@ public class CameraTracker : MonoBehaviour
     [Header("Smoothing Values")]
     [Range(0.01f, 0.125f)] [SerializeField] float _smoothSpeed;
 
-    [SerializeField] float _newFov;
+    
     Vector3 _offset, _desiredPos, _smoothPos;
   
     private void Start()
