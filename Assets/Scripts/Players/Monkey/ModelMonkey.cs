@@ -346,7 +346,7 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 
     public void StopGrab()
     {
-
+        EventManager.Trigger("StopRotate");
         _grabbed = false;
         _meshRendererHook.enabled = false;
         _rbCharacter.velocity = Vector3.up * (_jumpForce);
