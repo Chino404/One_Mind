@@ -19,7 +19,7 @@ public class CameraSwitch : MonoBehaviour
 
     private void Start()
     {
-        
+        _camera2D = false;
         cameraA = Camera.main;
         _oldFov = cameraA.fieldOfView;
     }
