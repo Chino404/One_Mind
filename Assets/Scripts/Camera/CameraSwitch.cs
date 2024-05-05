@@ -47,7 +47,9 @@ public class CameraSwitch : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.GetComponent<ModelMonkey>())
+        {
             _virtualCamera.enabled = true;
+        }
     }
 
     //private void OnTriggerStay(Collider other)
@@ -75,7 +77,7 @@ public class CameraSwitch : MonoBehaviour
         //if (other.gameObject.layer == 3)
         //    _camera2D = false;
 
-        if (other.gameObject.GetComponent<ModelMonkey>())
+        if(other.gameObject.GetComponent<ModelMonkey>())
             _virtualCamera.enabled = false;
     }
 
