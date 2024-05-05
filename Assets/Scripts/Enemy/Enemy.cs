@@ -42,9 +42,15 @@ public class Enemy : Entity, IDamageable
     [SerializeField] float _cooldownHit;
     bool _isHitting;
 
+    [Header("Animation")]
+    public Animator anim;
+    [SerializeField] string _speedAnim = "Speed";
+    [SerializeField] string _damageAnim = "DamageReceived";
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        anim.GetComponentInChildren<Animator>();
     }
 
     private void Start()
@@ -55,6 +61,8 @@ public class Enemy : Entity, IDamageable
         GameManager.instance.enemies.Add(this);
 
         fsm = new FSM();
+
+        
 
         fsm.CreateState("Attack", new Attack(this, fsm));
         fsm.CreateState("Follow Player", new FollowPlayer(this, fsm));
@@ -88,6 +96,7 @@ public class Enemy : Entity, IDamageable
 
         if (_takingDamage)
         {
+            
             _timerCounterInveencible -= Time.deltaTime;
 
             if (_timerCounterInveencible <= 0)
@@ -138,6 +147,8 @@ public class Enemy : Entity, IDamageable
 
     public void TakeDamageEntity(float dmg, Vector3 target)
     {
+        
+        SetDamageAnimation();
         _takingDamage = true;
         _timerCounterInveencible = _timeInvencible;
 
@@ -253,13 +264,14 @@ public class Enemy : Entity, IDamageable
             var desired = target - transform.position;
         //if (!_inAir)
         
+        
             desired.Normalize();
             desired *= maxVelocity;
 
             desired.y = 0;
-        
 
-        
+
+
         return CalculateSteering(desired);
 
     }
@@ -296,5 +308,11 @@ public class Enemy : Entity, IDamageable
             yield return new WaitForSeconds(_cooldownHit);
             _isHitting = false;
 
+    }
+
+    public void SetDamageAnimation()
+    {
+        Debug.Log("animacion");
+        anim.SetTrigger(_damageAnim);
     }
 }

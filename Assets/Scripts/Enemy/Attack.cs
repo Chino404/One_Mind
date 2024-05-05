@@ -8,6 +8,7 @@ public class Attack : IState
     Enemy _enemy;
     FSM _fsm;
     
+    
 
     public Attack (Enemy enemy, FSM fsm)
     {
@@ -23,6 +24,7 @@ public class Attack : IState
     {
         Debug.Log("estoy atacando");
         _enemy.Hit();
+        _enemy.anim.SetTrigger("Attack");
         if ((_enemy.transform.position - _enemy.target.transform.position).sqrMagnitude <= _enemy.maxDistance * _enemy.maxDistance && (_enemy.transform.position - _enemy.target.transform.position).sqrMagnitude >= _enemy.minDistance * _enemy.minDistance)
         {
             _fsm.ChangeState("Follow Player");
