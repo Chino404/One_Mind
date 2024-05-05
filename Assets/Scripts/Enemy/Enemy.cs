@@ -26,11 +26,13 @@ public class Enemy : Entity, IDamageable
     public bool _inAir;
 
     [Header("Flocking")]
-    public float viewRadius;
-    public float separationRadius;
     public float maxVelocity;
     public float maxForce;
     public GameObject target;
+
+    [Header("Radius")]
+    public float separationRadius;
+    public float viewRadius;
     public float minDistance, maxDistance;
     
     [HideInInspector]public Vector3 _velocity;
@@ -315,4 +317,37 @@ public class Enemy : Entity, IDamageable
         Debug.Log("animacion");
         anim.SetTrigger(_damageAnim);
     }
+
+
+    #region Gizmos
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, separationRadius);
+
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, viewRadius);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, minDistance);
+
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, maxDistance);
+
+        //Vector3 lineA = GetVectorFromAngle(viewAngle * 0.5f + transform.eulerAngles.y);
+        //Vector3 lineB = GetVectorFromAngle(-viewAngle * 0.5f + transform.eulerAngles.y);
+
+        //Gizmos.DrawLine(transform.position, transform.position + lineA * viewRadius);
+        //Gizmos.DrawLine(transform.position, transform.position + lineB * viewRadius);
+
+        //Gizmos.color = Color.cyan;
+        //Gizmos.DrawWireSphere(transform.position, arriveRadius);
+    }
+
+    Vector3 GetVectorFromAngle(float angle)
+    {
+        return new Vector3(Mathf.Sin(angle * Mathf.Deg2Rad), 0, Mathf.Cos(angle * Mathf.Deg2Rad));
+    }
+    #endregion
 }
+
