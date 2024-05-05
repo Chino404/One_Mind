@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
         //{
         //    character = possibleCharacters[0];
         //}
-        Swap();
+        //Swap();
         //cam = GetComponent<CameraTracker>();
 
     }
@@ -65,30 +65,30 @@ public class GameManager : MonoBehaviour
                     }
 
                 }
-                Swap();
+                //Swap();
                 return;       
 
             }
         }
     }
 
-    public void Swap()
-    {
-        actualCharacter = possibleCharacters[_playerIndex]; //Me guarda el personaje q se controla en el momento
-        actualCharacter.GetComponent<Characters>().enabled = true;
+    //public void Swap()
+    //{
+    //    actualCharacter = possibleCharacters[_playerIndex]; //Me guarda el personaje q se controla en el momento
+    //    actualCharacter.GetComponent<Characters>().enabled = true;
 
-        for (int i = 0; i < possibleCharacters.Length; i++)
-        {
-            if(possibleCharacters[i]!=actualCharacter)
-            {
-                possibleCharacters[i].GetComponent<Characters>().enabled = false;
-            }
-        }
-        //cam.target = character;
-        Debug.Log(actualCharacter.name);
-        Debug.Log(_playerIndex);
+    //    for (int i = 0; i < possibleCharacters.Length; i++)
+    //    {
+    //        if(possibleCharacters[i]!=actualCharacter)
+    //        {
+    //            possibleCharacters[i].GetComponent<Characters>().enabled = false;
+    //        }
+    //    }
+    //    //cam.target = character;
+    //    Debug.Log(actualCharacter.name);
+    //    Debug.Log(_playerIndex);
         
-    }
+    //}
 
     
 }

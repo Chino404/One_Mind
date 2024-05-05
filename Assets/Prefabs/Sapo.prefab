@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -6479615486452692939}
   - component: {fileID: 8869374351415050514}
   - component: {fileID: 2398721164608552590}
+  - component: {fileID: -4143344478282406300}
   m_Layer: 0
   m_Name: Sapo
   m_TagString: Untagged
@@ -71,6 +72,9 @@ MonoBehaviour:
   hit: {fileID: 6363083684963818349}
   damage: 5
   _cooldownHit: 1
+  _anim: {fileID: 7915958864512506396}
+  _speedAnim: Speed
+  _damageAnim: DamageReceived
 --- !u!54 &8869374351415050514
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -119,6 +123,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 423.0049, y: 376.12976, z: 305.68893}
   m_Center: {x: 3.6800385, y: 47.040016, z: -153.3445}
+--- !u!114 &-4143344478282406300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 870663077891850531}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5646dee97e42f94294e3bb90ca290c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4194611486948053201
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,6 +146,7 @@ GameObject:
   - component: {fileID: 8246085163743557628}
   - component: {fileID: 1839687613425950555}
   - component: {fileID: 1767714918852229862}
+  - component: {fileID: 7915958864512506396}
   m_Layer: 0
   m_Name: Sapo_Body
   m_TagString: Untagged
@@ -202,6 +219,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!95 &7915958864512506396
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4194611486948053201}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: c7871aa0bff353a4685564fe8791f1c1, type: 3}
+  m_Controller: {fileID: 9100000, guid: 6b5192bd2aeced24386364c1a6d9a05a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6363083684963818349
 GameObject:
   m_ObjectHideFlags: 0
