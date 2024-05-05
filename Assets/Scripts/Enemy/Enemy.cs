@@ -33,7 +33,7 @@ public class Enemy : Entity, IDamageable
     [Header("Radius")]
     public float separationRadius;
     public float viewRadius;
-    public float minDistance, maxDistance;
+    public float attackDistance; //maxDistance;
     
     [HideInInspector]public Vector3 _velocity;
 
@@ -64,11 +64,11 @@ public class Enemy : Entity, IDamageable
 
         fsm = new FSM();
 
-        
 
+        fsm.CreateState("Idle", new Idle(this, fsm));
         fsm.CreateState("Attack", new Attack(this, fsm));
         fsm.CreateState("Follow Player", new FollowPlayer(this, fsm));
-        fsm.ChangeState("Follow Player");
+        fsm.ChangeState("Idle");
 
         target = GameManager.instance.playerGM.gameObject;
     }
@@ -329,10 +329,10 @@ public class Enemy : Entity, IDamageable
         Gizmos.DrawWireSphere(transform.position, viewRadius);
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, minDistance);
+        Gizmos.DrawWireSphere(transform.position, attackDistance);
 
         Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, maxDistance);
+        //Gizmos.DrawWireSphere(transform.position, maxDistance);
 
         //Vector3 lineA = GetVectorFromAngle(viewAngle * 0.5f + transform.eulerAngles.y);
         //Vector3 lineB = GetVectorFromAngle(-viewAngle * 0.5f + transform.eulerAngles.y);

@@ -294,8 +294,8 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 
             if(_actualLife <= 0)
             {
-                Debug.Log("Game Over");
                 _actualLife = 0;
+                PauseManager.instance.GameOver();
             }
 
             EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
