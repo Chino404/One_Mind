@@ -15,8 +15,6 @@ public class Impulse : MonoBehaviour
             var rb = other.GetComponent<Rigidbody>();
             var tr = other.GetComponent<Transform>();
 
-            //rb.velocity = new Vector3(0f, tr.localScale.y * _force);
-
             rb.velocity = Vector3.up * _force;
 
         }
