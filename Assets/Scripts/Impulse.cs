@@ -10,7 +10,7 @@ public class Impulse : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 3)
+        if (other.gameObject.GetComponent<ModelMonkey>())
         {
             var rb = other.GetComponent<Rigidbody>();
             var tr = other.GetComponent<Transform>();
