@@ -346,6 +346,8 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 
     public void StopGrab()
     {
+        if (_grappList.Count == 0) return;
+
         EventManager.Trigger("StopRotate");
         _grabbed = false;
         _meshRendererHook.enabled = false;

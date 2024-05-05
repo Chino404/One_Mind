@@ -5,7 +5,7 @@ using UnityEngine;
 public class Impulse : MonoBehaviour
 {
     [SerializeField] ForceMode _impulseMode;
-    [Range(10, 70)]
+    [Range(20, 70)]
     [SerializeField] private int _force;
 
     private void OnTriggerEnter(Collider other)

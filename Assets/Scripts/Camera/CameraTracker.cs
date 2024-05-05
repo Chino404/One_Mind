@@ -21,7 +21,8 @@ public class CameraTracker : MonoBehaviour
 
     private void FixedUpdate()
     {
-        target = GameManager.instance.actualCharacter;
+        //target = GameManager.instance.actualCharacter;
+        target = GameManager.instance.playerGM;
 
         _desiredPos = target.transform.position + _offset;
         _smoothPos = Vector3.Lerp(transform.position, _desiredPos, _smoothSpeed);
