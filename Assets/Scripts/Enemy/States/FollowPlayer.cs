@@ -24,8 +24,11 @@ public class FollowPlayer : IState
         _enemy.AddForce(_enemy.Seek(_enemy.target.transform.position));
         _enemy.transform.position += _enemy._velocity * Time.deltaTime;
 
-        if ((_enemy.transform.position - _enemy.target.transform.position).sqrMagnitude <= _enemy.minDistance * _enemy.minDistance)
+        if ((_enemy.transform.position - _enemy.target.transform.position).sqrMagnitude <= _enemy.attackDistance * _enemy.attackDistance)
             _fsm.ChangeState("Attack");
+
+        if ((_enemy.transform.position - _enemy.target.transform.position).sqrMagnitude >= _enemy.viewRadius * _enemy.viewRadius)
+            _fsm.ChangeState("Idle");
     }
 
     public void OnExit()

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class PauseManager : MonoBehaviour
 {
+    public Canvas gameOverCanvas;
     public Canvas pauseMenu;
     public static PauseManager instance;
     bool _isPaused;
@@ -31,6 +32,7 @@ public class PauseManager : MonoBehaviour
 
     private void Update()
     {
+        
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             if (!_isPaused)
@@ -38,7 +40,17 @@ public class PauseManager : MonoBehaviour
             else if (_isPaused)
                 ResumeGame();
         }
+        if(Time.timeScale==1)
+        {
+            gameOverCanvas.gameObject.SetActive(false);
+        }
 
+    }
+
+    public void GameOver()
+    {
+        Time.timeScale = 0;
+        gameOverCanvas.gameObject.SetActive(true);
     }
 
     public void NextLvL(int scene)
