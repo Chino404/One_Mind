@@ -53,9 +53,9 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     
     private void Awake()
     {
-        GameManager.instance.actualCharacter = this;
-        GameManager.instance.possibleCharacters[0] = this;
-        GameManager.instance.playerGM = this;
+        //GameManager.instance.actualCharacter = this;
+        //GameManager.instance.possibleCharacters[0] = this;
+        //GameManager.instance.playerGM = this;
 
         _animatorCharacter = GetComponentInChildren<Animator>();
 
