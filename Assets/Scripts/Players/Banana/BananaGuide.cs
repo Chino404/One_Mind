@@ -11,14 +11,13 @@ public class BananaGuide : MonoBehaviour
 
     void Update()
     {
+        if (_velocity != Vector3.zero)
+            transform.position += _velocity * Time.deltaTime;
 
         if (transform.position != target.position)
             AddForce(Seek(target.position));
 
-        
-            transform.forward = _velocity;
-
-        
+        transform.LookAt(target);
     }
 
     public Vector3 Seek(Vector3 target)
