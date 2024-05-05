@@ -371,4 +371,6 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
             _grappList.Remove(obs);
         }
     }
+
+    
 }

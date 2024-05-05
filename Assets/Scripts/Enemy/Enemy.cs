@@ -317,7 +317,7 @@ public class Enemy : Entity, IDamageable
         Debug.Log("animacion");
         anim.SetTrigger(_damageAnim);
     }
-
+    
 
     #region Gizmos
     private void OnDrawGizmos()
@@ -348,6 +348,9 @@ public class Enemy : Entity, IDamageable
     {
         return new Vector3(Mathf.Sin(angle * Mathf.Deg2Rad), 0, Mathf.Cos(angle * Mathf.Deg2Rad));
     }
+
+
     #endregion
+    
 }
 
