@@ -6,8 +6,8 @@ using UnityEngine;
 public class Enemy : Entity, IDamageable
 {
     [Header("Values")]
-    [SerializeField] private float _dmg;
     [SerializeField] private float _life = 100;
+    [SerializeField] private float _dmg;
     [SerializeField] private float _forceGravity;
     private float _initalForceGravity;
     [SerializeField]private float _timeInvencible = 0.5f;

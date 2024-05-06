@@ -21,6 +21,7 @@ public class FollowPlayer : IState
     public void OnUpdate()
     {
         //if(!_enemy._inAir)
+        _enemy.anim.SetBool("Walk", true);
         _enemy.AddForce(_enemy.Seek(_enemy.target.transform.position));
         _enemy.transform.position += _enemy._velocity * Time.deltaTime;
 
