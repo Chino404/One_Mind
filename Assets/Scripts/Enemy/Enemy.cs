@@ -46,7 +46,7 @@ public class Enemy : Entity, IDamageable
 
     [Header("Animation")]
     public Animator anim;
-    [SerializeField] string _speedAnim = "Speed";
+    //[SerializeField] string _speedAnim = "Speed";
     [SerializeField] string _damageAnim = "DamageReceived";
 
     private void Awake()
@@ -146,7 +146,7 @@ public class Enemy : Entity, IDamageable
             damageable.TakeDamageEntity(_dmg, transform.position);
         }
     }
-
+    #region Damage
     public void TakeDamageEntity(float dmg, Vector3 target)
     {
         
@@ -184,7 +184,7 @@ public class Enemy : Entity, IDamageable
         Quaternion rotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
     }
-
+    #endregion
     public bool IsGrounded()
     {
         Vector3 pos = transform.position;
@@ -209,7 +209,7 @@ public class Enemy : Entity, IDamageable
         yield return new WaitForSeconds(0.15f);
         if(!_takingDamage)_forceGravity = _initalForceGravity;
     }
-
+    #region Flocking
     void Flocking()
     {
         AddForce(Separation(GameManager.instance.enemies, separationRadius) * GameManager.instance.weightSeparation);
@@ -260,13 +260,14 @@ public class Enemy : Entity, IDamageable
 
         return CalculateSteering(desired);
     }
+    #endregion
 
     public Vector3 Seek(Vector3 target)
     {
             var desired = target - transform.position;
         //if (!_inAir)
         
-        
+            
             desired.Normalize();
             desired *= maxVelocity;
 
@@ -294,6 +295,7 @@ public class Enemy : Entity, IDamageable
 
     public void Hit()
     {
+        
         if(!_isHitting)
         StartCoroutine(HitCoolDown());
        
@@ -301,14 +303,15 @@ public class Enemy : Entity, IDamageable
 
     IEnumerator HitCoolDown()
     {
+        hit.SetActive(true);
+        anim.SetBool("Attack", true);
+        yield return new WaitForSeconds(1f);
+        _isHitting = true;
 
-            hit.SetActive(true);
-            yield return new WaitForSeconds(1f);
-            _isHitting = true;
-
-            hit.SetActive(false);
-            yield return new WaitForSeconds(_cooldownHit);
-            _isHitting = false;
+        hit.SetActive(false);
+        anim.SetBool("Attack", false);
+        yield return new WaitForSeconds(_cooldownHit);
+        _isHitting = false;
 
     }
 

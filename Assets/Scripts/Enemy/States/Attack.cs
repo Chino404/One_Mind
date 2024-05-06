@@ -23,11 +23,12 @@ public class Attack : IState
     public void OnUpdate()
     {
         Debug.Log("estoy atacando");
+        _enemy.anim.SetBool("Walk", false);
         _enemy.Hit();
-        _enemy.anim.SetTrigger("Attack");
         if ((_enemy.transform.position - _enemy.target.transform.position).sqrMagnitude > _enemy.attackDistance * _enemy.attackDistance)
         {
             _fsm.ChangeState("Follow Player");
+            //_enemy.anim.SetBool("Attack", false);
         }
         
     }
