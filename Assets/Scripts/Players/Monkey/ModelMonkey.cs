@@ -44,12 +44,13 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     [SerializeField] private Transform _pointFromPlayer;
     [SerializeField] private MeshRenderer _meshRendererHook;
 
+    [Header("Animator")]
+    [SerializeField]private Animator _animPlayer;
 
     //Referencias
     private ControllerMonkey _controller;
     private ViewMonkey _view;
 
-    //public Enemy enemy;
     
     private void Awake()
     {
@@ -57,7 +58,8 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
         //GameManager.instance.possibleCharacters[0] = this;
         //GameManager.instance.playerGM = this;
 
-        _animatorCharacter = GetComponentInChildren<Animator>();
+        //_animatorCharacter = GetComponentInChildren<Animator>();
+        //_animPlayer = GetComponent<Animator>();
 
         _rbCharacter = GetComponent<Rigidbody>();
         _rbCharacter.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ; //De esta manera para que se freezeen los dos
@@ -79,9 +81,6 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 
     private void Update()
     {
-        //if (enemy == null) enemy = GetComponent<Enemy>();
-
-        //if (enemy.target == null) enemy.target = this.gameObject;
 
         if (IsGrounded())
         {
@@ -127,6 +126,7 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
             _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
             Rotate(dir);
         }
+        //else _animPlayer.SetBool("Walk", false);
     }
 
     public void Rotate(Vector3 dirForward)
