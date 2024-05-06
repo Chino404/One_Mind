@@ -6,6 +6,12 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
     [SerializeField]int _asyncScene;
+
+    private void Start()
+    {
+        Time.timeScale = 1;
+    }
+
     public void PlayGame(int sceneNumber)
     {
         AsyncLoad.sceneNumber = sceneNumber;
