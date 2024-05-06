@@ -35,7 +35,7 @@ public class PauseManager : MonoBehaviour
         
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            if (!_isPaused)
+            if (!_isPaused&&Time.timeScale==1)
                 PauseGame();
             else if (_isPaused)
                 ResumeGame();
@@ -44,6 +44,8 @@ public class PauseManager : MonoBehaviour
         {
             gameOverCanvas.gameObject.SetActive(false);
         }
+
+        
 
     }
 

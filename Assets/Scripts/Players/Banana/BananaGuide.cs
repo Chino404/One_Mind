@@ -8,6 +8,7 @@ public class BananaGuide : MonoBehaviour
     public float maxVelocity;
     public float maxForce;
     Vector3 _velocity;
+    public float radiusArrive;
 
     void Update()
     {
@@ -15,9 +16,9 @@ public class BananaGuide : MonoBehaviour
             transform.position += _velocity * Time.deltaTime;
 
         if (transform.position != target.position)
-            AddForce(Seek(target.position));
+            AddForce(Arrive(target.position));
 
-        transform.LookAt(target);
+        transform.LookAt(target.forward);
     }
 
     public Vector3 Seek(Vector3 target)
@@ -26,6 +27,22 @@ public class BananaGuide : MonoBehaviour
 
         desired.Normalize();
         desired *= maxVelocity;
+
+        return CalculateSteering(desired);
+    }
+
+    public Vector3 Arrive(Vector3 target)
+    {
+        var dist = Vector3.Distance(transform.position, target);
+
+        if (dist > radiusArrive)
+            return Seek(target);
+
+        var desired = target - transform.position;
+        desired.Normalize();
+        desired *= maxVelocity * (dist / radiusArrive);
+
+
 
         return CalculateSteering(desired);
     }
