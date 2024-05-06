@@ -22,7 +22,8 @@ public class Idle : IState
 
     public void OnUpdate()
     {
-        _enemy.anim.SetBool("Idle", true);
+        Debug.Log("Esta en Idle");
+        _enemy.anim.SetBool("Walk", false);
         if ((_enemy.transform.position - _enemy.target.transform.position).sqrMagnitude < _enemy.viewRadius * _enemy.viewRadius)
             _fsm.ChangeState("Follow Player");
 
