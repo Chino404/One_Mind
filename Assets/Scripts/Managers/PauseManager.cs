@@ -12,11 +12,10 @@ public class PauseManager : MonoBehaviour
     bool _isPaused;
     [SerializeField] int _asyncScene;
     [SerializeField] int _mainMenuScene;
-    
+
 
     private void Awake()
     {
-        
 
         if (instance == null)
         {
@@ -26,9 +25,10 @@ public class PauseManager : MonoBehaviour
         else
             Destroy(gameObject);
 
+
     }
 
-    
+
 
     private void Update()
     {
@@ -83,11 +83,12 @@ public class PauseManager : MonoBehaviour
         _isPaused = false;
     }
 
-    public void RestartGame()
+    public void RestartGame(int sceneNumber)
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        pauseMenu.gameObject.SetActive(false);
-
+        AsyncLoad.sceneNumber = sceneNumber;
+        //pauseMenu.gameObject.SetActive(false);
+        SceneManager.LoadSceneAsync(_asyncScene);
         Time.timeScale = 1;
+
     }
 }
