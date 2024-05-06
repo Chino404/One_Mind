@@ -11,14 +11,16 @@ public class PunchSystemPlayer : MonoBehaviour
     private void Awake()
     {
         _normalPunch = GetComponentInChildren<NormalPunch>();
+        _spinPunch = GetComponentInChildren<SpinPunch>();
+        _getUpPunch = GetComponentInChildren<getUpPunch>();
+
+        EventManager.Subscribe("NormalAttack", NoramlAttack);
+        EventManager.Subscribe("SpinAttack", SpinAttack);
+        EventManager.Subscribe("GetUpAttack", GetUpAttack);
     }
 
     private void Start()
     {
-        EventManager.Subscribe("NormalAttack", NoramlAttack);
-        EventManager.Subscribe("SpinAttack", SpinAttack);
-        EventManager.Subscribe("GetUpAttack", GetUpAttack);
-
         _normalPunch.gameObject.SetActive(false);
         _spinPunch.gameObject.SetActive(false);
         _getUpPunch.gameObject.SetActive(false);

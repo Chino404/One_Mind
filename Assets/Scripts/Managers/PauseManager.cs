@@ -74,7 +74,6 @@ public class PauseManager : MonoBehaviour
     {
         SceneManager.LoadScene(_mainMenuScene);
         pauseMenu.gameObject.SetActive(false);
-
     }
 
     public void ResumeGame()
