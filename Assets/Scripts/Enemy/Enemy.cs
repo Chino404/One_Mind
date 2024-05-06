@@ -303,13 +303,13 @@ public class Enemy : Entity, IDamageable
 
     IEnumerator HitCoolDown()
     {
-        hit.SetActive(true);
         anim.SetBool("Attack", true);
+        hit.SetActive(true);
         yield return new WaitForSeconds(1f);
         _isHitting = true;
 
-        hit.SetActive(false);
         anim.SetBool("Attack", false);
+        hit.SetActive(false);
         yield return new WaitForSeconds(_cooldownHit);
         _isHitting = false;
 
