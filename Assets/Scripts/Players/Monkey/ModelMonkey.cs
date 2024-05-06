@@ -10,7 +10,7 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 {
     [Header("Values Character")]
     [SerializeField] private float _maxLife;
-    private float _actualLife;
+    [SerializeField]private float _actualLife;
     [SerializeField] private float _speed = 5f;
     private float _actualSpeed;
     [SerializeField] private float _forceGravity;
@@ -49,7 +49,7 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     private ControllerMonkey _controller;
     private ViewMonkey _view;
 
-    public Enemy enemy;
+    //public Enemy enemy;
     
     private void Awake()
     {
