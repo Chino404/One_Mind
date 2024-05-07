@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Idle : IState
@@ -23,9 +24,12 @@ public class Idle : IState
     public void OnUpdate()
     {
         _enemy.anim.SetBool("Walk", false);
-        if ((_enemy.transform.position - _enemy.target.transform.position).sqrMagnitude < _enemy.viewRadius * _enemy.viewRadius)
-            _fsm.ChangeState("Follow Player");
 
+        //if ((_enemy.transform.position - _enemy.target.transform.position).sqrMagnitude < _enemy.viewRadius * _enemy.viewRadius)
+        //    _fsm.ChangeState("Follow Player");
+
+        if(_enemy.target != null)
+            _fsm.ChangeState("Follow Player");
     }
 
     public void OnExit()
