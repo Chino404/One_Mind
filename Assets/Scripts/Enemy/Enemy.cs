@@ -28,7 +28,7 @@ public class Enemy : Entity, IDamageable
     [Header("Flocking")]
     public float maxVelocity;
     public float maxForce;
-    public GameObject target;
+    public ModelMonkey target;
 
     [Header("Radius")]
     public float separationRadius;
@@ -70,7 +70,7 @@ public class Enemy : Entity, IDamageable
         fsm.CreateState("Follow Player", new FollowPlayer(this, fsm));
         fsm.ChangeState("Idle");
 
-        target = GameManager.instance.playerGM.gameObject;
+        target = GameManager.instance.playerGM;
     }
 
     public Vector3 Velocity
@@ -92,7 +92,11 @@ public class Enemy : Entity, IDamageable
         fsm.Execute();
 
         if (_life <= 0)
+        {
+            GameManager.instance.enemies.Remove(this);
             this.gameObject.SetActive(false);
+
+        }
 
         _inAir = IsGrounded() ? false : true;
 

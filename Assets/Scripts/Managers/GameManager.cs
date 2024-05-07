@@ -7,10 +7,10 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public ModelMonkey playerGM;
 
-    [Header("Character Swap")]
-    public Characters actualCharacter;
-    public Characters[] possibleCharacters = new Characters[2];
-    public KeyCode keyToChangeCharacter;
+    //[Header("Character Swap")]
+    //public Characters actualCharacter;
+    //public Characters[] possibleCharacters = new Characters[2];
+    //public KeyCode keyToChangeCharacter;
 
     //public CameraTracker cam;
     int _playerIndex;
@@ -43,33 +43,33 @@ public class GameManager : MonoBehaviour
 
     }
 
-    void Update()
-    {
-        if(Input.GetKeyDown(keyToChangeCharacter))
-        {
-            for (int i = 0; i < possibleCharacters.Length; i++)
-            {
-                _playerIndex = i;
-                if (possibleCharacters[i] == actualCharacter)
-                {
-                    if (_playerIndex >= 0)
-                    {
-                        _playerIndex++;
+    //void Update()
+    //{
+    //    if(Input.GetKeyDown(keyToChangeCharacter))
+    //    {
+    //        for (int i = 0; i < possibleCharacters.Length; i++)
+    //        {
+    //            _playerIndex = i;
+    //            if (possibleCharacters[i] == actualCharacter)
+    //            {
+    //                if (_playerIndex >= 0)
+    //                {
+    //                    _playerIndex++;
                         
-                    }
-                    else if (_playerIndex> possibleCharacters.Length)
-                    {
-                        _playerIndex = 0;
+    //                }
+    //                else if (_playerIndex> possibleCharacters.Length)
+    //                {
+    //                    _playerIndex = 0;
                         
-                    }
+    //                }
 
-                }
-                //Swap();
-                return;       
+    //            }
+    //            //Swap();
+    //            return;       
 
-            }
-        }
-    }
+    //        }
+    //    }
+    //}
 
     //public void Swap()
     //{
