@@ -59,6 +59,7 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
         _rbCharacter.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ; //De esta manera para que se freezeen los dos
         _rbCharacter.angularDrag = 1f; //Friccion de la rotacion
 
+        //_animPlayer = GetComponent<Animator>();
 
         _view = new ViewMonkey(_animatorCharacter);
         _controller = new ControllerMonkey(this);
@@ -73,6 +74,7 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
         _initialForceGravity = _forceGravity;
         _comboTimeCounter = _comboTime;
 
+        //_animPlayer.SetBool("Walk", false);
     }
 
     private void Update()
@@ -121,7 +123,6 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
             _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
             Rotate(dir);
         }
-        //else _animPlayer.SetBool("Walk", false);
     }
 
     public void Rotate(Vector3 dirForward)

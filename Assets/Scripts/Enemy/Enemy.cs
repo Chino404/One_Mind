@@ -24,6 +24,7 @@ public class Enemy : Entity, IDamageable
     [SerializeField] private LayerMask _floorLayer;
     private Rigidbody _rigidbody;
     public bool _inAir;
+    public SphereCollider sphereCollider;
 
     [Header("Flocking")]
     public float maxVelocity;
@@ -53,6 +54,7 @@ public class Enemy : Entity, IDamageable
     {
         _rigidbody = GetComponent<Rigidbody>();
         anim.GetComponentInChildren<Animator>();
+        sphereCollider = GetComponentInChildren<SphereCollider>();
     }
 
     private void Start()
@@ -70,7 +72,7 @@ public class Enemy : Entity, IDamageable
         fsm.CreateState("Follow Player", new FollowPlayer(this, fsm));
         fsm.ChangeState("Idle");
 
-        target = GameManager.instance.playerGM;
+        //target = GameManager.instance.playerGM;+
     }
 
     public Vector3 Velocity
@@ -94,7 +96,8 @@ public class Enemy : Entity, IDamageable
         if (_life <= 0)
         {
             GameManager.instance.enemies.Remove(this);
-            this.gameObject.SetActive(false);
+
+            gameObject.SetActive(false);
 
         }
 
@@ -143,9 +146,11 @@ public class Enemy : Entity, IDamageable
 
     private void OnTriggerEnter(Collider other)
     {
-        var damageable = other.gameObject.GetComponent<IDamageable>();
+        var player = other.gameObject.GetComponent<ModelMonkey>();
+        if(player != null) target = player;
 
-        if(damageable != null)
+        var damageable = other.gameObject.GetComponent<IDamageable>();
+        if (damageable != null)
         {
             damageable.TakeDamageEntity(_dmg, transform.position);
         }
@@ -213,6 +218,7 @@ public class Enemy : Entity, IDamageable
         yield return new WaitForSeconds(0.15f);
         if(!_takingDamage)_forceGravity = _initalForceGravity;
     }
+
     #region Flocking
     void Flocking()
     {
@@ -223,15 +229,20 @@ public class Enemy : Entity, IDamageable
     Vector3 Separation(List<Enemy> enemies, float radius)
     {
         Vector3 desired = Vector3.zero;
-        foreach (var item in enemies)
+
+        if(enemies.Count > 1)
         {
-            var dir = item.transform.position - transform.position;
-            if (dir.magnitude > radius || item == this)
-                continue;
+            foreach (var item in enemies)
+            {
+                var dir = item.transform.position - transform.position;
+                if (dir.magnitude > radius || item == this)
+                    continue;
 
-            desired -= dir;
+                desired -= dir;
 
+            }
         }
+
         if (desired == Vector3.zero)
             return desired;
 
@@ -358,6 +369,11 @@ public class Enemy : Entity, IDamageable
 
 
     #endregion
-    
+
+
+    private void OnDestroy()
+    {
+       GameManager.instance.enemies.Remove(this);
+    }
 }
 
