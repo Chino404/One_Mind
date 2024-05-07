@@ -54,7 +54,6 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     {
         //GameManager.instance.actualCharacter = this;
         //GameManager.instance.possibleCharacters[0] = this;
-        //GameManager.instance.playerGM = this;
 
         _rbCharacter = GetComponent<Rigidbody>();
         _rbCharacter.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ; //De esta manera para que se freezeen los dos
@@ -67,6 +66,8 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 
     private void Start()
     {
+        GameManager.instance.playerGM = this;
+
         _actualLife = _maxLife;
         _actualSpeed = _speed;
         _initialForceGravity = _forceGravity;
