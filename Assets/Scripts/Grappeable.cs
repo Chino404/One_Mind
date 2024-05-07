@@ -112,4 +112,9 @@ public class Grappeable : MonoBehaviour, IObserverGrappeable
         }
     }
 
+    private void OnDestroy()
+    {
+        EventManager.Unsubscribe("Rotate", ExecuteRotate);
+        EventManager.Unsubscribe("StopRotate", StopRotate);
+    }
 }

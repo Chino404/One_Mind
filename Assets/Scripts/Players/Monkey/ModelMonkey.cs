@@ -56,9 +56,6 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
         //GameManager.instance.possibleCharacters[0] = this;
         //GameManager.instance.playerGM = this;
 
-        //_animatorCharacter = GetComponentInChildren<Animator>();
-        //_animPlayer = GetComponent<Animator>();
-
         _rbCharacter = GetComponent<Rigidbody>();
         _rbCharacter.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ; //De esta manera para que se freezeen los dos
         _rbCharacter.angularDrag = 1f; //Friccion de la rotacion
@@ -82,7 +79,6 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 
         if (IsGrounded())
         {
-            
             _coyoteTimeCounter = _coyoteTime;
             PowerUp = SpinAttack;
         }
@@ -159,15 +155,12 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     {
         if(_grabbed)
         {
-
             StopGrab();
-            Debug.Log("Soltar");
         }
 
         if (_coyoteTimeCounter > 0f)
         {
             //_rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _jumpForce);
-            Debug.Log("entro a Jump");
 
             _rbCharacter.velocity = Vector3.up * _jumpForce;
         }
@@ -321,8 +314,8 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     {
         if (_grappList.Count == 0) return;
 
-
         _grabbed = true;
+
         foreach (var item in _grappList)
         {
             var posGrappeable = item.ReturnPosition();

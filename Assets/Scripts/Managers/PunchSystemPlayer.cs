@@ -76,4 +76,11 @@ public class PunchSystemPlayer : MonoBehaviour
         _getUpPunch.gameObject.SetActive(false);
     }
 
+    private void OnDestroy()
+    {
+        EventManager.Unsubscribe("NormalAttack", NoramlAttack);
+        EventManager.Unsubscribe("SpinAttack", SpinAttack);
+        EventManager.Unsubscribe("GetUpAttack", GetUpAttack);
+    }
+
 }

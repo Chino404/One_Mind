@@ -27,4 +27,9 @@ public class LifeBar : MonoBehaviour
         if (_lifeBar == null)
             _lifeBar.fillAmount = maxLife;
     }
+
+    private void OnDestroy()
+    {
+        EventManager.Unsubscribe("ProjectLifeBar", ProjectLifeBar);
+    }
 }
