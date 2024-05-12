@@ -37,6 +37,9 @@ public class ControllerMonkey
 
         if (Input.GetButton("Fire2")) _model.Grab();
         else if (Input.GetButtonUp("Fire2")) _model.StopGrab();
+
+        if (Input.GetKeyDown(KeyCode.C)) GameManager.instance.Swap();
+        //if (Input.GetKeyDown(KeyCode.V)) GameManager.instance.CambioDeCamara(1);
     }
 
     public void ListenFixedKeys()
