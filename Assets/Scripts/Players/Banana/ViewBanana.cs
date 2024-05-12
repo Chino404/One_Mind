@@ -6,8 +6,8 @@ public class ViewBanana
 {
     private Animator _animator;
 
-    public ViewBanana(Animator animator)
+    public ViewBanana()
     {
-        _animator = animator;
+
     }
 }

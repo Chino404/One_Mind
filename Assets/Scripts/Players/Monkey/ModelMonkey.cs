@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody), typeof(Animator))]
 public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 {
-    [Header("Values Character")]
+    [Header("Valores Personaje")]
     [SerializeField] private float _maxLife;
     [SerializeField]private float _actualLife;
     [SerializeField] private float _speed = 5f;
@@ -35,7 +35,7 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     [SerializeField] private bool _punching;
     public event Action PowerUp;
 
-    [Header("Reference")]
+    [Header("Referencia")]
     [SerializeField] private LayerMask _floorLayer;
     public float groundDistance = 2;
     [SerializeField] private Transform _pointRotation;
@@ -53,8 +53,6 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     private void Awake()
     {
         //GameManager.instance.actualCharacter = this;
-        //GameManager.instance.possibleCharacters[0] = this;
-
         _rbCharacter = GetComponent<Rigidbody>();
         _rbCharacter.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ; //De esta manera para que se freezeen los dos
         _rbCharacter.angularDrag = 1f; //Friccion de la rotacion
@@ -68,6 +66,8 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     private void Start()
     {
         GameManager.instance.playerGM = this;
+        GameManager.instance.possibleCharacters[0] = this;
+
 
         _actualLife = _maxLife;
         _actualSpeed = _speed;

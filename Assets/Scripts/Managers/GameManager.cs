@@ -9,7 +9,9 @@ public class GameManager : MonoBehaviour
 
     //[Header("Character Swap")]
     //public Characters actualCharacter;
-    //public Characters[] possibleCharacters = new Characters[2];
+    public Characters[] possibleCharacters = new Characters[2];
+    [SerializeField]private bool _controllerMonkey = true;
+    public GameObject[] camerasPlayers = new GameObject[2];
     //public KeyCode keyToChangeCharacter;
 
     //public CameraTracker cam;
@@ -34,60 +36,43 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        //if(character==null&&possibleCharacters.Length>=1)
-        //{
-        //    character = possibleCharacters[0];
-        //}
-        //Swap();
-        //cam = GetComponent<CameraTracker>();
+        //Activo el Mono
+        _controllerMonkey = true;
+        possibleCharacters[0].GetComponent<ModelMonkey>().enabled = true;
 
+        //Desactivo la banana
+        possibleCharacters[1].GetComponent<ModelBanana>().enabled = false;
     }
 
-    //void Update()
-    //{
-    //    if(Input.GetKeyDown(keyToChangeCharacter))
-    //    {
-    //        for (int i = 0; i < possibleCharacters.Length; i++)
-    //        {
-    //            _playerIndex = i;
-    //            if (possibleCharacters[i] == actualCharacter)
-    //            {
-    //                if (_playerIndex >= 0)
-    //                {
-    //                    _playerIndex++;
-                        
-    //                }
-    //                else if (_playerIndex> possibleCharacters.Length)
-    //                {
-    //                    _playerIndex = 0;
-                        
-    //                }
+    private void Update()
+    {
+        if(_controllerMonkey) possibleCharacters[1].GetComponent<ModelBanana>().enabled = false;
+    }
 
-    //            }
-    //            //Swap();
-    //            return;       
 
-    //        }
-    //    }
-    //}
+    public void Swap()
+    {
+        if(_controllerMonkey)
+        {
+            possibleCharacters[0].GetComponent<ModelMonkey>().enabled = false;
+            camerasPlayers[0].gameObject.SetActive(false);
 
-    //public void Swap()
-    //{
-    //    actualCharacter = possibleCharacters[_playerIndex]; //Me guarda el personaje q se controla en el momento
-    //    actualCharacter.GetComponent<Characters>().enabled = true;
+            possibleCharacters[1].GetComponent<ModelBanana>().enabled = true;
+            camerasPlayers[1].gameObject.SetActive(true);
 
-    //    for (int i = 0; i < possibleCharacters.Length; i++)
-    //    {
-    //        if(possibleCharacters[i]!=actualCharacter)
-    //        {
-    //            possibleCharacters[i].GetComponent<Characters>().enabled = false;
-    //        }
-    //    }
-    //    //cam.target = character;
-    //    Debug.Log(actualCharacter.name);
-    //    Debug.Log(_playerIndex);
-        
-    //}
+            _controllerMonkey = false;
+        }
+        else
+        {
+            possibleCharacters[0].GetComponent<ModelMonkey>().enabled = true;
+            camerasPlayers[0].gameObject.SetActive(true);
+
+            possibleCharacters[1].GetComponent<ModelBanana>().enabled = false;
+            camerasPlayers[1].gameObject.SetActive(false);
+
+            _controllerMonkey = true;
+        }
+    }
 
     
 }
