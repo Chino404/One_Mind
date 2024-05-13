@@ -29,13 +29,12 @@ public class ModelBanana : Characters
 
     private void Awake()
     {
-        Cursor.lockState = CursorLockMode.Locked; //Me bloque el mouse al centro de la pantalla
-        Cursor.visible = false; //Me lo oculta
+        //Cursor.lockState = CursorLockMode.Locked; //Me bloque el mouse al centro de la pantalla
+        //Cursor.visible = false; //Me lo oculta
 
         _rb = GetComponent<Rigidbody>();
         _rb.constraints = RigidbodyConstraints.FreezeRotation; //Me bloquea los 3 ejes a al vez
         _camera = GetComponentInChildren<FPCamera>();
-        _camera.gameObject.SetActive(false);
 
 
         _view = new ViewBanana();
@@ -45,6 +44,8 @@ public class ModelBanana : Characters
     private void Start()
     {
         GameManager.instance.possibleCharacters[1] = this;
+        _camera.gameObject.SetActive(false);
+
     }
 
     private void Update()
