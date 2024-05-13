@@ -13,6 +13,11 @@ public class FPCamera : MonoBehaviour
     private Transform _head;
     public Transform Head { get { return _head; } set { _head = value; } }
 
+    private void Start()
+    {
+        GameManager.instance.camerasPlayers[1] = gameObject;
+    }
+
     private void LateUpdate()
     {
         //transform.position = _head.position;
