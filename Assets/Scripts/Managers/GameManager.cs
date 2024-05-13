@@ -39,7 +39,8 @@ public class GameManager : MonoBehaviour
         //Activo el Mono
         _controllerMonkey = true;
         possibleCharacters[0].GetComponent<ModelMonkey>().enabled = true;
-
+        //La banana se hace guia
+        possibleCharacters[1].GetComponent<BananaGuide>().enabled = true;
         //Desactivo la banana
         possibleCharacters[1].GetComponent<ModelBanana>().enabled = false;
     }
@@ -57,6 +58,8 @@ public class GameManager : MonoBehaviour
             possibleCharacters[0].GetComponent<ModelMonkey>().enabled = false;
             camerasPlayers[0].gameObject.SetActive(false);
 
+
+            possibleCharacters[1].GetComponent<BananaGuide>().enabled = false;
             possibleCharacters[1].GetComponent<ModelBanana>().enabled = true;
             camerasPlayers[1].gameObject.SetActive(true);
 
@@ -67,6 +70,8 @@ public class GameManager : MonoBehaviour
             possibleCharacters[0].GetComponent<ModelMonkey>().enabled = true;
             camerasPlayers[0].gameObject.SetActive(true);
 
+
+            possibleCharacters[1].GetComponent<BananaGuide>().enabled = true;
             possibleCharacters[1].GetComponent<ModelBanana>().enabled = false;
             camerasPlayers[1].gameObject.SetActive(false);
 
