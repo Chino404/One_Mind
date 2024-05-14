@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class WinCollider : MonoBehaviour
 {
-    [SerializeField] GameObject _winCanvas;
-
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer==3)
         {
             Time.timeScale = 0;
-            _winCanvas.SetActive(true);
+            PauseManager.instance.winCanvas.gameObject.SetActive(true);
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
 
     }

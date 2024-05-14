@@ -52,12 +52,15 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     
     private void Awake()
     {
+        Cursor.lockState = CursorLockMode.Locked; //Me bloque el mouse al centro de la pantalla
+        Cursor.visible = false; //Me lo oculta
+
         //GameManager.instance.actualCharacter = this;
         _rbCharacter = GetComponent<Rigidbody>();
         _rbCharacter.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ; //De esta manera para que se freezeen los dos
         _rbCharacter.angularDrag = 1f; //Friccion de la rotacion
 
-        //_animPlayer = GetComponent<Animator>();
+        _animPlayer = GetComponentInChildren<Animator>();
 
         _view = new ViewMonkey(_animatorCharacter);
         _controller = new ControllerMonkey(this);
