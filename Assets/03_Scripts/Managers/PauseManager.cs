@@ -8,6 +8,7 @@ public class PauseManager : MonoBehaviour
 {
     public Canvas gameOverCanvas;
     public Canvas pauseMenu;
+    public Canvas winCanvas;
     public static PauseManager instance;
     bool _isPaused;
     [SerializeField] int _asyncScene;
@@ -25,7 +26,6 @@ public class PauseManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-
     }
 
 
@@ -36,13 +36,20 @@ public class PauseManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             if (!_isPaused&&Time.timeScale==1)
+            {
                 PauseGame();
+                
+            }
             else if (_isPaused)
+            {
                 ResumeGame();
+
+            }
         }
         if(Time.timeScale==1)
         {
             gameOverCanvas.gameObject.SetActive(false);
+            winCanvas.gameObject.SetActive(false);
         }
 
         
@@ -53,6 +60,8 @@ public class PauseManager : MonoBehaviour
     {
         Time.timeScale = 0;
         gameOverCanvas.gameObject.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void NextLvL(int scene)
@@ -66,6 +75,8 @@ public class PauseManager : MonoBehaviour
     public void PauseGame()
     {
         pauseMenu.gameObject.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         Time.timeScale = 0;
         _isPaused = true;
     }
@@ -79,6 +90,8 @@ public class PauseManager : MonoBehaviour
     public void ResumeGame()
     {
         pauseMenu.gameObject.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked; //Me bloque el mouse al centro de la pantalla
+        Cursor.visible = false; //Me lo oculta
         Time.timeScale = 1;
         _isPaused = false;
     }
