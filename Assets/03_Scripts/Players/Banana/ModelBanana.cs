@@ -27,6 +27,9 @@ public class ModelBanana : Characters
     private ViewBanana _view;
     private ControllerBanana _controller;
 
+    public BulletBanana bulletBanana;
+
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -43,11 +46,15 @@ public class ModelBanana : Characters
         GameManager.instance.possibleCharacters[1] = this;
         _camera.gameObject.SetActive(false);
 
+
+
     }
 
     private void Update()
     {
         _controller.ArtificialUpdate();
+        if (Input.GetKeyDown(KeyCode.Z))
+            _controller.Shoot();
     }
 
     private void FixedUpdate()
