@@ -45,6 +45,9 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     [Header("Animator")]
     [SerializeField]private Animator _animPlayer;
 
+    [Header("Particulas")]
+    public ParticleSystem polvo;
+
     //Referencias
     private ControllerMonkey _controller;
     private ViewMonkey _view;
@@ -125,6 +128,7 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
         {
             _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
             Rotate(dir);
+            CreateDust();
         }
     }
 
@@ -161,6 +165,7 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
         if(_grabbed)
         {
             StopGrab();
+            CreateDust();
         }
 
         if (_coyoteTimeCounter > 0f)
@@ -368,5 +373,12 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
         }
     }
 
+    void CreateDust() 
+    {
+
+        polvo.Play();
+    
+    
+    }
     
 }
