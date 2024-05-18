@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     //[Header("Character Swap")]
     //public Characters actualCharacter;
     public Characters[] possibleCharacters = new Characters[2];
+    [HideInInspector]public Animator[] animTransCamera = new Animator[2];
     [SerializeField]private bool _controllerMonkey = true;
     public GameObject[] camerasPlayers = new GameObject[2];
     //public KeyCode keyToChangeCharacter;
