@@ -7,11 +7,17 @@ public class FPCamera : MonoBehaviour
     [Header("Clamping/Reprimir")]
     [SerializeField] private float _minRotation= -45f;
     [SerializeField] private float _maxRotation= 75f;
+    private Animator _animatorCam;
 
     private float _mouseY;
 
     private Transform _head;
     public Transform Head { get { return _head; } set { _head = value; } }
+
+    private void Awake()
+    {
+        _animatorCam = GetComponent<Animator>();
+    }
 
     private void Start()
     {
