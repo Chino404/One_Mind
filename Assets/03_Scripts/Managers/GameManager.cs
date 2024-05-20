@@ -9,12 +9,15 @@ public class GameManager : MonoBehaviour
 
     [Header("Character Swap")]
     public Characters[] possibleCharacters = new Characters[2];
-    //[HideInInspector]public Animator[] animTransCamera = new Animator[2];
-    [SerializeField]private bool _controllerMonkey = true;
     public GameObject[] camerasPlayers = new GameObject[2];
-    [SerializeField]private Animator _animCamMonkey;
-    [SerializeField]private Animator _animCamBanana;
-    //public KeyCode keyToChangeCharacter;
+    private bool _inChange = false;
+    private bool _controllerMonkey = true;
+    public bool ContollerMonkey {  get { return _controllerMonkey; } }
+    private Animator _animCamMonkey;
+    private Animator _animCamBanana;
+    private Animator _animSeparationCameras;
+    public Animator AnimSeparationCameras { set { _animSeparationCameras = value; } }
+    private float _duration;
 
     //public CameraTracker cam;
     int _playerIndex;
@@ -41,9 +44,11 @@ public class GameManager : MonoBehaviour
         _animCamMonkey = camerasPlayers[0].GetComponent<Animator>();
         _animCamBanana = camerasPlayers[1].GetComponent<Animator>();
 
-        //Activo el Mono
+        AnimatorStateInfo stateInfo = _animSeparationCameras.GetCurrentAnimatorStateInfo(0);
+        _duration = stateInfo.length;
+
+        //Activo los controles del Mono
         _controllerMonkey = true;
-        possibleCharacters[0].GetComponent<ModelMonkey>().enabled = true;
 
         //Desactivo la banana
         possibleCharacters[1].GetComponent<ModelBanana>().enabled = false;
@@ -57,6 +62,7 @@ public class GameManager : MonoBehaviour
 
     public void Swap()
     {
+        if(_inChange) return;
         if(_controllerMonkey)
         {
             StartCoroutine(SwitchCamBanana());
@@ -71,33 +77,37 @@ public class GameManager : MonoBehaviour
     IEnumerator SwitchCamBanana()
     {
         Time.timeScale = 0;
-        _animCamMonkey.SetBool("Active", true);
+        _inChange = true;
+        _animCamMonkey.SetTrigger("Exit");
         camerasPlayers[1].GetComponent<Camera>().enabled = true;
-        _animCamBanana.SetBool("Active", true);
+        _animCamBanana.SetTrigger("Enter");
+        _animSeparationCameras.SetTrigger("Enter");
         yield return new WaitForSecondsRealtime(1);
 
-        possibleCharacters[0].GetComponent<ModelMonkey>().enabled = false;
+        _controllerMonkey = false;
         camerasPlayers[0].GetComponent<Camera>().enabled = false;
 
         possibleCharacters[1].GetComponent<BananaGuide>().enabled = false;
         possibleCharacters[1].GetComponent<ModelBanana>().enabled = true;
 
         Time.timeScale = 1;
-        _controllerMonkey = false;
+
+        yield return new WaitForSecondsRealtime(_duration);
+        _inChange = false;
 
     }
 
     IEnumerator SwitchCamMonkey()
     {
         Time.timeScale = 0;
-        _animCamBanana.SetBool("Active", false);
+        _inChange = true;
+        _animCamBanana.SetTrigger("Exit");
         camerasPlayers[0].GetComponent<Camera>().enabled = true;
-        _animCamBanana.SetTrigger("Enter");
-        _animCamMonkey.SetBool("Active", false);
+        _animCamMonkey.SetTrigger("Enter");
+        _animSeparationCameras.SetTrigger("Exit");
         yield return new WaitForSecondsRealtime(1);
 
-
-        possibleCharacters[0].GetComponent<ModelMonkey>().enabled = true;
+        _controllerMonkey = true;
         camerasPlayers[1].GetComponent<Camera>().enabled = false;
 
 
@@ -105,9 +115,7 @@ public class GameManager : MonoBehaviour
         possibleCharacters[1].GetComponent<ModelBanana>().enabled = false;
 
         Time.timeScale = 1;
-
-
-        _controllerMonkey = true;
-
+        yield return new WaitForSecondsRealtime(_duration);
+        _inChange = false;
     }
 }
