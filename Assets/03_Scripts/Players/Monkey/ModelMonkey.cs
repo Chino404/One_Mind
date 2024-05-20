@@ -85,6 +85,7 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 
     private void Update()
     {
+        if (!GameManager.instance.ContollerMonkey) return;
 
         if (IsGrounded())
         {
@@ -110,11 +111,15 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 
     private void FixedUpdate()
     {
-        if(!CameraSwitch._camera2D)
-        {
-            _controller.ListenFixedKeys();
-        }
         _rbCharacter.AddForce(Vector3.down * _forceGravity, ForceMode.VelocityChange);
+
+        if (!GameManager.instance.ContollerMonkey) return;
+        _controller.ListenFixedKeys();
+
+        //if (!CameraSwitch._camera2D)
+        //{
+        //    _controller.ListenFixedKeys();
+        //}
     }
 
     #region Movement
