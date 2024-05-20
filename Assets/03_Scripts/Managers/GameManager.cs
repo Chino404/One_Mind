@@ -70,11 +70,11 @@ public class GameManager : MonoBehaviour
 
     IEnumerator SwitchCamBanana()
     {
-
+        Time.timeScale = 0;
         _animCamMonkey.SetBool("Active", true);
         camerasPlayers[1].GetComponent<Camera>().enabled = true;
         _animCamBanana.SetBool("Active", true);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSecondsRealtime(1);
 
         possibleCharacters[0].GetComponent<ModelMonkey>().enabled = false;
         camerasPlayers[0].GetComponent<Camera>().enabled = false;
@@ -89,11 +89,12 @@ public class GameManager : MonoBehaviour
 
     IEnumerator SwitchCamMonkey()
     {
+        Time.timeScale = 0;
         _animCamBanana.SetBool("Active", false);
         camerasPlayers[0].GetComponent<Camera>().enabled = true;
         _animCamBanana.SetTrigger("Enter");
         _animCamMonkey.SetBool("Active", false);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSecondsRealtime(1);
 
 
         possibleCharacters[0].GetComponent<ModelMonkey>().enabled = true;
