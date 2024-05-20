@@ -11,9 +11,6 @@ public class FPCamera : MonoBehaviour
 
     private float _mouseY;
 
-    private Transform _head;
-    public Transform Head { get { return _head; } set { _head = value; } }
-
     private void Awake()
     {
         _animatorCam = GetComponent<Animator>();
@@ -22,11 +19,6 @@ public class FPCamera : MonoBehaviour
     private void Start()
     {
         GameManager.instance.camerasPlayers[1] = gameObject;
-    }
-
-    private void LateUpdate()
-    {
-        //transform.position = _head.position;
     }
 
     public void RotationCamera(float x, float y)

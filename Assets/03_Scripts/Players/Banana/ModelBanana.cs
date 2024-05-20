@@ -44,30 +44,25 @@ public class ModelBanana : Characters
     private void Start()
     {
         GameManager.instance.possibleCharacters[1] = this;
-        _camera.gameObject.SetActive(false);
-
-
-
+        _camera.gameObject.GetComponent<Camera>().enabled = false;
     }
 
     private void Update()
     {
         _controller.ArtificialUpdate();
+
         if (Input.GetKeyDown(KeyCode.Z))
             _controller.Shoot();
     }
 
     private void FixedUpdate()
     {
-
         _controller.ListenFixedKeys();
     }
 
     #region Movement
     public void Movement(float xAxis, float zAxis)
     {
-
-        Debug.Log("Entro");
         var dir = (transform.right * xAxis + transform.forward * zAxis).normalized;
 
         if (IsBlocked(dir)) return;
