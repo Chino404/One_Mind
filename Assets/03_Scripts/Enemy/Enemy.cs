@@ -39,7 +39,6 @@ public class Enemy : Entity, IDamageable
     [HideInInspector]public Vector3 _velocity;
 
     [Header("Hit")]
-    public GameObject hit;
     public float damage;
     [HideInInspector] FSM fsm;
     [SerializeField] float _cooldownHit;
@@ -66,13 +65,14 @@ public class Enemy : Entity, IDamageable
 
         fsm = new FSM();
 
+        
 
         fsm.CreateState("Idle", new Idle(this, fsm));
         fsm.CreateState("Attack", new Attack(this, fsm));
         fsm.CreateState("Follow Player", new FollowPlayer(this, fsm));
         fsm.ChangeState("Idle");
 
-        //target = GameManager.instance.playerGM;+
+        target = GameManager.instance.playerGM;
     }
 
     public Vector3 Velocity
@@ -146,8 +146,7 @@ public class Enemy : Entity, IDamageable
 
     private void OnTriggerEnter(Collider other)
     {
-        var player = other.gameObject.GetComponent<ModelMonkey>();
-        if(player != null) target = player;
+        
 
         var damageable = other.gameObject.GetComponent<IDamageable>();
         if (damageable != null)
@@ -318,13 +317,14 @@ public class Enemy : Entity, IDamageable
 
     IEnumerator HitCoolDown()
     {
+        
         anim.SetBool("Attack", true);
-        hit.SetActive(true);
+        //hit.SetActive(true);
         yield return new WaitForSeconds(1f);
         _isHitting = true;
 
         anim.SetBool("Attack", false);
-        hit.SetActive(false);
+        //hit.SetActive(false);
         yield return new WaitForSeconds(_cooldownHit);
         _isHitting = false;
 

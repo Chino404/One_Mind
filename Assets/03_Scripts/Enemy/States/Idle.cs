@@ -25,11 +25,11 @@ public class Idle : IState
     {
         _enemy.anim.SetBool("Walk", false);
 
-        //if ((_enemy.transform.position - _enemy.target.transform.position).sqrMagnitude < _enemy.viewRadius * _enemy.viewRadius)
-        //    _fsm.ChangeState("Follow Player");
-
-        if(_enemy.target != null)
+        if ((_enemy.transform.position - _enemy.target.transform.position).sqrMagnitude < _enemy.viewRadius * _enemy.viewRadius)
             _fsm.ChangeState("Follow Player");
+
+        //if (_enemy.target != null)
+        //    _fsm.ChangeState("Follow Player");
     }
 
     public void OnExit()
