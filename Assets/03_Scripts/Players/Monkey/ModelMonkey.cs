@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody), typeof(Animator))]
+[RequireComponent(typeof(Rigidbody))]
 public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 {
     [Header("Valores Personaje")]
@@ -133,8 +133,10 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
         {
             _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
             Rotate(dir);
+            _animPlayer.SetBool("Walk", true);
             CreateDust();
         }
+        else _animPlayer.SetBool("Walk", false);
     }
 
     public void Rotate(Vector3 dirForward)
