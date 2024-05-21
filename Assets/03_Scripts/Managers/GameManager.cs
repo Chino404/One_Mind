@@ -13,8 +13,8 @@ public class GameManager : MonoBehaviour
     private bool _inChange = false;
     private bool _controllerMonkey = true;
     public bool ContollerMonkey {  get { return _controllerMonkey; } }
-    private Animator _animCamMonkey;
-    private Animator _animCamBanana;
+    [HideInInspector] public Animator _animCamMonkey;
+    [HideInInspector] public Animator _animCamBanana;
     private Animator _animSeparationCameras;
     public Animator AnimSeparationCameras { set { _animSeparationCameras = value; } }
     private float _duration;
@@ -41,8 +41,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _animCamMonkey = camerasPlayers[0].GetComponent<Animator>();
-        _animCamBanana = camerasPlayers[1].GetComponent<Animator>();
 
         AnimatorStateInfo stateInfo = _animSeparationCameras.GetCurrentAnimatorStateInfo(0);
         _duration = stateInfo.length;
