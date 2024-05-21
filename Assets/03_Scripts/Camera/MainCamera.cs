@@ -14,5 +14,6 @@ public class MainCamera : MonoBehaviour
     private void Start()
     {
         GameManager.instance.camerasPlayers[0] = gameObject;
+        GameManager.instance._animCamMonkey = _animatorCamera;
     }
 }
