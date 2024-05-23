@@ -10,8 +10,7 @@ public class ControllerBanana
 
     [SerializeField] int _bulletQuantity;
 
-    Factory<BulletBanana> _factory;
-    ObjectPool<BulletBanana> _objectPool;
+   
 
 
     public ControllerBanana(ModelBanana model)
@@ -19,12 +18,7 @@ public class ControllerBanana
         _model = model;
     }
 
-    public void Shoot()
-    {
-        var bullet = _objectPool.Get();
-        _model.bulletBanana.AddReference(_objectPool);
-        
-    }
+    
 
     public void ArtificialUpdate()
     {

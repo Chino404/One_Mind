@@ -27,8 +27,11 @@ public class ModelBanana : Characters
     private ViewBanana _view;
     private ControllerBanana _controller;
 
+    [Header("Bullet")]
     public BulletBanana bulletBanana;
-
+    [SerializeField] int _bulletQuantity;
+    Factory<BulletBanana> _factory;
+    ObjectPool<BulletBanana> _objectPool;
 
     private void Awake()
     {
@@ -45,14 +48,24 @@ public class ModelBanana : Characters
     {
         GameManager.instance.possibleCharacters[1] = this;
         _camera.gameObject.GetComponent<Camera>().enabled = false;
+
+        _factory = new BulletFactory(bulletBanana);
+        _objectPool = new ObjectPool<BulletBanana>(_factory.GetObj, BulletBanana.TurnOff, BulletBanana.TurnOn, _bulletQuantity);
     }
 
     private void Update()
     {
         _controller.ArtificialUpdate();
 
-        if (Input.GetKeyDown(KeyCode.Z))
-            _controller.Shoot();
+        if(Input.GetMouseButtonDown(0))
+        {
+            var bullet = _objectPool.Get();
+            bullet.AddReference(_objectPool);
+            bullet.transform.position = transform.position;
+            bullet.transform.rotation = transform.rotation;
+            bulletBanana.transform.forward = transform.forward;
+            
+        }
     }
 
     private void FixedUpdate()

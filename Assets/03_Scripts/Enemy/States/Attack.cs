@@ -24,7 +24,9 @@ public class Attack : IState
     {
         Debug.Log("estoy atacando");
         _enemy.anim.SetBool("Walk", false);
+        if(_enemy.isHitting==false)
         _enemy.Hit();
+        
         if ((_enemy.transform.position - _enemy.target.transform.position).sqrMagnitude > _enemy.attackDistance * _enemy.attackDistance)
         {
             _fsm.ChangeState("Follow Player");

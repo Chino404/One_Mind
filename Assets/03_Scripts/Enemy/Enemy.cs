@@ -42,7 +42,7 @@ public class Enemy : Entity, IDamageable
     public float damage;
     [HideInInspector] FSM fsm;
     [SerializeField] float _cooldownHit;
-    bool _isHitting;
+    [HideInInspector]public bool isHitting;
 
     [Header("Animation")]
     public Animator anim;
@@ -309,24 +309,41 @@ public class Enemy : Entity, IDamageable
 
     public void Hit()
     {
+        //if (_isHitting) return;
+
+        //if (!isHitting)
         
-        if(!_isHitting)
+        anim.SetBool("Attack", true);
         StartCoroutine(HitCoolDown());
+            //hit.SetActive(true);
+            //yield return new WaitForSeconds(1f);
+        
+        
+
+        //if(isHitting)
+
+        //anim.SetBool("Attack", false);
+        ////hit.SetActive(false);
+        ////yield return new WaitForSeconds(_cooldownHit);
+        //_isHitting = false;
+        ////if(!_isHitting)
        
     }
 
-    IEnumerator HitCoolDown()
+    public IEnumerator HitCoolDown()
     {
-        
-        anim.SetBool("Attack", true);
-        //hit.SetActive(true);
         yield return new WaitForSeconds(1f);
-        _isHitting = true;
+        isHitting = true;
+        //anim.SetBool("Attack", true);
+        ////hit.SetActive(true);
+        //yield return new WaitForSeconds(1f);
+        //_isHitting = true;
 
+        Debug.Log("ya pegue");
         anim.SetBool("Attack", false);
         //hit.SetActive(false);
         yield return new WaitForSeconds(_cooldownHit);
-        _isHitting = false;
+        isHitting = false;
 
     }
 
