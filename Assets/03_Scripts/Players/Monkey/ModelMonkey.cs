@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
+public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 {
     [Header("Valores Personaje")]
     [SerializeField] private float _maxLife;
@@ -23,8 +23,9 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     [Header("Daños")]
     [SerializeField] private int _normalDamage;
     [SerializeField, Range(0, 2f)]private float _comboTime = 1.25f;
-    private int _currentCombo;
     private float _comboTimeCounter;
+    private int _currentCombo;
+    [SerializeField] private bool isRotating = false;
     [SerializeField] private int _spinDamage;
     [SerializeField]private float _timePressed;
     public float TimePressed { set{ _timePressed = value; } }
@@ -72,12 +73,13 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     private void Start()
     {
         GameManager.instance.playerGM = this;
-        GameManager.instance.possibleCharacters[0] = this;
+        GameManager.instance.players[0] = this;
 
 
         _actualLife = _maxLife;
         _actualSpeed = _speed;
         _initialForceGravity = _forceGravity;
+
         _comboTimeCounter = _comboTime;
 
         //_animPlayer.SetBool("Walk", false);
@@ -95,16 +97,17 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
         else
         {
             _coyoteTimeCounter -= Time.deltaTime;
-            PowerUp = GoToDownAttack;
+            //PowerUp = GoToDownAttack;
+            PowerUp = null;
         }
 
         if (_comboTimeCounter > 0) _comboTimeCounter -= Time.deltaTime;
         else
         {
+            _animPlayer.SetBool("SpinAttack", false);
             _currentCombo = 0;
             _actualSpeed = _speed;
         }
-
         _controller.ArtificialUpdate();
 
     }
@@ -115,11 +118,6 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 
         if (!GameManager.instance.ContollerMonkey) return;
         _controller.ListenFixedKeys();
-
-        //if (!CameraSwitch._camera2D)
-        //{
-        //    _controller.ListenFixedKeys();
-        //}
     }
 
     #region Movement
@@ -156,14 +154,13 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
 
     #region Jump
     public bool IsGrounded()
-    {
-        
+    {      
         Vector3 pos = transform.position;
         Vector3 dir = Vector3.down;
         float dist = groundDistance;
 
-        Debug.DrawLine(pos, pos + (dir * dist));
-        
+        //Debug.DrawLine(pos, pos + (dir * dist));
+
         return Physics.Raycast(pos, dir, out RaycastHit hit, dist, _floorLayer);
     }
 
@@ -171,14 +168,12 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     {
         if(_grabbed)
         {
-            StopGrab();
+            //StopGrab();
             CreateDust();
         }
 
         if (_coyoteTimeCounter > 0f)
         {
-            //_rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _jumpForce);
-
             _rbCharacter.velocity = Vector3.up * _jumpForce;
         }
     }
@@ -194,8 +189,9 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     #region Attacks
     public void Attack()
     {
-        if (_grabbed) return;
-        if (_holdPower) PowerUp();
+        //if (_grabbed) return;
+        if(!IsGrounded()) GoToDownAttack();
+        else if (_holdPower) PowerUp();
         else NormalPunch();
     }
 
@@ -204,6 +200,7 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
         if (_punching) return;
 
         _currentCombo++;
+        
 
         switch (_currentCombo)
         {
@@ -233,9 +230,11 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
         _actualSpeed = 0;
         _rbCharacter.AddForce(transform.forward * powerForce, ForceMode.Impulse);
         EventManager.Trigger("NormalAttack", _normalDamage, 0.3f);
-        if(!IsGrounded())CancelarTodasLasFuerzas();
+        _animPlayer.SetBool("Attack", true);
+        if (!IsGrounded())CancelarTodasLasFuerzas();
         yield return new WaitForSeconds(0.3f);
         _punching = false;
+        _animPlayer.SetBool("Attack", false);
         yield return new WaitForSeconds(0.2f);
 
         if(!_punching)
@@ -249,48 +248,69 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     public void SpinAttack()
     {
         _comboTimeCounter = _comboTime * 0.25f;
+
+        _animPlayer.SetBool("SpinAttack", true);
         EventManager.Trigger("SpinAttack", _spinDamage, _comboTimeCounter);
+        StartCoroutine(RotateObject());
         _actualSpeed = 2;
+    }
+
+    IEnumerator RotateObject()
+    {
+        isRotating = true;
+        float elapsedTime = 0f;
+        float startRotationY = transform.eulerAngles.y;
+        float targetRotationY = startRotationY + 360f;
+
+        while (elapsedTime < 0.2f)
+        {
+            elapsedTime += Time.deltaTime;
+            float currentRotationY = Mathf.Lerp(startRotationY, targetRotationY, elapsedTime / 0.2f) % 360f;
+            transform.rotation = Quaternion.Euler(0, currentRotationY, 0);
+            yield return null;
+        }
+
+        transform.rotation = Quaternion.Euler(0, targetRotationY % 360f, 0); // Asegura que la rotación final sea precisa
+        isRotating = false;
     }
 
     /// <summary>
     /// Ataque para levantar y bajar
     /// </summary>
-    public void GoToUpAttack()
-    {
-        if (chargeGetUp || !IsGrounded()) return;
+    //public void GoToUpAttack()
+    //{
+    //    if (chargeGetUp || !IsGrounded()) return;
 
-        _timePressed += Time.deltaTime;
+    //    _timePressed += Time.deltaTime;
 
-        if(_timePressed >= _timeForGetUp && !chargeGetUp)
-        {
-            EventManager.Trigger("GetUpAttack", _getUpDamage, (_timeForGetUp /2), _forceToGetUp);
-            StartCoroutine(TimeToGetUp());
-            _currentCombo = 0;
-            _timePressed = 0;
-            chargeGetUp = true;
-        }
-    }
+    //    if(_timePressed >= _timeForGetUp && !chargeGetUp)
+    //    {
+    //        EventManager.Trigger("GetUpAttack", _getUpDamage, (_timeForGetUp /2), _forceToGetUp);
+    //        StartCoroutine(TimeToGetUp());
+    //        _currentCombo = 0;
+    //        _timePressed = 0;
+    //        chargeGetUp = true;
+    //    }
+    //}
 
-    IEnumerator TimeToGetUp()
-    {
-        yield return new WaitForSeconds(0.25f);
-        Jump();
-    }
+    //IEnumerator TimeToGetUp()
+    //{
+    //    yield return new WaitForSeconds(0.25f);
+    //    Jump();
+    //}
+
+    //IEnumerator ReturnGravity()
+    //{
+    //    yield return new WaitForSeconds((_timeForGetUp/2));
+    //    _forceGravity = _initialForceGravity;
+    //}
 
     public void GoToDownAttack()
     {
         EventManager.Trigger("GetUpAttack", _getUpDamage, (_timeForGetUp / 2), - _forceToGetUp * 1.5f);
         _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, -_jumpForce);
-        //CancelarTodasLasFuerzas();
-        //StartCoroutine(ReturnGravity());
     }
 
-    IEnumerator ReturnGravity()
-    {
-        yield return new WaitForSeconds((_timeForGetUp/2));
-        _forceGravity = _initialForceGravity;
-    }
     #endregion
 
     #region Damage / Life
@@ -327,6 +347,8 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
     }
     #endregion
 
+    #region Lihana Giro
+    /*
     public void Grab()
     {
         if (_grappList.Count == 0) return;
@@ -378,7 +400,8 @@ public class ModelMonkey : Characters, IDamageable, ICure, IObservableGrapp
         {
             _grappList.Remove(obs);
         }
-    }
+    }*/
+#endregion
 
     void CreateDust() 
     {
