@@ -4264,7 +4264,7 @@ GameObject:
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &321453952
 Transform:
   m_ObjectHideFlags: 0
@@ -5739,7 +5739,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &415774453
 Transform:
   m_ObjectHideFlags: 0
@@ -8474,6 +8474,7 @@ GameObject:
   - component: {fileID: 681363752}
   - component: {fileID: 681363751}
   - component: {fileID: 681363750}
+  - component: {fileID: 681363754}
   - component: {fileID: 681363749}
   - component: {fileID: 681363748}
   m_Layer: 3
@@ -8555,6 +8556,7 @@ MonoBehaviour:
   _pushingForce: 5
   _normalDamage: 25
   _comboTime: 1.25
+  isRotating: 0
   _spinDamage: 10
   _timePressed: 0
   _getUpDamage: 5
@@ -8642,6 +8644,19 @@ Transform:
   - {fileID: 2127978959}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &681363754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681363746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 466b383841702ff41a62ff4192194980, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shadow: {fileID: 8366250559260973423, guid: bcbc1b2abb4554d42a2818c475bc5b5f, type: 3}
 --- !u!1001 &686731690
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14570,7 +14585,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerGM: {fileID: 0}
-  possibleCharacters:
+  players:
   - {fileID: 0}
   - {fileID: 0}
   camerasPlayers:

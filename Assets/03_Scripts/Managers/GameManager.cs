@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public ModelMonkey playerGM;
 
     [Header("Character Swap")]
-    public Characters[] possibleCharacters = new Characters[2];
+    public Characters[] players = new Characters[2];
     public GameObject[] camerasPlayers = new GameObject[2];
     private bool _inChange = false;
     private bool _controllerMonkey = true;
@@ -49,12 +49,12 @@ public class GameManager : MonoBehaviour
         _controllerMonkey = true;
 
         //Desactivo la banana
-        possibleCharacters[1].GetComponent<ModelBanana>().enabled = false;
+        players[1].GetComponent<ModelBanana>().enabled = false;
     }
 
     private void Update()
     {
-        if(_controllerMonkey) possibleCharacters[1].GetComponent<ModelBanana>().enabled = false;
+        if(_controllerMonkey) players[1].GetComponent<ModelBanana>().enabled = false;
     }
 
 
@@ -85,8 +85,8 @@ public class GameManager : MonoBehaviour
         _controllerMonkey = false;
         camerasPlayers[0].GetComponent<Camera>().enabled = false;
 
-        possibleCharacters[1].GetComponent<BananaGuide>().enabled = false;
-        possibleCharacters[1].GetComponent<ModelBanana>().enabled = true;
+        players[1].GetComponent<BananaGuide>().enabled = false;
+        players[1].GetComponent<ModelBanana>().enabled = true;
 
         Time.timeScale = 1;
 
@@ -109,8 +109,8 @@ public class GameManager : MonoBehaviour
         camerasPlayers[1].GetComponent<Camera>().enabled = false;
 
 
-        possibleCharacters[1].GetComponent<BananaGuide>().enabled = true;
-        possibleCharacters[1].GetComponent<ModelBanana>().enabled = false;
+        players[1].GetComponent<BananaGuide>().enabled = true;
+        players[1].GetComponent<ModelBanana>().enabled = false;
 
         Time.timeScale = 1;
         yield return new WaitForSecondsRealtime(_duration);
