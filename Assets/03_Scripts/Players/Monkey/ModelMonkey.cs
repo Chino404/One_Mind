@@ -53,7 +53,9 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     private ControllerMonkey _controller;
     private ViewMonkey _view;
 
-    
+
+    public bool isRestricted;
+
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked; //Me bloque el mouse al centro de la pantalla
@@ -123,6 +125,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     #region Movement
     public void Movement(Vector3 dirRaw, Vector3 dir)
     {
+        if (isRestricted) return;
+
         if (_punching || chargeGetUp) return;
 
         if (_grabbed) EventManager.Trigger("Rotate", dirRaw.x);
