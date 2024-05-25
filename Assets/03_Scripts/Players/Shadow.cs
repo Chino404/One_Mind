@@ -1,38 +1,69 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class Shadow : MonoBehaviour
 {
     public GameObject shadow;
     private GameObject _circleInstance; // Instancia del círculo 2D
-    private CanvasGroup _canvasGroup; // El componente CanvasGroup para su Alpha
+    public float _iniScale;
+    public float _newScale;
 
-    private float _timer = 0;
-    private float _transicionDuration = 0.25f;
+    private float disRayScale = 4f;
+    private float timeScale = 0.5f;
 
     private void Start()
     {
-        _circleInstance = Instantiate(shadow);
+        if(_circleInstance == null)
+            _circleInstance = Instantiate(shadow);
 
-        _canvasGroup = _circleInstance.GetComponent<CanvasGroup>();
-        _canvasGroup.alpha = 0f;
+        _circleInstance.transform.localScale = IniScale();
     }
 
     void Update()
     {
+        RaycastShadow();
+
         if (!GameManager.instance.players[0].GetComponent<ModelMonkey>().IsGrounded())
         {
-            PerformRaycast();
+            RaycastScaleShadow();
         }
         else
         {
-            _timer = 0;
-            _circleInstance.SetActive(false);
+            _circleInstance.transform.localScale = IniScale();
         }
     }
 
-    void PerformRaycast()
+    void RaycastScaleShadow()
+    {
+        Vector3 pos = transform.position;
+        Vector3 dir = Vector3.down;
+        Ray ray = new Ray(pos, dir);
+
+        RaycastHit hit;
+
+        Debug.DrawLine(pos, pos + (dir * disRayScale));
+
+        if (Physics.Raycast(ray, out hit, disRayScale))
+        {
+            float distance = hit.distance;
+            float t = Mathf.Clamp01(distance / disRayScale); //En funcio a la distancia del rayast
+            Vector3 targetScale = Vector3.Lerp(IniScale(), new Vector3(_newScale, _newScale, _newScale), t);
+
+            Debug.DrawLine(pos, pos + (dir * disRayScale));
+
+            float startTime = 0;
+            if (startTime < timeScale)
+            {
+                startTime++;
+                _circleInstance.transform.localScale = Vector3.Lerp(_circleInstance.transform.localScale, targetScale, startTime / timeScale);
+            }
+        }
+    }
+
+    void RaycastShadow()
     {
         Vector3 pos = transform.position;
         Vector3 dir = Vector3.down;
@@ -42,17 +73,18 @@ public class Shadow : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            _circleInstance.SetActive(true);
             _circleInstance.transform.position = hit.point + Vector3.up * 0.05f;
 
-            if (_timer < _transicionDuration) _timer += Time.deltaTime;
-
-            _canvasGroup.alpha = Mathf.Lerp(0 ,1 , _timer / _transicionDuration);
+            //if (_timer < _transicionDuration) _timer += Time.deltaTime;
         }
 
         //Visualizar el raycast en la escena
         //Debug.DrawRay(ray.origin, ray.direction * 1000, Color.red, 0.1f); // Dibuja el raycast en la escena para visualizarlo
     }
 
+    private Vector3 IniScale()
+    {
+        return new Vector3(_iniScale, _iniScale, _iniScale);
+    }
 }
 
