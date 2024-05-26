@@ -21,7 +21,8 @@ public class FollowPlayer : IState
     public void OnUpdate()
     {
         //if(!_enemy._inAir)
-        _enemy.AddForce(_enemy.Seek(_enemy.target.transform.position));
+        //_enemy.Flocking();
+        //_enemy.AddForce(_enemy.Seek(_enemy.target.transform.position));
         _enemy.transform.position += _enemy.Velocity * Time.deltaTime;
         _enemy.transform.forward += _enemy.Velocity;
 

@@ -61,7 +61,7 @@ public class Enemy : Entity, IDamageable
     {
         _initalForceGravity = _forceGravity;
         _timerCounterInveencible = _timeInvencible;
-        AddForce(new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)));
+        //AddForce(new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f))*maxVelocity);
         GameManager.instance.enemies.Add(this);
 
         fsm = new FSM();
@@ -74,19 +74,30 @@ public class Enemy : Entity, IDamageable
         fsm.ChangeState("Idle");
 
         target = GameManager.instance.playerGM;
+
+
     }
 
     
 
     void Update()
     {
-        Flocking();
+        //Flocking();
 
         //if (_velocity != Vector3.zero)
         //{
-        //    transform.position += _velocity * Time.deltaTime;
+        ////    transform.position += _velocity * Time.deltaTime;
         //    transform.forward = _velocity;
         //}
+
+        Vector3 seekDir = Seek(target.transform.position);
+        Vector3 flockingDir = Separation(GameManager.instance.enemies, separationRadius);
+        Vector3 flockingAlignment = Alignment(GameManager.instance.enemies, separationRadius);
+
+        _velocity += flockingDir*GameManager.instance.weightSeparation + 
+            seekDir*GameManager.instance.weightSeek+
+            flockingAlignment*GameManager.instance.weightAlignment;
+        
 
         if (!_inAir)
         fsm.Execute();
@@ -144,7 +155,7 @@ public class Enemy : Entity, IDamageable
 
     private void OnTriggerEnter(Collider other)
     {
-        
+
 
         var damageable = other.gameObject.GetComponent<IDamageable>();
         if (damageable != null)
@@ -217,11 +228,11 @@ public class Enemy : Entity, IDamageable
     }
 
     #region Flocking
-    void Flocking()
-    {
-        AddForce(Separation(GameManager.instance.enemies, separationRadius) * GameManager.instance.weightSeparation);
-        //AddForce(Alignment(GameManager.instance.enemies, viewRadius) * GameManager.instance.weightAlignment);
-    }
+    //public void Flocking()
+    //{
+    //    AddForce(Separation(GameManager.instance.enemies, separationRadius));
+    //    //AddForce(Alignment(GameManager.instance.enemies, viewRadius) * GameManager.instance.weightAlignment);
+    //}
 
     Vector3 Separation(List<Enemy> enemies, float radius)
     {
