@@ -36,7 +36,8 @@ public class Enemy : Entity, IDamageable
     public float viewRadius;
     public float attackDistance; //maxDistance;
     
-    [HideInInspector]public Vector3 _velocity;
+    Vector3 _velocity;
+    public Vector3 Velocity { get { return _velocity; } }
 
     [Header("Hit")]
     public float damage;
@@ -75,22 +76,19 @@ public class Enemy : Entity, IDamageable
         target = GameManager.instance.playerGM;
     }
 
-    public Vector3 Velocity
-    {
-        get
-        {
-            return _velocity;
-        }
-    }
+    
 
     void Update()
     {
         Flocking();
 
-        if (_velocity != Vector3.zero)
-            transform.forward = _velocity;
+        //if (_velocity != Vector3.zero)
+        //{
+        //    transform.position += _velocity * Time.deltaTime;
+        //    transform.forward = _velocity;
+        //}
 
-        if(!_inAir)
+        if (!_inAir)
         fsm.Execute();
 
         if (_life <= 0)
@@ -222,7 +220,7 @@ public class Enemy : Entity, IDamageable
     void Flocking()
     {
         AddForce(Separation(GameManager.instance.enemies, separationRadius) * GameManager.instance.weightSeparation);
-        AddForce(Alignment(GameManager.instance.enemies, viewRadius) * GameManager.instance.weightAlignment);
+        //AddForce(Alignment(GameManager.instance.enemies, viewRadius) * GameManager.instance.weightAlignment);
     }
 
     Vector3 Separation(List<Enemy> enemies, float radius)
@@ -235,7 +233,7 @@ public class Enemy : Entity, IDamageable
             {
                 var dir = item.transform.position - transform.position;
                 if (dir.magnitude > radius || item == this)
-                    continue;
+                    continue;//pasa al siguiente con el foreach
 
                 desired -= dir;
 
