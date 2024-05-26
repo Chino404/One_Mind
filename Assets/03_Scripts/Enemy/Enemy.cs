@@ -97,7 +97,7 @@ public class Enemy : Entity, IDamageable
             flockingAlignment*GameManager.instance.weightAlignment;
         
 
-        if (!_inAir)
+        //if (!_inAir)
         fsm.Execute();
 
         if (_life <= 0)
