@@ -146,7 +146,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         transform.forward = dirForward;
     }
 
-    void CancelarTodasLasFuerzas()
+    public void CancelarTodasLasFuerzas()
     {
         _forceGravity = 0.05f;
         _rbCharacter.velocity = Vector3.zero; // Establece la velocidad del Rigidbody a cero
