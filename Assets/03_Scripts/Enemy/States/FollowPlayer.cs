@@ -22,7 +22,9 @@ public class FollowPlayer : IState
     {
         //if(!_enemy._inAir)
         _enemy.AddForce(_enemy.Seek(_enemy.target.transform.position));
-        _enemy.transform.position += _enemy._velocity * Time.deltaTime;
+        _enemy.transform.position += _enemy.Velocity * Time.deltaTime;
+        _enemy.transform.forward += _enemy.Velocity;
+
         _enemy.anim.SetBool("Walk", true);
 
         if ((_enemy.transform.position - _enemy.target.transform.position).sqrMagnitude <= _enemy.attackDistance * _enemy.attackDistance)
