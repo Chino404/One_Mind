@@ -24,7 +24,6 @@ public class Enemy : Entity, IDamageable
     [SerializeField] private LayerMask _floorLayer;
     private Rigidbody _rigidbody;
     public bool _inAir;
-    public SphereCollider sphereCollider;
 
     [Header("Flocking")]
     public float maxVelocity;
@@ -54,7 +53,6 @@ public class Enemy : Entity, IDamageable
     {
         _rigidbody = GetComponent<Rigidbody>();
         anim.GetComponentInChildren<Animator>();
-        sphereCollider = GetComponentInChildren<SphereCollider>();
     }
 
     private void Start()
@@ -73,7 +71,7 @@ public class Enemy : Entity, IDamageable
         fsm.CreateState("Follow Player", new FollowPlayer(this, fsm));
         fsm.ChangeState("Idle");
 
-        target = GameManager.instance.playerGM;
+        target = GameManager.instance.players[0].GetComponent<ModelMonkey>();
 
 
     }
@@ -321,8 +319,8 @@ public class Enemy : Entity, IDamageable
         //if (_isHitting) return;
 
         //if (!isHitting)
-        
-        anim.SetBool("Attack", true);
+
+        isHitting = true;
         StartCoroutine(HitCoolDown());
             //hit.SetActive(true);
             //yield return new WaitForSeconds(1f);
@@ -341,15 +339,16 @@ public class Enemy : Entity, IDamageable
 
     public IEnumerator HitCoolDown()
     {
-        yield return new WaitForSeconds(1f);
-        isHitting = true;
+        //anim.SetBool("Attack", true);
+        anim.SetTrigger("AttackTrigger");
+        yield return new WaitForSeconds(0);
         //anim.SetBool("Attack", true);
         ////hit.SetActive(true);
         //yield return new WaitForSeconds(1f);
         //_isHitting = true;
 
         Debug.Log("ya pegue");
-        anim.SetBool("Attack", false);
+        //anim.SetBool("Attack", false);
         //hit.SetActive(false);
         yield return new WaitForSeconds(_cooldownHit);
         isHitting = false;
