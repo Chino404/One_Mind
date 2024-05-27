@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class SpinPunch : Hits
 {
+    [SerializeField] float _damage;
     private void OnTriggerEnter(Collider other)
     {
         var target = other.gameObject.GetComponent<IDamageable>();
 
         if (target != null)
         {
-            target.TakeDamageEntity(_damagePunch, _entity.transform.position);
+            target.TakeDamageEntity(_damage, _entity.transform.position);
         }
     }
 }
