@@ -2,33 +2,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Climbing : MonoBehaviour
+public class Climbing : Characters
 {
-    public ModelMonkey _monkey;
-    [SerializeField]float _speedInClimbing;
+    public ModelMonkey monkey;
+    [SerializeField] private float _climbingSpeed;
+    GameObject _climbObject;//objeto que estoy escalando
+    GameObject _climbedObject;//objeto que escale
+    [Range(0, 1)]
+    [SerializeField] private float _difPos;
+    private bool _isGrabbed;
+    [SerializeField]private float _jumpForce;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.layer == 11)
+        if(collision.gameObject.layer==11)
         {
-            _monkey.GetComponent<Rigidbody>().isKinematic = true;
-            
-            Debug.Log("me agarre");
-            //_monkey.isRestricted = true;
-            //float horizontal = Input.GetAxisRaw("Horizontal");
-            
-            //_monkey.CancelarTodasLasFuerzas();
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                _monkey.Jump();
-            }
+            monkey.GetComponent<Rigidbody>().isKinematic = true;
+            monkey.isRestricted = true;
+            _isGrabbed = true;
+            _climbObject = collision.gameObject;
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    IEnumerator Desactive()
     {
-        if(other.gameObject.layer==11)
-         _monkey.GetComponent<Rigidbody>().isKinematic = false;
+        _isGrabbed = false;
+        _climbedObject = _climbObject;
+        _climbedObject.SetActive(false);
+        monkey.GetComponent<Rigidbody>().isKinematic = false;
+        monkey.isRestricted = false;
+        monkey.GetComponent<Rigidbody>().velocity = Vector3.up * _jumpForce;
+        yield return new WaitForSeconds(0.5f);
+        _climbedObject.SetActive(true);
 
+    }
+
+    private void Update()
+    {
+        if (_isGrabbed)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                StartCoroutine(Desactive());
+            }
+            else
+            {
+                transform.position = new Vector3(transform.position.x, _climbObject.transform.position.y - _difPos, transform.position.z);
+                float horizontal = Input.GetAxisRaw("Horizontal");
+                Vector3 movement = new Vector3(horizontal, 0f, 0f) * _climbingSpeed * Time.deltaTime;
+                transform.Translate(movement);
+            }
+            
+            
+        }
     }
 }
