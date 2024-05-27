@@ -4,31 +4,44 @@ using UnityEngine;
 
 public class Climbing : MonoBehaviour
 {
-    public ModelMonkey _monkey;
-    [SerializeField]float _speedInClimbing;
+    public ModelMonkey monkey;
+    [SerializeField] float _climbingSpeed;
+    [SerializeField] GameObject _climbObject;
+    bool _isGrabbed;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.layer == 11)
+        if(collision.gameObject.layer==11)
         {
-            _monkey.GetComponent<Rigidbody>().isKinematic = true;
-            
-            Debug.Log("me agarre");
-            //_monkey.isRestricted = true;
-            //float horizontal = Input.GetAxisRaw("Horizontal");
-            
-            //_monkey.CancelarTodasLasFuerzas();
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                _monkey.Jump();
-            }
+            monkey.GetComponent<Rigidbody>().isKinematic = true;
+            monkey.isRestricted = true;
+            _isGrabbed = true;
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    IEnumerator Desactive()
     {
-        if(other.gameObject.layer==11)
-         _monkey.GetComponent<Rigidbody>().isKinematic = false;
+        _climbObject.SetActive(false);
+        yield return new WaitForSeconds(1f);
+        _climbObject.SetActive(true);
 
+    }
+
+    private void Update()
+    {
+        if (_isGrabbed)
+        {
+            float horizontal = Input.GetAxisRaw("Horizontal");
+            Vector3 movement = new Vector3(horizontal, 0f, 0f) * _climbingSpeed * Time.deltaTime;
+            transform.Translate(movement);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                StartCoroutine(Desactive());
+                monkey.GetComponent<Rigidbody>().isKinematic = false;
+                monkey.isRestricted = false;
+                _isGrabbed = false;
+
+            }
+        }
     }
 }
