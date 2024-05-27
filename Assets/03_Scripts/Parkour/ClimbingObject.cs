@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class ClimbingObject : MonoBehaviour
 {
-    ModelMonkey _monkey;
+    public ModelMonkey monkey;
+    
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject==_monkey.gameObject)
+        if(collision.gameObject==monkey.gameObject)
         {
-            _monkey.isRestricted = true;
-            if (Input.GetKeyDown(KeyCode.Space))
-                _monkey.isRestricted = false;
+            monkey.GetComponent<Rigidbody>().isKinematic = true;
+            monkey.isRestricted = true;
+            
         }
     }
+
+    
+
+   
 }
