@@ -47,7 +47,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     [SerializeField]private Animator _animPlayer;
 
     [Header("Particulas")]
-    public ParticleSystem polvo;
+    [SerializeField] private ParticleSystem _particleSpinAttack;
+    [SerializeField] private ParticleSystem _polvo;
 
     //Referencias
     private ControllerMonkey _controller;
@@ -89,7 +90,13 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
     private void Update()
     {
-        if (!GameManager.instance.ContollerMonkey) return;
+        if (!GameManager.instance.ContollerMonkey)
+        {
+            _animPlayer.SetBool("SpinAttack", false);
+            _animPlayer.SetBool("Walk", false);
+            return;
+        } 
+            
 
         if (IsGrounded())
         {
@@ -253,6 +260,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     {
         _comboTimeCounter = _comboTime * 0.25f;
 
+        _particleSpinAttack.Play();
         _animPlayer.SetBool("SpinAttack", true);
         EventManager.Trigger("SpinAttack", _spinDamage, _comboTimeCounter);
         StartCoroutine(RotateObject());
@@ -264,7 +272,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         isRotating = true;
         float elapsedTime = 0f;
         float startRotationY = transform.eulerAngles.y;
-        float targetRotationY = startRotationY + 360f;
+        float targetRotationY = startRotationY - 360f;
 
         while (elapsedTime < 0.2f)
         {
@@ -275,6 +283,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         }
 
         transform.rotation = Quaternion.Euler(0, targetRotationY % 360f, 0); // Asegura que la rotación final sea precisa
+        Debug.Log("stop rotation");
+        _particleSpinAttack.Stop(); 
         isRotating = false;
     }
 
@@ -410,7 +420,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     void CreateDust() 
     {
 
-        polvo.Play();
+        _polvo.Play();
     
     
     }
