@@ -6,7 +6,7 @@ public class Plataform : MonoBehaviour
 {
     [SerializeField] Transform[] _waypoints;
     [SerializeField] float _maxVelocity;
-    [SerializeField] float _maxForce;
+    //[SerializeField] float _maxForce;
     private int _actualIndex;
     private Vector3 _velocity;
 
@@ -20,7 +20,7 @@ public class Plataform : MonoBehaviour
                 _actualIndex = 0;
         }
         transform.position += _velocity * Time.deltaTime;
-        transform.forward = _velocity;
+        //transform.forward = _velocity;
     }
 
     Vector3 Seek(Vector3 target)
