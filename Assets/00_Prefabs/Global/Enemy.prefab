@@ -59,16 +59,15 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _inAir: 0
-  sphereCollider: {fileID: 0}
   maxVelocity: 5
   maxForce: 0.1
   target: {fileID: 0}
   separationRadius: 3
   viewRadius: 10
   attackDistance: 4
-  _velocity: {x: 0, y: 0, z: 0}
   damage: 5
-  _cooldownHit: 0.5
+  _cooldownHit: 1.5
+  isHitting: 0
   anim: {fileID: 4674604220682317976}
   _damageAnim: DamageReceived
 --- !u!54 &8204564500778380490
@@ -624,6 +623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0e1104fa82ad3e47a839b7302ad598f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _damage: 0
 --- !u!1 &8971838691346200300 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1353527756515394587, guid: 482b22bc1e0097e428b5af18086c7360,
@@ -663,3 +663,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0e1104fa82ad3e47a839b7302ad598f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _damage: 0

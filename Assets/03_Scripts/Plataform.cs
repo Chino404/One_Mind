@@ -40,13 +40,13 @@ public class Plataform : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<ModelMonkey>())
+        if (collision.gameObject.layer==3)
             collision.transform.SetParent(this.transform);
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.GetComponent<ModelMonkey>())
+        if (collision.gameObject.layer==3)
             collision.transform.SetParent(null);
     }
 }
