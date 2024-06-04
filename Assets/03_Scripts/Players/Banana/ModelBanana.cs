@@ -117,4 +117,14 @@ public class ModelBanana : Characters
     public void StopFly() => _rb.velocity = Vector3.zero;
 
     public void FlyingDown() => _rb.velocity = Vector3.down * _speedUp * Time.fixedDeltaTime;
+
+    public override void Save()
+    {
+        
+    }
+
+    public override void Load()
+    {
+        
+    }
 }

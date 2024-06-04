@@ -56,4 +56,14 @@ public class Climbing : Characters
             
         }
     }
+
+    public override void Save()
+    {
+        
+    }
+
+    public override void Load()
+    {
+        
+    }
 }
