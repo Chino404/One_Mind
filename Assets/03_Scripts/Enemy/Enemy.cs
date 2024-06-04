@@ -400,5 +400,24 @@ public class Enemy : Entity, IDamageable
     {
        GameManager.instance.enemies.Remove(this);
     }
+
+    public override void Save()
+    {
+        _currentState.Rec(transform.position, transform.rotation, gameObject.activeInHierarchy, _life);
+        Debug.Log("guarde el sapo");
+    }
+
+    public override void Load()
+    {
+        if (!_currentState.IsRemember()) return;
+
+        var col = _currentState.Remember();
+        transform.position = (Vector3)col.parameters[0];
+        transform.rotation = (Quaternion)col.parameters[1];
+        gameObject.SetActive((bool)col.parameters[2]);
+        _life = (float)col.parameters[3];
+
+        Debug.Log("cargue sapo");
+    }
 }
 

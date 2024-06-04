@@ -103,5 +103,10 @@ public class PauseManager : MonoBehaviour
         SceneManager.LoadSceneAsync(_asyncScene);
         Time.timeScale = 1;
 
+        foreach (var item in GameManager.instance.rewinds)
+        {
+            item.Load();
+        }
+
     }
 }

@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public ModelMonkey playerGM;
-
+    public Rewind[] rewinds;
     [Header("Character Swap")]
     public Characters[] players = new Characters[2];
     public GameObject[] camerasPlayers = new GameObject[2];
@@ -55,6 +55,22 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if(_controllerMonkey) players[1].GetComponent<ModelBanana>().enabled = false;
+
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            foreach (var item in rewinds)
+            {
+                item.Load();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            foreach (var item in rewinds)
+            {
+                item.Save();
+            }
+        }
     }
 
 
