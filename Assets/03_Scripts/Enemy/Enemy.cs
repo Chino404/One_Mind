@@ -27,6 +27,7 @@ public class Enemy : Entity, IDamageable
 
     [Header("Flocking")]
     public float maxVelocity;
+    private float _iniVelocity;
     public float maxForce;
     public ModelMonkey target;
 
@@ -61,6 +62,8 @@ public class Enemy : Entity, IDamageable
         _timerCounterInveencible = _timeInvencible;
         //AddForce(new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f))*maxVelocity);
         GameManager.instance.enemies.Add(this);
+
+        _iniVelocity = maxVelocity;
 
         fsm = new FSM();
 
@@ -161,6 +164,7 @@ public class Enemy : Entity, IDamageable
             damageable.TakeDamageEntity(_dmg, transform.position);
         }
     }
+
     #region Damage
     public void TakeDamageEntity(float dmg, Vector3 target)
     {
@@ -200,6 +204,7 @@ public class Enemy : Entity, IDamageable
         transform.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
     }
     #endregion
+
     public bool IsGrounded()
     {
         Vector3 pos = transform.position;
@@ -316,41 +321,28 @@ public class Enemy : Entity, IDamageable
 
     public void Hit()
     {
-        //if (_isHitting) return;
-
-        //if (!isHitting)
-
+        if (isHitting) return;
         isHitting = true;
-        StartCoroutine(HitCoolDown());
-            //hit.SetActive(true);
-            //yield return new WaitForSeconds(1f);
-        
-        
-
-        //if(isHitting)
-
-        //anim.SetBool("Attack", false);
-        ////hit.SetActive(false);
-        ////yield return new WaitForSeconds(_cooldownHit);
-        //_isHitting = false;
-        ////if(!_isHitting)
-       
+        StartCoroutine(HitCoolDown());     
     }
 
     public IEnumerator HitCoolDown()
     {
-        //anim.SetBool("Attack", true);
         anim.SetTrigger("AttackTrigger");
-        yield return new WaitForSeconds(0);
-        //anim.SetBool("Attack", true);
-        ////hit.SetActive(true);
-        //yield return new WaitForSeconds(1f);
-        //_isHitting = true;
 
-        Debug.Log("ya pegue");
-        //anim.SetBool("Attack", false);
-        //hit.SetActive(false);
-        yield return new WaitForSeconds(_cooldownHit);
+        // Obtener la información del estado actual de la animación
+        AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+
+        // Duración de la animación en segundos
+        float animationDuration = stateInfo.length;
+        Debug.Log(animationDuration);
+
+        maxVelocity = 0;
+
+        yield return new WaitForSeconds(2);
+
+        Debug.Log("Cambio de bool");
+        maxVelocity = _iniVelocity;
         isHitting = false;
 
     }

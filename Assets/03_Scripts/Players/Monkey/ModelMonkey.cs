@@ -92,7 +92,6 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     {
         if (!GameManager.instance.ContollerMonkey)
         {
-            _animPlayer.SetBool("SpinAttack", false);
             _animPlayer.SetBool("Walk", false);
             return;
         } 
@@ -113,7 +112,6 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         if (_comboTimeCounter > 0) _comboTimeCounter -= Time.deltaTime;
         else
         {
-            _animPlayer.SetBool("SpinAttack", false);
             _currentCombo = 0;
             _actualSpeed = _speed;
         }
@@ -185,6 +183,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         if (_coyoteTimeCounter > 0f)
         {
+            _animPlayer.SetTrigger("Jump");
             _rbCharacter.velocity = Vector3.up * _jumpForce;
         }
     }
@@ -240,12 +239,11 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         _punching = true;
         _actualSpeed = 0;
         _rbCharacter.AddForce(transform.forward * powerForce, ForceMode.Impulse);
-        EventManager.Trigger("NormalAttack", _normalDamage, 0.3f);
-        _animPlayer.SetBool("Attack", true);
+        //EventManager.Trigger("NormalAttack", _normalDamage, 0.3f);
+        _animPlayer.SetTrigger("Attack");
         if (!IsGrounded())CancelarTodasLasFuerzas();
         yield return new WaitForSeconds(0.3f);
         _punching = false;
-        _animPlayer.SetBool("Attack", false);
         yield return new WaitForSeconds(0.2f);
 
         if(!_punching)
@@ -261,7 +259,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         _comboTimeCounter = _comboTime * 0.25f;
 
         _particleSpinAttack.Play();
-        _animPlayer.SetBool("SpinAttack", true);
+        _animPlayer.SetTrigger("Spin");
         EventManager.Trigger("SpinAttack", _spinDamage, _comboTimeCounter);
         StartCoroutine(RotateObject());
         _actualSpeed = 2;
