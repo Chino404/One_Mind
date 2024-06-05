@@ -22,7 +22,7 @@ public class Attack : IState
 
     public void OnUpdate()
     {
-        Debug.Log("estoy atacando");
+        //Debug.Log("estoy atacando");
         _enemy.anim.SetBool("Walk", false);
         if(!_enemy.isHitting)
         _enemy.Hit();
@@ -37,7 +37,7 @@ public class Attack : IState
 
     public void OnExit()
     {
-        Debug.Log("dejo de atacar");
+
     }
 
     

@@ -14,7 +14,7 @@ public class FollowPlayer : IState
     }
     public void OnEnter()
     {
-        Debug.Log("hago seek");
+        //Debug.Log("hago seek");
         
     }
 
@@ -41,7 +41,7 @@ public class FollowPlayer : IState
 
     public void OnExit()
     {
-        Debug.Log("cambio de estado");
+
     }
 
     
