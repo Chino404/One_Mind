@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Plataform : Rewind
 {
+    [SerializeField] float _secondsWaiting=2f;
     [SerializeField] Transform[] _waypoints;
     [SerializeField] float _maxVelocity;
     //[SerializeField] float _maxForce;
@@ -15,12 +16,22 @@ public class Plataform : Rewind
         AddForce(Seek(_waypoints[_actualIndex].position));
         if(Vector3.Distance(transform.position, _waypoints[_actualIndex].position)<=0.3f)
         {
+            StartCoroutine(WaitSeconds());
             _actualIndex++;
             if (_actualIndex >= _waypoints.Length)
                 _actualIndex = 0;
         }
         transform.position += _velocity * Time.deltaTime;
         //transform.forward = _velocity;
+    }
+
+    IEnumerator WaitSeconds()
+    {
+        var velocity = _maxVelocity;
+        _maxVelocity = 0;
+        yield return new WaitForSeconds(_secondsWaiting);
+        _maxVelocity = velocity;
+
     }
 
     Vector3 Seek(Vector3 target)
