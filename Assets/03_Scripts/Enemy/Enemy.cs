@@ -54,6 +54,8 @@ public class Enemy : Entity, IDamageable
     {
         _rigidbody = GetComponent<Rigidbody>();
         anim.GetComponentInChildren<Animator>();
+        _currentState = new MementoState();
+
     }
 
     private void Start()
@@ -79,7 +81,7 @@ public class Enemy : Entity, IDamageable
 
     }
 
-    
+
 
     void Update()
     {
@@ -154,16 +156,15 @@ public class Enemy : Entity, IDamageable
         enemy.gameObject.SetActive(true);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
+    //private void OnTriggerEnter(Collider other)
+    //{
 
-
-        var damageable = other.gameObject.GetComponent<IDamageable>();
-        if (damageable != null)
-        {
-            damageable.TakeDamageEntity(_dmg, transform.position);
-        }
-    }
+    //    var damageable = other.gameObject.GetComponent<IDamageable>();
+    //    if (damageable != null)
+    //    {
+    //        damageable.TakeDamageEntity(_dmg, transform.position);
+    //    }
+    //}
 
     #region Damage
     public void TakeDamageEntity(float dmg, Vector3 target)

@@ -96,17 +96,21 @@ public class PauseManager : MonoBehaviour
         _isPaused = false;
     }
 
-    public void RestartGame(int sceneNumber)
+    public void RestartGame()
     {
-        AsyncLoad.sceneNumber = sceneNumber;
-        //pauseMenu.gameObject.SetActive(false);
-        SceneManager.LoadSceneAsync(_asyncScene);
+        
         Time.timeScale = 1;
-
+        pauseMenu.gameObject.SetActive(false);
+        gameOverCanvas.gameObject.SetActive(false);
         foreach (var item in GameManager.instance.rewinds)
         {
             item.Load();
         }
+        //AsyncLoad.sceneNumber = sceneNumber;
+        ////pauseMenu.gameObject.SetActive(false);
+        //SceneManager.LoadSceneAsync(_asyncScene);
+        //Time.timeScale = 1;
+
 
     }
 }

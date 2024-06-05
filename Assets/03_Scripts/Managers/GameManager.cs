@@ -47,30 +47,22 @@ public class GameManager : MonoBehaviour
 
         //Activo los controles del Mono
         _controllerMonkey = true;
-
+        foreach (var item in rewinds)
+        {
+            item.Save();
+        }
         //Desactivo la banana
         players[1].GetComponent<ModelBanana>().enabled = false;
+
+
+        
     }
 
     private void Update()
     {
         if(_controllerMonkey) players[1].GetComponent<ModelBanana>().enabled = false;
 
-        if(Input.GetKeyDown(KeyCode.E))
-        {
-            foreach (var item in rewinds)
-            {
-                item.Load();
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            foreach (var item in rewinds)
-            {
-                item.Save();
-            }
-        }
+        
     }
 
 
