@@ -131,11 +131,10 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     #region Movement
     public void Movement(Vector3 dirRaw, Vector3 dir)
     {
-        if (isRestricted) return;
+        if (isRestricted || _punching) return;
 
-        if (_punching || chargeGetUp) return;
-
-        if (_grabbed) EventManager.Trigger("Rotate", dirRaw.x);
+        //if (_punching || chargeGetUp) return;
+        //if (_grabbed) EventManager.Trigger("Rotate", dirRaw.x);
 
         if (dirRaw.sqrMagnitude != 0)
         {
@@ -176,11 +175,11 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
     public void Jump()
     {
-        if(_grabbed)
-        {
-            //StopGrab();
-            CreateDust();
-        }
+        if (isRotating) return;
+        //if(_grabbed)
+        //{
+        //    CreateDust();
+        //}
 
         if (_coyoteTimeCounter > 0f)
         {
@@ -202,7 +201,6 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     {
         //if (_grabbed) return;
         if(!IsGrounded()) GoToDownAttack();
-        else if (_holdPower) PowerUp();
         else NormalPunch();
     }
 
@@ -240,7 +238,6 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         _punching = true;
         _actualSpeed = 0;
         _rbCharacter.AddForce(transform.forward * powerForce, ForceMode.Impulse);
-        //EventManager.Trigger("NormalAttack", _normalDamage, 0.3f);
         _animPlayer.SetTrigger("Attack");
         if (!IsGrounded())CancelarTodasLasFuerzas();
         yield return new WaitForSeconds(0.3f);
@@ -257,13 +254,14 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
     public void SpinAttack()
     {
+        if (isRotating) return;
+
         _comboTimeCounter = _comboTime * 0.25f;
 
         _particleSpinAttack.Play();
         _animPlayer.SetTrigger("Spin");
-        EventManager.Trigger("SpinAttack", _spinDamage, _comboTimeCounter);
-        StartCoroutine(RotateObject());
         _actualSpeed = 2;
+        StartCoroutine(RotateObject());
     }
 
     IEnumerator RotateObject()
@@ -282,7 +280,6 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         }
 
         transform.rotation = Quaternion.Euler(0, targetRotationY % 360f, 0); // Asegura que la rotación final sea precisa
-        Debug.Log("stop rotation");
         _particleSpinAttack.Stop(); 
         isRotating = false;
     }
