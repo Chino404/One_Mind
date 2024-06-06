@@ -13,7 +13,7 @@ public class Enemy : Entity, IDamageable
     [SerializeField]private float _timeInvencible = 0.5f;
     private float _timerCounterInveencible;
     [SerializeField] private bool _takingDamage;
-    [SerializeField] private float _recoilForce = 10f;
+    [SerializeField, Tooltip("Fuerza de retoceso")] private float _recoilForce = 10f;
 
     [Header("Object Pool")]
     public float counter;
@@ -28,6 +28,8 @@ public class Enemy : Entity, IDamageable
     [Header("Flocking")]
     public float maxVelocity;
     private float _iniVelocity;
+    Vector3 _velocity;
+    public Vector3 Velocity { get { return _velocity; } }
     public float maxForce;
     public ModelMonkey target;
 
@@ -36,8 +38,6 @@ public class Enemy : Entity, IDamageable
     public float viewRadius;
     public float attackDistance; //maxDistance;
     
-    Vector3 _velocity;
-    public Vector3 Velocity { get { return _velocity; } }
 
     [Header("Hit")]
     public float damage;
@@ -169,16 +169,28 @@ public class Enemy : Entity, IDamageable
     #region Damage
     public void TakeDamageEntity(float dmg, Vector3 target)
     {
-        
-        SetDamageAnimation();
+
+        anim.SetTrigger(_damageAnim);
+
+        StartCoroutine(StopVelocity());
+        ViewTakeDamage(dmg, target);
+
         _takingDamage = true;
         _timerCounterInveencible = _timeInvencible;
 
-        ViewTakeDamage(dmg, target);
 
-        if (!_inAir) _rigidbody.AddForce(-transform.forward * _recoilForce, ForceMode.VelocityChange);
-        else CancelarTodasLasFuerzas();
+        _rigidbody.AddForce(-transform.forward * _recoilForce, ForceMode.VelocityChange);
 
+
+        //if (!_inAir) _rigidbody.AddForce(-transform.forward * _recoilForce, ForceMode.VelocityChange);
+        //else CancelarTodasLasFuerzas();
+    }
+
+    IEnumerator StopVelocity()
+    {
+        maxVelocity = 0;
+        yield return new WaitForSeconds(0.5f);
+        maxVelocity = _iniVelocity;
     }
 
     public void GetUpDamage(float dmg, Vector3 target, float forceToUp)
@@ -336,22 +348,14 @@ public class Enemy : Entity, IDamageable
 
         // Duración de la animación en segundos
         float animationDuration = stateInfo.length;
-        Debug.Log(animationDuration);
 
         maxVelocity = 0;
 
         yield return new WaitForSeconds(2);
 
-        Debug.Log("Cambio de bool");
         maxVelocity = _iniVelocity;
         isHitting = false;
 
-    }
-
-    public void SetDamageAnimation()
-    {
-        Debug.Log("animacion");
-        anim.SetTrigger(_damageAnim);
     }
     
 

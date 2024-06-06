@@ -24,8 +24,11 @@ public class ControllerMonkey
 
         else if (Input.GetButtonUp("Jump")) _model.CutJump();
 
+        if (Input.GetMouseButtonDown(0)) _model.Attack();
 
-        if (Input.GetButtonDown("Fire1")) _model.Attack();
+        if(Input.GetMouseButton(1)) _model.SpinAttack();
+
+
 
         //if (Input.GetButton("Fire1")) _model.GoToUpAttack();
         //else

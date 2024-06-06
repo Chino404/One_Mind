@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class getUpPunch : Hits
 {
+    [SerializeField] float _damage;
     private float _forceToUp;
     public float ForceToUp { set { _forceToUp = value; } }
 
@@ -13,7 +14,7 @@ public class getUpPunch : Hits
 
         if (target != null)
         {
-            target.GetUpDamage(_damagePunch, _entity.transform.position, _forceToUp);
+            target.GetUpDamage(_damage, _entity.transform.position, _forceToUp);
         }
     }
 }

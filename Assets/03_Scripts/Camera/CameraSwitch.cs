@@ -7,21 +7,23 @@ using UnityEngine;
 public class CameraSwitch : MonoBehaviour
 {
     [Header("Virtual Camera")]
-    [SerializeField] private CinemachineVirtualCamera _virtualCamera = null;
+    [SerializeField] private CinemachineVirtualCamera _actualVC;
+    [SerializeField] private CinemachineVirtualCamera _newVC = null;
 
     public static bool _camera2D;
 
 
     private void Start()
     {
-        _virtualCamera.enabled = false;
+        _newVC.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.GetComponent<ModelMonkey>())
         {
-            _virtualCamera.enabled = true;
+            _newVC.enabled = true;
+            _actualVC.enabled = false;
         }
     }
 
@@ -29,7 +31,10 @@ public class CameraSwitch : MonoBehaviour
     {
 
         if(other.gameObject.GetComponent<ModelMonkey>())
-            _virtualCamera.enabled = false;
+        {
+            _newVC.enabled = false;
+            _actualVC.enabled = true;
+        }
     }
 
     private void OnValidate()
