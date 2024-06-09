@@ -55,7 +55,6 @@ public class Enemy : Entity, IDamageable
         _rigidbody = GetComponent<Rigidbody>();
         anim.GetComponentInChildren<Animator>();
 
-        _currentState = new MementoState();
     }
 
     private void Start()
@@ -77,6 +76,9 @@ public class Enemy : Entity, IDamageable
         fsm.ChangeState("Idle");
 
         target = GameManager.instance.players[0].GetComponent<ModelMonkey>();
+        GameManager.instance.rewinds.Add(this);
+
+        _currentState = new MementoState();
 
 
     }
@@ -112,7 +114,8 @@ public class Enemy : Entity, IDamageable
             gameObject.SetActive(false);
 
         }
-
+        if (_life > 0 && !GameManager.instance.enemies.Contains(this))
+            GameManager.instance.enemies.Add(this);
         _inAir = IsGrounded() ? false : true;
 
         if (_takingDamage)
@@ -393,14 +396,11 @@ public class Enemy : Entity, IDamageable
     #endregion
 
 
-    private void OnDestroy()
-    {
-       GameManager.instance.enemies.Remove(this);
-    }
+
 
     public override void Save()
     {
-        _currentState.Rec(transform.position);
+        _currentState.Rec(transform.position,transform.rotation,gameObject.activeInHierarchy,_life);
         Debug.Log("guarde el sapo");
     }
 
@@ -410,10 +410,12 @@ public class Enemy : Entity, IDamageable
 
         var col = _currentState.Remember();
         transform.position = (Vector3)col.parameters[0];
-        //transform.rotation = (Quaternion)col.parameters[1];
-        //gameObject.SetActive((bool)col.parameters[2]);
-        //_life = (float)col.parameters[3];
-
+        transform.rotation = (Quaternion)col.parameters[1];
+        gameObject.SetActive((bool)col.parameters[2]);
+        _life = (float)col.parameters[3];
+        
+        //if(!GameManager.instance.enemies.Contains(this)&&this.enabled==true)
+        //GameManager.instance.enemies.Add(this);
         Debug.Log("cargue sapo");
     }
 }

@@ -5,6 +5,10 @@ using UnityEngine;
 public class CrystalWall : MonoBehaviour
 {
     [SerializeField] GameObject _crystalWall;
+
+    
+
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Enemy>())
