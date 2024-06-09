@@ -54,8 +54,8 @@ public class Enemy : Entity, IDamageable
     {
         _rigidbody = GetComponent<Rigidbody>();
         anim.GetComponentInChildren<Animator>();
-        _currentState = new MementoState();
 
+        _currentState = new MementoState();
     }
 
     private void Start()
@@ -400,7 +400,7 @@ public class Enemy : Entity, IDamageable
 
     public override void Save()
     {
-        _currentState.Rec(transform.position, transform.rotation, gameObject.activeInHierarchy, _life);
+        _currentState.Rec(transform.position);
         Debug.Log("guarde el sapo");
     }
 
@@ -410,9 +410,9 @@ public class Enemy : Entity, IDamageable
 
         var col = _currentState.Remember();
         transform.position = (Vector3)col.parameters[0];
-        transform.rotation = (Quaternion)col.parameters[1];
-        gameObject.SetActive((bool)col.parameters[2]);
-        _life = (float)col.parameters[3];
+        //transform.rotation = (Quaternion)col.parameters[1];
+        //gameObject.SetActive((bool)col.parameters[2]);
+        //_life = (float)col.parameters[3];
 
         Debug.Log("cargue sapo");
     }
