@@ -7,7 +7,7 @@ public class DeadInFall : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        var target = other.gameObject.GetComponent<ModelMonkey>();
+        var target = other.gameObject.GetComponent<IDamageable>();
         if (target != null)
         {
             target.TakeDamageEntity(1000,this.transform.position);

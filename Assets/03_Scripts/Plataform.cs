@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Plataform : Rewind
+public class Plataform : MonoBehaviour
 {
     [SerializeField] float _secondsWaiting=2f;
     [SerializeField] Transform[] _waypoints;
@@ -61,20 +61,20 @@ public class Plataform : Rewind
             collision.transform.SetParent(null);
     }
 
-    public override void Save()
-    {
-        _currentState.Rec(transform.position);
-        Debug.Log("guardo plataforma");
-    }
+    //public override void Save()
+    //{
+    //    _currentState.Rec(transform.position);
+    //    Debug.Log("guardo plataforma");
+    //}
 
-    public override void Load()
-    {
-        if (!_currentState.IsRemember()) return;
+    //public override void Load()
+    //{
+    //    if (!_currentState.IsRemember()) return;
 
-        var col = _currentState.Remember();
+    //    var col = _currentState.Remember();
 
-        transform.position = (Vector3)col.parameters[0];
-        Debug.Log("cargo plataforma");
+    //    transform.position = (Vector3)col.parameters[0];
+    //    Debug.Log("cargo plataforma");
 
-    }
+    //}
 }

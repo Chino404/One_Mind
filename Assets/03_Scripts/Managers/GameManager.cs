@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     private float _duration;
 
     //public CameraTracker cam;
-    int _playerIndex;
+    
 
     public List<Enemy> enemies = new();
 
@@ -124,4 +124,6 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(_duration);
         _inChange = false;
     }
+
+    
 }
