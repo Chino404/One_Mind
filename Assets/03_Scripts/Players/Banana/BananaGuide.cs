@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BananaGuide : MonoBehaviour
+public class BananaGuide : Rewind
 {
     public Transform target;
     private Rigidbody _rb;
@@ -21,6 +21,8 @@ public class BananaGuide : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        _currentState = new MementoState();
+
     }
 
     void Update()
@@ -125,5 +127,21 @@ public class BananaGuide : MonoBehaviour
 
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, arriveRadius);
+    }
+
+    public override void Save()
+    {
+        _currentState.Rec(transform.position);
+        Debug.Log("guardo banana");
+    }
+
+    public override void Load()
+    {
+        if (!_currentState.IsRemember()) return;
+
+        var col = _currentState.Remember();
+        transform.position = (Vector3)col.parameters[0];
+        
+        Debug.Log("cargo banana");
     }
 }

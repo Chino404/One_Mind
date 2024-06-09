@@ -17,7 +17,7 @@ public class Tutorials : MonoBehaviour
     IEnumerator Active()
     {
         tutorialCanvas.SetActive(true);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(3f);
         tutorialCanvas.SetActive(false);
         gameObject.SetActive(false);
 

@@ -12,6 +12,11 @@ public abstract class Rewind : MonoBehaviour
         _currentState = new MementoState();
     }
 
+    private void Start()
+    {
+        GameManager.instance.rewinds.Add(this);
+    }
+
     public abstract void Save();
     public abstract void Load();
 }

@@ -4,5 +4,8 @@ using UnityEngine;
 
 public abstract class Entity : Rewind
 {
-
+    private void Awake()
+    {
+        _currentState = new MementoState();
+    }
 }

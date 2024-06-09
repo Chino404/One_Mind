@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public ModelMonkey playerGM;
-    public Rewind[] rewinds;
+    public List<Rewind> rewinds;
     [Header("Character Swap")]
     public Characters[] players = new Characters[2];
     public GameObject[] camerasPlayers = new GameObject[2];
