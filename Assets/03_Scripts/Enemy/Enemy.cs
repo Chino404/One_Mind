@@ -162,7 +162,7 @@ public class Enemy : Entity, IDamageable
         if(other.gameObject.GetComponent<CrystalWall>() != null)
         {
             _crystalWall = other.gameObject.GetComponent<CrystalWall>();
-            _crystalWall.enemies.Add(this);
+            if(!_crystalWall.enemies.Contains(this))_crystalWall.enemies.Add(this);
         }
     }
 

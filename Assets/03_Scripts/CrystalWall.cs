@@ -23,16 +23,6 @@ public class CrystalWall : MonoBehaviour
     //        _crystalWall.SetActive(true);
     //}
 
-    private void Update()
-    {
-        //if (GameManager.instance.enemies.Count < 1)
-        //{
-        //    _point.action = false;
-        //    _crystalWall.SetActive(false);
-        //}
-        if(enemies.Count >= _cantEnemies) _myCollider.enabled = false;
-    }
-
     public void DesactivarColision() => _myCollider.enabled = false;
 
 
