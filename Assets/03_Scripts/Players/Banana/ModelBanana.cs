@@ -61,9 +61,9 @@ public class ModelBanana : Characters
         {
             var bullet = _objectPool.Get();
             bullet.AddReference(_objectPool);
-            bullet.transform.position = transform.position;
-            bullet.transform.rotation = transform.rotation;
-            bulletBanana.transform.forward = transform.forward;
+            bullet.transform.position = _camera.transform.position;
+            bullet.transform.rotation = _camera.transform.rotation;
+            bulletBanana.transform.forward = _camera.transform.forward;
             
         }
     }
