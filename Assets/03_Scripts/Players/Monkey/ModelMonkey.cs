@@ -423,7 +423,6 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
     public override void Save()
     {
-        
         _currentState.Rec(transform.position, transform.rotation, _actualLife);
         Debug.Log("guarde mono");
     }
@@ -436,8 +435,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         transform.position = (Vector3)col.parameters[0]; 
         transform.rotation = (Quaternion)col.parameters[1]; 
         _actualLife = (float)col.parameters[2];
-        //EventManager.Unsubscribe("ProjectLifeBar", LifeBar.instance.ProjectLifeBar);
-        //EventManager.Subscribe("ProjectLifeBar", LifeBar.instance.ProjectLifeBar);
+        EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
+
 
         Debug.Log("cargue mono");
     }
