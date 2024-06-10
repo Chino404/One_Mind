@@ -7,9 +7,12 @@ public class Plataform : MonoBehaviour
     [SerializeField] float _secondsWaiting=2f;
     [SerializeField] Transform[] _waypoints;
     [SerializeField] float _maxVelocity;
-    //[SerializeField] float _maxForce;
-    private int _actualIndex;
+
+    
+    [SerializeField]private int _actualIndex;
     private Vector3 _velocity;
+
+   
 
     private void Update()
     {
@@ -22,7 +25,7 @@ public class Plataform : MonoBehaviour
                 _actualIndex = 0;
         }
         transform.position += _velocity * Time.deltaTime;
-        //transform.forward = _velocity;
+        
     }
 
     IEnumerator WaitSeconds()
@@ -51,30 +54,15 @@ public class Plataform : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer==3)
+        if (collision.gameObject.GetComponent<ModelMonkey>())
             collision.transform.SetParent(this.transform);
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.layer==3)
+        if (collision.gameObject.GetComponent<ModelMonkey>())
             collision.transform.SetParent(null);
     }
 
-    //public override void Save()
-    //{
-    //    _currentState.Rec(transform.position);
-    //    Debug.Log("guardo plataforma");
-    //}
 
-    //public override void Load()
-    //{
-    //    if (!_currentState.IsRemember()) return;
-
-    //    var col = _currentState.Remember();
-
-    //    transform.position = (Vector3)col.parameters[0];
-    //    Debug.Log("cargo plataforma");
-
-    //}
 }
