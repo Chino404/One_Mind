@@ -5,6 +5,7 @@ using UnityEngine;
 public class TutorialBanana : MonoBehaviour
 {
     [SerializeField] private GameObject tutorialCanvas;
+    [SerializeField] private GameObject canvasOfMonkey;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -13,6 +14,12 @@ public class TutorialBanana : MonoBehaviour
             tutorialCanvas.SetActive(true);
             
         }
+    }
+
+    private void Update()
+    {
+        if (gameObject.GetComponent<ModelBanana>().enabled == false)
+            tutorialCanvas.SetActive(false);
     }
 
     private void OnTriggerExit(Collider other)
