@@ -79,14 +79,9 @@ public class ModelBanana : Characters
         var dir = (transform.right * xAxis + transform.forward * zAxis).normalized;
 
 
-        if (IsBlocked(dir) || DistTarget(dir)) return; //Si hay algo en frente no sigo
+        if (IsBlocked(dir) || DistTarget(dir)) return; //Si hay algo en frente o salgo del rango no sigo
 
-        //if(DistTarget(dir)) return;
-
-        //if (Vector3.Distance(transform.position + dir.normalized, gameObject.GetComponent<BananaGuide>().target.position) >= gameObject.GetComponent<BananaGuide>().RangoRadius) return;
-
-        _rb.MovePosition(transform.position + dir.normalized * _speed * Time.fixedDeltaTime);
-
+        _rb.MovePosition(transform.position + dir * _speed * Time.fixedDeltaTime);
     }
 
     /// <summary>
@@ -121,19 +116,32 @@ public class ModelBanana : Characters
 
     private bool DistTarget(Vector3 dir)
     {
-        //if (Vector3.Distance(transform.position + dir.normalized, gameObject.GetComponent<BananaGuide>().target.position) >= gameObject.GetComponent<BananaGuide>().RangoRadius)
-        //{
-        //    return false;
-        //}
-
         return Vector3.Distance(transform.position + dir.normalized, gameObject.GetComponent<BananaGuide>().target.position) >= gameObject.GetComponent<BananaGuide>().RangoRadius;
     }
 
-    public void FlyingUp() =>_rb.velocity = Vector3.up * _speedUp * Time.fixedDeltaTime;
+    public void FlyingUp()
+    {
+        var dir = Vector3.up;
+
+        if(DistTarget(dir)) return;
+
+        //_rb.velocity = Vector3.up * _speedUp * Time.fixedDeltaTime;
+
+        _rb.MovePosition(transform.position + dir * _speedUp * Time.fixedDeltaTime);
+    }
 
     public void StopFly() => _rb.velocity = Vector3.zero;
 
-    public void FlyingDown() => _rb.velocity = Vector3.down * _speedUp * Time.fixedDeltaTime;
+    public void FlyingDown()
+    {
+        var dir = Vector3.down;
+
+        if (DistTarget(dir)) return;
+
+        //_rb.velocity = Vector3.down * _speedUp * Time.fixedDeltaTime;
+
+        _rb.MovePosition(transform.position + dir * _speedUp * Time.fixedDeltaTime);
+    }
 
     public override void Save()
     {
