@@ -24,8 +24,12 @@ public class BulletBanana : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 10)
-            other.gameObject.SetActive(false);
+        var aux = other.gameObject.GetComponent<IExplosion>();
+
+        if (aux != null)
+        {
+            aux.Execute();
+        }
     }
 
     public static void TurnOff(BulletBanana bullet)
