@@ -86,12 +86,13 @@ public class BananaGuide : Rewind
             // Solo rotamos sobre el eje Y (vertical), manteniendo la posición en X y Z
             Vector3 lookPos = new Vector3(target.position.x, transform.position.y, target.position.z);
             transform.LookAt(lookPos);
+        }
 
-            if (Vector3.Distance(transform.position, target.position) <= viewRadius && !wayPoints[_actualIndex].enemies)
-            {
-                maxSpeed = _iniSpeed;
-                _actualIndex++;
-            }
+        if (Vector3.Distance(transform.position, target.position) <= viewRadius && !wayPoints[_actualIndex].action)
+        {
+            Debug.Log("Cambio Index");
+            maxSpeed = _iniSpeed;
+            _actualIndex++;
         }
     }
 
