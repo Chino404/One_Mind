@@ -11,10 +11,16 @@ public class CrystalWall : MonoBehaviour
     public List<Enemy> enemies = new List<Enemy>();
 
     private Collider _myCollider;
+    public bool wallIsActivate;
 
     private void Awake()
     {
         _myCollider = GetComponent<Collider>();
+    }
+
+    private void Start()
+    {
+        _crystalWall.SetActive(false);
     }
 
     //private void OnTriggerEnter(Collider other)
@@ -30,5 +36,13 @@ public class CrystalWall : MonoBehaviour
     {
         _point.action = false;
         _crystalWall.SetActive(false);
+        wallIsActivate = false;
     }
+
+    public void ActivateWall()
+    {
+        _crystalWall.SetActive(true);
+        wallIsActivate = true;
+    }
+    
 }
