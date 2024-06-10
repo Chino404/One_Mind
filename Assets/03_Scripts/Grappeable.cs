@@ -11,7 +11,7 @@ public class Grappeable : MonoBehaviour, IObserverGrappeable
     public float timerForMaxVelocity;
     private float _timerSpeed;
     public float timeToOrigin;
-    private float _timerRotation;
+    //private float _timerRotation;
 
     public float maxVelocity = 400f;
     public float minVelocity = 250f;
@@ -53,7 +53,7 @@ public class Grappeable : MonoBehaviour, IObserverGrappeable
 
         if (dir != 0 && _enganchado)
         {
-            _timerRotation = 0;
+            //_timerRotation = 0;
             _timerSpeed += Time.deltaTime;
             float t = Mathf.Clamp01(_timerSpeed / timerForMaxVelocity);
             if (_timerSpeed >= timerForMaxVelocity) t = timerForMaxVelocity;

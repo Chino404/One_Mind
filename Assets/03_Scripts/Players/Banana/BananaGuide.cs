@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class BananaGuide : Rewind
 {
     public Transform target;
+    [SerializeField]private int _actualIndex;
+    public WayPoints[] wayPoints;
     private Rigidbody _rb;
-    [Tooltip("Velocidad")]public float maxVelocity = 10f;
+    [Tooltip("Velocidad")]public float maxSpeed = 10f;
+    private float _iniSpeed;
     [Tooltip("Fuerza para girar")]public float maxForce = 6f;
 
     [Header("Radios")]
@@ -23,23 +27,46 @@ public class BananaGuide : Rewind
         _rb = GetComponent<Rigidbody>();
         _currentState = new MementoState();
 
+        _iniSpeed = maxSpeed;
+
     }
 
     void Update()
     {
 
-        if (transform.position != target.position)
-        {
-            AddForce(Arrive(target.position));
-            //AddForce(ObstacleAvoidance() * avoidWeight);
+        AddForce(Seek(wayPoints[_actualIndex].transform.position));
 
-            //transform.position += _velocity * Time.deltaTime;
-            //transform.forward = _velocity; //Que mire para donde se esta moviendo
+        if (wayPoints[_actualIndex].Stop)
+        {
+            StopBanana();
+            return;
         }
 
+        if (Vector3.Distance(transform.position, wayPoints[_actualIndex].transform.position) <= 0.3f)
+        {
+
+            var target = wayPoints[_actualIndex].transform.position;
+
+            _actualIndex++;
+        }
+
+
+        transform.position += _velocity * Time.deltaTime;
+        transform.forward = _velocity; //Que mire para donde se esta moviendo
+
+        //if (transform.position != target.position)
+        //{
+        //    AddForce(Arrive(target.position));
+
+        //    //AddForce(ObstacleAvoidance() * avoidWeight);
+
+        //    //transform.position += _velocity * Time.deltaTime;
+        //    //transform.forward = _velocity; //Que mire para donde se esta moviendo
+        //}
+
         // Solo rotamos sobre el eje Y (vertical), manteniendo la posición en X y Z
-        Vector3 lookPos = new Vector3(target.position.x, transform.position.y, target.position.z);
-        transform.LookAt(lookPos);
+        //Vector3 lookPos = new Vector3(target.position.x, transform.position.y, target.position.z);
+        //transform.LookAt(lookPos);
     }
 
     private void FixedUpdate()
@@ -50,12 +77,30 @@ public class BananaGuide : Rewind
         }
     }
 
+    void StopBanana()
+    {
+        if(Vector3.Distance(transform.position, wayPoints[_actualIndex].transform.position) <= 0.3f)
+        {
+            maxSpeed = 0;
+
+            // Solo rotamos sobre el eje Y (vertical), manteniendo la posición en X y Z
+            Vector3 lookPos = new Vector3(target.position.x, transform.position.y, target.position.z);
+            transform.LookAt(lookPos);
+
+            if (Vector3.Distance(transform.position, target.position) <= viewRadius && !wayPoints[_actualIndex].enemies)
+            {
+                maxSpeed = _iniSpeed;
+                _actualIndex++;
+            }
+        }
+    }
+
+    #region Patrones de Movimiento
     public Vector3 Seek(Vector3 target)
     {
         var desired = target - transform.position;
-
         desired.Normalize();
-        desired *= maxVelocity;
+        desired *= maxSpeed;
 
         return CalculateSteering(desired);
     }
@@ -69,7 +114,7 @@ public class BananaGuide : Rewind
 
         var desired = target - transform.position;
         desired.Normalize();
-        desired *= maxVelocity * ((dist - viewRadius) / arriveRadius); //Si la dist la divido por el radio, me va achicando la velocidad
+        desired *= maxSpeed * ((dist - viewRadius) / arriveRadius); //Si la dist la divido por el radio, me va achicando la velocidad
 
         return CalculateSteering(desired);
     }
@@ -105,7 +150,7 @@ public class BananaGuide : Rewind
 
             Vector3 desired = anguloEntre >= 0 ? -transform.right : transform.right; //Me meuvo para derecha o izquierda dependiendo donde esta el obstaculo
             desired.Normalize();
-            desired *= maxVelocity;
+            desired *= maxSpeed;
 
             return CalculateSteering(desired);
         }
@@ -117,7 +162,7 @@ public class BananaGuide : Rewind
     {
         _velocity += dir;
 
-        _velocity = Vector3.ClampMagnitude(_velocity, maxVelocity);
+        _velocity = Vector3.ClampMagnitude(_velocity, maxSpeed);
     }
 
     private void OnDrawGizmos()
@@ -128,6 +173,8 @@ public class BananaGuide : Rewind
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, arriveRadius);
     }
+#endregion
+
 
     public override void Save()
     {

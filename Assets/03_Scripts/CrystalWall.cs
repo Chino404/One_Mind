@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class CrystalWall : MonoBehaviour
 {
-    [SerializeField] GameObject _crystalWall;
-
-    
-
+    [SerializeField] GameObject _crystalWall; 
+    [SerializeField] private WayPoints _point;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -18,7 +16,10 @@ public class CrystalWall : MonoBehaviour
     private void Update()
     {
         if (GameManager.instance.enemies.Count < 1)
+        {
             _crystalWall.SetActive(false);
+            _point.enemies = false;
+        }
 
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tutorials : MonoBehaviour
+public class TutorialsImage : MonoBehaviour
 {
     [SerializeField] private GameObject tutorialCanvas;
 
