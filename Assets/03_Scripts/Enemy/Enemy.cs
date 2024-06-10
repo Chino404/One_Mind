@@ -6,6 +6,8 @@ using System.Linq;
 
 public class Enemy : Entity, IDamageable
 {
+    private SkinnedMeshRenderer _meshRenderer;
+
     [Header("Values")]
     [SerializeField] private float _life = 100;
     [SerializeField] private float _dmg;
@@ -24,7 +26,8 @@ public class Enemy : Entity, IDamageable
     public float groundDistance = 1.3f;
     [SerializeField] private LayerMask _floorLayer;
     private Rigidbody _rigidbody;
-    public bool _inAir;
+    //public bool _inAir;
+    private CrystalWall _crystalWall;
 
     [Header("Flocking")]
     public float maxVelocity;
@@ -50,10 +53,12 @@ public class Enemy : Entity, IDamageable
     public Animator anim;
     //[SerializeField] string _speedAnim = "Speed";
     [SerializeField] string _damageAnim = "DamageReceived";
+    [SerializeField] private ParticleSystem _deadParticle;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         anim.GetComponentInChildren<Animator>();
 
     }
@@ -108,21 +113,8 @@ public class Enemy : Entity, IDamageable
         //if (!_inAir)
         fsm.Execute();
 
-        if (_life <= 0)
-        {
             
-            GameManager.instance.enemies.Remove(this);
-
-            gameObject.SetActive(false);
-
-        }
-        if (_life > 0 && !GameManager.instance.enemies.Contains(this))
-        {
-            GameManager.instance.enemies.Add(this); 
-        }
-
-            
-        _inAir = IsGrounded() ? false : true;
+        //_inAir = IsGrounded() ? false : true;
 
         if (_takingDamage)
         {
@@ -134,7 +126,7 @@ public class Enemy : Entity, IDamageable
                 _takingDamage = false;
                 _timerCounterInveencible = _timeInvencible;
 
-                if(_inAir) StartCoroutine(ReturnGravity());
+                //if(_inAir) StartCoroutine(ReturnGravity());
             }
         }
 
@@ -165,15 +157,14 @@ public class Enemy : Entity, IDamageable
         enemy.gameObject.SetActive(true);
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-
-    //    var damageable = other.gameObject.GetComponent<IDamageable>();
-    //    if (damageable != null)
-    //    {
-    //        damageable.TakeDamageEntity(_dmg, transform.position);
-    //    }
-    //}
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.GetComponent<CrystalWall>() != null)
+        {
+            _crystalWall = other.gameObject.GetComponent<CrystalWall>();
+            _crystalWall.enemies.Add(this);
+        }
+    }
 
     #region Damage
     public void TakeDamageEntity(float dmg, Vector3 target)
@@ -218,12 +209,28 @@ public class Enemy : Entity, IDamageable
         {
             _life -= damage;
 
-            if (_life <= 0) _life = 0;
+            if (_life <= 0)
+            {
+                _life = 0;
+                _crystalWall.enemies.Remove(this);
+                if (_crystalWall.enemies.Count < 1) _crystalWall.DesactivarMuro();
+
+                StartCoroutine(Death());
+                
+            }
         }
 
         Vector3 direction = viewTarget - transform.position;
         Quaternion rotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
+    }
+
+    IEnumerator Death()
+    {
+        _deadParticle?.Play();
+        _meshRenderer.enabled = false;
+        yield return new WaitForSeconds(0.5f);
+        gameObject.SetActive(false);
     }
     #endregion
 
@@ -310,6 +317,7 @@ public class Enemy : Entity, IDamageable
     }
     #endregion
 
+    #region Patrones de Movimiento
     public Vector3 Seek(Vector3 target)
     {
             var desired = target - transform.position;
@@ -340,6 +348,7 @@ public class Enemy : Entity, IDamageable
 
         _velocity = Vector3.ClampMagnitude(_velocity, maxVelocity);
     }
+#endregion
 
     public void Hit()
     {
@@ -407,7 +416,6 @@ public class Enemy : Entity, IDamageable
     public override void Save()
     {
         _currentState.Rec(transform.position,transform.rotation,gameObject.activeInHierarchy,_life);
-        Debug.Log("guarde el sapo");
     }
 
     public override void Load()
@@ -419,8 +427,6 @@ public class Enemy : Entity, IDamageable
         transform.rotation = (Quaternion)col.parameters[1];
         gameObject.SetActive((bool)col.parameters[2]);
         _life = (float)col.parameters[3];
-
-        Debug.Log("cargue sapo");
     }
 }
 

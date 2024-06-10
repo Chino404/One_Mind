@@ -180,7 +180,7 @@ public class BananaGuide : Rewind
     public override void Save()
     {
         _currentState.Rec(transform.position);
-        Debug.Log("guardo banana");
+        //Debug.Log("guardo banana");
     }
 
     public override void Load()
@@ -190,6 +190,6 @@ public class BananaGuide : Rewind
         var col = _currentState.Remember();
         transform.position = (Vector3)col.parameters[0];
         
-        Debug.Log("cargo banana");
+        //Debug.Log("cargo banana");
     }
 }
