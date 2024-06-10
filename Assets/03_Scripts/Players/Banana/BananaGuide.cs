@@ -6,6 +6,8 @@ using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCou
 public class BananaGuide : Rewind
 {
     public Transform target;
+    [SerializeField] private bool _changeCharacter;
+    public bool ChangeCharacter { get { return _changeCharacter; } }
     [SerializeField]private int _actualIndex;
     public WayPoints[] wayPoints;
     private Rigidbody _rb;
@@ -14,8 +16,10 @@ public class BananaGuide : Rewind
     [Tooltip("Fuerza para girar")]public float maxForce = 6f;
 
     [Header("Radios")]
-    [Tooltip("Radio para emepzar a frenar")]public float arriveRadius = 1.5f;
-    [Tooltip("Radio de visualizacion")]public float viewRadius = 1f;
+    [SerializeField,Tooltip("Radio para emepzar a frenar")] private float _arriveRadius = 8.5f;
+    [SerializeField,Tooltip("Radio de visualizacion")] private float _viewRadius = 7f;
+    [SerializeField,Tooltip("Radio para alejarse del Player")] private float _rangoRadius;
+    public float RangoRadius { get { return _rangoRadius; } }
 
     [Header("Obstacle Acoidance / Esquivar Obstaculos")]
     [Tooltip("Capas de obstaculos")]public LayerMask obstacleLayer;
@@ -35,6 +39,8 @@ public class BananaGuide : Rewind
     {
 
         AddForce(Seek(wayPoints[_actualIndex].transform.position));
+
+        _changeCharacter = wayPoints[_actualIndex].changeCharacter; 
 
         if (wayPoints[_actualIndex].Stop)
         {
@@ -88,7 +94,7 @@ public class BananaGuide : Rewind
             transform.LookAt(lookPos);
         }
 
-        if (Vector3.Distance(transform.position, target.position) <= viewRadius && !wayPoints[_actualIndex].action)
+        if (Vector3.Distance(transform.position, target.position) <= _viewRadius && !wayPoints[_actualIndex].action)
         {
             Debug.Log("Cambio Index");
             maxSpeed = _iniSpeed;
@@ -110,12 +116,12 @@ public class BananaGuide : Rewind
     {
         var dist = Vector3.Distance(transform.position, target);
 
-        if (dist > arriveRadius)
+        if (dist > _arriveRadius)
             return Seek(target);
 
         var desired = target - transform.position;
         desired.Normalize();
-        desired *= maxSpeed * ((dist - viewRadius) / arriveRadius); //Si la dist la divido por el radio, me va achicando la velocidad
+        desired *= maxSpeed * ((dist - _viewRadius) / _arriveRadius); //Si la dist la divido por el radio, me va achicando la velocidad
 
         return CalculateSteering(desired);
     }
@@ -169,10 +175,13 @@ public class BananaGuide : Rewind
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
-        Gizmos.DrawWireSphere(transform.position, viewRadius);
+        Gizmos.DrawWireSphere(transform.position, _viewRadius);
 
         Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, arriveRadius);
+        Gizmos.DrawWireSphere(transform.position, _arriveRadius);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, _rangoRadius);
     }
 #endregion
 
@@ -180,7 +189,6 @@ public class BananaGuide : Rewind
     public override void Save()
     {
         _currentState.Rec(transform.position);
-        //Debug.Log("guardo banana");
     }
 
     public override void Load()
@@ -189,7 +197,5 @@ public class BananaGuide : Rewind
 
         var col = _currentState.Remember();
         transform.position = (Vector3)col.parameters[0];
-        
-        //Debug.Log("cargo banana");
     }
 }
