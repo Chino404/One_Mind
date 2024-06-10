@@ -162,7 +162,12 @@ public class Enemy : Entity, IDamageable
         if(other.gameObject.GetComponent<CrystalWall>() != null)
         {
             _crystalWall = other.gameObject.GetComponent<CrystalWall>();
-            if(!_crystalWall.enemies.Contains(this))_crystalWall.enemies.Add(this);
+            if (!_crystalWall.enemies.Contains(this))
+            {
+                _crystalWall.enemies.Add(this);
+                if (!_crystalWall.wallIsActivate)
+                    _crystalWall.ActivateWall();
+            }
         }
     }
 
@@ -207,11 +212,14 @@ public class Enemy : Entity, IDamageable
     {
         if (_life > 0)
         {
+            
+            
             _life -= damage;
 
             if (_life <= 0)
             {
                 _life = 0;
+                GameManager.instance.enemies.Remove(this);
                 _crystalWall.enemies.Remove(this);
                 if (_crystalWall.enemies.Count < 1) _crystalWall.DesactivarMuro();
 
@@ -415,7 +423,7 @@ public class Enemy : Entity, IDamageable
 
     public override void Save()
     {
-        _currentState.Rec(transform.position,transform.rotation,gameObject.activeInHierarchy,_life);
+        _currentState.Rec(transform.position,transform.rotation,gameObject.activeInHierarchy,_life, _meshRenderer.enabled);
     }
 
     public override void Load()
@@ -427,6 +435,9 @@ public class Enemy : Entity, IDamageable
         transform.rotation = (Quaternion)col.parameters[1];
         gameObject.SetActive((bool)col.parameters[2]);
         _life = (float)col.parameters[3];
+        _meshRenderer.enabled=(bool) col.parameters[4];
+
+        
     }
 }
 
