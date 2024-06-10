@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using System.Linq;
 
 public class Enemy : Entity, IDamageable
 {
@@ -109,13 +110,18 @@ public class Enemy : Entity, IDamageable
 
         if (_life <= 0)
         {
+            
             GameManager.instance.enemies.Remove(this);
 
             gameObject.SetActive(false);
 
         }
         if (_life > 0 && !GameManager.instance.enemies.Contains(this))
-            GameManager.instance.enemies.Add(this);
+        {
+            GameManager.instance.enemies.Add(this); 
+        }
+
+            
         _inAir = IsGrounded() ? false : true;
 
         if (_takingDamage)
@@ -413,9 +419,7 @@ public class Enemy : Entity, IDamageable
         transform.rotation = (Quaternion)col.parameters[1];
         gameObject.SetActive((bool)col.parameters[2]);
         _life = (float)col.parameters[3];
-        
-        //if(!GameManager.instance.enemies.Contains(this)&&this.enabled==true)
-        //GameManager.instance.enemies.Add(this);
+
         Debug.Log("cargue sapo");
     }
 }
