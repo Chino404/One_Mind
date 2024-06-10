@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LifeBar : Rewind
+public class LifeBar : MonoBehaviour
 {
-    public static LifeBar instance;
     [SerializeField] private Image _lifeBar;
     [SerializeField] Color _maxLifeColor, _mediumLifeColor, _minLifeColor;
     [SerializeField] GameObject _skullMaxLife, _skullMediumLife, _skullMinLife;
@@ -62,20 +61,5 @@ public class LifeBar : Rewind
         EventManager.Unsubscribe("ProjectLifeBar", ProjectLifeBar);
     }
 
-    public override void Save()
-    {
-        Debug.Log("guarde barra de vida");
-        //EventManager.Subscribe("ProjectLifeBar", ProjectLifeBar);
 
-        _currentState.Rec(_lifeBar.fillAmount);
-    }
-
-    public override void Load()
-    {
-        if (!_currentState.IsRemember()) return;
-
-        Debug.Log("cargue barra de vida");
-        var col = _currentState.Remember();
-        _lifeBar.fillAmount = (float)col.parameters[0];
-    }
 }
