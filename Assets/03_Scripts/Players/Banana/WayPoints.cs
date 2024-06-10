@@ -8,4 +8,6 @@ public class WayPoints : MonoBehaviour
     public bool Stop { get { return _stop; } }
 
     public bool action;
+
+    public bool changeCharacter;
 }

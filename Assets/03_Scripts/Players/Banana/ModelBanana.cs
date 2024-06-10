@@ -78,8 +78,15 @@ public class ModelBanana : Characters
     {
         var dir = (transform.right * xAxis + transform.forward * zAxis).normalized;
 
-        if (IsBlocked(dir)) return;
+
+        if (IsBlocked(dir) || DistTarget(dir)) return; //Si hay algo en frente no sigo
+
+        //if(DistTarget(dir)) return;
+
+        //if (Vector3.Distance(transform.position + dir.normalized, gameObject.GetComponent<BananaGuide>().target.position) >= gameObject.GetComponent<BananaGuide>().RangoRadius) return;
+
         _rb.MovePosition(transform.position + dir.normalized * _speed * Time.fixedDeltaTime);
+
     }
 
     /// <summary>
@@ -111,6 +118,16 @@ public class ModelBanana : Characters
         _camera?.RotationCamera(_mouseRotationX, y);
     }
     #endregion
+
+    private bool DistTarget(Vector3 dir)
+    {
+        //if (Vector3.Distance(transform.position + dir.normalized, gameObject.GetComponent<BananaGuide>().target.position) >= gameObject.GetComponent<BananaGuide>().RangoRadius)
+        //{
+        //    return false;
+        //}
+
+        return Vector3.Distance(transform.position + dir.normalized, gameObject.GetComponent<BananaGuide>().target.position) >= gameObject.GetComponent<BananaGuide>().RangoRadius;
+    }
 
     public void FlyingUp() =>_rb.velocity = Vector3.up * _speedUp * Time.fixedDeltaTime;
 
