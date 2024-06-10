@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
 
     public void Swap()
     {
-        if(_inChange /*|| !players[1].GetComponent<BananaGuide>().ChangeCharacter*/) return;
+        if(_inChange || !players[1].GetComponent<BananaGuide>().ChangeCharacter) return;
 
         if(_controllerMonkey)
         {
