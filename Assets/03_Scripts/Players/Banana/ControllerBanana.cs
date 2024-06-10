@@ -41,7 +41,7 @@ public class ControllerBanana
 
 
         if(Input.GetKey(KeyCode.Space)) _model.FlyingUp();
-        else if(Input.GetKey(KeyCode.LeftControl)) _model.FlyingDown();
+        if(Input.GetKey(KeyCode.LeftControl)) _model.FlyingDown();
         else _model.StopFly();
     }
 }

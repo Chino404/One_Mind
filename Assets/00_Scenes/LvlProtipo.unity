@@ -5772,6 +5772,7 @@ MonoBehaviour:
   - {fileID: 307330859}
   - {fileID: 1639407392}
   _maxVelocity: 5
+  _actualIndex: 0
 --- !u!1 &362359650
 GameObject:
   m_ObjectHideFlags: 0
@@ -8787,6 +8788,7 @@ MonoBehaviour:
   - {fileID: 1227554477}
   - {fileID: 1891125577}
   _maxVelocity: 5
+  _actualIndex: 0
 --- !u!65 &574862607
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9231,6 +9233,7 @@ MonoBehaviour:
   _point: {fileID: 354869303}
   _cantEnemies: 3
   enemies: []
+  wallIsActivate: 0
 --- !u!33 &593258960
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -19891,6 +19894,7 @@ MonoBehaviour:
   _point: {fileID: 1553714434}
   _cantEnemies: 1
   enemies: []
+  wallIsActivate: 0
 --- !u!33 &1350094243
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -23823,7 +23827,7 @@ MonoBehaviour:
   _moveMask:
     serializedVersion: 2
     m_Bits: 256
-  _speedUp: 500
+  _speedUp: 7
   _camera: {fileID: 976410445}
   bulletBanana: {fileID: -34319440574629829, guid: a4121fddf384b2347a25d35f3a7f20ed,
     type: 3}
@@ -28041,6 +28045,7 @@ MonoBehaviour:
   - {fileID: 674859937}
   - {fileID: 2037910130}
   _maxVelocity: 5
+  _actualIndex: 0
 --- !u!65 &1824581704
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31606,7 +31611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95278356aeb06b14397d18937384c14a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stop: 0
+  _stop: 1
   action: 0
   changeCharacter: 0
 --- !u!4 &2052523151 stripped
@@ -32771,6 +32776,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PLAYER
+      objectReference: {fileID: 0}
+    - target: {fileID: 4143203942955054868, guid: 32a27ddc00af36740bab91e4b3eba2a8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4143203942955054868, guid: 32a27ddc00af36740bab91e4b3eba2a8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 4143203942955054868, guid: 32a27ddc00af36740bab91e4b3eba2a8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4586625216053480992, guid: 32a27ddc00af36740bab91e4b3eba2a8,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 4586625216053480992, guid: 32a27ddc00af36740bab91e4b3eba2a8,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4586625216053480992, guid: 32a27ddc00af36740bab91e4b3eba2a8,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.minScalar
+      value: 0.09
       objectReference: {fileID: 0}
     - target: {fileID: 5471223089477382405, guid: 32a27ddc00af36740bab91e4b3eba2a8,
         type: 3}

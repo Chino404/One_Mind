@@ -48,6 +48,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
     [Header("Particulas")]
     [SerializeField] private ParticleSystem _particleSpinAttack;
+    [SerializeField] private ParticleSystem _particleJump;
     [SerializeField] private ParticleSystem _polvo;
 
     //Referencias
@@ -100,6 +101,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         if (IsGrounded())
         {
+            _particleJump.Stop();
             _coyoteTimeCounter = _coyoteTime;
             PowerUp = SpinAttack;
         }
@@ -184,12 +186,14 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         if (_coyoteTimeCounter > 0f)
         {
             _animPlayer.SetTrigger("Jump");
+            _particleJump.Play();
             _rbCharacter.velocity = Vector3.up * _jumpForce;
         }
     }
 
     public void CutJump()
     {
+        _particleJump.Stop();
         _coyoteTimeCounter = 0;
         _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _rbCharacter.velocity.y * 0.5f);
     }
