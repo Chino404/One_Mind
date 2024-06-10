@@ -12,19 +12,16 @@ public class TutorialBanana : MonoBehaviour
         if (other.gameObject.GetComponent<ModelBanana>()&&other.gameObject.GetComponent<ModelBanana>().enabled==true)
         {
             tutorialCanvas.SetActive(true);
-            
+            canvasOfMonkey.SetActive(false);
         }
     }
 
-    private void Update()
-    {
-        if (gameObject.GetComponent<ModelBanana>().enabled == false)
-            tutorialCanvas.SetActive(false);
-    }
+
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.GetComponent<ModelBanana>() && other.gameObject.GetComponent<ModelBanana>().enabled==false)
+        var banana = other.gameObject.GetComponent<ModelBanana>();
+        if (banana!=null)
         {
             tutorialCanvas.SetActive(false);
         }
