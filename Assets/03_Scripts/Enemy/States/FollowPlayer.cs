@@ -30,7 +30,7 @@ public class FollowPlayer : IState
 
         if ((_enemy.transform.position - _enemy.target.transform.position).sqrMagnitude <= _enemy.attackDistance * _enemy.attackDistance)
         {
-            Debug.Log("cambio a ataque");
+            //Debug.Log("cambio a ataque");
             _fsm.ChangeState("Attack");
            
         }

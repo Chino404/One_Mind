@@ -17,12 +17,11 @@ public class Attack : IState
     }
     public void OnEnter()
     {
-        Debug.Log("ataco");
+
     }
 
     public void OnUpdate()
     {
-        //Debug.Log("estoy atacando");
         _enemy.anim.SetBool("Walk", false);
         if(!_enemy.isHitting)
         _enemy.Hit();

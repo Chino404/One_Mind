@@ -424,7 +424,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     public override void Save()
     {
         _currentState.Rec(transform.position, transform.rotation, _actualLife);
-        Debug.Log("guarde mono");
+        //Debug.Log("guarde mono");
     }
 
     public override void Load()
@@ -438,6 +438,6 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
 
 
-        Debug.Log("cargue mono");
+        //Debug.Log("cargue mono");
     }
 }
