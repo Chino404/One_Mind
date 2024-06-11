@@ -218,12 +218,7 @@ public class Enemy : Entity, IDamageable
 
             if (_life <= 0)
             {
-                _life = 0;
-                GameManager.instance.enemies.Remove(this);
-                _crystalWall.enemies.Remove(this);
-                if (_crystalWall.enemies.Count < 1) _crystalWall.DesactivarMuro();
-
-                StartCoroutine(Death());
+                Dead();
                 
             }
         }
@@ -438,6 +433,17 @@ public class Enemy : Entity, IDamageable
         _meshRenderer.enabled=(bool) col.parameters[4];
 
         
+    }
+
+    public void Dead()
+    {
+        
+        _life = 0;
+        GameManager.instance.enemies.Remove(this);
+        _crystalWall.enemies.Remove(this);
+        if (_crystalWall.enemies.Count < 1) _crystalWall.DesactivarMuro();
+
+        StartCoroutine(Death());
     }
 }
 

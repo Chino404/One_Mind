@@ -10,8 +10,7 @@ public class DeadInFall : MonoBehaviour
         var target = other.gameObject.GetComponent<IDamageable>();
         if (target != null)
         {
-            target.TakeDamageEntity(1000,this.transform.position);
-            Debug.Log("me cai");
+            target.Dead();
 
         }
 
