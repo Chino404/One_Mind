@@ -77,8 +77,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
     private void Start()
     {
-        GameManager.instance.playerGM = this;
-        GameManager.instance.players[0] = this;
+        if(!GameManager.instance.playerGM)GameManager.instance.playerGM = this;
+        if (!GameManager.instance.players[0]) GameManager.instance.players[0] = this;
 
 
         _actualLife = _maxLife;
