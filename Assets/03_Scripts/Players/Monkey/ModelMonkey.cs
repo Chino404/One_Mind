@@ -340,8 +340,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
             if(_actualLife <= 0)
             {
-                _actualLife = 0;
-                PauseManager.instance.GameOver();
+                //_actualLife = 0;
+                Dead();
             }
 
             EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
@@ -439,5 +439,12 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
 
         //Debug.Log("cargue mono");
+    }
+
+    public void Dead()
+    {
+        _actualLife = 0;
+        PauseManager.instance.GameOver();
+
     }
 }

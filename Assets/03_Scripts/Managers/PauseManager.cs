@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PauseManager : MonoBehaviour
 {
-    public Canvas gameOverCanvas;
+    //public Canvas gameOverCanvas;
     public Canvas pauseMenu;
     public Canvas winCanvas;
     public static PauseManager instance;
@@ -48,7 +48,7 @@ public class PauseManager : MonoBehaviour
         }
         if(Time.timeScale==1)
         {
-            gameOverCanvas.gameObject.SetActive(false);
+            //gameOverCanvas.gameObject.SetActive(false);
             winCanvas.gameObject.SetActive(false);
         }
 
@@ -58,10 +58,10 @@ public class PauseManager : MonoBehaviour
 
     public void GameOver()
     {
-        Time.timeScale = 0;
-        gameOverCanvas.gameObject.SetActive(true);
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        foreach (var item in GameManager.instance.rewinds)
+        {
+            item.Load();
+        }
     }
 
     public void NextLvL(int scene)
@@ -96,20 +96,21 @@ public class PauseManager : MonoBehaviour
         _isPaused = false;
     }
 
-    public void RestartGame()
+    public void RestartGame(int sceneNumber)
     {
-        
-        Time.timeScale = 1;
-        pauseMenu.gameObject.SetActive(false);
-        gameOverCanvas.gameObject.SetActive(false);
-        foreach (var item in GameManager.instance.rewinds)
-        {
-            item.Load();
-        }
-        //AsyncLoad.sceneNumber = sceneNumber;
-        ////pauseMenu.gameObject.SetActive(false);
-        //SceneManager.LoadSceneAsync(_asyncScene);
+
         //Time.timeScale = 1;
+        //pauseMenu.gameObject.SetActive(false);
+        ////gameOverCanvas.gameObject.SetActive(false);
+        //foreach (var item in GameManager.instance.rewinds)
+        //{
+        //    item.Load();
+        //}
+        
+        AsyncLoad.sceneNumber = sceneNumber;
+        pauseMenu.gameObject.SetActive(false);
+        SceneManager.LoadSceneAsync(_asyncScene);
+        Time.timeScale = 1;
 
 
     }
