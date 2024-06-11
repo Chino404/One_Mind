@@ -7,12 +7,17 @@ public class BananaGuide : Rewind
     public Transform target;
     [SerializeField] private bool _changeCharacter;
     public bool ChangeCharacter { get { return _changeCharacter; } }
-    [SerializeField]private int _actualIndex;
-    public WayPoints[] wayPoints;
+
+    
+
     private Rigidbody _rb;
     [Tooltip("Velocidad")]public float maxSpeed = 10f;
     private float _iniSpeed;
     [Tooltip("Fuerza para girar")]public float maxForce = 6f;
+
+    [Header("WayPoints")]
+    [SerializeField] private int _actualIndex;
+    public WayPoints[] wayPoints;
 
     [Header("Radios")]
     [SerializeField,Tooltip("Radio para emepzar a frenar")] private float _arriveRadius = 8.5f;
@@ -187,7 +192,7 @@ public class BananaGuide : Rewind
 
     public override void Save()
     {
-        _currentState.Rec(transform.position);
+        _currentState.Rec(transform.position, _actualIndex, maxSpeed);
     }
 
     public override void Load()
@@ -196,5 +201,7 @@ public class BananaGuide : Rewind
 
         var col = _currentState.Remember();
         transform.position = (Vector3)col.parameters[0];
+        _actualIndex = (int)col.parameters[1];
+        maxSpeed = (float)col.parameters[2];
     }
 }
