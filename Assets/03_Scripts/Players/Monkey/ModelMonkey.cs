@@ -143,9 +143,13 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
             _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
             Rotate(dir);
             _animPlayer.SetBool("Walk", true);
-            CreateDust();
+            _polvo.Play();
         }
-        else _animPlayer.SetBool("Walk", false);
+        else
+        {
+            _animPlayer.SetBool("Walk", false);
+            _polvo.Stop();
+        }
     }
 
     public void Rotate(Vector3 dirForward)
@@ -416,14 +420,6 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         }
     }*/
 #endregion
-
-    void CreateDust() 
-    {
-
-        _polvo.Play();
-    
-    
-    }
 
     public override void Save()
     {
