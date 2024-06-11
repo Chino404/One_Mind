@@ -46,7 +46,7 @@ public class ModelBanana : Characters
 
     private void Start()
     {
-        if (!GameManager.instance.players[1])GameManager.instance.players[1] = this;
+        GameManager.instance.players[1] = this;
         _camera.gameObject.GetComponent<Camera>().enabled = false;
 
         _factory = new BulletFactory(bulletBanana);
