@@ -11,22 +11,34 @@ public class Plataform : MonoBehaviour
     
     [SerializeField]private int _actualIndex;
     private Vector3 _velocity;
+    public Vector3 Velocity { get; private set; }
 
-   
 
-    private void Update()
+    private Rigidbody _rb;
+    
+
+    private void Awake()
+    {
+        _rb = GetComponent<Rigidbody>();
+    }
+
+    private void FixedUpdate()
     {
         AddForce(Seek(_waypoints[_actualIndex].position));
-        if(Vector3.Distance(transform.position, _waypoints[_actualIndex].position)<=0.3f)
+        
+        
+        if (Vector3.Distance(_rb.position, _waypoints[_actualIndex].position)<=0.4f)
         {
             StartCoroutine(WaitSeconds());
             _actualIndex++;
             if (_actualIndex >= _waypoints.Length)
                 _actualIndex = 0;
         }
-        transform.position += _velocity * Time.deltaTime;
-        
+        //transform.position += _velocity * Time.fixedDeltaTime;
+        _rb.MovePosition(_rb.position + _velocity * Time.fixedDeltaTime);
     }
+
+    
 
     IEnumerator WaitSeconds()
     {
@@ -52,17 +64,13 @@ public class Plataform : MonoBehaviour
         _velocity = Vector3.ClampMagnitude(_velocity, _maxVelocity);
     }
 
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if (collision.gameObject.GetComponent<ModelMonkey>())
-    //        collision.transform.SetParent(this.transform);
-    //}
+    private void OnTriggerEnter(Collider other)
+    {
+        other.transform.SetParent(transform);
+    }
 
-    //private void OnCollisionExit(Collision collision)
-    //{
-    //    if (collision.gameObject.GetComponent<ModelMonkey>())
-    //        collision.transform.SetParent(null);
-    //}
-
-
+    private void OnTriggerExit(Collider other)
+    {
+        other.transform.SetParent(null);
+    }
 }
