@@ -58,6 +58,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
     public bool isRestricted;
 
+
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked; //Me bloque el mouse al centro de la pantalla
@@ -128,6 +129,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         if (!GameManager.instance.ContollerMonkey) return;
         _controller.ListenFixedKeys();
+
     }
 
     #region Movement
@@ -419,8 +421,9 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
             _grappList.Remove(obs);
         }
     }*/
-#endregion
+    #endregion
 
+    #region Memento
     public override void Save()
     {
         _currentState.Rec(transform.position, transform.rotation, _actualLife);
@@ -440,11 +443,14 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         //Debug.Log("cargue mono");
     }
-
+    #endregion
     public void Dead()
     {
         _actualLife = 0;
         PauseManager.instance.GameOver();
 
     }
+
+    
+
 }
