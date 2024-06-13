@@ -28,7 +28,10 @@ public class PauseManager : MonoBehaviour
 
     }
 
-
+    private void Start()
+    {
+        
+    }
 
     private void Update()
     {
@@ -83,6 +86,8 @@ public class PauseManager : MonoBehaviour
 
     public void ReturnMainMenu()
     {
+       GameManager.instance.rewinds.Clear();
+        GameManager.instance.enemies.Clear();
         SceneManager.LoadScene(_mainMenuScene);
         pauseMenu.gameObject.SetActive(false);
     }

@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            //DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);
         }
         else
             Destroy(gameObject);
@@ -63,6 +63,8 @@ public class GameManager : MonoBehaviour
         
     }
 
+    
+
     private void Update()
     {
         if(_controllerMonkey) players[1].GetComponent<ModelBanana>().enabled = false;
@@ -70,6 +72,13 @@ public class GameManager : MonoBehaviour
         
     }
 
+    public void RemoveAll()
+    {
+        foreach (var item in rewinds)
+        {
+            rewinds.Remove(item);
+        }
+    }
 
     public void Swap()
     {

@@ -9,6 +9,7 @@ public abstract class Rewind : MonoBehaviour
     private void Awake()
     {
         Debug.Log("REWINDDDD");
+
         _currentState = new MementoState();
     }
 
@@ -17,6 +18,7 @@ public abstract class Rewind : MonoBehaviour
         GameManager.instance.rewinds.Add(this);
     }
 
+    
     public abstract void Save();
     public abstract void Load();
 }
