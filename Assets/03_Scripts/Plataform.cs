@@ -10,8 +10,8 @@ public class Plataform : MonoBehaviour
 
     
     [SerializeField]private int _actualIndex;
-    private Vector3 _velocity;
-    public Vector3 Velocity { get; private set; }
+    [SerializeField]private float _maxForce=0.01f;
+    [SerializeField]private Vector3 _velocity;
 
 
     private Rigidbody _rb;
@@ -24,18 +24,23 @@ public class Plataform : MonoBehaviour
 
     private void FixedUpdate()
     {
-        AddForce(Seek(_waypoints[_actualIndex].position));
-        
-        
-        if (Vector3.Distance(_rb.position, _waypoints[_actualIndex].position)<=0.4f)
+        //AddForce(Seek(_waypoints[_actualIndex].position));
+  
+        if (Vector3.Distance(transform.position, _waypoints[_actualIndex].position)<=0.4f)
         {
             StartCoroutine(WaitSeconds());
             _actualIndex++;
             if (_actualIndex >= _waypoints.Length)
+            {
+
                 _actualIndex = 0;
+            }
+            
         }
+        _velocity = _waypoints[_actualIndex].position - transform.position;
+        _velocity.Normalize();
         //transform.position += _velocity * Time.fixedDeltaTime;
-        _rb.MovePosition(_rb.position + _velocity * Time.fixedDeltaTime);
+        _rb.MovePosition(transform.position + _velocity*_maxVelocity * Time.fixedDeltaTime);
     }
 
     
@@ -54,7 +59,14 @@ public class Plataform : MonoBehaviour
         var desired = target - transform.position;
         desired.Normalize();
         desired *= _maxVelocity;
-        return desired;
+        return CalculateSteering(desired);
+    }
+
+    Vector3 CalculateSteering(Vector3 desired)
+    {
+        var steering = desired - _velocity;
+        steering = Vector3.ClampMagnitude(steering, _maxForce);
+        return steering;
     }
 
     void AddForce(Vector3 dir)
@@ -66,11 +78,13 @@ public class Plataform : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(other.GetComponent<ModelMonkey>())
         other.transform.SetParent(transform);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        other.transform.SetParent(null);
+        if (other.GetComponent<ModelMonkey>())
+            other.transform.SetParent(null);
     }
 }
