@@ -81,6 +81,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         GameManager.instance.playerGM = this;
         GameManager.instance.players[0] = this;
 
+        if(!GameManager.instance.rewinds.Contains(this))
+        GameManager.instance.rewinds.Add(this);
 
         _actualLife = _maxLife;
         _actualSpeed = _speed;

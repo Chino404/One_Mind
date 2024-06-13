@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
@@ -29,18 +30,22 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+       
+       
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
             Destroy(gameObject);
+        
 
     }
 
     private void Start()
     {
+        
 
         AnimatorStateInfo stateInfo = _animSeparationCameras.GetCurrentAnimatorStateInfo(0);
         _duration = stateInfo.length;
