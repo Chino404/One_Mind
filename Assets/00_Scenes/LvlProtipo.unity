@@ -8405,6 +8405,57 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 174040472}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &179498541
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 179498542}
+  - component: {fileID: 179498543}
+  m_Layer: 0
+  m_Name: ExplosiveInsect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &179498542
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179498541}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1873330882}
+  m_Father: {fileID: 1132791146}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &179498543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179498541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6842559925d0fd46b2e397fe6fcbe33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _particles:
+  - {fileID: 659906762}
+  - {fileID: 2004394298}
+  - {fileID: 139636973}
+  - {fileID: 1629484894}
+  _explosiveObject: {fileID: 947393381}
 --- !u!1001 &180002313
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31200,7 +31251,7 @@ Transform:
   - {fileID: 1939361128}
   - {fileID: 362359654}
   - {fileID: 103882283}
-  - {fileID: 1873330882}
+  - {fileID: 179498542}
   - {fileID: 1278481147}
   - {fileID: 1362057238}
   - {fileID: 1561588639}
@@ -33686,6 +33737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _point: {fileID: 277601018}
+  _particles: {fileID: 0}
 --- !u!65 &1278481150
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -49899,22 +49951,22 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1132791146}
+    m_TransformParent: {fileID: 179498542}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 7c667bf4baea9624093ab45219413512,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.36360002
+      value: 0.36360005
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7c667bf4baea9624093ab45219413512,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.36360002
+      value: 0.36360005
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7c667bf4baea9624093ab45219413512,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.36359993
+      value: 0.36359987
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7c667bf4baea9624093ab45219413512,
         type: 3}
@@ -50012,6 +50064,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _point: {fileID: 277601018}
+  _particles: {fileID: 179498543}
 --- !u!65 &1873330884
 BoxCollider:
   m_ObjectHideFlags: 0
