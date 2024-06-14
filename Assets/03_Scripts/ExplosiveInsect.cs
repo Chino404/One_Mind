@@ -6,6 +6,9 @@ using UnityEngine;
 public class ExplosiveInsect : Rewind, IExplosion
 {
     [SerializeField] private WayPoints _point;
+    [SerializeField]private ExplosiveThings _particles;
+
+   
 
     public override void Save()
     {
@@ -22,6 +25,7 @@ public class ExplosiveInsect : Rewind, IExplosion
 
     public void Execute()
     {
+        _particles.PlayParticles();
         _point.action = false;
         gameObject.SetActive(false);
     }
