@@ -25,7 +25,7 @@ public class ExplosiveInsect : Rewind, IExplosion
 
     public void Execute()
     {
-        _particles.PlayParticles();
+        _particles.Explode();
         _point.action = false;
         gameObject.SetActive(false);
     }
