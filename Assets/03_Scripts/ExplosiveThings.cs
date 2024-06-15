@@ -8,14 +8,23 @@ public class ExplosiveThings : MonoBehaviour
     [SerializeField] private GameObject _explosiveObject;
     
    
-
-    public IEnumerator PlayParticles()
+    public void Explode()
     {
+
         foreach (var item in _particles)
         {
             item.Play();
         }
-        yield return new WaitForSeconds(0.5f);
-        Destroy(gameObject);
+        Invoke("DisableParticles", 3f);
+
+	}
+
+    void DisableParticles()
+    {
+        foreach (var item in _particles)
+        {
+            item.Stop();
+        }
     }
+    
 }
