@@ -268,6 +268,10 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     {
         if (isRotating) return;
 
+        var clip = AudioManager.instance.attackSpin;
+        if (!AudioManager.instance.ExecuteClipMonkey(clip)) AudioManager.instance.PlayMonkeySFX(clip);
+
+        //AudioManager.instance.PlaySFX(clip);
         _comboTimeCounter = _comboTime * 0.25f;
 
         _particleSpinAttack.Play();
@@ -292,7 +296,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         }
 
         transform.rotation = Quaternion.Euler(0, targetRotationY % 360f, 0); // Asegura que la rotación final sea precisa
-        _particleSpinAttack.Stop(); 
+        _particleSpinAttack.Stop();
+        AudioManager.instance.StopMonkeySFX();
         isRotating = false;
     }
 

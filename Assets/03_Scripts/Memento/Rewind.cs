@@ -8,8 +8,6 @@ public abstract class Rewind : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("REWINDDDD");
-
         _currentState = new MementoState();
     }
 
