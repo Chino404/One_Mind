@@ -8475,13 +8475,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 179498541}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1873330882}
-  m_Father: {fileID: 1132791146}
+  m_Father: {fileID: 1532817756}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &179498543
 MonoBehaviour:
@@ -27555,8 +27555,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 917293629}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 38.31584, y: 13.9, z: 147.46}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.692848, y: 6.9544783, z: 97.34039}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -27564,7 +27564,7 @@ Transform:
   - {fileID: 2004394296}
   - {fileID: 139636971}
   - {fileID: 1629484892}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1532817756}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &923990956
 PrefabInstance:
@@ -28846,7 +28846,12 @@ MonoBehaviour:
   _musicSource: {fileID: 456288442}
   _SFXSource: {fileID: 1570710389}
   _monkeySFX: {fileID: 286462555}
+  soundtrack: {fileID: 8300000, guid: c1f07761102cba04cb42966c3d3bdef8, type: 3}
   mushroom: {fileID: 8300000, guid: 4e7a34777f9db8447b0d165d7a3d4e07, type: 3}
+  poof: {fileID: 8300000, guid: 4747c40d3e2bc4a458cb6a525927b7c4, type: 3}
+  hitFrog: {fileID: 8300000, guid: 1e3349a7be2c5864d8e3cc4d5da93a99, type: 3}
+  explosion: {fileID: 8300000, guid: e31da3752d67d7c40b316b7cc5359b41, type: 3}
+  hitMonkey: {fileID: 8300000, guid: 8291974861cb126479172ffcee18b2da, type: 3}
   attackSpin: {fileID: 8300000, guid: 3f55e261ee5a32b4b87ddf2cf1dca402, type: 3}
 --- !u!1001 &988679122
 PrefabInstance:
@@ -31072,8 +31077,6 @@ Transform:
   - {fileID: 1939361128}
   - {fileID: 362359654}
   - {fileID: 103882283}
-  - {fileID: 179498542}
-  - {fileID: 1278481147}
   - {fileID: 1362057238}
   - {fileID: 1561588639}
   - {fileID: 1489694446}
@@ -33195,7 +33198,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1132791146}
+    m_TransformParent: {fileID: 1532817756}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 98b9c8293c7416a429c9d9e7834382e1,
         type: 3}
@@ -33225,7 +33228,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 98b9c8293c7416a429c9d9e7834382e1,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 96.65
+      value: 96.649994
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 98b9c8293c7416a429c9d9e7834382e1,
         type: 3}
@@ -33240,12 +33243,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 98b9c8293c7416a429c9d9e7834382e1,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 98b9c8293c7416a429c9d9e7834382e1,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 98b9c8293c7416a429c9d9e7834382e1,
         type: 3}
@@ -39083,6 +39086,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 917293630}
+  - {fileID: 179498542}
+  - {fileID: 1278481147}
   - {fileID: 25015692}
   - {fileID: 1930275493}
   - {fileID: 347649269}
@@ -39285,8 +39291,8 @@ MonoBehaviour:
   - {fileID: 190048371}
   - {fileID: 823697605}
   - {fileID: 2049970621}
-  _arriveRadius: 8.5
-  _viewRadius: 7
+  _arriveRadius: 9.5
+  _viewRadius: 8
   _rangoRadius: 30
   obstacleLayer:
     serializedVersion: 2
@@ -58034,7 +58040,7 @@ PrefabInstance:
     - target: {fileID: 8887043916520183049, guid: d9854d27883c0c74c94fa7a6c302b843,
         type: 3}
       propertyPath: _force
-      value: 30
+      value: 35
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -60061,4 +60067,3 @@ SceneRoots:
   - {fileID: 164130574}
   - {fileID: 402907118}
   - {fileID: 272452609}
-  - {fileID: 917293630}
