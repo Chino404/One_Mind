@@ -14,8 +14,12 @@ public class AudioManager : MonoBehaviour
     [Header("-------- Audio Clip --------")]
     public AudioClip soundtrack;
     public AudioClip mushroom;
+    public AudioClip poof;
+    public AudioClip hitFrog;
+    public AudioClip explosion;
+
     [Header("Monkey Audio")]
-    public AudioClip hit;
+    public AudioClip hitMonkey;
     public AudioClip attackSpin;
 
     private void Awake()

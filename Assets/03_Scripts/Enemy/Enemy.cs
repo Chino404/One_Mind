@@ -117,8 +117,7 @@ public class Enemy : Entity, IDamageable
         //_inAir = IsGrounded() ? false : true;
 
         if (_takingDamage)
-        {
-            
+        {   
             _timerCounterInveencible -= Time.deltaTime;
 
             if (_timerCounterInveencible <= 0)
@@ -212,9 +211,9 @@ public class Enemy : Entity, IDamageable
     {
         if (_life > 0)
         {
-            
-            
             _life -= damage;
+            StopCoroutine(HitCoolDown());
+            AudioManager.instance.PlayMonkeySFX(AudioManager.instance.hitMonkey);
 
             if (_life <= 0)
             {
@@ -232,7 +231,10 @@ public class Enemy : Entity, IDamageable
     {
         _deadParticle?.Play();
         _meshRenderer.enabled = false;
+        AudioManager.instance.PlayMonkeySFX(AudioManager.instance.poof);
+
         yield return new WaitForSeconds(0.5f);
+
         gameObject.SetActive(false);
     }
     #endregion
@@ -372,7 +374,9 @@ public class Enemy : Entity, IDamageable
 
         maxVelocity = 0;
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
+        if(!_takingDamage)AudioManager.instance.PlaySFX(AudioManager.instance.hitFrog);
+        yield return new WaitForSeconds(1);
 
         maxVelocity = _iniVelocity;
         isHitting = false;
