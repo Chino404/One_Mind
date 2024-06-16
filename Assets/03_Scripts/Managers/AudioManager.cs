@@ -12,13 +12,22 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioSource _monkeySFX;
 
     [Header("-------- Audio Clip --------")]
+    public AudioClip soundtrack;
     public AudioClip mushroom;
+    [Header("Monkey Audio")]
+    public AudioClip hit;
     public AudioClip attackSpin;
 
     private void Awake()
     {
         if(!instance) instance = this;
         else Destroy(gameObject);
+    }
+
+    private void Start()
+    {
+        _musicSource.clip = soundtrack;
+        _musicSource.Play();
     }
 
     public void StopAll()
