@@ -374,9 +374,7 @@ public class Enemy : Entity, IDamageable
 
         maxVelocity = 0;
 
-        yield return new WaitForSeconds(1);
-        if(!_takingDamage)AudioManager.instance.PlaySFX(AudioManager.instance.hitFrog);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
 
         maxVelocity = _iniVelocity;
         isHitting = false;

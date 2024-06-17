@@ -22,7 +22,7 @@ public class ControllerMonkey
 
         if (Input.GetButtonDown("Jump")) _model.Jump();
 
-        else if (Input.GetButtonUp("Jump")) _model.CutJump();
+        //else if (Input.GetButtonUp("Jump")) _model.CutJump();
 
         if (Input.GetMouseButtonDown(0)) _model.Attack();
 
