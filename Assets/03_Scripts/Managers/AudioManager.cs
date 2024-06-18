@@ -11,7 +11,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioSource _SFXSource;
     [SerializeField] AudioSource _monkeySFX;
 
-    [Header("-------- Audio Clip --------")]
+    [Space(25),Header("-------- Audio Clip --------")]
     public AudioClip soundtrack;
     public AudioClip mushroom;
     public AudioClip poof;
@@ -20,7 +20,13 @@ public class AudioManager : MonoBehaviour
 
     [Header("Monkey Audio")]
     public AudioClip hitMonkey;
+    [Tooltip("Sonido al mover el bastón")]public AudioClip swoosh;
     public AudioClip attackSpin;
+    public AudioClip jump;
+    [Tooltip("Caer al vacío")]public AudioClip fallIntoTheVoid;
+
+    [Header("Banana Audio")]
+    public AudioClip shoot;
 
     private void Awake()
     {

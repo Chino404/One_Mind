@@ -12,6 +12,7 @@ public class BananaGuide : Rewind
 
     private Rigidbody _rb;
     [Tooltip("Velocidad")]public float maxSpeed = 10f;
+    private Collider _myCollider;
     private float _iniSpeed;
     [Tooltip("Fuerza para girar")]public float maxForce = 6f;
 
@@ -33,10 +34,21 @@ public class BananaGuide : Rewind
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        _myCollider = GetComponent<Collider>();
         _currentState = new MementoState();
 
         _iniSpeed = maxSpeed;
 
+    }
+
+    private void OnEnable()
+    {
+        _myCollider.enabled = false;
+    }
+
+    private void OnDisable()
+    {
+        _myCollider.enabled = true;
     }
 
     void Update()
