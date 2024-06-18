@@ -59,6 +59,7 @@ public class ModelBanana : Characters
 
         if(Input.GetMouseButtonDown(0))
         {
+            AudioManager.instance.PlayMonkeySFX(AudioManager.instance.shoot);
             var bullet = _objectPool.Get();
             bullet.AddReference(_objectPool);
             bullet.transform.position = _camera.transform.position;

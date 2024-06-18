@@ -9,8 +9,10 @@ public class PauseManager : MonoBehaviour
     //public Canvas gameOverCanvas;
     public Canvas pauseMenu;
     public Canvas winCanvas;
+    public Canvas gameOverCanvas;
+    private Animator _animGameOverCanvas;
     public static PauseManager instance;
-    bool _isPaused;
+    private bool _isPaused;
     [SerializeField] int _asyncScene;
     [SerializeField] int _mainMenuScene;
 
@@ -30,7 +32,7 @@ public class PauseManager : MonoBehaviour
 
     private void Start()
     {
-        
+        _animGameOverCanvas = gameOverCanvas.GetComponentInChildren<Animator>();
     }
 
     private void Update()
@@ -61,10 +63,33 @@ public class PauseManager : MonoBehaviour
 
     public void GameOver()
     {
+        //gameOverCanvas.gameObject.SetActive(true);
+        //_animGameOverCanvas.SetTrigger("Enter");
         foreach (var item in GameManager.instance.rewinds)
         {
             item.Load();
         }
+
+        //StartCoroutine(CanvasGameOver());
+
+    }
+
+    IEnumerator CanvasGameOver()
+    {
+        gameOverCanvas.gameObject.SetActive(true);
+        _animGameOverCanvas.SetBool("GameOver", true);
+
+        yield return new WaitForSeconds(1.5f);
+
+        _animGameOverCanvas.SetBool("GameOver", false);
+        foreach (var item in GameManager.instance.rewinds)
+        {
+            item.Load();
+        }
+
+        yield return new WaitForSeconds(1f);
+        gameOverCanvas.gameObject.SetActive(false);
+
     }
 
     public void NextLvL(int scene)

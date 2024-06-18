@@ -194,6 +194,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         if (_coyoteTimeCounter > 0f)
         {
             _animPlayer.SetTrigger("Jump");
+            AudioManager.instance.PlayMonkeySFX(AudioManager.instance.jump);
             _particleJump.Play();
             _rbCharacter.velocity = Vector3.up * _jumpForce;
         }
@@ -221,6 +222,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         if (_punching) return;
 
         _currentCombo++;
+        AudioManager.instance.PlayMonkeySFX(AudioManager.instance.swoosh);
         
 
         switch (_currentCombo)
@@ -372,6 +374,13 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
             EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
         }
     }
+
+    public void Dead()
+    {
+        _actualLife = 0;
+        PauseManager.instance.GameOver();
+
+    }
     #endregion
 
     #region Lihana Giro
@@ -451,12 +460,6 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         //Debug.Log("cargue mono");
     }
     #endregion
-    public void Dead()
-    {
-        _actualLife = 0;
-        PauseManager.instance.GameOver();
-
-    }
 
     
 

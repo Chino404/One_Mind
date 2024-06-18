@@ -443,6 +443,7 @@ public class Enemy : Entity, IDamageable
         _life = 0;
         GameManager.instance.enemies.Remove(this);
         _crystalWall.enemies.Remove(this);
+
         if (_crystalWall.enemies.Count < 1) _crystalWall.DesactivarMuro();
 
         StartCoroutine(Death());
