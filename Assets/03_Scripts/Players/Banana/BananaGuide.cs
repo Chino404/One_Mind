@@ -43,12 +43,12 @@ public class BananaGuide : Rewind
 
     private void OnEnable()
     {
-        _myCollider.enabled = false;
+        _myCollider.isTrigger = true;
     }
 
     private void OnDisable()
     {
-        _myCollider.enabled = true;
+        _myCollider.isTrigger = false;
     }
 
     void Update()

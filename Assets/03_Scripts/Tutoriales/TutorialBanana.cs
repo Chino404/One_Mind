@@ -16,8 +16,6 @@ public class TutorialBanana : MonoBehaviour
         }
     }
 
-
-
     private void OnTriggerExit(Collider other)
     {
         var banana = other.gameObject.GetComponent<ModelBanana>();
