@@ -20,6 +20,10 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     [SerializeField, Range(2f, 7f) ,Tooltip("Fuerza de empuje del golpe")] private float _pushingForce = 5f;
     private bool _grabbed;
 
+    [SerializeField, Tooltip("Rango para evitar pegarme al objeto de _moveMask")] private float _moveRange = 0.75f; //Rango para el Raycast para evitar q el PJ se pegue a la pared
+    [SerializeField] private LayerMask _moveMask; //Para indicar q layer quierp q no se acerque mucho
+    private Ray _moveRay;
+
     [Header("Daños")]
     [SerializeField] private int _normalDamage;
     [SerializeField, Range(0, 2f)]private float _comboTime = 1.25f;
@@ -137,7 +141,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     #region Movement
     public void Movement(Vector3 dirRaw, Vector3 dir)
     {
-        if (isRestricted || _punching) return;
+        if (isRestricted || _punching || IsBlocked(dir.normalized)) return;
 
         //if (_punching || chargeGetUp) return;
         //if (_grabbed) EventManager.Trigger("Rotate", dirRaw.x);
@@ -154,6 +158,25 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
             _animPlayer.SetBool("Walk", false);
             _polvo.Stop();
         }
+    }
+
+    /// <summary>
+    /// Si el Ray choca con un objeto de la _moveMask, me lo indica con un TRUE
+    /// </summary>
+    /// <param name="dir"></param>
+    /// <returns></returns>
+    private bool IsBlocked(Vector3 dir)
+    {
+        RaycastHit hitInfo;
+        _moveRay = new Ray(transform.position, dir);
+        Debug.DrawRay(transform.position, dir * _moveRange, Color.red);
+
+        //if (Physics.Raycast(_moveRay, out hitInfo))
+        //{
+        //    Debug.Log("Objeto alcanzado: " + hitInfo.collider.gameObject.name);
+        //}
+
+        return Physics.Raycast(_moveRay,out RaycastHit hit ,_moveRange, _moveMask);
     }
 
     public void Rotate(Vector3 dirForward)
