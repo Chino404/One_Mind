@@ -108,7 +108,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         if (IsGrounded())
         {
-            _particleJump.Stop();
+            //_particleJump.Stop();
             _coyoteTimeCounter = _coyoteTime;
             PowerUp = SpinAttack;
         }
@@ -151,12 +151,12 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
             _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
             Rotate(dir);
             _animPlayer.SetBool("Walk", true);
-            _polvo.Play();
+            //_polvo.Play();
         }
         else
         {
             _animPlayer.SetBool("Walk", false);
-            _polvo.Stop();
+            //_polvo.Stop();
         }
     }
 
@@ -167,7 +167,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     /// <returns></returns>
     private bool IsBlocked(Vector3 dir)
     {
-        RaycastHit hitInfo;
+        //RaycastHit hitInfo;
         _moveRay = new Ray(transform.position, dir);
         Debug.DrawRay(transform.position, dir * _moveRange, Color.red);
 
@@ -217,8 +217,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         if (_coyoteTimeCounter > 0f)
         {
             _animPlayer.SetTrigger("Jump");
-            AudioManager.instance.PlayMonkeySFX(AudioManager.instance.jump);
             _particleJump.Play();
+            AudioManager.instance.PlayMonkeySFX(AudioManager.instance.jump);
             _rbCharacter.velocity = Vector3.up * _jumpForce;
         }
     }
@@ -236,8 +236,10 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     public void Attack()
     {
         //if (_grabbed) return;
-        if(!IsGrounded()) GoToDownAttack();
-        else NormalPunch();
+        //if(!IsGrounded()) GoToDownAttack();
+        //else NormalPunch();
+
+        if(IsGrounded())NormalPunch();
     }
 
     public void NormalPunch()
@@ -277,7 +279,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         _rbCharacter.AddForce(transform.forward * powerForce, ForceMode.Impulse);
         _animPlayer.SetTrigger("Attack");
         if (!IsGrounded())CancelarTodasLasFuerzas();
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.5f);
         _punching = false;
         yield return new WaitForSeconds(0.2f);
 
