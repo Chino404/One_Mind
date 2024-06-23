@@ -14,8 +14,8 @@ public class MenuManager : MonoBehaviour
 
     public void PlayGame(int sceneNumber)
     {
-        AsyncLoad.sceneNumber = sceneNumber;
         SceneManager.LoadSceneAsync(_asyncScene);
+        AsyncLoad.sceneNumber = sceneNumber;
         Time.timeScale = 1;
     }
 
