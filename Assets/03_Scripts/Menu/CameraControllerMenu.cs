@@ -8,7 +8,7 @@ public class CameraControllerMenu : MonoBehaviour
 {
     public Transform[] targetPositions;
     public float moveSpeed = 5f;
-    int currentTargetIndex = 0;
+    private int currentTargetIndex = 0;
 
     void Update()
     {
@@ -18,14 +18,19 @@ public class CameraControllerMenu : MonoBehaviour
             var target = targetPositions[currentTargetIndex];
             transform.position = Vector3.Lerp(transform.position, target.position, moveSpeed * Time.deltaTime);
             transform.rotation = Quaternion.Lerp(transform.rotation, target.rotation, moveSpeed * Time.deltaTime);
+        }
+    }
 
-            // Verificar si se presiona la tecla Shift
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-
-                currentTargetIndex = (currentTargetIndex + 1) % targetPositions.Length;
-                currentTargetIndex = (currentTargetIndex + 1) % targetPositions.Length;
-            }
+    // Método para cambiar el objetivo de la cámara
+    public void SetTargetPosition(int index)
+    {
+        if (index >= 0 && index < targetPositions.Length)
+        {
+            currentTargetIndex = index;
+        }
+        else
+        {
+            Debug.LogError("Índice fuera de rango: " + index);
         }
     }
 }
