@@ -63,8 +63,8 @@ MonoBehaviour:
   maxForce: 0.1
   target: {fileID: 0}
   separationRadius: 3
-  viewRadius: 10
-  attackDistance: 4
+  viewRadius: 0
+  attackDistance: 2
   damage: 5
   _cooldownHit: 1.5
   isHitting: 0
@@ -117,8 +117,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 2, z: 3.5}
-  m_Center: {x: 0, y: 0, z: 1.2}
+  m_Size: {x: 2, y: 2, z: 3.353798}
+  m_Center: {x: -2.842171e-14, y: 0, z: -1.766844}
 --- !u!1 &2488361736188774621
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,7 +172,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 482b22bc1e0097e428b5af18086c7360,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1.95
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 482b22bc1e0097e428b5af18086c7360,
         type: 3}
@@ -657,7 +657,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 50
-  entidad: 0
+  entity: 0
 --- !u!1 &8971838691346200300 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1353527756515394587, guid: 482b22bc1e0097e428b5af18086c7360,
@@ -698,7 +698,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 20
-  entidad: 0
+  entity: 0
 --- !u!1001 &8235550519788571810
 PrefabInstance:
   m_ObjectHideFlags: 0

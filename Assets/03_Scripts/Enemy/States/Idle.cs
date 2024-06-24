@@ -5,11 +5,8 @@ using UnityEngine;
 
 public class Idle : IState
 {
-
     Enemy _enemy;
     FSM _fsm;
-
-
 
     public Idle(Enemy enemy, FSM fsm)
     {
@@ -19,7 +16,6 @@ public class Idle : IState
     public void OnEnter()
     {
         _enemy.anim.SetBool("Walk", false);
-
     }
 
     public void OnUpdate()
