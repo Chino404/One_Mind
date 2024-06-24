@@ -93,13 +93,7 @@ public class Enemy : Entity, IDamageable
 
     void Update()
     {
-        //Flocking();
-
-        //if (_velocity != Vector3.zero)
-        //{
-        ////    transform.position += _velocity * Time.deltaTime;
-        //    transform.forward = _velocity;
-        //}
+        
 
         Vector3 seekDir = Seek(target.transform.position);
         Vector3 flockingDir = Separation(GameManager.instance.enemies, separationRadius);

@@ -7,7 +7,7 @@ public class InstantiateEnemies : MonoBehaviour
     public Enemy enemy;
     public Transform[] instantiatePoint;
     [SerializeField] int _enemiesQuantity;//cantidad de enemigos que instancio al principio
-
+    [SerializeField] private float _viewRadius;
     Factory<Enemy> _factory;
     ObjectPool<Enemy> _objectPool;
 
@@ -25,11 +25,13 @@ public class InstantiateEnemies : MonoBehaviour
 
     void InstantiateEnemy()
     {
+        
         foreach (var item in instantiatePoint)
         {
             var enemy = _objectPool.Get();
             enemy.AddReference(_objectPool);
-            enemy.transform.position = item.transform.position; 
+            enemy.transform.position = item.transform.position;
+            enemy.viewRadius = _viewRadius;
         }
         gameObject.SetActive(false);
     }
