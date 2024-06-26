@@ -13,6 +13,10 @@ public class CrystalWall : MonoBehaviour
     private Collider _myCollider;
     public bool wallIsActivate;
 
+    [SerializeField, Tooltip("M_Guybrush")] private Material[] _respawnMaterial;
+    [SerializeField, Range(0, 1f)] private float _timeDissolve;
+    private int _dissolveAmount = Shader.PropertyToID("_DisolveSlide");
+
     private void Awake()
     {
         _myCollider = GetComponent<Collider>();
@@ -21,13 +25,13 @@ public class CrystalWall : MonoBehaviour
     private void Start()
     {
         _crystalWall.SetActive(false);
-    }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.GetComponent<Enemy>())
-    //        _crystalWall.SetActive(true);
-    //}
+        for (int i = 0; i < _respawnMaterial.Length; i++)
+        {
+            _respawnMaterial[i].SetFloat(_dissolveAmount, 1);
+        }
+    }
+    
 
     public void DesactivarColision() => _myCollider.enabled = false;
 
@@ -35,8 +39,32 @@ public class CrystalWall : MonoBehaviour
     public void DesactivarMuro()
     {
         _point.action = false;
-        _crystalWall.SetActive(false);
+
+        StartCoroutine(WallDisolve());
+        //_crystalWall.SetActive(false);
         wallIsActivate = false;
+    }
+
+    IEnumerator WallDisolve()
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime < _timeDissolve)
+        {
+            elapsedTime += Time.deltaTime;
+
+            float lerpDisolve = Mathf.Lerp(1f, 0f, (elapsedTime / _timeDissolve));
+
+            for (int i = 0; i < _respawnMaterial.Length; i++)
+            {
+                _respawnMaterial[i].SetFloat(_dissolveAmount, lerpDisolve);
+            }
+
+            yield return null;
+        }
+
+        _crystalWall.SetActive(false);
+
     }
 
     public void ActivateWall()
