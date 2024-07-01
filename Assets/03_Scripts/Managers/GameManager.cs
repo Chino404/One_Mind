@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public Characters[] players = new Characters[2];
     public GameObject[] camerasPlayers = new GameObject[2];
     private bool _inChange = false;
-    private bool _controllerMonkey = true;
+    private bool _controllerMonkey = true; //Si se puede usar al mono
     public bool ContollerMonkey {  get { return _controllerMonkey; } }
     [HideInInspector] public Animator _animCamMonkey;
     [HideInInspector] public Animator _animCamBanana;
@@ -103,13 +103,14 @@ public class GameManager : MonoBehaviour
         camerasPlayers[1].GetComponent<Camera>().enabled = true;
         _animCamBanana.SetTrigger("Enter");
         _animSeparationCameras.SetTrigger("Enter");
+        _controllerMonkey = false;
         yield return new WaitForSecondsRealtime(1);
 
-        _controllerMonkey = false;
         camerasPlayers[0].GetComponent<Camera>().enabled = false;
 
         players[1].GetComponent<BananaGuide>().enabled = false;
         players[1].GetComponent<ModelBanana>().enabled = true;
+        players[1].GetComponent<ModelBanana>().ActivarVisor();
 
         Time.timeScale = 1;
 
@@ -121,6 +122,7 @@ public class GameManager : MonoBehaviour
     IEnumerator SwitchCamMonkey()
     {
         Time.timeScale = 0;
+        players[1].GetComponent<ModelBanana>().enabled = false;
         _inChange = true;
         _animCamBanana.SetTrigger("Exit");
         camerasPlayers[0].GetComponent<Camera>().enabled = true;
@@ -133,7 +135,7 @@ public class GameManager : MonoBehaviour
 
 
         players[1].GetComponent<BananaGuide>().enabled = true;
-        players[1].GetComponent<ModelBanana>().enabled = false;
+        //players[1].GetComponent<ModelBanana>().enabled = false;
 
         Time.timeScale = 1;
         yield return new WaitForSecondsRealtime(_duration);

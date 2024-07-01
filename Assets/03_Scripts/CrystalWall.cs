@@ -14,7 +14,7 @@ public class CrystalWall : MonoBehaviour
     public bool wallIsActivate;
 
     [SerializeField, Tooltip("M_Guybrush")] private Material[] _respawnMaterial;
-    [SerializeField, Range(0, 1f)] private float _timeDissolve;
+    [SerializeField, Range(0, 3f)] private float _timeDissolve;
     private int _dissolveAmount = Shader.PropertyToID("_DisolveSlide");
 
     private void Awake()
