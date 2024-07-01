@@ -17,6 +17,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip poof;
     public AudioClip hitFrog;
     public AudioClip explosion;
+    public AudioClip visorActive;
 
     [Header("Monkey Audio")]
     public AudioClip hitMonkey;

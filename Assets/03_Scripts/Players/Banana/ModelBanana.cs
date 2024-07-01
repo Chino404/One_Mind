@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ModelBanana : Characters
 {
@@ -9,6 +10,7 @@ public class ModelBanana : Characters
 
     [Header("Componentes")]
     [SerializeField] private Transform _headTransform;
+    [SerializeField] private Image _visorImage;
 
     [Header("Valores Perosnaje")]
     [SerializeField, Tooltip("Rango para evitar pegarme al objeto de _moveMask")] private float _moveRange = 0.75f; //Rango para el Raycast para evitar q el PJ se pegue a la pared
@@ -18,7 +20,7 @@ public class ModelBanana : Characters
 
     private float _mouseRotationX;
 
-    [SerializeField]private FPCamera _camera;
+    [SerializeField] private FPCamera _camera;
     private Rigidbody _rb;
 
     private Ray _moveRay;
@@ -35,6 +37,8 @@ public class ModelBanana : Characters
 
     private void Awake()
     {
+        _visorImage.gameObject.SetActive(false);
+
         _rb = GetComponent<Rigidbody>();
         _rb.constraints = RigidbodyConstraints.FreezeRotation; //Me bloquea los 3 ejes a al vez
         _camera = GetComponentInChildren<FPCamera>();
@@ -53,11 +57,21 @@ public class ModelBanana : Characters
         _objectPool = new ObjectPool<BulletBanana>(_factory.GetObj, BulletBanana.TurnOff, BulletBanana.TurnOn, _bulletQuantity);
     }
 
+    public void ActivarVisor()
+    {
+        StartCoroutine(AnimVisor());
+    }
+
+    private void OnDisable()
+    {
+        _visorImage.gameObject.SetActive(false);
+    }
+
     private void Update()
     {
         _controller.ArtificialUpdate();
 
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             AudioManager.instance.PlayMonkeySFX(AudioManager.instance.shoot);
             var bullet = _objectPool.Get();
@@ -65,13 +79,48 @@ public class ModelBanana : Characters
             bullet.transform.position = _camera.transform.position;
             bullet.transform.rotation = _camera.transform.rotation;
             bulletBanana.transform.forward = _camera.transform.forward;
-            
+
         }
     }
 
     private void FixedUpdate()
     {
         _controller.ListenFixedKeys();
+    }
+
+    IEnumerator AnimVisor()
+    {
+        Color color = _visorImage.color;
+
+        _visorImage.gameObject.SetActive(true);
+        AudioManager.instance.PlaySFX(AudioManager.instance.visorActive);
+
+        color.a = 0.5f;
+        _visorImage.color = color;
+
+        yield return new WaitForSeconds(0.1f);
+        color.a = 0.2f;
+        _visorImage.color = color;
+
+
+        yield return new WaitForSeconds(0.1f);
+        color.a = 0.5f;
+        _visorImage.color = color;
+
+
+        yield return new WaitForSeconds(0.1f);
+        color.a = 0.2f;
+        _visorImage.color = color;
+
+
+        yield return new WaitForSeconds(0.1f);
+        color.a = 0.5f;
+        _visorImage.color = color;
+
+
+
+
+
     }
 
     #region Movement
