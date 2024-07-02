@@ -20,16 +20,13 @@ public class CrystalWall : MonoBehaviour
     private void Awake()
     {
         _myCollider = GetComponent<Collider>();
+        
+
     }
 
     private void Start()
     {
         _crystalWall.SetActive(false);
-
-        for (int i = 0; i < _respawnMaterial.Length; i++)
-        {
-            _respawnMaterial[i].SetFloat(_dissolveAmount, 1);
-        }
     }
     
 
@@ -71,6 +68,11 @@ public class CrystalWall : MonoBehaviour
     {
         _crystalWall.SetActive(true);
         wallIsActivate = true;
+        for (int i = 0; i < _respawnMaterial.Length; i++)
+        {
+            _respawnMaterial[i].SetFloat(_dissolveAmount, 1);
+        }
     }
+
     
 }
