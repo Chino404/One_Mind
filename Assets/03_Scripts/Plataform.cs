@@ -76,15 +76,17 @@ public class Plataform : MonoBehaviour
         _velocity = Vector3.ClampMagnitude(_velocity, _maxVelocity);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if(other.GetComponent<ModelMonkey>())
-        other.transform.SetParent(transform);
+        if(collision.gameObject.GetComponent<ModelMonkey>())
+        collision.transform.SetParent(transform);
     }
 
-    private void OnTriggerExit(Collider other)
+    
+
+    private void OnCollisionExit(Collision collision)
     {
-        if (other.GetComponent<ModelMonkey>())
-            other.transform.SetParent(null);
+        if (collision.gameObject.GetComponent<ModelMonkey>())
+            collision.transform.SetParent(null);
     }
 }
