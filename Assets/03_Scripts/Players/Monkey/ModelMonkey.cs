@@ -139,33 +139,48 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     {
         if (_punching || IsTouch(dir.normalized, _moveMask)) return;
 
-        if (IsTouch(dir.normalized, _handleMask))
-        {
-            Debug.Log("Lo detecto");
-            EventManager.Subscribe("ActualMovement", HandleMovement);
-            EventManager.Unsubscribe("ActualMovement", NormalMovement);
-            EventManager.Trigger("ActualMovement", dirRaw, dir);
-        }
-        else
-        {
-            EventManager.Subscribe("ActualMovement", NormalMovement);
-            EventManager.Unsubscribe("ActualMovement", HandleMovement);
-            EventManager.Trigger("ActualMovement", dirRaw, dir);
-        }
-
-        //if (_punching || chargeGetUp) return;
-        //if (_grabbed) EventManager.Trigger("Rotate", dirRaw.x);
-
-        //if (dirRaw.sqrMagnitude != 0)
+        //if (IsTouch(dir.normalized, _handleMask))
         //{
-        //    _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
-        //    Rotate(dir);
-        //    _animPlayer.SetBool("Walk", true);
+        //    _forceGravity = 0;
+        //    EventManager.Unsubscribe("ActualMovement", NormalMovement);
+        //    EventManager.Subscribe("ActualMovement", HandleMovement);
+        //    EventManager.Trigger("ActualMovement", dirRaw, dir);
         //}
         //else
         //{
-        //    _animPlayer.SetBool("Walk", false);
+        //    _forceGravity = _initialForceGravity;
+        //    EventManager.Unsubscribe("ActualMovement", HandleMovement);
+        //    EventManager.Subscribe("ActualMovement", NormalMovement);
+        //    EventManager.Trigger("ActualMovement", dirRaw, dir);
         //}
+
+        if (IsTouch(dir.normalized, _handleMask))
+        {
+            _forceGravity = 0;
+
+            if (dirRaw.sqrMagnitude != 0)
+            {
+                Vector3 subida = new Vector3(transform.position.x + dir.normalized.x, transform.position.y + dir.normalized.z, transform.position.z);
+                //Vector3 subida = new Vector3(transform.position.x, transform.position.z, transform.position.y);
+
+                _rbCharacter.MovePosition( subida + dir.normalized * 2 * Time.fixedDeltaTime);
+            }
+        }
+        else
+        {
+            _forceGravity = _initialForceGravity;
+            if (dirRaw.sqrMagnitude != 0)
+            {
+                _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
+                Rotate(dir);
+                _animPlayer.SetBool("Walk", true);
+            }
+            else
+            {
+                _animPlayer.SetBool("Walk", false);
+            }
+        }
+
     }
 
     void NormalMovement(params object[] parameters)
@@ -190,7 +205,17 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         var dirRaw = (Vector3)parameters[0];
         var dir = (Vector3)parameters[1];
 
-        Debug.Log("Pepe");
+        if(dirRaw.sqrMagnitude != 0)
+        {
+            //_rbCharacter.MovePosition( transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
+
+            Vector3 subida = new Vector3(transform.position.x + dir.normalized.x, transform.position.y + dir.normalized.z, transform.position.z);
+
+            _rbCharacter.MovePosition( subida * _actualSpeed * Time.fixedDeltaTime);
+
+            //_rbCharacter.position += subida * _actualSpeed * Time.fixedDeltaTime;
+            
+        }
     }
 
     /// <summary>
@@ -519,6 +544,11 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     }
     #endregion
 
-    
+    private void OnDestroy()
+    {
+         EventManager.Unsubscribe("ActualMovement", NormalMovement);
+         EventManager.Unsubscribe("ActualMovement", HandleMovement);
+
+    }
 
 }
