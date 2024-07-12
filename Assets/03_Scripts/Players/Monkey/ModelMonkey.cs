@@ -22,6 +22,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
     [SerializeField, Tooltip("Rango para evitar pegarme al objeto de _moveMask")] private float _moveRange = 0.75f; //Rango para el Raycast para evitar q el PJ se pegue a la pared
     [SerializeField] private LayerMask _moveMask; //Para indicar q layer quierp q no se acerque mucho
+    [SerializeField] private LayerMask _handleMask;
     private Ray _moveRay;
 
     [Header("Daños")]
@@ -45,7 +46,6 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     public float groundDistance = 2;
     [SerializeField] private Transform _pointRotation;
     [SerializeField] private Transform _pointFromPlayer;
-    [SerializeField] private MeshRenderer _meshRendererHook;
 
     [Header("Animator")]
     [SerializeField]private Animator _animPlayer;
@@ -58,9 +58,6 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     //Referencias
     private ControllerMonkey _controller;
     private ViewMonkey _view;
-
-
-    public bool isRestricted;
 
 
     private void Awake()
@@ -94,7 +91,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         _comboTimeCounter = _comboTime;
 
-        //_animPlayer.SetBool("Walk", false);
+        EventManager.Subscribe("ActualMovement", NormalMovement);
     }
 
     private void Update()
@@ -108,14 +105,12 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         if (IsGrounded())
         {
-            //_particleJump.Stop();
             _coyoteTimeCounter = _coyoteTime;
             PowerUp = SpinAttack;
         }
         else
         {
             _coyoteTimeCounter -= Time.deltaTime;
-            //PowerUp = GoToDownAttack;
             PowerUp = null;
         }
 
@@ -125,6 +120,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
             _currentCombo = 0;
             _actualSpeed = _speed;
         }
+
         _controller.ArtificialUpdate();
 
     }
@@ -141,23 +137,60 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     #region Movement
     public void Movement(Vector3 dirRaw, Vector3 dir)
     {
-        if (isRestricted || _punching || IsBlocked(dir.normalized)) return;
+        if (_punching || IsTouch(dir.normalized, _moveMask)) return;
+
+        if (IsTouch(dir.normalized, _handleMask))
+        {
+            Debug.Log("Lo detecto");
+            EventManager.Subscribe("ActualMovement", HandleMovement);
+            EventManager.Unsubscribe("ActualMovement", NormalMovement);
+            EventManager.Trigger("ActualMovement", dirRaw, dir);
+        }
+        else
+        {
+            EventManager.Subscribe("ActualMovement", NormalMovement);
+            EventManager.Unsubscribe("ActualMovement", HandleMovement);
+            EventManager.Trigger("ActualMovement", dirRaw, dir);
+        }
 
         //if (_punching || chargeGetUp) return;
         //if (_grabbed) EventManager.Trigger("Rotate", dirRaw.x);
+
+        //if (dirRaw.sqrMagnitude != 0)
+        //{
+        //    _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
+        //    Rotate(dir);
+        //    _animPlayer.SetBool("Walk", true);
+        //}
+        //else
+        //{
+        //    _animPlayer.SetBool("Walk", false);
+        //}
+    }
+
+    void NormalMovement(params object[] parameters)
+    {
+        var dirRaw = (Vector3)parameters[0];
+        var dir = (Vector3)parameters[1];
 
         if (dirRaw.sqrMagnitude != 0)
         {
             _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
             Rotate(dir);
             _animPlayer.SetBool("Walk", true);
-            //_polvo.Play();
         }
         else
         {
             _animPlayer.SetBool("Walk", false);
-            //_polvo.Stop();
         }
+    }
+
+    void HandleMovement(params object[] parameters)
+    {
+        var dirRaw = (Vector3)parameters[0];
+        var dir = (Vector3)parameters[1];
+
+        Debug.Log("Pepe");
     }
 
     /// <summary>
@@ -165,18 +198,18 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     /// </summary>
     /// <param name="dir"></param>
     /// <returns></returns>
-    private bool IsBlocked(Vector3 dir)
+    private bool IsTouch(Vector3 dir, int layerMask)
     {
-        //RaycastHit hitInfo;
+        RaycastHit hitInfo;
         _moveRay = new Ray(transform.position, dir);
         Debug.DrawRay(transform.position, dir * _moveRange, Color.red);
 
-        //if (Physics.Raycast(_moveRay, out hitInfo))
-        //{
-        //    Debug.Log("Objeto alcanzado: " + hitInfo.collider.gameObject.name);
-        //}
+        if (Physics.Raycast(_moveRay, out hitInfo))
+        {
+            Debug.Log("Objeto alcanzado: " + hitInfo.collider.gameObject.name);
+        }
 
-        return Physics.Raycast(_moveRay,out RaycastHit hit ,_moveRange, _moveMask);
+        return Physics.Raycast(_moveRay,out RaycastHit hit ,_moveRange, layerMask);
     }
 
     public void Rotate(Vector3 dirForward)
@@ -216,10 +249,10 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         if (_coyoteTimeCounter > 0f)
         {
-            _animPlayer.SetTrigger("Jump");
-            _particleJump.Play();
-            AudioManager.instance.PlayMonkeySFX(AudioManager.instance.jump);
+            _animPlayer?.SetTrigger("Jump");
+            _particleJump?.Play();
             _rbCharacter.velocity = Vector3.up * _jumpForce;
+            AudioManager.instance.PlayMonkeySFX(AudioManager.instance.jump);
         }
     }
 
