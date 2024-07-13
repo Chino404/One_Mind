@@ -17,8 +17,12 @@ public class ControllerMonkey
 
     public void ArtificialUpdate()
     {
-        if (Input.GetKey(KeyCode.LeftShift)) _model._holdPower = true;
-        else _model._holdPower = false;
+        if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            _model.ActualMove = _model.NormalMovement;
+            //EventManager.Unsubscribe("ActualMovement", _model.HandleMovement);
+            //EventManager.Subscribe("ActualMovement", _model.NormalMovement);
+        }
 
         if (Input.GetButtonDown("Jump")) _model.Jump();
 
