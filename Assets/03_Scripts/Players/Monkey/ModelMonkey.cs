@@ -154,6 +154,14 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         {
             _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
             Rotate(dir);
+
+            if(IsTouch(dir.normalized, _handleMask))
+            {
+                EventManager.Unsubscribe("ActualMovement", NormalMovement);
+                EventManager.Subscribe("ActualMovement", HandleMovement);
+                return;
+            }
+
             _animPlayer.SetBool("Walk", true);
         }
         else
@@ -167,18 +175,33 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         var dirRaw = (Vector3)parameters[0];
         var dir = (Vector3)parameters[1];
 
-        _actualSpeed = 5f;
+        _animPlayer.SetBool("Walk", false);
+
+        _actualSpeed = 7f;
         _forceGravity = 0;
         _rbCharacter.isKinematic = true;
 
-        _animPlayer.SetBool("Walk", false);
+        Ray vistaEnredadera = new Ray(transform.position, transform.forward);
+        Debug.DrawRay(transform.position, transform.forward * _moveRange, Color.green);
+        if(!Physics.Raycast(vistaEnredadera, _moveRange, _handleMask))
+        {
+            EventManager.Unsubscribe("ActualMovement", HandleMovement);
+            EventManager.Subscribe("ActualMovement", NormalMovement);
+        }
 
         if (dirRaw.sqrMagnitude != 0)
         {
             Vector3 subida = new Vector3(dir.normalized.x, dir.normalized.z);
-            if (IsTouch(subida, _moveMask)) return;
+
+            if (IsTouch(subida, _moveMask))
+            {
+                EventManager.Unsubscribe("ActualMovement", HandleMovement);
+                EventManager.Subscribe("ActualMovement", NormalMovement);
+                return;
+            }
 
             _rbCharacter.MovePosition(transform.position + subida * _actualSpeed * Time.fixedDeltaTime);
+
         }
     }
 
@@ -192,11 +215,11 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         _moveRay = new Ray(transform.position, dir);
         Debug.DrawRay(transform.position, dir * _moveRange, Color.red);
 
-        RaycastHit hitInfo;
-        if (Physics.Raycast(_moveRay, out hitInfo))
-        {
-            Debug.Log("Objeto alcanzado: " + hitInfo.collider.gameObject.name);
-        }
+        //RaycastHit hitInfo;
+        //if (Physics.Raycast(_moveRay, out hitInfo))
+        //{
+        //    Debug.Log("Objeto alcanzado: " + hitInfo.collider.gameObject.name);
+        //}
 
         return Physics.Raycast(_moveRay,out RaycastHit hit ,_moveRange, layerMask);
     }
