@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Grappeable : MonoBehaviour, IObserverGrappeable
+public class GiroConBaston : MonoBehaviour, IObserverGiroConBaston
 {
     [SerializeField] private Transform _grappPoint;
     [SerializeField]private float _speedRotation; // Velocidad de rotación gradual en grados por segundo
@@ -97,17 +97,17 @@ public class Grappeable : MonoBehaviour, IObserverGrappeable
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<IObservableGrapp>() != null)
+        if (other.gameObject.GetComponent<IObservableGiroConBaston>() != null)
         {
-            other.gameObject.GetComponent<IObservableGrapp>().Subscribe(this);
+            other.gameObject.GetComponent<IObservableGiroConBaston>().Subscribe(this);
             _enganchado = true;
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.GetComponent<IObservableGrapp>() != null)
+        if (other.gameObject.GetComponent<IObservableGiroConBaston>() != null)
         {
-            other.gameObject.GetComponent<IObservableGrapp>().Unsubscribe(this);
+            other.gameObject.GetComponent<IObservableGiroConBaston>().Unsubscribe(this);
             _enganchado = false;
         }
     }

@@ -9,8 +9,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     [Header("Valores Personaje")]
     [SerializeField] private float _maxLife;
     [SerializeField]private float _actualLife;
-    [SerializeField] private float _speed = 5f;
-    private float _actualSpeed;
+    [SerializeField] private float _speed = 10f;
+    [SerializeField] private float _actualSpeed;
     [SerializeField] private float _forceGravity;
     private float _initialForceGravity;
     [SerializeField] private float _jumpForce;
@@ -18,7 +18,6 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     private float _coyoteTimeCounter;
     [HideInInspector]public bool _holdPower;
     [SerializeField, Range(2f, 7f) ,Tooltip("Fuerza de empuje del golpe")] private float _pushingForce = 5f;
-    private bool _grabbed;
 
     [SerializeField, Tooltip("Rango para evitar pegarme al objeto de _moveMask")] private float _moveRange = 0.75f; //Rango para el Raycast para evitar q el PJ se pegue a la pared
     [SerializeField] private LayerMask _moveMask; //Para indicar q layer quierp q no se acerque mucho
@@ -139,54 +138,17 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     {
         if (_punching || IsTouch(dir.normalized, _moveMask)) return;
 
-        //if (IsTouch(dir.normalized, _handleMask))
-        //{
-        //    _forceGravity = 0;
-        //    EventManager.Unsubscribe("ActualMovement", NormalMovement);
-        //    EventManager.Subscribe("ActualMovement", HandleMovement);
-        //    EventManager.Trigger("ActualMovement", dirRaw, dir);
-        //}
-        //else
-        //{
-        //    _forceGravity = _initialForceGravity;
-        //    EventManager.Unsubscribe("ActualMovement", HandleMovement);
-        //    EventManager.Subscribe("ActualMovement", NormalMovement);
-        //    EventManager.Trigger("ActualMovement", dirRaw, dir);
-        //}
-
-        if (IsTouch(dir.normalized, _handleMask))
-        {
-            _forceGravity = 0;
-
-            if (dirRaw.sqrMagnitude != 0)
-            {
-                Vector3 subida = new Vector3(transform.position.x + dir.normalized.x, transform.position.y + dir.normalized.z, transform.position.z);
-                //Vector3 subida = new Vector3(transform.position.x, transform.position.z, transform.position.y);
-
-                _rbCharacter.MovePosition( subida + dir.normalized * 2 * Time.fixedDeltaTime);
-            }
-        }
-        else
-        {
-            _forceGravity = _initialForceGravity;
-            if (dirRaw.sqrMagnitude != 0)
-            {
-                _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
-                Rotate(dir);
-                _animPlayer.SetBool("Walk", true);
-            }
-            else
-            {
-                _animPlayer.SetBool("Walk", false);
-            }
-        }
-
+        EventManager.Trigger("ActualMovement", dirRaw, dir);
     }
 
-    void NormalMovement(params object[] parameters)
+    public void NormalMovement(params object[] parameters)
     {
         var dirRaw = (Vector3)parameters[0];
         var dir = (Vector3)parameters[1];
+
+        _actualSpeed = _speed;
+        _forceGravity = _initialForceGravity;
+        _rbCharacter.isKinematic = false;
 
         if (dirRaw.sqrMagnitude != 0)
         {
@@ -200,21 +162,23 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         }
     }
 
-    void HandleMovement(params object[] parameters)
+    public void HandleMovement(params object[] parameters)
     {
         var dirRaw = (Vector3)parameters[0];
         var dir = (Vector3)parameters[1];
 
-        if(dirRaw.sqrMagnitude != 0)
+        _actualSpeed = 5f;
+        _forceGravity = 0;
+        _rbCharacter.isKinematic = true;
+
+        _animPlayer.SetBool("Walk", false);
+
+        if (dirRaw.sqrMagnitude != 0)
         {
-            //_rbCharacter.MovePosition( transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
+            Vector3 subida = new Vector3(dir.normalized.x, dir.normalized.z);
+            if (IsTouch(subida, _moveMask)) return;
 
-            Vector3 subida = new Vector3(transform.position.x + dir.normalized.x, transform.position.y + dir.normalized.z, transform.position.z);
-
-            _rbCharacter.MovePosition( subida * _actualSpeed * Time.fixedDeltaTime);
-
-            //_rbCharacter.position += subida * _actualSpeed * Time.fixedDeltaTime;
-            
+            _rbCharacter.MovePosition(transform.position + subida * _actualSpeed * Time.fixedDeltaTime);
         }
     }
 
@@ -225,10 +189,10 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     /// <returns></returns>
     private bool IsTouch(Vector3 dir, int layerMask)
     {
-        RaycastHit hitInfo;
         _moveRay = new Ray(transform.position, dir);
         Debug.DrawRay(transform.position, dir * _moveRange, Color.red);
 
+        RaycastHit hitInfo;
         if (Physics.Raycast(_moveRay, out hitInfo))
         {
             Debug.Log("Objeto alcanzado: " + hitInfo.collider.gameObject.name);
