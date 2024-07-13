@@ -16,13 +16,15 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     [SerializeField] private float _jumpForce;
     [SerializeField, Range(0, 0.4f)] private float _coyoteTime = 0.2f;
     private float _coyoteTimeCounter;
-    [HideInInspector]public bool _holdPower;
     [SerializeField, Range(2f, 7f) ,Tooltip("Fuerza de empuje del golpe")] private float _pushingForce = 5f;
 
+    //Raycast para las colsiones y las agarraderas
     [SerializeField, Tooltip("Rango para evitar pegarme al objeto de _moveMask")] private float _moveRange = 0.75f; //Rango para el Raycast para evitar q el PJ se pegue a la pared
     [SerializeField] private LayerMask _moveMask; //Para indicar q layer quierp q no se acerque mucho
     [SerializeField] private LayerMask _handleMask;
     private Ray _moveRay;
+    [SerializeField]private bool _grabb;
+    [SerializeField]private Vector3 _grabPosition;
 
     [Header("Daños")]
     [SerializeField] private int _normalDamage;
@@ -59,6 +61,11 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     private ViewMonkey _view;
 
 
+    public delegate void MyDelegate(params object[] parameters);
+    private event MyDelegate _actualMove;
+
+    public MyDelegate ActualMove { get { return _actualMove; } set {  _actualMove = value; } }
+
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked; //Me bloque el mouse al centro de la pantalla
@@ -90,7 +97,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         _comboTimeCounter = _comboTime;
 
-        EventManager.Subscribe("ActualMovement", NormalMovement);
+        ActualMove = NormalMovement;
+        //EventManager.Subscribe("ActualMovement", NormalMovement);
     }
 
     private void Update()
@@ -138,7 +146,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     {
         if (_punching || IsTouch(dir.normalized, _moveMask)) return;
 
-        EventManager.Trigger("ActualMovement", dirRaw, dir);
+        ActualMove(dirRaw, dir);
+        //EventManager.Trigger("ActualMovement", dirRaw, dir);
     }
 
     public void NormalMovement(params object[] parameters)
@@ -146,6 +155,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         var dirRaw = (Vector3)parameters[0];
         var dir = (Vector3)parameters[1];
 
+        _grabb = false;
         _actualSpeed = _speed;
         _forceGravity = _initialForceGravity;
         _rbCharacter.isKinematic = false;
@@ -157,8 +167,10 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
             if(IsTouch(dir.normalized, _handleMask))
             {
-                EventManager.Unsubscribe("ActualMovement", NormalMovement);
-                EventManager.Subscribe("ActualMovement", HandleMovement);
+                ActualMove = HandleMovement;
+
+                //EventManager.Unsubscribe("ActualMovement", NormalMovement);
+                //EventManager.Subscribe("ActualMovement", HandleMovement);
                 return;
             }
 
@@ -177,26 +189,44 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         _animPlayer.SetBool("Walk", false);
 
+        _grabb = true;
         _actualSpeed = 7f;
         _forceGravity = 0;
         _rbCharacter.isKinematic = true;
 
-        Ray vistaEnredadera = new Ray(transform.position, transform.forward);
-        Debug.DrawRay(transform.position, transform.forward * _moveRange, Color.green);
-        if(!Physics.Raycast(vistaEnredadera, _moveRange, _handleMask))
-        {
-            EventManager.Unsubscribe("ActualMovement", HandleMovement);
-            EventManager.Subscribe("ActualMovement", NormalMovement);
-        }
+       // RaycastHit hitInfo;
+
+        //if (Physics.Raycast(_moveRay, out hitInfo))
+        //{
+        //    _grabPosition = hitInfo.point;
+        //    var objeto = hitInfo.transform.forward;
+        //    transform.forward = objeto;
+        //}
 
         if (dirRaw.sqrMagnitude != 0)
         {
             Vector3 subida = new Vector3(dir.normalized.x, dir.normalized.z);
 
+            Ray vistaEnredadera = new Ray(transform.position + subida, transform.forward);
+            RaycastHit hitInfo;
+
+            Debug.DrawRay(transform.position + subida, transform.forward * _moveRange, Color.green);
+
+            if (Physics.Raycast(vistaEnredadera, out hitInfo))
+            {
+                _grabPosition = hitInfo.point;
+                var objeto = hitInfo.transform.forward;
+                transform.forward = objeto;
+            }
+
+            if (!Physics.Raycast(vistaEnredadera, _moveRange, _handleMask)) return;
+
             if (IsTouch(subida, _moveMask))
             {
-                EventManager.Unsubscribe("ActualMovement", HandleMovement);
-                EventManager.Subscribe("ActualMovement", NormalMovement);
+                ActualMove = NormalMovement;
+                //EventManager.Unsubscribe("ActualMovement", HandleMovement);
+                //EventManager.Subscribe("ActualMovement", NormalMovement);
+
                 return;
             }
 
@@ -254,10 +284,17 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     public void Jump()
     {
         if (isRotating) return;
-        //if(_grabbed)
-        //{
-        //    CreateDust();
-        //}
+
+        if(_grabb)
+        {
+            ActualMove = NormalMovement;
+            //Vector3 directionToJump = -_grabPosition * 2;
+            _rbCharacter.isKinematic = false;
+            _forceGravity = _initialForceGravity;
+            _rbCharacter.velocity = new Vector3(0, 10, 6 * -transform.position.z);
+            //_rbCharacter.AddForce(directionToJump * _jumpForce, ForceMode.Impulse);
+            Debug.Log("SALTO");
+        }
 
         if (_coyoteTimeCounter > 0f)
         {
