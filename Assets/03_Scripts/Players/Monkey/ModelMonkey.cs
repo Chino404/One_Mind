@@ -14,9 +14,11 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     [SerializeField] private float _forceGravity;
     private float _initialForceGravity;
     [SerializeField, Tooltip("Fuerza de salto normal")] private float _jumpForce;
-    [SerializeField, Range(1,20), Tooltip("Fuerza de salto en el eje Z cuando está en la enredadera")] private float _jumpForceAxiZ;
-    [SerializeField, Range(1,20), Tooltip("Fuerza de salto en el eje X cuando está en la enredadera")] private float _jumpForceAxiX;
-    [SerializeField, Range(1,30), Tooltip("Fuerza de salto en el eje Y cuando está en la enredadera")] private float _jumpForceAxiY;
+    [SerializeField, Range(1,40), Tooltip("Fuerza de salto en el eje Z cuando está en la enredadera")] private float _jumpForceAxiZ;
+    [SerializeField, Range(1,40), Tooltip("Fuerza de salto en el eje X cuando está en la enredadera")] private float _jumpForceAxiX;
+    [SerializeField, Range(1,40), Tooltip("Fuerza de salto en el eje Y cuando está en la enredadera")] private float _jumpForceAxiY;
+    private bool _jumpGrabb;
+    private bool _waitRay;
     [SerializeField, Range(0, 0.4f)] private float _coyoteTime = 0.2f;
     private float _coyoteTimeCounter;
     [SerializeField, Range(2f, 7f) ,Tooltip("Fuerza de empuje del golpe")] private float _pushingForce = 5f;
@@ -26,8 +28,9 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     [SerializeField, Tooltip("Que Layer no quiero que se acerque")] private LayerMask _moveMask; //Para indicar q layer quierO q no se acerque mucho
     [SerializeField, Tooltip("Layer de Enredaderas u objeto a trepar")] private LayerMask _handleMask;
     private Ray _moveRay;
-    [SerializeField]private bool _grabb;
-    [SerializeField]private Vector3 _dirGrabb;
+    private bool _stopGrabb;
+    private bool _grabb;
+    private Vector3 _dirGrabb; //Direccion de movimiento en la agarradera
 
     [Header("Daños")]
     [SerializeField] private int _normalDamage;
@@ -64,7 +67,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     private ViewMonkey _view;
 
 
-    public delegate void MyDelegate(params object[] parameters);
+    public delegate void MyDelegate(Vector3 dirRaw, Vector3 dir);
     private event MyDelegate _actualMove;
 
     public MyDelegate ActualMove { get { return _actualMove; } set {  _actualMove = value; } }
@@ -78,6 +81,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         _rbCharacter = GetComponent<Rigidbody>();
         _rbCharacter.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ; //De esta manera para que se freezeen los dos
         _rbCharacter.angularDrag = 1f; //Friccion de la rotacion
+        _rbCharacter.drag = 1;
 
         _animPlayer = GetComponentInChildren<Animator>();
 
@@ -101,7 +105,6 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         _comboTimeCounter = _comboTime;
 
         ActualMove = NormalMovement;
-        //EventManager.Subscribe("ActualMovement", NormalMovement);
     }
 
     private void Update()
@@ -115,6 +118,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         if (IsGrounded())
         {
+            _jumpGrabb = false;
             _coyoteTimeCounter = _coyoteTime;
             PowerUp = SpinAttack;
         }
@@ -150,14 +154,10 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         if (_punching || IsTouch(dir.normalized, _moveMask)) return;
 
         ActualMove(dirRaw, dir);
-        //EventManager.Trigger("ActualMovement", dirRaw, dir);
     }
 
-    public void NormalMovement(params object[] parameters)
+    public void NormalMovement(Vector3 dirRaw, Vector3 dir)
     {
-        var dirRaw = (Vector3)parameters[0];
-        var dir = (Vector3)parameters[1];
-
         _dirGrabb = default;
         _grabb = false;
         _actualSpeed = _speed;
@@ -166,15 +166,16 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         if (dirRaw.sqrMagnitude != 0)
         {
-            _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
-            Rotate(dir);
+            if(!_jumpGrabb)
+            {
+                _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
+                Rotate(dir);
+            }
 
-            if(IsTouch(dir.normalized, _handleMask))
+            if (IsTouch(transform.forward, _handleMask) && !_waitRay)
             {
                 ActualMove = HandleMovement;
-
-                //EventManager.Unsubscribe("ActualMovement", NormalMovement);
-                //EventManager.Subscribe("ActualMovement", HandleMovement);
+                _jumpGrabb = false;
                 return;
             }
 
@@ -186,11 +187,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         }
     }
 
-    public void HandleMovement(params object[] parameters)
+    public void HandleMovement(Vector3 dirRaw, Vector3 dir)
     {
-        var dirRaw = (Vector3)parameters[0];
-        var dir = (Vector3)parameters[1];
-
         _animPlayer.SetBool("Walk", false);
 
         _grabb = true;
@@ -209,17 +207,18 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
             RaycastHit hitInfo;
             if (Physics.Raycast(vistaEnredadera, out hitInfo)) transform.forward = hitInfo.transform.forward;
 
-            if (!Physics.Raycast(vistaEnredadera, _moveRange, _handleMask)) return;
-
+            if (!Physics.Raycast(vistaEnredadera, _moveRange, _handleMask))
+            {
+                _stopGrabb = true;
+                return;
+            }
             if (IsTouch(subida, _moveMask))
             {
                 ActualMove = NormalMovement;
-                //EventManager.Unsubscribe("ActualMovement", HandleMovement);
-                //EventManager.Subscribe("ActualMovement", NormalMovement);
-
                 return;
             }
 
+            _stopGrabb = false;
             _rbCharacter.MovePosition(transform.position + subida * _actualSpeed * Time.fixedDeltaTime);
 
         }
@@ -279,25 +278,34 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     {
         if (isRotating) return;
 
-        if(_grabb)
+        if(_grabb) //Si estoy agarrado
         {
-            ActualMove = NormalMovement;
+            _grabb = false;
+            StartCoroutine(WaitRayChange());
 
-            if(_dirGrabb.sqrMagnitude != 0)
+            if (_dirGrabb.sqrMagnitude != 0 && _stopGrabb)
             {
+                ActualMove = NormalMovement;
+
+                _jumpGrabb = true;
                 _rbCharacter.isKinematic = false;
                 _forceGravity = _initialForceGravity;
-                _rbCharacter.velocity = new Vector3(_dirGrabb.x * _jumpForceAxiX, _jumpForceAxiY);
-                Debug.Log("JUAN");
+
+                //Depende la direccion de donde quiera ir, va a saltar
+                if (_dirGrabb.y > 0) _rbCharacter.velocity = new Vector3(0, _dirGrabb.y * _jumpForceAxiY * 2);
+                else if (_dirGrabb.x != 0) _rbCharacter.velocity = new Vector3(_dirGrabb.x * _jumpForceAxiX, _jumpForceAxiY);
+
+                _dirGrabb = default;
             }
-            else
+            else if(_dirGrabb.sqrMagnitude == 0) //Si no, salta en direccion opuesta a la agarradera
             {
+                ActualMove = NormalMovement;
+
                 Vector3 oppDir = -transform.forward;
                 Vector3 jumpDir = new Vector3(oppDir.x, _jumpForceAxiY, oppDir.z * _jumpForceAxiZ);
-                _rbCharacter.isKinematic = false;
                 _forceGravity = _initialForceGravity;
+                _rbCharacter.isKinematic = false;
                 _rbCharacter.velocity = jumpDir;
-                Debug.Log("SALTO");
             }
         }
 
@@ -308,6 +316,13 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
             _rbCharacter.velocity = Vector3.up * _jumpForce;
             AudioManager.instance.PlayMonkeySFX(AudioManager.instance.jump);
         }
+    }
+
+    IEnumerator WaitRayChange()
+    {
+        _waitRay = true;
+        yield return new WaitForSeconds(0.2f);
+        _waitRay = false;
     }
 
     public void CutJump()
@@ -572,12 +587,5 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         //Debug.Log("cargue mono");
     }
     #endregion
-
-    private void OnDestroy()
-    {
-         EventManager.Unsubscribe("ActualMovement", NormalMovement);
-         EventManager.Unsubscribe("ActualMovement", HandleMovement);
-
-    }
 
 }

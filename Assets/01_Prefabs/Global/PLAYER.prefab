@@ -5456,10 +5456,13 @@ MonoBehaviour:
   _maxLife: 100
   _actualLife: 0
   _speed: 10
-  _forceGravity: 1.5
+  _actualSpeed: 0
+  _forceGravity: 1.25
   _jumpForce: 25
+  _jumpForceAxiZ: 10
+  _jumpForceAxiX: 20
+  _jumpForceAxiY: 16
   _coyoteTime: 0.15
-  _holdPower: 0
   _pushingForce: 5
   _moveRange: 0.75
   _moveMask:
@@ -5468,6 +5471,7 @@ MonoBehaviour:
   _handleMask:
     serializedVersion: 2
     m_Bits: 8192
+  _dirGrabb: {x: 0, y: 0, z: 0}
   _normalDamage: 40
   _comboTime: 1.25
   isRotating: 0
@@ -5485,9 +5489,9 @@ MonoBehaviour:
   _pointRotation: {fileID: 0}
   _pointFromPlayer: {fileID: 0}
   _animPlayer: {fileID: 0}
-  _particleSpinAttack: {fileID: 2241997669924965020}
-  _particleJump: {fileID: 6329133992696962600}
-  _polvo: {fileID: 5580466709260416764}
+  _particleSpinAttack: {fileID: 0}
+  _particleJump: {fileID: 0}
+  _polvo: {fileID: 0}
 --- !u!114 &5304462128086285301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5512,7 +5516,7 @@ Rigidbody:
   m_GameObject: {fileID: 2696543276277456780}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 1
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -12622,12 +12626,6 @@ PrefabInstance:
 --- !u!4 &4504592990558581264 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 454813373484942435, guid: 8d0c5e9a31558a24481e193b67cc7b5b,
-    type: 3}
-  m_PrefabInstance: {fileID: 4092739822234351219}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &6329133992696962600 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 8005655188164765787, guid: 8d0c5e9a31558a24481e193b67cc7b5b,
     type: 3}
   m_PrefabInstance: {fileID: 4092739822234351219}
   m_PrefabAsset: {fileID: 0}
