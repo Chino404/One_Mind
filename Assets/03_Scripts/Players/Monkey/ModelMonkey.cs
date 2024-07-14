@@ -6,25 +6,28 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 {
-    [Header("Valores Personaje")]
+    [Header("VALORES PERSONAJE")]
     [SerializeField] private float _maxLife;
     [SerializeField]private float _actualLife;
     [SerializeField] private float _speed = 10f;
     [SerializeField] private float _actualSpeed;
     [SerializeField] private float _forceGravity;
     private float _initialForceGravity;
-    [SerializeField] private float _jumpForce;
+    [SerializeField, Tooltip("Fuerza de salto normal")] private float _jumpForce;
+    [SerializeField, Range(1,20), Tooltip("Fuerza de salto en el eje Z cuando está en la enredadera")] private float _jumpForceAxiZ;
+    [SerializeField, Range(1,20), Tooltip("Fuerza de salto en el eje X cuando está en la enredadera")] private float _jumpForceAxiX;
+    [SerializeField, Range(1,30), Tooltip("Fuerza de salto en el eje Y cuando está en la enredadera")] private float _jumpForceAxiY;
     [SerializeField, Range(0, 0.4f)] private float _coyoteTime = 0.2f;
     private float _coyoteTimeCounter;
     [SerializeField, Range(2f, 7f) ,Tooltip("Fuerza de empuje del golpe")] private float _pushingForce = 5f;
 
     //Raycast para las colsiones y las agarraderas
     [SerializeField, Tooltip("Rango para evitar pegarme al objeto de _moveMask")] private float _moveRange = 0.75f; //Rango para el Raycast para evitar q el PJ se pegue a la pared
-    [SerializeField] private LayerMask _moveMask; //Para indicar q layer quierp q no se acerque mucho
-    [SerializeField] private LayerMask _handleMask;
+    [SerializeField, Tooltip("Que Layer no quiero que se acerque")] private LayerMask _moveMask; //Para indicar q layer quierO q no se acerque mucho
+    [SerializeField, Tooltip("Layer de Enredaderas u objeto a trepar")] private LayerMask _handleMask;
     private Ray _moveRay;
     [SerializeField]private bool _grabb;
-    [SerializeField]private Vector3 _grabPosition;
+    [SerializeField]private Vector3 _dirGrabb;
 
     [Header("Daños")]
     [SerializeField] private int _normalDamage;
@@ -155,6 +158,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         var dirRaw = (Vector3)parameters[0];
         var dir = (Vector3)parameters[1];
 
+        _dirGrabb = default;
         _grabb = false;
         _actualSpeed = _speed;
         _forceGravity = _initialForceGravity;
@@ -194,30 +198,16 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         _forceGravity = 0;
         _rbCharacter.isKinematic = true;
 
-       // RaycastHit hitInfo;
-
-        //if (Physics.Raycast(_moveRay, out hitInfo))
-        //{
-        //    _grabPosition = hitInfo.point;
-        //    var objeto = hitInfo.transform.forward;
-        //    transform.forward = objeto;
-        //}
-
         if (dirRaw.sqrMagnitude != 0)
         {
             Vector3 subida = new Vector3(dir.normalized.x, dir.normalized.z);
+            _dirGrabb = subida;
 
             Ray vistaEnredadera = new Ray(transform.position + subida, transform.forward);
-            RaycastHit hitInfo;
-
             Debug.DrawRay(transform.position + subida, transform.forward * _moveRange, Color.green);
 
-            if (Physics.Raycast(vistaEnredadera, out hitInfo))
-            {
-                _grabPosition = hitInfo.point;
-                var objeto = hitInfo.transform.forward;
-                transform.forward = objeto;
-            }
+            RaycastHit hitInfo;
+            if (Physics.Raycast(vistaEnredadera, out hitInfo)) transform.forward = hitInfo.transform.forward;
 
             if (!Physics.Raycast(vistaEnredadera, _moveRange, _handleMask)) return;
 
@@ -232,6 +222,10 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
             _rbCharacter.MovePosition(transform.position + subida * _actualSpeed * Time.fixedDeltaTime);
 
+        }
+        else
+        {
+            _dirGrabb = default;
         }
     }
 
@@ -288,12 +282,23 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         if(_grabb)
         {
             ActualMove = NormalMovement;
-            //Vector3 directionToJump = -_grabPosition * 2;
-            _rbCharacter.isKinematic = false;
-            _forceGravity = _initialForceGravity;
-            _rbCharacter.velocity = new Vector3(0, 10, 6 * -transform.position.z);
-            //_rbCharacter.AddForce(directionToJump * _jumpForce, ForceMode.Impulse);
-            Debug.Log("SALTO");
+
+            if(_dirGrabb.sqrMagnitude != 0)
+            {
+                _rbCharacter.isKinematic = false;
+                _forceGravity = _initialForceGravity;
+                _rbCharacter.velocity = new Vector3(_dirGrabb.x * _jumpForceAxiX, _jumpForceAxiY);
+                Debug.Log("JUAN");
+            }
+            else
+            {
+                Vector3 oppDir = -transform.forward;
+                Vector3 jumpDir = new Vector3(oppDir.x, _jumpForceAxiY, oppDir.z * _jumpForceAxiZ);
+                _rbCharacter.isKinematic = false;
+                _forceGravity = _initialForceGravity;
+                _rbCharacter.velocity = jumpDir;
+                Debug.Log("SALTO");
+            }
         }
 
         if (_coyoteTimeCounter > 0f)
