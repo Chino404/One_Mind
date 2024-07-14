@@ -20,8 +20,6 @@ public class ControllerMonkey
         if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.LeftShift))
         {
             _model.ActualMove = _model.NormalMovement;
-            //EventManager.Unsubscribe("ActualMovement", _model.HandleMovement);
-            //EventManager.Subscribe("ActualMovement", _model.NormalMovement);
         }
 
         if (Input.GetButtonDown("Jump")) _model.Jump();
