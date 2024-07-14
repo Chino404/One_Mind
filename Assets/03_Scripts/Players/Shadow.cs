@@ -8,8 +8,9 @@ public class Shadow : MonoBehaviour
 {
     public GameObject shadow;
     private GameObject _circleInstance; // Instancia del círculo 2D
-    public float _iniScale;
-    public float _newScale;
+    [SerializeField] private LayerMask _layerToCastShadow;
+    [SerializeField]private float _iniScale;
+    [SerializeField] private float _newScale;
 
     private float disRayScale = 4f;
     private float timeScale = 0.5f;
@@ -71,7 +72,7 @@ public class Shadow : MonoBehaviour
 
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, _layerToCastShadow))
         {
             _circleInstance.transform.position = hit.point + Vector3.up * 0.05f;
 
