@@ -21,7 +21,8 @@ public class GameManager : MonoBehaviour
     private float _duration;
 
     //public CameraTracker cam;
-    
+
+   
 
     public List<Enemy> enemies = new();
 

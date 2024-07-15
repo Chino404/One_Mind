@@ -79,6 +79,8 @@ public class Shadow : MonoBehaviour
             //if (_timer < _transicionDuration) _timer += Time.deltaTime;
         }
 
+        
+
         //Visualizar el raycast en la escena
         //Debug.DrawRay(ray.origin, ray.direction * 1000, Color.red, 0.1f); // Dibuja el raycast en la escena para visualizarlo
     }
