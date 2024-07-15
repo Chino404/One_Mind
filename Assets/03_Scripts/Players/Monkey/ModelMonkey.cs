@@ -88,12 +88,13 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         _view = new ViewMonkey(_animatorCharacter);
         _controller = new ControllerMonkey(this);
         _currentState = new MementoState();
+        GameManager.instance.playerGM = this;
+        GameManager.instance.players[0] = this;
+
     }
 
     private void Start()
     {
-        GameManager.instance.playerGM = this;
-        GameManager.instance.players[0] = this;
 
         if(!GameManager.instance.rewinds.Contains(this))
         GameManager.instance.rewinds.Add(this);
