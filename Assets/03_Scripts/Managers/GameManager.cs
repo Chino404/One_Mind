@@ -14,10 +14,10 @@ public class GameManager : MonoBehaviour
     private bool _inChange = false;
     private bool _controllerMonkey = true; //Si se puede usar al mono
     public bool ContollerMonkey {  get { return _controllerMonkey; } }
-    [HideInInspector] public Animator _animCamMonkey;
-    [HideInInspector] public Animator _animCamBanana;
-    private Animator _animSeparationCameras;
-    public Animator AnimSeparationCameras { set { _animSeparationCameras = value; } }
+    //[HideInInspector] public Animator _animCamMonkey;
+    //[HideInInspector] public Animator _animCamBanana;
+    //private Animator _animSeparationCameras;
+    //public Animator AnimSeparationCameras { set { _animSeparationCameras = value; } }
     private float _duration;
 
     //public CameraTracker cam;
@@ -48,8 +48,8 @@ public class GameManager : MonoBehaviour
     {
         
 
-        AnimatorStateInfo stateInfo = _animSeparationCameras.GetCurrentAnimatorStateInfo(0);
-        _duration = stateInfo.length;
+        //AnimatorStateInfo stateInfo = _animSeparationCameras.GetCurrentAnimatorStateInfo(0);
+        //_duration = stateInfo.length;
 
         //Activo los controles del Mono
         _controllerMonkey = true;
@@ -59,18 +59,18 @@ public class GameManager : MonoBehaviour
         }
         //Desactivo la banana
         players[1].GetComponent<ModelBanana>().enabled = false;
+        CameraTarget.instance.target = players[0].transform;
 
 
-        
     }
 
-    
+
 
     private void Update()
     {
         if(_controllerMonkey) players[1].GetComponent<ModelBanana>().enabled = false;
 
-        
+
     }
 
     public void RemoveAll()
@@ -100,10 +100,10 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0;
         _inChange = true;
-        _animCamMonkey.SetTrigger("Exit");
+        //_animCamMonkey.SetTrigger("Exit");
         camerasPlayers[1].GetComponent<Camera>().enabled = true;
-        _animCamBanana.SetTrigger("Enter");
-        _animSeparationCameras.SetTrigger("Enter");
+        //_animCamBanana.SetTrigger("Enter");
+        //_animSeparationCameras.SetTrigger("Enter");
         _controllerMonkey = false;
         yield return new WaitForSecondsRealtime(1);
 
@@ -125,10 +125,10 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         players[1].GetComponent<ModelBanana>().enabled = false;
         _inChange = true;
-        _animCamBanana.SetTrigger("Exit");
+        //_animCamBanana.SetTrigger("Exit");
         camerasPlayers[0].GetComponent<Camera>().enabled = true;
-        _animCamMonkey.SetTrigger("Enter");
-        _animSeparationCameras.SetTrigger("Exit");
+        //_animCamMonkey.SetTrigger("Enter");
+        //_animSeparationCameras.SetTrigger("Exit");
         yield return new WaitForSecondsRealtime(1);
 
         _controllerMonkey = true;
