@@ -13,6 +13,6 @@ public class SeparationCameras : MonoBehaviour
 
     private void Start()
     {
-        GameManager.instance.AnimSeparationCameras = _animator;
+        //GameManager.instance.AnimSeparationCameras = _animator;
     }
 }
