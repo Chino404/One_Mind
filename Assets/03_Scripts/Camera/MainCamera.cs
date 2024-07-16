@@ -11,11 +11,7 @@ public class MainCamera : MonoBehaviour
     //    _animatorCamera = GetComponent<Animator>();
     //}
 
-    //private void Start()
-    //{
-    //    GameManager.instance.camerasPlayers[0] = gameObject;
-    //    GameManager.instance._animCamMonkey = _animatorCamera;
-    //}
+    
 
     [Header("Components")]
     [SerializeField] Camera _cam;
@@ -34,21 +30,25 @@ public class MainCamera : MonoBehaviour
     [Range(2f, 10f)] [SerializeField] float _maxDistance = 3f;
 
 
-    float _mouseX, _mouseY;
+    //float _mouseX, _mouseY;
     Vector3 _dir, _camPos;
 
     Ray _camRay;
     RaycastHit _camRayHit;
     bool _isCamBlocked;
 
+
+    
     private void Start()
     {
         Cursor.lockState = _lockMode;
         Cursor.visible = _isCursorVisible;
 
         transform.forward = _target.forward;
-        _mouseX = transform.eulerAngles.y;
-        _mouseY = transform.eulerAngles.x;
+        //_mouseX = transform.eulerAngles.y;
+        //_mouseY = transform.eulerAngles.x;
+        GameManager.instance.camerasPlayers[0] = _cam.gameObject;
+
     }
 
     private void FixedUpdate()
@@ -64,13 +64,10 @@ public class MainCamera : MonoBehaviour
     {
         transform.position = _target.position;//Actualizar la posicion del socket
 
-    }
-
-    private void Update()
-    {
         UpdateSpringArm(); //Actualizar la posicion de la camara
 
     }
+
 
     void UpdateSpringArm()
     {

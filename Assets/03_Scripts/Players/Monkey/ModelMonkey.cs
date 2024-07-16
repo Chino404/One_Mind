@@ -71,6 +71,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     private event MyDelegate _actualMove;
 
     public MyDelegate ActualMove { get { return _actualMove; } set {  _actualMove = value; } }
+    public CameraTarget camera;
 
     private void Awake()
     {
@@ -88,9 +89,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         _view = new ViewMonkey(_animatorCharacter);
         _controller = new ControllerMonkey(this);
         _currentState = new MementoState();
-        GameManager.instance.playerGM = this;
-        GameManager.instance.players[0] = this;
 
+        
     }
 
     private void Start()
@@ -106,6 +106,10 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         _comboTimeCounter = _comboTime;
 
         ActualMove = NormalMovement;
+
+        GameManager.instance.playerGM = this;
+        GameManager.instance.players[0] = this;
+        camera.Target = this.transform;
     }
 
     private void Update()
