@@ -68,7 +68,8 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if(_controllerMonkey) players[1].GetComponent<ModelBanana>().enabled = false;
-        
+
+        if (Input.GetKeyDown(KeyCode.Q)) Swap();
 
     }
 
@@ -82,7 +83,7 @@ public class GameManager : MonoBehaviour
 
     public void Swap()
     {
-        if(_inChange || !players[1].GetComponent<BananaGuide>().ChangeCharacter) return;
+        //if(_inChange || !players[1].GetComponent<BananaGuide>().ChangeCharacter) return;
 
         if(_controllerMonkey)
         {
