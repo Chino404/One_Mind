@@ -20,21 +20,25 @@ public class CameraTarget : MonoBehaviour
     private void Start()
     {
         
-        distance = Vector3.Distance(target.position, transform.position);
+        //distance = Vector3.Distance(target.position, transform.position);
         pos = transform.position - target.position;
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
-        if (Vector3.Distance(target.position, transform.position) <= distance) return;
+        //if (Vector3.Distance(target.position, transform.position) <= distance) return;
         //transform.forward = _target.forward;
-        _velocity.z = target.position.z - transform.position.z;
+        //_velocity.z = target.position.z - transform.position.z;
         //_velocity.x = 0;
         //_velocity.y = 0;
         _velocity.Normalize();
         if (target.position.y + pos.y != transform.position.y)
             _velocity.y = target.position.y+pos.y - transform.position.y;
         else _velocity.y = 0;
+        if (target.position.z + pos.z != transform.position.z)
+            _velocity.z = target.position.z + pos.z - transform.position.z;
+        else _velocity.z = 0;
+
         transform.position += _velocity * _smoothSpeed * Time.deltaTime;
     }
 }
