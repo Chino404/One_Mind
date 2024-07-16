@@ -5,25 +5,24 @@ using UnityEngine;
 public class BananaGuide : Rewind
 {
     public Transform target;
-    [SerializeField] private bool _changeCharacter;
-    public bool ChangeCharacter { get { return _changeCharacter; } }
+    //[SerializeField] private bool _changeCharacter;
+    //public bool ChangeCharacter { get { return _changeCharacter; } }
 
-    
 
     private Rigidbody _rb;
     [Tooltip("Velocidad")]public float maxSpeed = 10f;
-    private Collider _myCollider;
-    private float _iniSpeed;
+    //private Collider _myCollider;
+    //private float _iniSpeed;
     [Tooltip("Fuerza para girar")]public float maxForce = 6f;
 
-    [Header("WayPoints")]
-    [SerializeField] private int _actualIndex;
-    public WayPoints[] wayPoints;
+    //[Header("WayPoints")]
+    //[SerializeField] private int _actualIndex;
+    //public WayPoints[] wayPoints;
 
     [Header("Radios")]
-    [SerializeField,Tooltip("Radio para emepzar a frenar")] private float _arriveRadius = 8.5f;
-    [SerializeField,Tooltip("Radio de visualizacion")] private float _viewRadius = 7f;
-    [SerializeField,Tooltip("Radio para alejarse del Player")] private float _rangoRadius;
+    [SerializeField, Tooltip("Radio para empezar a frenar")] private float _arriveRadius = 8.5f;
+    [SerializeField, Tooltip("Radio de visualizacion")] private float _viewRadius = 7f;
+    [SerializeField, Tooltip("Radio para alejarse del Player")] private float _rangoRadius;
     public float RangoRadius { get { return _rangoRadius; } }
 
     [Header("Obstacle Acoidance / Esquivar Obstaculos")]
@@ -34,89 +33,92 @@ public class BananaGuide : Rewind
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        _myCollider = GetComponent<Collider>();
+        //_myCollider = GetComponent<Collider>();
         _currentState = new MementoState();
 
-        _iniSpeed = maxSpeed;
+        //_iniSpeed = maxSpeed;
 
     }
 
-    private void OnEnable()
-    {
-        _myCollider.isTrigger = true;
-    }
+    //private void OnEnable()
+    //{
+    //    _myCollider.isTrigger = true;
+    //}
 
-    private void OnDisable()
-    {
-        _myCollider.isTrigger = false;
-    }
+    //private void OnDisable()
+    //{
+    //    _myCollider.isTrigger = false;
+    //}
 
-    void Update()
-    {
+    //void Update()
+    //{
 
-        AddForce(Seek(wayPoints[_actualIndex].transform.position));
+    //    //AddForce(Seek(wayPoints[_actualIndex].transform.position));
 
-        //_changeCharacter = wayPoints[_actualIndex].changeCharacter; 
+    //    //_changeCharacter = wayPoints[_actualIndex].changeCharacter; 
 
-        if (wayPoints[_actualIndex].Stop)
-        {
-            StopBanana();
-            return;
-        }
+    //    //if (wayPoints[_actualIndex].Stop)
+    //    //{
+    //    //    StopBanana();
+    //    //    return;
+    //    //}
 
-        if (Vector3.Distance(transform.position, wayPoints[_actualIndex].transform.position) <= 0.3f)
-        {
+    //    //if (Vector3.Distance(transform.position, wayPoints[_actualIndex].transform.position) <= 0.3f)
+    //    //{
 
-            var target = wayPoints[_actualIndex].transform.position;
+    //    //    var target = wayPoints[_actualIndex].transform.position;
 
-            _actualIndex++;
-        }
+    //    //    _actualIndex++;
+    //    //}
 
 
-        transform.position += _velocity * Time.deltaTime;
-        transform.forward = _velocity; //Que mire para donde se esta moviendo
+    //    //transform.position += _velocity * Time.deltaTime;
 
-        //if (transform.position != target.position)
-        //{
-        //    AddForce(Arrive(target.position));
+    //    //if (transform.position != target.position)
+    //    //{
+    //    //    AddForce(Arrive(target.position));
 
-        //    //AddForce(ObstacleAvoidance() * avoidWeight);
+    //    //    AddForce(ObstacleAvoidance() * avoidWeight);
 
-        //    //transform.position += _velocity * Time.deltaTime;
-        //    //transform.forward = _velocity; //Que mire para donde se esta moviendo
-        //}
+    //    //    //transform.position += _velocity * Time.deltaTime;
+    //    //    //transform.forward = _velocity; //Que mire para donde se esta moviendo
+    //    //}
 
-        // Solo rotamos sobre el eje Y (vertical), manteniendo la posición en X y Z
-        //Vector3 lookPos = new Vector3(target.position.x, transform.position.y, target.position.z);
-        //transform.LookAt(lookPos);
-    }
+    //    // Solo rotamos sobre el eje Y (vertical), manteniendo la posición en X y Z
+    //    //Vector3 lookPos = new Vector3(target.position.x, transform.position.y, target.position.z);
+    //    //transform.LookAt(lookPos);
+    //}
 
     private void FixedUpdate()
     {
+        AddForce(Arrive(target.position));
+        //AddForce(ObstacleAvoidance() * avoidWeight);
+
         if (_velocity != Vector3.zero)
         {
             _rb.MovePosition(transform.position + _velocity * Time.fixedDeltaTime);
         }
+        
     }
 
-    void StopBanana()
-    {
-        if(Vector3.Distance(transform.position, wayPoints[_actualIndex].transform.position) <= 0.3f)
-        {
-            maxSpeed = 0;
+    //void StopBanana()
+    //{
+    //    if(Vector3.Distance(transform.position, wayPoints[_actualIndex].transform.position) <= 0.3f)
+    //    {
+    //        maxSpeed = 0;
 
-            // Solo rotamos sobre el eje Y (vertical), manteniendo la posición en X y Z
-            Vector3 lookPos = new Vector3(target.position.x, transform.position.y, target.position.z);
-            transform.LookAt(lookPos);
-        }
+    //        // Solo rotamos sobre el eje Y (vertical), manteniendo la posición en X y Z
+    //        Vector3 lookPos = new Vector3(target.position.x, transform.position.y, target.position.z);
+    //        transform.LookAt(lookPos);
+    //    }
 
-        if (Vector3.Distance(transform.position, target.position) <= _viewRadius && !wayPoints[_actualIndex].action)
-        {
-            Debug.Log("Cambio Index");
-            maxSpeed = _iniSpeed;
-            _actualIndex++;
-        }
-    }
+    //    if (Vector3.Distance(transform.position, target.position) <= _viewRadius && !wayPoints[_actualIndex].action)
+    //    {
+    //        Debug.Log("Cambio Index");
+    //        maxSpeed = _iniSpeed;
+    //        _actualIndex++;
+    //    }
+    //}
 
     #region Patrones de Movimiento
     public Vector3 Seek(Vector3 target)
@@ -204,7 +206,7 @@ public class BananaGuide : Rewind
 
     public override void Save()
     {
-        _currentState.Rec(transform.position, _actualIndex, maxSpeed);
+        _currentState.Rec(transform.position, maxSpeed);
     }
 
     public override void Load()
@@ -213,7 +215,7 @@ public class BananaGuide : Rewind
 
         var col = _currentState.Remember();
         transform.position = (Vector3)col.parameters[0];
-        _actualIndex = (int)col.parameters[1];
-        maxSpeed = (float)col.parameters[2];
+        //_actualIndex = (int)col.parameters[1];
+        maxSpeed = (float)col.parameters[1];
     }
 }

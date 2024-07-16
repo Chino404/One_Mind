@@ -20,16 +20,16 @@ public class ControllerBanana
 
     
 
-    public void ArtificialUpdate()
-    {
-        _inputMouseX = Input.GetAxisRaw("Mouse X");
-        _inputMouseY = Input.GetAxisRaw("Mouse Y");
+    //public void ArtificialUpdate()
+    //{
+    //    _inputMouseX = Input.GetAxisRaw("Mouse X");
+    //    _inputMouseY = Input.GetAxisRaw("Mouse Y");
 
-        if(_inputMouseX != 0 || _inputMouseY != 0) _model.Rotation(_inputMouseX, _inputMouseY);
+    //    if(_inputMouseX != 0 || _inputMouseY != 0) _model.Rotation(_inputMouseX, _inputMouseY);
 
-        //if (Input.GetKeyDown(KeyCode.Q)) GameManager.instance.Swap();   
+    //    //if (Input.GetKeyDown(KeyCode.Q)) GameManager.instance.Swap();   
 
-    }
+    //}
 
     public void ListenFixedKeys()
     {
