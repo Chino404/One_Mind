@@ -64,7 +64,7 @@ public class MainCamera : MonoBehaviour
     {
         transform.position = _target.position;//Actualizar la posicion del socket
 
-        UpdateSpringArm(); //Actualizar la posicion de la camara
+        //UpdateSpringArm(); //Actualizar la posicion de la camara
 
     }
 

@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            StartCoroutine(SwitchCamMonkey());
+            SwitchCamMonkey();
         }
     }
 
@@ -120,26 +120,27 @@ public class GameManager : MonoBehaviour
 
     }
 
-    IEnumerator SwitchCamMonkey()
+    void SwitchCamMonkey()
     {
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
         players[1].GetComponent<ModelBanana>().enabled = false;
         _inChange = true;
         //_animCamBanana.SetTrigger("Exit");
-        camerasPlayers[0].GetComponent<Camera>().enabled = true;
+        //camerasPlayers[0].GetComponent<Camera>().enabled = true;
         //_animCamMonkey.SetTrigger("Enter");
         //_animSeparationCameras.SetTrigger("Exit");
-        yield return new WaitForSecondsRealtime(1);
+        //yield return new WaitForSecondsRealtime(1);
 
         _controllerMonkey = true;
-        camerasPlayers[1].GetComponent<Camera>().enabled = false;
+        //camerasPlayers[1].GetComponent<Camera>().enabled = false;
 
+        cam.Target = players[0].transform;
 
         players[1].GetComponent<BananaGuide>().enabled = true;
         //players[1].GetComponent<ModelBanana>().enabled = false;
 
-        Time.timeScale = 1;
-        yield return new WaitForSecondsRealtime(_duration);
+        //Time.timeScale = 1;
+        //yield return new WaitForSecondsRealtime(_duration);
         _inChange = false;
     }
 
