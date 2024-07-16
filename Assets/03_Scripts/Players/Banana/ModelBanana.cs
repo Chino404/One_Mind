@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class ModelBanana : Characters
 {
-    [Header("Camara")]
-    [Range(1f, 1000f), SerializeField] private float _mouseSensivility = 100f;
+    //[Header("Camara")]
+    //[Range(1f, 1000f), SerializeField] private float _mouseSensivility = 100f;
 
-    [Header("Componentes")]
-    [SerializeField] private Transform _headTransform;
-    [SerializeField] private Image _visorImage;
+    //[Header("Componentes")]
+    //[SerializeField] private Transform _headTransform;
+    //[SerializeField] private Image _visorImage;
 
     [Header("Valores Perosnaje")]
     [SerializeField, Tooltip("Rango para evitar pegarme al objeto de _moveMask")] private float _moveRange = 0.75f; //Rango para el Raycast para evitar q el PJ se pegue a la pared
@@ -18,9 +18,9 @@ public class ModelBanana : Characters
     [SerializeField] private LayerMask _moveMask; //Para indicar q layer quierp q no se acerque mucho
     [SerializeField] private float _speedUp = 2f;
 
-    private float _mouseRotationX;
+    //private float _mouseRotationX;
 
-    [SerializeField] private FPCamera _camera;
+    //[SerializeField] private FPCamera _camera;
     private Rigidbody _rb;
 
     private Ray _moveRay;
@@ -37,11 +37,11 @@ public class ModelBanana : Characters
 
     private void Awake()
     {
-        _visorImage.gameObject.SetActive(false);
+        //_visorImage.gameObject.SetActive(false);
 
         _rb = GetComponent<Rigidbody>();
         _rb.constraints = RigidbodyConstraints.FreezeRotation; //Me bloquea los 3 ejes a al vez
-        _camera = GetComponentInChildren<FPCamera>();
+        //_camera = GetComponentInChildren<FPCamera>();
 
 
         _view = new ViewBanana();
@@ -51,34 +51,34 @@ public class ModelBanana : Characters
     private void Start()
     {
         GameManager.instance.players[1] = this;
-        _camera.gameObject.GetComponent<Camera>().enabled = false;
+        //_camera.gameObject.GetComponent<Camera>().enabled = false;
 
         _factory = new BulletFactory(bulletBanana);
         _objectPool = new ObjectPool<BulletBanana>(_factory.GetObj, BulletBanana.TurnOff, BulletBanana.TurnOn, _bulletQuantity);
     }
 
-    public void ActivarVisor()
-    {
-        StartCoroutine(AnimVisor());
-    }
+    //public void ActivarVisor()
+    //{
+    //    StartCoroutine(AnimVisor());
+    //}
 
     private void OnDisable()
     {
-        _visorImage.gameObject.SetActive(false);
+        //_visorImage.gameObject.SetActive(false);
     }
 
     private void Update()
     {
-        _controller.ArtificialUpdate();
+        //_controller.ArtificialUpdate();
 
         if (Input.GetMouseButtonDown(0))
         {
             AudioManager.instance.PlayMonkeySFX(AudioManager.instance.shoot);
             var bullet = _objectPool.Get();
             bullet.AddReference(_objectPool);
-            bullet.transform.position = _camera.transform.position;
-            bullet.transform.rotation = _camera.transform.rotation;
-            bulletBanana.transform.forward = _camera.transform.forward;
+            //bullet.transform.position = _camera.transform.position;
+            //bullet.transform.rotation = _camera.transform.rotation;
+            //bulletBanana.transform.forward = _camera.transform.forward;
 
         }
     }
@@ -88,40 +88,36 @@ public class ModelBanana : Characters
         _controller.ListenFixedKeys();
     }
 
-    IEnumerator AnimVisor()
-    {
-        Color color = _visorImage.color;
+    //IEnumerator AnimVisor()
+    //{
+    //    Color color = _visorImage.color;
 
-        _visorImage.gameObject.SetActive(true);
-        AudioManager.instance.PlaySFX(AudioManager.instance.visorActive);
+    //    _visorImage.gameObject.SetActive(true);
+    //    AudioManager.instance.PlaySFX(AudioManager.instance.visorActive);
 
-        color.a = 0.5f;
-        _visorImage.color = color;
+    //    color.a = 0.5f;
+    //    _visorImage.color = color;
 
-        yield return new WaitForSeconds(0.1f);
-        color.a = 0.2f;
-        _visorImage.color = color;
-
-
-        yield return new WaitForSeconds(0.1f);
-        color.a = 0.5f;
-        _visorImage.color = color;
+    //    yield return new WaitForSeconds(0.1f);
+    //    color.a = 0.2f;
+    //    _visorImage.color = color;
 
 
-        yield return new WaitForSeconds(0.1f);
-        color.a = 0.2f;
-        _visorImage.color = color;
+    //    yield return new WaitForSeconds(0.1f);
+    //    color.a = 0.5f;
+    //    _visorImage.color = color;
 
 
-        yield return new WaitForSeconds(0.1f);
-        color.a = 0.5f;
-        _visorImage.color = color;
+    //    yield return new WaitForSeconds(0.1f);
+    //    color.a = 0.2f;
+    //    _visorImage.color = color;
 
 
+    //    yield return new WaitForSeconds(0.1f);
+    //    color.a = 0.5f;
+    //    _visorImage.color = color;
 
-
-
-    }
+    //}
 
     #region Movement
     public void Movement(float xAxis, float zAxis)
@@ -147,21 +143,21 @@ public class ModelBanana : Characters
         return Physics.Raycast(_moveRay, _moveRange, _moveMask);
     }
 
-    public void Rotation(float x, float y)
-    {
-        _mouseRotationX += x * _mouseSensivility * Time.deltaTime; 
+    //public void Rotation(float x, float y)
+    //{
+    //    _mouseRotationX += x * _mouseSensivility * Time.deltaTime; 
 
-        if(_mouseRotationX >= 360 || _mouseRotationX <= -360)
-        {
-            _mouseRotationX -= 360 * Mathf.Sign(_mouseRotationX); //Si excedo tal valor, me lo resta
-        }
+    //    if(_mouseRotationX >= 360 || _mouseRotationX <= -360)
+    //    {
+    //        _mouseRotationX -= 360 * Mathf.Sign(_mouseRotationX); //Si excedo tal valor, me lo resta
+    //    }
 
-        y *= _mouseSensivility * Time.deltaTime;
+    //    y *= _mouseSensivility * Time.deltaTime;
 
-        transform.rotation = Quaternion.Euler(0f, _mouseRotationX, 0); //Para que me rote en base al eje y
+    //    transform.rotation = Quaternion.Euler(0f, _mouseRotationX, 0); //Para que me rote en base al eje y
 
-        _camera?.RotationCamera(_mouseRotationX, y);
-    }
+    //    _camera?.RotationCamera(_mouseRotationX, y);
+    //}
     #endregion
 
     private bool DistTarget(Vector3 dir)
