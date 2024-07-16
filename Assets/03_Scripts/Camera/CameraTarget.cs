@@ -5,7 +5,8 @@ using UnityEngine;
 public class CameraTarget : MonoBehaviour
 {
     public static CameraTarget instance;
-    public Transform target;
+    [SerializeField]private Transform target;
+    public Transform Target { set { target = value; } }
     [SerializeField] private float _smoothSpeed;
     private float distance;
     [SerializeField] Vector3 pos;
@@ -18,6 +19,7 @@ public class CameraTarget : MonoBehaviour
 
     private void Start()
     {
+        
         distance = Vector3.Distance(target.position, transform.position);
         pos = transform.position - target.position;
     }

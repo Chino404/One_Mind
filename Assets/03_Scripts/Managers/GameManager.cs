@@ -21,8 +21,8 @@ public class GameManager : MonoBehaviour
     private float _duration;
 
     //public CameraTracker cam;
+    public CameraTarget cam;
 
-   
 
     public List<Enemy> enemies = new();
 
@@ -40,13 +40,13 @@ public class GameManager : MonoBehaviour
         }
         else
             Destroy(gameObject);
-        
+
+
 
     }
 
     private void Start()
     {
-        
 
         //AnimatorStateInfo stateInfo = _animSeparationCameras.GetCurrentAnimatorStateInfo(0);
         //_duration = stateInfo.length;
@@ -59,7 +59,6 @@ public class GameManager : MonoBehaviour
         }
         //Desactivo la banana
         players[1].GetComponent<ModelBanana>().enabled = false;
-        CameraTarget.instance.target = players[0].transform;
 
 
     }
@@ -69,7 +68,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if(_controllerMonkey) players[1].GetComponent<ModelBanana>().enabled = false;
-
+        
 
     }
 
@@ -87,7 +86,7 @@ public class GameManager : MonoBehaviour
 
         if(_controllerMonkey)
         {
-            StartCoroutine(SwitchCamBanana());
+            SwitchCamBanana();
         }
         else
         {
@@ -96,26 +95,26 @@ public class GameManager : MonoBehaviour
     }
 
 
-    IEnumerator SwitchCamBanana()
+    void SwitchCamBanana()
     {
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
         _inChange = true;
         //_animCamMonkey.SetTrigger("Exit");
-        camerasPlayers[1].GetComponent<Camera>().enabled = true;
+        //camerasPlayers[1].GetComponent<Camera>().enabled = true;
         //_animCamBanana.SetTrigger("Enter");
         //_animSeparationCameras.SetTrigger("Enter");
         _controllerMonkey = false;
-        yield return new WaitForSecondsRealtime(1);
+        //yield return new WaitForSecondsRealtime(1);
 
-        camerasPlayers[0].GetComponent<Camera>().enabled = false;
-
+        //camerasPlayers[0].GetComponent<Camera>().enabled = false;
+        cam.Target = players[1].transform;
         players[1].GetComponent<BananaGuide>().enabled = false;
         players[1].GetComponent<ModelBanana>().enabled = true;
-        players[1].GetComponent<ModelBanana>().ActivarVisor();
+        //players[1].GetComponent<ModelBanana>().ActivarVisor();
 
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
 
-        yield return new WaitForSecondsRealtime(_duration);
+        //yield return new WaitForSecondsRealtime(_duration);
         _inChange = false;
 
     }
