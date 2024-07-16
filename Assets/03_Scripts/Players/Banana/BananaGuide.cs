@@ -56,7 +56,7 @@ public class BananaGuide : Rewind
 
         AddForce(Seek(wayPoints[_actualIndex].transform.position));
 
-        _changeCharacter = wayPoints[_actualIndex].changeCharacter; 
+        //_changeCharacter = wayPoints[_actualIndex].changeCharacter; 
 
         if (wayPoints[_actualIndex].Stop)
         {

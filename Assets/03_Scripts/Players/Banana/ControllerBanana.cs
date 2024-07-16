@@ -27,7 +27,7 @@ public class ControllerBanana
 
         if(_inputMouseX != 0 || _inputMouseY != 0) _model.Rotation(_inputMouseX, _inputMouseY);
 
-        if (Input.GetKeyDown(KeyCode.Q)) GameManager.instance.Swap();
+        //if (Input.GetKeyDown(KeyCode.Q)) GameManager.instance.Swap();   
 
     }
 
