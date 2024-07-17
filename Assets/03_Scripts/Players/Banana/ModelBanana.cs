@@ -35,6 +35,10 @@ public class ModelBanana : Characters
     Factory<BulletBanana> _factory;
     ObjectPool<BulletBanana> _objectPool;
 
+    [Header("Attack")]
+    [SerializeField] private GameObject _electricAttack;
+    public float attackDuration=1f;
+
     private void Awake()
     {
         //_visorImage.gameObject.SetActive(false);
@@ -69,18 +73,18 @@ public class ModelBanana : Characters
 
     private void Update()
     {
-        //_controller.ArtificialUpdate();
+        _controller.ArtificialUpdate();
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            AudioManager.instance.PlayMonkeySFX(AudioManager.instance.shoot);
-            var bullet = _objectPool.Get();
-            bullet.AddReference(_objectPool);
-            //bullet.transform.position = _camera.transform.position;
-            //bullet.transform.rotation = _camera.transform.rotation;
-            //bulletBanana.transform.forward = _camera.transform.forward;
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    AudioManager.instance.PlayMonkeySFX(AudioManager.instance.shoot);
+        //    var bullet = _objectPool.Get();
+        //    bullet.AddReference(_objectPool);
+        //    //bullet.transform.position = _camera.transform.position;
+        //    //bullet.transform.rotation = _camera.transform.rotation;
+        //    //bulletBanana.transform.forward = _camera.transform.forward;
 
-        }
+        //}
     }
 
     private void FixedUpdate()
@@ -88,6 +92,16 @@ public class ModelBanana : Characters
         _controller.ListenFixedKeys();
     }
 
+    public void ElectricCharge()
+    {
+        StartCoroutine(ElectricAttack());
+    }
+    IEnumerator ElectricAttack()
+    {
+        _electricAttack.SetActive(true);
+        yield return new WaitForSeconds(attackDuration);
+        _electricAttack.SetActive(false);
+    }
     //IEnumerator AnimVisor()
     //{
     //    Color color = _visorImage.color;
@@ -126,8 +140,10 @@ public class ModelBanana : Characters
 
 
         if (IsBlocked(dir) || DistTarget(dir)) return; //Si hay algo en frente o salgo del rango no sigo
-
+        
         _rb.MovePosition(transform.position + dir * _speed * Time.fixedDeltaTime);
+        
+        
     }
 
     /// <summary>
