@@ -30,6 +30,11 @@ public class ControllerBanana
     //    //if (Input.GetKeyDown(KeyCode.Q)) GameManager.instance.Swap();   
 
     //}
+    public void ArtificialUpdate()
+    {
+        if (Input.GetMouseButtonDown(0)) _model.ElectricCharge();
+
+    }
 
     public void ListenFixedKeys()
     {
