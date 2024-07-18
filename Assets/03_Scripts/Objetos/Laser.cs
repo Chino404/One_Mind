@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
+using UnityEngine.UIElements;
+using static UnityEngine.UI.Image;
 
 [RequireComponent(typeof(LineRenderer))]
 public class Laser : MonoBehaviour
@@ -9,27 +11,38 @@ public class Laser : MonoBehaviour
     [Header("LASER WARNING VALUES")]
     [Tooltip("Tiempo en que el laser esta desactivado")]public float timeDisableLaser = 3f;
     [Tooltip("Duracion de la advertencia del laser")]public float durationLaserWarning = 2f;
+    [Tooltip("Duracion del laser")]public float durationLaser = 3f;
     [Range(0, 1)]public float widthLaserWarning;
     private float _timer;
+    private RaycastHit _hit;
+    private RaycastHit _hitTarget;
     public Transform startPoint;
     public Transform endPoint;
-    [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private LayerMask _layerObject;
     private bool _activeWarning;
+    [SerializeField]private bool _activeLaser;
 
-    private LineRenderer _laserLine;
+    private Vector3 _boxCastSize = new Vector3(1, 1, 1); // Tamaño del cubo
+    //private Vector3 _centerBoxCast;
+
+
+    private LineRenderer _lineRenderer;
 
     private void Awake()
     {
-        _laserLine = GetComponent<LineRenderer>();
-        if (_laserLine == null) Debug.LogError($"Falta el componente LineRenderer en {gameObject.name}");
+        _lineRenderer = GetComponent<LineRenderer>();
+
+        if (_lineRenderer == null) Debug.LogError($"Falta el componente LineRenderer en {gameObject.name}");
         if (startPoint == null) Debug.LogError($"Falta el StartPoint en el {gameObject.name}");
         if (endPoint == null) Debug.LogError($"Falta el EndPoint en el {gameObject.name}");
 
-        _laserLine.startWidth = 0;
+        _lineRenderer.startWidth = 0;
     }
 
     private void Update()
     {
+        _lineRenderer.SetPosition(0, startPoint.transform.position);
+
         if(!_activeWarning && _timer >= timeDisableLaser)
         {
             _activeWarning = true;
@@ -37,51 +50,53 @@ public class Laser : MonoBehaviour
         }
         else if(_timer < timeDisableLaser) _timer += Time.deltaTime;
 
-        _laserLine.SetPosition(0, startPoint.transform.position);
-        RaycastHit hit;
-
-        if (Physics.Raycast(transform.position, transform.up, out hit, Mathf.Infinity, _layerMask))
+        if (Physics.Raycast(startPoint.position, (endPoint.position - startPoint.position).normalized, out _hit, Mathf.Infinity, _layerObject))
         {
-            endPoint.transform.position = hit.point;
-            _laserLine.SetPosition(1, endPoint.transform.position);
-            _laserLine.enabled = true;
+            endPoint.position = _hit.point;
+            _lineRenderer.SetPosition(1, endPoint.transform.position);
+
+            _boxCastSize = new Vector3(1, Vector3.Distance(startPoint.position, endPoint.position), 1);
+            _lineRenderer.enabled = true;        
         }
         else Debug.LogError("No choca con nada");
 
-    }
-
-    private void ActiveLaserWarning()
-    {
-        _laserLine.SetPosition(0, startPoint.transform.position);
-        RaycastHit hit;
-
-        if (Physics.Raycast(transform.position, transform.up, out hit, Mathf.Infinity, _layerMask))
+        if (_activeLaser)
         {
-            endPoint.transform.position = hit.point;
-            _laserLine.SetPosition(1, endPoint.transform.position);
-            _laserLine.enabled = true;
-            StartCoroutine(InterpolateWidth());
+
+            // Dirección del Raycast (hacia el punto final)
+            Vector3 direction = (endPoint.position - startPoint.position).normalized;
+
+            // Calcular la distancia
+            float distance = Vector3.Distance(startPoint.position, endPoint.position);
+
+            // Realizar el BoxCast desde el punto de inicio hacia la dirección
+            if (Physics.BoxCast(startPoint.position, _boxCastSize / 2, direction, out _hitTarget, Quaternion.identity, distance))
+            {
+                var targetComponent = _hitTarget.collider.GetComponent<ModelMonkey>();
+
+                if (targetComponent != null) Debug.Log("A llorar monito");
+                else Debug.Log("AHHHHHHHHHHHHH");
+            }
         }
-        else Debug.LogError("No choca con nada");
-
     }
 
-    private void DesactiveLaserWarning()
-    {
-        _laserLine.enabled = false;
-        _activeWarning = false;
-        _timer = 0;
-    }
 
 
     IEnumerator ActiveWarning()
     {
-        StartCoroutine(InterpolateWidth());
+        StartCoroutine(InterpolateWidthLaserWarning());
         yield return new WaitForSeconds(durationLaserWarning);
-        DesactiveLaserWarning();
+        _lineRenderer.enabled = false;
+        _activeLaser = true;
+        _lineRenderer.startWidth = 1;
+        yield return new WaitForSeconds(durationLaser);
+        _lineRenderer.startWidth = 0;
+        _activeWarning = false;
+        _activeLaser = false;
+        _timer = 0;
     }
 
-    IEnumerator InterpolateWidth()
+    IEnumerator InterpolateWidthLaserWarning()
     {
         float elapsedTime = 0;
 
@@ -89,11 +104,36 @@ public class Laser : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / durationLaserWarning;
-            _laserLine.startWidth = Mathf.Lerp(0, widthLaserWarning, t);
+            _lineRenderer.startWidth = Mathf.Lerp(0, widthLaserWarning, t);
             yield return null;
         }
 
-        _laserLine.startWidth = 0;
+        //_lineRenderer.startWidth = 0;
+    }
+
+    void OnDrawGizmos()
+    {
+        //// Dibujar el cubo
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireCube((startPoint.position + endPoint.position) / 2f, _boxCastSize);
+
+        //// Dibujar una línea entre los dos puntos
+        //Gizmos.color = Color.yellow;
+        //Gizmos.DrawLine(startPoint.position, endPoint.position);
+
+        // Dirección del Raycast (hacia el punto final)
+        Vector3 direction = (endPoint.position - startPoint.position).normalized;
+
+        // Calcular la distancia
+        float distance = Vector3.Distance(startPoint.position, endPoint.position);
+
+        // Dibujar el cubo en el punto de inicio con la dirección y tamaño correcto
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(startPoint.position + direction * (distance / 2), _boxCastSize);
+
+        // Dibujar una línea entre los dos puntos
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(startPoint.position, endPoint.position);
     }
 
 }
