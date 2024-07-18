@@ -8,6 +8,6 @@ public class ElectricShock : MonoBehaviour
     {
         var interactable = other.GetComponent<IInteractable>();
         if (interactable != null)
-            interactable.Action();
+            interactable.LeftClickAction();
     }
 }

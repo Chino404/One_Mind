@@ -4,5 +4,6 @@ using UnityEngine;
 
 public interface IInteractable 
 {
-    public void Action();
+    public void LeftClickAction();
+    public void RightClickAction(Transform parent);
 }

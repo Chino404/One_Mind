@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Plataform : MonoBehaviour
+public class Plataform : MonoBehaviour, IInteractable
 {
     [SerializeField] float _secondsWaiting=2f;
     [SerializeField] Transform[] _waypoints;
@@ -40,7 +40,7 @@ public class Plataform : MonoBehaviour
         _velocity = _waypoints[_actualIndex].position - transform.position;
         _velocity.Normalize();
         //transform.position += _velocity * Time.fixedDeltaTime;
-        _rb.MovePosition(transform.position + _velocity*_maxVelocity * Time.fixedDeltaTime);
+        //_rb.MovePosition(transform.position + _velocity*_maxVelocity * Time.fixedDeltaTime);
     }
 
     
@@ -88,5 +88,15 @@ public class Plataform : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<ModelMonkey>())
             collision.transform.SetParent(null);
+    }
+
+    public void LeftClickAction()
+    {
+        
+    }
+
+    public void RightClickAction(Transform parent)
+    {
+        transform.SetParent(parent);
     }
 }

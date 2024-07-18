@@ -102,6 +102,29 @@ public class ModelBanana : Characters
         yield return new WaitForSeconds(attackDuration);
         _electricAttack.SetActive(false);
     }
+    private void OnTriggerStay(Collider other)
+    {
+        var interactable = other.GetComponent<IInteractable>();
+
+        if (interactable != null) Debug.Log("triggerrrr");
+        if (interactable != null)
+        {
+            if (Input.GetMouseButton(1))
+            {
+
+                Debug.Log("hay un trigger");
+                interactable.RightClickAction(transform);
+
+            }
+            if (Input.GetMouseButtonUp(1))
+            {
+                interactable = null;
+            }
+        }
+
+         
+        
+    }
     //IEnumerator AnimVisor()
     //{
     //    Color color = _visorImage.color;
