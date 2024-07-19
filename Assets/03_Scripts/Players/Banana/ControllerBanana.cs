@@ -33,7 +33,7 @@ public class ControllerBanana
     public void ArtificialUpdate()
     {
         if (Input.GetMouseButtonDown(0)) _model.ElectricCharge();
-
+        if (Input.GetMouseButtonDown(1)) _model.MoveObjects();
     }
 
     public void ListenFixedKeys()

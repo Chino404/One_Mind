@@ -96,7 +96,12 @@ public class Plataform : MonoBehaviour, IInteractable
     }
 
     public void RightClickAction(Transform parent)
-    {
+    {        
         transform.SetParent(parent);
+    }
+
+    public void NotParent()
+    {
+        transform.SetParent(null);
     }
 }
