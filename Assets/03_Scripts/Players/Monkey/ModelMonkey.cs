@@ -360,19 +360,19 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         switch (_currentCombo)
         {
             case 1:
-                Debug.Log("1er golpe");
+                //Debug.Log("1er golpe");
                 StartCoroutine(SystemNormalCombo(_pushingForce));
                 _comboTimeCounter = _comboTime;
                 break;
 
             case 2:
-                Debug.Log("2do golpe");
+                //Debug.Log("2do golpe");
                 StartCoroutine(SystemNormalCombo(_pushingForce + (_pushingForce * 0.5f)));
                 _comboTimeCounter = _comboTime;
                 break;
 
             case 3:
-                Debug.Log("3er golpe");
+                //Debug.Log("3er golpe");
                 StartCoroutine(SystemNormalCombo(_pushingForce + (_pushingForce * 0.75f)));
                 _comboTimeCounter = 0;
                 break;
