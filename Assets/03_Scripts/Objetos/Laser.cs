@@ -22,7 +22,7 @@ public class Laser : MonoBehaviour
     private bool _activeWarning;
     [SerializeField]private bool _activeLaser;
 
-    private Vector3 _boxCastSize = new Vector3(1, 1, 1); // Tamaño del cubo
+    [SerializeField]private Vector3 _boxCastSize = new Vector3(1, 1, 1); // Tamaño del cubo
     //private Vector3 _centerBoxCast;
 
 
@@ -50,7 +50,11 @@ public class Laser : MonoBehaviour
         }
         else if(_timer < timeDisableLaser) _timer += Time.deltaTime;
 
-        if (Physics.Raycast(startPoint.position, (endPoint.position - startPoint.position).normalized, out _hit, Mathf.Infinity, _layerObject))
+        // Dirección del Raycast (hacia el punto final)
+        Vector3 direction = (endPoint.position - startPoint.position).normalized;
+
+        //Raycast para el LineRenderer
+        if (Physics.Raycast(startPoint.position, direction, out _hit, Mathf.Infinity, _layerObject))
         {
             endPoint.position = _hit.point;
             _lineRenderer.SetPosition(1, endPoint.transform.position);
@@ -62,19 +66,19 @@ public class Laser : MonoBehaviour
 
         if (_activeLaser)
         {
-
-            // Dirección del Raycast (hacia el punto final)
-            Vector3 direction = (endPoint.position - startPoint.position).normalized;
-
             // Calcular la distancia
             float distance = Vector3.Distance(startPoint.position, endPoint.position);
 
             // Realizar el BoxCast desde el punto de inicio hacia la dirección
-            if (Physics.BoxCast(startPoint.position, _boxCastSize / 2, direction, out _hitTarget, Quaternion.identity, distance))
+            if (Physics.BoxCast(startPoint.position - direction * (distance / 2), _boxCastSize / 2, direction, out _hitTarget, Quaternion.identity, distance))
             {
                 var targetComponent = _hitTarget.collider.GetComponent<ModelMonkey>();
 
-                if (targetComponent != null) Debug.Log("A llorar monito");
+                if (targetComponent != null)
+                {
+                    targetComponent.TakeDamageEntity(100, transform.position);
+                    Debug.Log("A llorar monito");
+                }
                 else Debug.Log("AHHHHHHHHHHHHH");
             }
         }
@@ -113,14 +117,6 @@ public class Laser : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        //// Dibujar el cubo
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawWireCube((startPoint.position + endPoint.position) / 2f, _boxCastSize);
-
-        //// Dibujar una línea entre los dos puntos
-        //Gizmos.color = Color.yellow;
-        //Gizmos.DrawLine(startPoint.position, endPoint.position);
-
         // Dirección del Raycast (hacia el punto final)
         Vector3 direction = (endPoint.position - startPoint.position).normalized;
 
