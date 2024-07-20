@@ -105,10 +105,11 @@ public class ModelBanana : Characters
         //}
         //else _rbCharacter.velocity = Vector3.down * 0;
 
-        if(IsGrounded() && !_jumping) _rbCharacter.velocity = Vector3.down * 0;
+        _controller.ListenFixedKeys();
+
+        if (IsGrounded() && !_jumping) _rbCharacter.velocity = Vector3.down * 0;
         else _rbCharacter.velocity = Vector3.down * _forceGravity;
 
-        _controller.ListenFixedKeys();
     }
 
     public void ElectricCharge()
@@ -145,12 +146,16 @@ public class ModelBanana : Characters
     {
         Ray ray = new Ray(transform.position, Vector3.down);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        Debug.Log("muevo");
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, groundDistance + 1))
         {
+            Debug.Log("movi");
             var interactable = hit.transform.GetComponent<IInteractable>();
             if (interactable!=null)
             {
+                Debug.Log("hay plataforma");
                 interactable.RightClickAction(transform);
+                Debug.Log("agarre plataforma");
             }
         }
     }

@@ -7166,14 +7166,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 900870b0b2408de40815bd5e73e4dc57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _secondsWaiting: 2
-  _waypoints:
-  - {fileID: 307330859}
-  - {fileID: 1639407392}
-  _maxVelocity: 8
-  _actualIndex: 0
-  _maxForce: 0.01
-  _velocity: {x: 0, y: 0, z: 0}
+  _minLimit: -5
+  _maxLimit: 5
+  movementAxis: 2
 --- !u!54 &357948820
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7466,7 +7461,7 @@ GameObject:
   - component: {fileID: 452006435}
   - component: {fileID: 452006434}
   - component: {fileID: 452006433}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13768,14 +13763,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 900870b0b2408de40815bd5e73e4dc57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _secondsWaiting: 2
-  _waypoints:
-  - {fileID: 1227554477}
-  - {fileID: 1891125577}
-  _maxVelocity: 5
-  _actualIndex: 0
-  _maxForce: 0.1
-  _velocity: {x: 0, y: 0, z: 0}
+  _minLimit: -5
+  _maxLimit: 5
+  movementAxis: 2
 --- !u!23 &859970924
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15975,7 +15965,7 @@ Transform:
   m_GameObject: {fileID: 1331957423}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 39.42, y: 1.52, z: 46.07}
+  m_LocalPosition: {x: 39.42, y: -2.6, z: 46.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16960,12 +16950,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bbe3232c3957cd4a8b6cc089cfb8a1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveRange: 1
-  _speed: 10
   _moveMask:
     serializedVersion: 2
     m_Bits: 4352
-  _speedUp: 7
+  _moveRange: 1
+  _speed: 10
+  _floorLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _jumpForce: 2
+  _timeToArriveAxiY: 0
+  groundDistance: 2
+  _jumping: 0
+  _forceGravity: 0
   bulletBanana: {fileID: -34319440574629829, guid: a4121fddf384b2347a25d35f3a7f20ed,
     type: 3}
   _bulletQuantity: 20
@@ -28988,14 +28985,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 900870b0b2408de40815bd5e73e4dc57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _secondsWaiting: 2
-  _waypoints:
-  - {fileID: 674859937}
-  - {fileID: 2037910130}
-  _maxVelocity: 5
-  _actualIndex: 0
-  _maxForce: 0.01
-  _velocity: {x: 0, y: 0, z: 0}
+  _minLimit: -5
+  _maxLimit: 5
+  movementAxis: 2
 --- !u!23 &2076955093
 MeshRenderer:
   m_ObjectHideFlags: 0

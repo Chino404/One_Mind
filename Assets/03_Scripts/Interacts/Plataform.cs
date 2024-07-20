@@ -22,51 +22,46 @@ public class Plataform : MonoBehaviour, IInteractable
     public enum Axis { X,Y,Z}
     public Axis movementAxis = Axis.Z;
 
-    
+    [SerializeField] Transform banana;
+    private Vector3 _startPos;
 
+    void Start()
+    {
+        _startPos = transform.localPosition;
+    }
     
     void Update()
     {
-        if (_isObjectAttached)
+        if (_isObjectAttached&&banana!=null)
         {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-            //switch (movementAxis)
-            //{
-            //    case Axis.X:
-            //        transform.rotation = Quaternion.Euler(transform.rotation.x, 0, 0);
-            //            break;
-            //    case Axis.Y:
-            //        transform.rotation = Quaternion.Euler(0, transform.rotation.y, 0);
-            //        break;
-            //    case Axis.Z:
-            //        transform.rotation = Quaternion.Euler(0, 0, transform.rotation.z);
-            //        break;
-            //}
-            //Vector3 localPosition = transform.localPosition;
 
-            //    switch (movementAxis)
-            //    {
-            //        case Axis.X:
-            //            Debug.Log("me muevo en eje X");
-            //            localPosition.x = Mathf.Clamp(localPosition.x, _minLimit, _maxLimit);
-            //            localPosition.y = transform.localPosition.y;
-            //            localPosition.z = transform.localPosition.z;
-            //            break;
-            //        case Axis.Y:
-            //            Debug.Log("me muevo en eje Y");
-            //            localPosition.y = Mathf.Clamp(localPosition.y, _minLimit, _maxLimit);
-            //            localPosition.x = transform.localPosition.x;
-            //            localPosition.z = transform.localPosition.z;
-            //            break;
-            //        case Axis.Z:
-            //            localPosition.x = transform.localPosition.x;
-            //            localPosition.y = transform.localPosition.y;
-            //            localPosition.z = Mathf.Clamp(localPosition.z, _minLimit, _maxLimit);
-            //            Debug.Log("me muevo en eje Z");
-            //            break;
 
-            //    }
-            //    transform.localPosition = localPosition;
+            Vector3 localPosition = transform.localPosition;
+            Vector3 bananaPosition = banana.localPosition;
+
+            switch (movementAxis)
+            {
+                case Axis.X:
+                    Debug.Log("me muevo en eje X");
+                    localPosition.y = _startPos.y;
+                    localPosition.z = _startPos.z;
+                    break;
+                case Axis.Y:
+                    Debug.Log("me muevo en eje Y");
+                    localPosition.x = _startPos.x; 
+                    localPosition.z = _startPos.z; 
+                    break;
+                case Axis.Z:
+                    localPosition.x = _startPos.x;
+                    localPosition.y = _startPos.y;
+                    bananaPosition.x = _startPos.x;
+                    bananaPosition.y = _startPos.y;
+                    Debug.Log("me muevo en eje Z");
+                    break;
+
+            }
+            transform.localPosition = localPosition;
+            banana.localPosition = bananaPosition;
         }
     }
 
@@ -153,11 +148,13 @@ public class Plataform : MonoBehaviour, IInteractable
         if (!_isObjectAttached)
         {
             transform.SetParent(parent);
+            banana = parent;
             _isObjectAttached = true;
         }
         else if (_isObjectAttached)
         {
             transform.SetParent(null);
+            banana = null;
             _isObjectAttached = false;
         }
     }
