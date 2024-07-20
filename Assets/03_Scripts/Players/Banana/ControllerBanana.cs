@@ -35,6 +35,9 @@ public class ControllerBanana
         if (Input.GetMouseButtonDown(0)) _model.ElectricCharge();
         if (Input.GetMouseButtonDown(1)) _model.MoveObjects();
         //if (Input.GetMouseButtonUp(1)) _model.ReleaseObjects();
+
+        if (Input.GetKeyDown(KeyCode.Space)) _model.FlyingUp();
+
     }
 
     public void ListenFixedKeys()
@@ -46,8 +49,8 @@ public class ControllerBanana
             _model.Movement(_xAxis, _zAxis);
 
 
-        if(Input.GetKey(KeyCode.Space)) _model.FlyingUp();
+        //if(Input.GetKey(KeyCode.Space)) _model.FlyingUp();
         //if(Input.GetKey(KeyCode.LeftControl)) _model.FlyingDown();
-        else _model.StopFly();
+        //else _model.StopFly();
     }
 }
