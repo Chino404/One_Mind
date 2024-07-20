@@ -27,7 +27,7 @@ public class Plataform : MonoBehaviour, IInteractable
 
     void Start()
     {
-        _startPos = transform.localPosition;
+        _startPos = transform.position;
     }
     
     void Update()
@@ -36,7 +36,7 @@ public class Plataform : MonoBehaviour, IInteractable
         {
 
 
-            Vector3 localPosition = transform.localPosition;
+            Vector3 localPosition = transform.position;
             Vector3 bananaPosition = banana.localPosition;
 
             switch (movementAxis)
@@ -53,14 +53,16 @@ public class Plataform : MonoBehaviour, IInteractable
                     break;
                 case Axis.Z:
                     localPosition.x = _startPos.x;
-                    localPosition.y = _startPos.y;
+                    //localPosition.y = _startPos.y;
                     bananaPosition.x = _startPos.x;
                     bananaPosition.y = _startPos.y;
+                    localPosition.z = bananaPosition.z;
+                    
                     Debug.Log("me muevo en eje Z");
                     break;
 
             }
-            transform.localPosition = localPosition;
+            transform.position = localPosition;
             banana.localPosition = bananaPosition;
         }
     }
