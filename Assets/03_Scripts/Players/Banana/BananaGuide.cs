@@ -5,23 +5,15 @@ using UnityEngine;
 public class BananaGuide : Rewind
 {
     public Transform target;
-    //[SerializeField] private bool _changeCharacter;
-    //public bool ChangeCharacter { get { return _changeCharacter; } }
-
+    private Collider _myCollider;
 
     private Rigidbody _rb;
     [Tooltip("Velocidad")]public float maxSpeed = 10f;
-    //private Collider _myCollider;
-    //private float _iniSpeed;
     [Tooltip("Fuerza para girar")]public float maxForce = 6f;
 
-    //[Header("WayPoints")]
-    //[SerializeField] private int _actualIndex;
-    //public WayPoints[] wayPoints;
-
     [Header("Radios")]
-    [SerializeField, Tooltip("Radio para empezar a frenar")] private float _arriveRadius = 8.5f;
-    [SerializeField, Tooltip("Radio de visualizacion")] private float _viewRadius = 7f;
+    [SerializeField, Tooltip("Radio para empezar a frenar")] private float _arriveRadius = 1f;
+    [SerializeField, Tooltip("Radio de visualizacion")] private float _viewRadius = 0.3f;
     [SerializeField, Tooltip("Radio para alejarse del Player")] private float _rangoRadius;
     public float RangoRadius { get { return _rangoRadius; } }
 
@@ -33,65 +25,26 @@ public class BananaGuide : Rewind
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        //_myCollider = GetComponent<Collider>();
+        _myCollider = GetComponent<Collider>();
         _currentState = new MementoState();
-
-        //_iniSpeed = maxSpeed;
 
     }
 
-    //private void OnEnable()
-    //{
-    //    _myCollider.isTrigger = true;
-    //}
+    private void OnEnable()
+    {
+        _myCollider.isTrigger = true;
+    }
 
-    //private void OnDisable()
-    //{
-    //    _myCollider.isTrigger = false;
-    //}
-
-    //void Update()
-    //{
-
-    //    //AddForce(Seek(wayPoints[_actualIndex].transform.position));
-
-    //    //_changeCharacter = wayPoints[_actualIndex].changeCharacter; 
-
-    //    //if (wayPoints[_actualIndex].Stop)
-    //    //{
-    //    //    StopBanana();
-    //    //    return;
-    //    //}
-
-    //    //if (Vector3.Distance(transform.position, wayPoints[_actualIndex].transform.position) <= 0.3f)
-    //    //{
-
-    //    //    var target = wayPoints[_actualIndex].transform.position;
-
-    //    //    _actualIndex++;
-    //    //}
-
-
-    //    //transform.position += _velocity * Time.deltaTime;
-
-    //    //if (transform.position != target.position)
-    //    //{
-    //    //    AddForce(Arrive(target.position));
-
-    //    //    AddForce(ObstacleAvoidance() * avoidWeight);
-
-    //    //    //transform.position += _velocity * Time.deltaTime;
-    //    //    //transform.forward = _velocity; //Que mire para donde se esta moviendo
-    //    //}
-
-    //    // Solo rotamos sobre el eje Y (vertical), manteniendo la posición en X y Z
-    //    //Vector3 lookPos = new Vector3(target.position.x, transform.position.y, target.position.z);
-    //    //transform.LookAt(lookPos);
-    //}
+    private void OnDisable()
+    {
+        _myCollider.isTrigger = false;
+    }
 
     private void FixedUpdate()
     {
         AddForce(Arrive(target.position));
+        //Rotate(target.forward);
+
         //AddForce(ObstacleAvoidance() * avoidWeight);
 
         if (_velocity != Vector3.zero)
@@ -101,24 +54,10 @@ public class BananaGuide : Rewind
         
     }
 
-    //void StopBanana()
-    //{
-    //    if(Vector3.Distance(transform.position, wayPoints[_actualIndex].transform.position) <= 0.3f)
-    //    {
-    //        maxSpeed = 0;
-
-    //        // Solo rotamos sobre el eje Y (vertical), manteniendo la posición en X y Z
-    //        Vector3 lookPos = new Vector3(target.position.x, transform.position.y, target.position.z);
-    //        transform.LookAt(lookPos);
-    //    }
-
-    //    if (Vector3.Distance(transform.position, target.position) <= _viewRadius && !wayPoints[_actualIndex].action)
-    //    {
-    //        Debug.Log("Cambio Index");
-    //        maxSpeed = _iniSpeed;
-    //        _actualIndex++;
-    //    }
-    //}
+    private void Rotate(Vector3 dirForward)
+    {
+        transform.forward = dirForward;
+    }
 
     #region Patrones de Movimiento
     public Vector3 Seek(Vector3 target)
