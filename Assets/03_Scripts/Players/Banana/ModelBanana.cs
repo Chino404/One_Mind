@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
 
 public class ModelBanana : Characters
 {
@@ -13,10 +14,14 @@ public class ModelBanana : Characters
     //[SerializeField] private Image _visorImage;
 
     [Header("Valores Perosnaje")]
+    [SerializeField] private LayerMask _moveMask; //Para indicar q layer quiero que no se acerque mucho
     [SerializeField, Tooltip("Rango para evitar pegarme al objeto de _moveMask")] private float _moveRange = 0.75f; //Rango para el Raycast para evitar q el PJ se pegue a la pared
     [SerializeField] private float _speed = 5f;
-    [SerializeField] private LayerMask _moveMask; //Para indicar q layer quierp q no se acerque mucho
-    [SerializeField] private float _speedUp = 2f;
+    [SerializeField] private LayerMask _floorLayer;
+    [SerializeField] private float _jumpForce = 2f;
+    public float groundDistance = 2;
+    [SerializeField]private bool _jumping;
+    [SerializeField]private float _forceGravity;
 
     //private float _mouseRotationX;
 
@@ -73,6 +78,8 @@ public class ModelBanana : Characters
 
     private void Update()
     {
+        if (!IsGrounded() && _jumping) _rb.velocity = Vector3.down * 2;
+
         _controller.ArtificialUpdate();
 
         //if (Input.GetMouseButtonDown(0))
@@ -89,6 +96,7 @@ public class ModelBanana : Characters
 
     private void FixedUpdate()
     {
+
         _controller.ListenFixedKeys();
     }
 
@@ -198,6 +206,17 @@ public class ModelBanana : Characters
         return Physics.Raycast(_moveRay, _moveRange, _moveMask);
     }
 
+    public bool IsGrounded()
+    {
+        Vector3 pos = transform.position;
+        Vector3 dir = Vector3.down;
+        float dist = groundDistance;
+
+        //Debug.DrawLine(pos, pos + (dir * dist));
+
+        return Physics.Raycast(pos, dir, out RaycastHit hit, dist, _floorLayer);
+    }
+
     //public void Rotation(float x, float y)
     //{
     //    _mouseRotationX += x * _mouseSensivility * Time.deltaTime; 
@@ -222,13 +241,23 @@ public class ModelBanana : Characters
 
     public void FlyingUp()
     {
-        var dir = Vector3.up;
+        //var dir = Vector3.up;
 
-        if(DistTarget(dir)) return;
+        //if(DistTarget(dir)) return;
 
         //_rb.velocity = Vector3.up * _speedUp * Time.fixedDeltaTime;
 
-        _rb.MovePosition(transform.position + dir * _speedUp * Time.fixedDeltaTime);
+        //_rb.MovePosition(transform.position + dir * _speedUp * Time.fixedDeltaTime);
+
+        _jumping = true;
+        _rb.velocity = Vector3.up * _jumpForce;
+        StartCoroutine(RestarJumping());
+    }
+
+    IEnumerator RestarJumping()
+    {
+        yield return new WaitForSeconds(3);
+        _jumping = false;
     }
 
     public void StopFly() => _rb.velocity = Vector3.zero;
@@ -241,7 +270,7 @@ public class ModelBanana : Characters
 
         //_rb.velocity = Vector3.down * _speedUp * Time.fixedDeltaTime;
 
-        _rb.MovePosition(transform.position + dir * _speedUp * Time.fixedDeltaTime);
+        _rb.MovePosition(transform.position + dir * _jumpForce * Time.fixedDeltaTime);
     }
 
     public override void Save()
@@ -252,5 +281,11 @@ public class ModelBanana : Characters
     public override void Load()
     {
         
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Debug.DrawLine(transform.position, transform.position + (Vector3.down * groundDistance));
     }
 }
