@@ -19,6 +19,7 @@ public class ModelBanana : Characters
     [SerializeField] private float _speed = 5f;
     [SerializeField] private LayerMask _floorLayer;
     [SerializeField] private float _jumpForce = 2f;
+    [SerializeField, Tooltip("Tiempo para llegar al maximo del eje Y"),Range(0,1)] private float _timeToArriveAxiY;
     public float groundDistance = 2;
     [SerializeField]private bool _jumping;
     [SerializeField]private float _forceGravity;
@@ -26,7 +27,7 @@ public class ModelBanana : Characters
     //private float _mouseRotationX;
 
     //[SerializeField] private FPCamera _camera;
-    private Rigidbody _rb;
+    //private Rigidbody _rb;
 
     private Ray _moveRay;
 
@@ -48,8 +49,8 @@ public class ModelBanana : Characters
     {
         //_visorImage.gameObject.SetActive(false);
 
-        _rb = GetComponent<Rigidbody>();
-        _rb.constraints = RigidbodyConstraints.FreezeRotation; //Me bloquea los 3 ejes a al vez
+        _rbCharacter = GetComponent<Rigidbody>();
+        _rbCharacter.constraints = RigidbodyConstraints.FreezeRotation; //Me bloquea los 3 ejes a al vez
         //_camera = GetComponentInChildren<FPCamera>();
 
 
@@ -78,7 +79,7 @@ public class ModelBanana : Characters
 
     private void Update()
     {
-        if (!IsGrounded() && _jumping) _rb.velocity = Vector3.down * 2;
+        //if (!IsGrounded()) _rbCharacter.MovePosition(_rbCharacter.position + Vector3.down * _forceGravity * Time.fixedDeltaTime);
 
         _controller.ArtificialUpdate();
 
@@ -96,8 +97,16 @@ public class ModelBanana : Characters
 
     private void FixedUpdate()
     {
+        //if (!IsGrounded()) _rbCharacter.MovePosition(_rbCharacter.position - _rbCharacter.transform.up * _forceGravity * Time.fixedDeltaTime);
+        if (!IsGrounded() && !_jumping)
+        {
+            //_rbCharacter.AddForce(Vector3.down * _forceGravity, ForceMode.VelocityChange);
+            _rbCharacter.velocity = Vector3.down * _forceGravity;
+        }
+        else _rbCharacter.velocity = Vector3.down * 0;
+            //else if (IsGrounded()) _rbCharacter.velocity = Vector3.down * 0;
 
-        _controller.ListenFixedKeys();
+            _controller.ListenFixedKeys();
     }
 
     public void ElectricCharge()
@@ -188,7 +197,7 @@ public class ModelBanana : Characters
 
         if (IsBlocked(dir) || DistTarget(dir)) return; //Si hay algo en frente o salgo del rango no sigo
         
-        _rb.MovePosition(transform.position + dir * _speed * Time.fixedDeltaTime);
+        _rbCharacter.MovePosition(transform.position + dir * _speed * Time.fixedDeltaTime);
         
         
     }
@@ -212,7 +221,7 @@ public class ModelBanana : Characters
         Vector3 dir = Vector3.down;
         float dist = groundDistance;
 
-        //Debug.DrawLine(pos, pos + (dir * dist));
+        Debug.DrawLine(pos, pos + (dir * dist));
 
         return Physics.Raycast(pos, dir, out RaycastHit hit, dist, _floorLayer);
     }
@@ -248,19 +257,38 @@ public class ModelBanana : Characters
         //_rb.velocity = Vector3.up * _speedUp * Time.fixedDeltaTime;
 
         //_rb.MovePosition(transform.position + dir * _speedUp * Time.fixedDeltaTime);
+        if(!IsGrounded())
+        {
+            Debug.Log("No estoy tocando el suelo");
+            return;
+        }
 
-        _jumping = true;
-        _rb.velocity = Vector3.up * _jumpForce;
-        StartCoroutine(RestarJumping());
+        StartCoroutine(MoveFromTo(_rbCharacter.position.y, _jumpForce, _timeToArriveAxiY));
+
+        //_rbCharacter.velocity = Vector3.up * _jumpForce;
+        //if(!_jumping)StartCoroutine(RestarJumping());
+        //_jumping = true;
     }
 
-    IEnumerator RestarJumping()
+    IEnumerator MoveFromTo(float startY, float endY, float duration)
     {
-        yield return new WaitForSeconds(3);
+        _jumping = true;
+
+        float elapsedTime = 0f;
+        Vector3 startPosition = new Vector3(transform.position.x, startY, transform.position.z);
+        Vector3 endPosition = new Vector3(transform.position.x, _rbCharacter.position.y + endY, transform.position.z);
+
+        while (elapsedTime < duration)
+        {
+            transform.position = Vector3.Lerp(startPosition, endPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        transform.position = endPosition;
         _jumping = false;
     }
 
-    public void StopFly() => _rb.velocity = Vector3.zero;
+    public void StopFly() => _rbCharacter.velocity = Vector3.zero;
 
     public void FlyingDown()
     {
@@ -270,7 +298,7 @@ public class ModelBanana : Characters
 
         //_rb.velocity = Vector3.down * _speedUp * Time.fixedDeltaTime;
 
-        _rb.MovePosition(transform.position + dir * _jumpForce * Time.fixedDeltaTime);
+        _rbCharacter.MovePosition(transform.position + dir * _jumpForce * Time.fixedDeltaTime);
     }
 
     public override void Save()
@@ -285,7 +313,7 @@ public class ModelBanana : Characters
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.yellow;
+        Gizmos.color = Color.red;
         Debug.DrawLine(transform.position, transform.position + (Vector3.down * groundDistance));
     }
 }
