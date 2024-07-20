@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class CrystalMovil : MonoBehaviour, IInteractable
 {
+    private bool _isObjectAttached;
     public void LeftClickAction()
     {
         
     }
 
-    public void NotParent()
-    {
-        
-    }
+    
 
     public void RightClickAction(Transform parent)
     {
-        if(!transform.IsChildOf(parent))
-        transform.SetParent(parent);
-
-        if(transform.IsChildOf(parent)) 
+        if (!_isObjectAttached)
         {
-            Debug.Log("dejo de ser hijo");
+            transform.SetParent(parent);
+            _isObjectAttached = true;
+        }
+        else if (_isObjectAttached)
+        {
             transform.SetParent(null);
+            _isObjectAttached = false;
         }
     }
 
