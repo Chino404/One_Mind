@@ -6,5 +6,5 @@ public interface IInteractable
 {
     public void LeftClickAction();
     public void RightClickAction(Transform parent);
-    public void NotParent();
+    
 }

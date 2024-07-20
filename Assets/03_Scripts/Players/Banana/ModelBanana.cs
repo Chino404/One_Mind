@@ -134,8 +134,13 @@ public class ModelBanana : Characters
                 interactable.RightClickAction(transform);
             }
         }
-
     }
+
+    //public void ReleaseObjects()
+    //{
+    //    var interactable = gameObject.GetComponent<IInteractable>();
+    //    interactable.NotParent();
+    //}
     //IEnumerator AnimVisor()
     //{
     //    Color color = _visorImage.color;
