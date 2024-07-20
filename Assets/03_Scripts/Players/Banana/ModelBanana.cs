@@ -98,15 +98,17 @@ public class ModelBanana : Characters
     private void FixedUpdate()
     {
         //if (!IsGrounded()) _rbCharacter.MovePosition(_rbCharacter.position - _rbCharacter.transform.up * _forceGravity * Time.fixedDeltaTime);
-        if (!IsGrounded() && !_jumping)
-        {
-            //_rbCharacter.AddForce(Vector3.down * _forceGravity, ForceMode.VelocityChange);
-            _rbCharacter.velocity = Vector3.down * _forceGravity;
-        }
-        else _rbCharacter.velocity = Vector3.down * 0;
-            //else if (IsGrounded()) _rbCharacter.velocity = Vector3.down * 0;
+        //if (!IsGrounded() && !_jumping)
+        //{
+        //    //_rbCharacter.AddForce(Vector3.down * _forceGravity, ForceMode.VelocityChange);
+        //    _rbCharacter.velocity = Vector3.down * _forceGravity;
+        //}
+        //else _rbCharacter.velocity = Vector3.down * 0;
 
-            _controller.ListenFixedKeys();
+        if(IsGrounded() && !_jumping) _rbCharacter.velocity = Vector3.down * 0;
+        else _rbCharacter.velocity = Vector3.down * _forceGravity;
+
+        _controller.ListenFixedKeys();
     }
 
     public void ElectricCharge()
