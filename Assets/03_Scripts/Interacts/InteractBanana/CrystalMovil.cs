@@ -10,7 +10,10 @@ public class CrystalMovil : MonoBehaviour, IInteractable
         
     }
 
-    
+    public void ReleaseObject()
+    {
+        
+    }
 
     public void RightClickAction(Transform parent)
     {

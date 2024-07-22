@@ -10,6 +10,10 @@ public class GreenCrystal : MonoBehaviour, IInteractable
         gameObject.SetActive(false);
     }
 
+    public void ReleaseObject()
+    {
+       
+    }
 
     public void RightClickAction(Transform parent)
     {

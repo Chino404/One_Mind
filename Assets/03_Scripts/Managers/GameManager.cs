@@ -31,8 +31,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-       
-       
         if (instance == null)
         {
             instance = this;
@@ -40,9 +38,6 @@ public class GameManager : MonoBehaviour
         }
         else
             Destroy(gameObject);
-
-
-
     }
 
     private void Start()
@@ -59,8 +54,6 @@ public class GameManager : MonoBehaviour
         }
         //Desactivo la banana
         players[1].GetComponent<ModelBanana>().enabled = false;
-
-
     }
 
 

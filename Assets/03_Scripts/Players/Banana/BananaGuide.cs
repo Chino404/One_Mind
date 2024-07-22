@@ -33,6 +33,7 @@ public class BananaGuide : Rewind
     private void OnEnable()
     {
         _myCollider.isTrigger = true;
+        
     }
 
     private void OnDisable()

@@ -55,7 +55,7 @@ public class Plataform : MonoBehaviour, IInteractable
                     localPosition.x = _startPos.x;
                     //localPosition.y = _startPos.y;
                     bananaPosition.x = _startPos.x;
-                    bananaPosition.y = _startPos.y;
+                    //bananaPosition.y = _startPos.y;
                     localPosition.z = bananaPosition.z;
                     
                     Debug.Log("me muevo en eje Z");
@@ -65,6 +65,7 @@ public class Plataform : MonoBehaviour, IInteractable
             transform.position = localPosition;
             banana.localPosition = bananaPosition;
         }
+        
     }
 
     //private void Awake()
@@ -155,11 +156,14 @@ public class Plataform : MonoBehaviour, IInteractable
         }
         else if (_isObjectAttached)
         {
-            transform.SetParent(null);
-            banana = null;
-            _isObjectAttached = false;
+            ReleaseObject();
         }
     }
 
-    
+    public void ReleaseObject()
+    {
+        transform.SetParent(null);
+        banana = null;
+        _isObjectAttached = false;
+    }
 }
