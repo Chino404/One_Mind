@@ -45,6 +45,8 @@ public class ModelBanana : Characters
     [SerializeField] private GameObject _electricAttack;
     public float attackDuration=1f;
 
+    IInteractable children;
+
     private void Awake()
     {
         //_visorImage.gameObject.SetActive(false);
@@ -74,6 +76,7 @@ public class ModelBanana : Characters
 
     private void OnDisable()
     {
+        children.ReleaseObject();
         //_visorImage.gameObject.SetActive(false);
     }
 
@@ -146,25 +149,18 @@ public class ModelBanana : Characters
     {
         Ray ray = new Ray(transform.position, Vector3.down);
         RaycastHit hit;
-        Debug.Log("muevo");
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, groundDistance + 1))
+
+        if (Physics.Raycast(transform.position, Vector3.down, out hit))
         {
-            Debug.Log("movi");
             var interactable = hit.transform.GetComponent<IInteractable>();
             if (interactable!=null)
             {
-                Debug.Log("hay plataforma");
                 interactable.RightClickAction(transform);
-                Debug.Log("agarre plataforma");
+                children = interactable;
             }
         }
     }
 
-    //public void ReleaseObjects()
-    //{
-    //    var interactable = gameObject.GetComponent<IInteractable>();
-    //    interactable.NotParent();
-    //}
     //IEnumerator AnimVisor()
     //{
     //    Color color = _visorImage.color;
