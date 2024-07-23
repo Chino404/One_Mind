@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ControllerBanana
 {
-    private float _xAxis, _zAxis, _inputMouseX, _inputMouseY;
+    private float _xAxis, _zAxis/*, _inputMouseX, _inputMouseY*/;
 
     private ModelBanana _model;
 
