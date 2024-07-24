@@ -9,7 +9,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     [Header("VALORES PERSONAJE")]
     [SerializeField] private float _maxLife;
     [SerializeField]private float _actualLife;
-    [SerializeField] private float _speed = 10f;
+    [SerializeField] private float _iniSpeed = 10f;
     [SerializeField] private float _actualSpeed;
     [SerializeField] private float _forceGravity;
     private float _initialForceGravity;
@@ -32,30 +32,25 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     private bool _grabb;
     private Vector3 _dirGrabb; //Direccion de movimiento en la agarradera
 
-    [Header("Daños")]
+    [Header("--- DAÑOS ---")]
     [SerializeField] private int _normalDamage;
     [SerializeField, Range(0, 2f)]private float _comboTime = 1.25f;
     private float _comboTimeCounter;
     private int _currentCombo;
-    [SerializeField] private bool isRotating = false;
     [SerializeField] private int _spinDamage;
-    [SerializeField]private float _timePressed;
-    public float TimePressed { set{ _timePressed = value; } }
-    [SerializeField] private int _getUpDamage;
-    [SerializeField] private float _forceToGetUp;
-    [HideInInspector]public bool chargeGetUp;
-    [SerializeField, Tooltip("Tiempo para el que salte el player"), Range(0.3f, 1f)] private float _timeForGetUp;
-    [SerializeField] private bool _punching;
+    private bool isRotating = false;
+    private bool _chargedAttack;
+    private bool _punching;
     public event Action PowerUp;
 
-    [Header("Referencia")]
+    [Header("--- REFERENCIAS ---")]
     [SerializeField] private LayerMask _floorLayer;
     public float groundDistance = 2;
     [SerializeField] private Transform _pointRotation;
     [SerializeField] private Transform _pointFromPlayer;
+    [SerializeField] private TargetBanana _targetBanana;
 
-    [Header("Animator")]
-    [SerializeField]private Animator _animPlayer;
+    private Animator _animPlayer;
 
     [Header("Particulas")]
     [SerializeField] private ParticleSystem _particleSpinAttack;
@@ -100,7 +95,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         GameManager.instance.rewinds.Add(this);
 
         _actualLife = _maxLife;
-        _actualSpeed = _speed;
+        _actualSpeed = _iniSpeed;
         _initialForceGravity = _forceGravity;
 
         _comboTimeCounter = _comboTime;
@@ -137,7 +132,6 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         else
         {
             _currentCombo = 0;
-            _actualSpeed = _speed;
         }
 
         _controller.ArtificialUpdate();
@@ -165,7 +159,6 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     {
         _dirGrabb = default;
         _grabb = false;
-        _actualSpeed = _speed;
         _forceGravity = _initialForceGravity;
         _rbCharacter.isKinematic = false;
 
@@ -173,12 +166,14 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         {
             if(!_jumpGrabb)
             {
-                _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
+                _actualSpeed = _iniSpeed;
+                if(!_chargedAttack)_rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
                 Rotate(dir);
             }
 
             if (IsTouch(transform.forward, _handleMask) && !_waitRay)
             {
+                _actualSpeed = 7;
                 ActualMove = HandleMovement;
                 _jumpGrabb = false;
                 return;
@@ -197,7 +192,6 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         _animPlayer.SetBool("Walk", false);
 
         _grabb = true;
-        _actualSpeed = 7f;
         _forceGravity = 0;
         _rbCharacter.isKinematic = true;
 
@@ -360,19 +354,16 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         switch (_currentCombo)
         {
             case 1:
-                //Debug.Log("1er golpe");
                 StartCoroutine(SystemNormalCombo(_pushingForce));
                 _comboTimeCounter = _comboTime;
                 break;
 
             case 2:
-                //Debug.Log("2do golpe");
                 StartCoroutine(SystemNormalCombo(_pushingForce + (_pushingForce * 0.5f)));
                 _comboTimeCounter = _comboTime;
                 break;
 
             case 3:
-                //Debug.Log("3er golpe");
                 StartCoroutine(SystemNormalCombo(_pushingForce + (_pushingForce * 0.75f)));
                 _comboTimeCounter = 0;
                 break;
@@ -385,17 +376,28 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         _actualSpeed = 0;
         _rbCharacter.AddForce(transform.forward * powerForce, ForceMode.Impulse);
         _animPlayer.SetTrigger("Attack");
-        if (!IsGrounded())CancelarTodasLasFuerzas();
         yield return new WaitForSeconds(0.5f);
         _punching = false;
         yield return new WaitForSeconds(0.2f);
 
         if(!_punching)
         {
-            _actualSpeed = _speed;
+            _actualSpeed = _iniSpeed;
             _forceGravity = _initialForceGravity;
 
         }
+    }
+
+    public void ChargedAttack()
+    {
+        _chargedAttack = true;
+        _targetBanana.ChargedAttack();
+    }
+
+    public void SuccesChargedAttack()
+    {
+        _chargedAttack = false;
+        _targetBanana.NormalPosition();
     }
 
     public void SpinAttack()
@@ -433,43 +435,6 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         _particleSpinAttack.Stop();
         AudioManager.instance.StopMonkeySFX();
         isRotating = false;
-    }
-
-    /// <summary>
-    /// Ataque para levantar y bajar
-    /// </summary>
-    //public void GoToUpAttack()
-    //{
-    //    if (chargeGetUp || !IsGrounded()) return;
-
-    //    _timePressed += Time.deltaTime;
-
-    //    if(_timePressed >= _timeForGetUp && !chargeGetUp)
-    //    {
-    //        EventManager.Trigger("GetUpAttack", _getUpDamage, (_timeForGetUp /2), _forceToGetUp);
-    //        StartCoroutine(TimeToGetUp());
-    //        _currentCombo = 0;
-    //        _timePressed = 0;
-    //        chargeGetUp = true;
-    //    }
-    //}
-
-    //IEnumerator TimeToGetUp()
-    //{
-    //    yield return new WaitForSeconds(0.25f);
-    //    Jump();
-    //}
-
-    //IEnumerator ReturnGravity()
-    //{
-    //    yield return new WaitForSeconds((_timeForGetUp/2));
-    //    _forceGravity = _initialForceGravity;
-    //}
-
-    public void GoToDownAttack()
-    {
-        EventManager.Trigger("GetUpAttack", _getUpDamage, (_timeForGetUp / 2), - _forceToGetUp * 1.5f);
-        _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, -_jumpForce);
     }
 
     #endregion
