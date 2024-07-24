@@ -81,8 +81,6 @@ public class Laser : MonoBehaviour
                     targetComponent.TakeDamageEntity(100, transform.position);
                     Debug.Log("A llorar monito");
                 }
-
-                else Debug.Log("AHHHHHHHHHHHHH");
             }
         }
     }

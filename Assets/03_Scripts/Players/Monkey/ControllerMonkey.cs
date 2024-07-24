@@ -28,7 +28,8 @@ public class ControllerMonkey
 
         if (Input.GetMouseButtonDown(0)) _model.Attack();
 
-        if(Input.GetMouseButton(1)) _model.SpinAttack();
+        if(Input.GetMouseButton(1)) _model.ChargedAttack();
+        if (Input.GetMouseButtonUp(1)) _model.SuccesChargedAttack();
 
 
 
