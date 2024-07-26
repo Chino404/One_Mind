@@ -45,9 +45,9 @@ public class ControllerBanana
         _xAxis = Input.GetAxisRaw("Horizontal");
         _zAxis = Input.GetAxisRaw("Vertical");
 
-        if(_xAxis != 0 || _zAxis != 0)
+        if (_xAxis != 0 || _zAxis != 0)
             _model.Movement(_xAxis, _zAxis);
-
+        else _model.Velocity = Vector3.zero;
 
         //if(Input.GetKey(KeyCode.Space)) _model.FlyingUp();
         //if(Input.GetKey(KeyCode.LeftControl)) _model.FlyingDown();

@@ -16,7 +16,7 @@ public class ModelBanana : Characters
     [Header("Valores Perosnaje")]
     [SerializeField] private LayerMask _moveMask; //Para indicar q layer quiero que no se acerque mucho
     [SerializeField, Tooltip("Rango para evitar pegarme al objeto de _moveMask")] private float _moveRange = 0.75f; //Rango para el Raycast para evitar q el PJ se pegue a la pared
-    [SerializeField] private float _speed = 5f;
+    [SerializeField]private float _speed = 5f;
     [SerializeField] private LayerMask _floorLayer;
     [SerializeField] private float _jumpForce = 2f;
     [SerializeField, Tooltip("Tiempo para llegar al maximo del eje Y"),Range(0,1)] private float _timeToArriveAxiY;
@@ -46,6 +46,9 @@ public class ModelBanana : Characters
     public float attackDuration=1f;
 
     IInteractable children;
+
+    private Vector3 _velocity;
+    public Vector3 Velocity { get { return _velocity; } set { _velocity = value; } }
 
     private void Awake()
     {
@@ -199,8 +202,8 @@ public class ModelBanana : Characters
 
 
         if (IsBlocked(dir) || DistTarget(dir)) return; //Si hay algo en frente o salgo del rango no sigo
-        
-        _rbCharacter.MovePosition(transform.position + dir * _speed * Time.fixedDeltaTime);
+        _velocity = dir * _speed;
+        _rbCharacter.MovePosition(transform.position + _velocity* Time.fixedDeltaTime);
         
         
     }
