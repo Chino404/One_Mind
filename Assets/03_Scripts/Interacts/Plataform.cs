@@ -6,7 +6,7 @@ public class Plataform : MonoBehaviour, IInteractable
 {
     //[SerializeField] float _secondsWaiting=2f;
     //[SerializeField] Transform[] _waypoints;
-    //[SerializeField] float _maxVelocity;
+    [SerializeField] float _maxVelocity;
 
     
     //[SerializeField]private int _actualIndex;
@@ -14,69 +14,69 @@ public class Plataform : MonoBehaviour, IInteractable
     //[SerializeField]private Vector3 _velocity;
 
 
-    //private Rigidbody _rb;
+    private Rigidbody _rb;
 
     private bool _isObjectAttached;
-    [SerializeField] private float _minLimit = -5f;
-    [SerializeField] private float _maxLimit = 5f;
+    //[SerializeField] private float _minLimit = -5f;
+    //[SerializeField] private float _maxLimit = 5f;
     public enum Axis { X,Y,Z}
     public Axis movementAxis = Axis.Z;
 
     [SerializeField] Transform banana;
     private Vector3 _startPos;
 
+    public ModelBanana modelBanana;
+    private Ray _moveRay;
+    private float _moveRange=0.75f;
+    [SerializeField]private LayerMask _moveMask;
+
+    private void Awake()
+    {
+        _rb = GetComponent<Rigidbody>();
+    }
+
     void Start()
     {
+        //modelBanana = GetComponent<ModelBanana>();
         _startPos = transform.position;
     }
     
-    void Update()
+    void FixedUpdate()
     {
+        if (IsBlocked(modelBanana.Velocity)) modelBanana.Velocity=Vector3.zero;
         if (_isObjectAttached&&banana!=null)
         {
 
-
-            Vector3 localPosition = transform.position;
-            Vector3 bananaPosition = banana.localPosition;
-
             switch (movementAxis)
             {
-                case Axis.X:
-                    Debug.Log("me muevo en eje X");
-                    localPosition.y = _startPos.y;
-                    localPosition.z = _startPos.z;
-                    break;
-                case Axis.Y:
-                    Debug.Log("me muevo en eje Y");
-                    localPosition.x = _startPos.x; 
-                    localPosition.z = _startPos.z; 
-                    break;
                 case Axis.Z:
-                    localPosition.x = _startPos.x;
+                    //localPosition.x = _startPos.x;
                     //localPosition.y = _startPos.y;
-                    bananaPosition.x = _startPos.x;
+                    //bananaPosition.x = _startPos.x;
                     //bananaPosition.y = _startPos.y;
-                    localPosition.z = bananaPosition.z;
-                    
+                    //localPosition.z = bananaPosition.z;
+                    _rb.MovePosition(transform.position + modelBanana.Velocity * Time.fixedDeltaTime);
                     Debug.Log("me muevo en eje Z");
                     break;
 
             }
-            transform.position = localPosition;
-            banana.localPosition = bananaPosition;
+            
         }
         
     }
 
-    //private void Awake()
-    //{
-    //    _rb = GetComponent<Rigidbody>();
-    //}
+    private bool IsBlocked(Vector3 dir)
+    {
+        _moveRay = new Ray(transform.position, dir);
+        Debug.DrawRay(transform.position, dir * _moveRange, Color.red);
+
+        return Physics.Raycast(_moveRay, _moveRange, _moveMask);
+    }
 
     //private void FixedUpdate()
     //{
     //    //AddForce(Seek(_waypoints[_actualIndex].position));
-  
+
     //    if (Vector3.Distance(transform.position, _waypoints[_actualIndex].position)<=0.4f)
     //    {
     //        StartCoroutine(WaitSeconds());
@@ -86,7 +86,7 @@ public class Plataform : MonoBehaviour, IInteractable
 
     //            _actualIndex = 0;
     //        }
-            
+
     //    }
     //    _velocity = _waypoints[_actualIndex].position - transform.position;
     //    _velocity.Normalize();
@@ -94,7 +94,7 @@ public class Plataform : MonoBehaviour, IInteractable
     //    //_rb.MovePosition(transform.position + _velocity*_maxVelocity * Time.fixedDeltaTime);
     //}
 
-    
+
 
     //IEnumerator WaitSeconds()
     //{
@@ -129,11 +129,12 @@ public class Plataform : MonoBehaviour, IInteractable
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.GetComponent<ModelMonkey>())
-        collision.transform.SetParent(transform);
+        if (collision.gameObject.GetComponent<ModelMonkey>())
+        {
+            
+            collision.transform.SetParent(transform);
+        }
     }
-
-    
 
     private void OnCollisionExit(Collision collision)
     {
@@ -150,7 +151,7 @@ public class Plataform : MonoBehaviour, IInteractable
     {        
         if (!_isObjectAttached)
         {
-            transform.SetParent(parent);
+            //transform.SetParent(parent);
             banana = parent;
             _isObjectAttached = true;
         }
@@ -162,7 +163,7 @@ public class Plataform : MonoBehaviour, IInteractable
 
     public void ReleaseObject()
     {
-        transform.SetParent(null);
+        //transform.SetParent(null);
         banana = null;
         _isObjectAttached = false;
     }
