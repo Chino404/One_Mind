@@ -6,6 +6,9 @@ public class ControllerBanana
 {
     private float _xAxis, _zAxis/*, _inputMouseX, _inputMouseY*/;
 
+    private Vector3 _dirRaw = new Vector3();
+    private Vector3 _dir = new Vector3();
+
     private ModelBanana _model;
 
     [SerializeField] int _bulletQuantity;
@@ -42,12 +45,22 @@ public class ControllerBanana
 
     public void ListenFixedKeys()
     {
-        _xAxis = Input.GetAxisRaw("Horizontal");
-        _zAxis = Input.GetAxisRaw("Vertical");
+        //_xAxis = Input.GetAxisRaw("Horizontal");
+        //_zAxis = Input.GetAxisRaw("Vertical");
 
-        if (_xAxis != 0 || _zAxis != 0)
-            _model.Movement(_xAxis, _zAxis);
-        else _model.Velocity = Vector3.zero;
+        //if (_xAxis != 0 || _zAxis != 0)
+        //    _model.Movement(_xAxis, _zAxis);
+        //else _model.Velocity = Vector3.zero;
+
+        _dirRaw.x = Input.GetAxisRaw("Horizontal");
+        _dirRaw.z = Input.GetAxisRaw("Vertical");
+
+        _dir.x = Input.GetAxis("Horizontal");
+        _dir.z = Input.GetAxis("Vertical");
+
+        _model.Movement(_dirRaw, _dir);
+
+
 
         //if(Input.GetKey(KeyCode.Space)) _model.FlyingUp();
         //if(Input.GetKey(KeyCode.LeftControl)) _model.FlyingDown();
