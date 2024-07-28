@@ -196,16 +196,42 @@ public class ModelBanana : Characters
     //}
 
     #region Movement
-    public void Movement(float xAxis, float zAxis)
+    //public void Movement(float xAxis, float zAxis)
+    //{
+    //    var dir = (transform.right * xAxis + transform.forward * zAxis).normalized;
+
+
+    //    if (IsBlocked(dir) || DistTarget(dir)) return; //Si hay algo en frente o salgo del rango no sigo
+    //    _velocity = dir * _speed;
+
+    //    _rbCharacter.MovePosition(transform.position + _velocity* Time.fixedDeltaTime);
+    //    Rotate(dir);
+        
+        
+    //}
+    
+    public void Movement(Vector3 dirRaw, Vector3 dir)
     {
-        var dir = (transform.right * xAxis + transform.forward * zAxis).normalized;
+        //var dir = (transform.right * xAxis + transform.forward * zAxis).normalized;
 
 
         if (IsBlocked(dir) || DistTarget(dir)) return; //Si hay algo en frente o salgo del rango no sigo
-        _velocity = dir * _speed;
-        _rbCharacter.MovePosition(transform.position + _velocity* Time.fixedDeltaTime);
         
-        
+        if(dirRaw.sqrMagnitude != 0)
+        {
+            //_velocity = dir * _speed;
+
+            //_rbCharacter.MovePosition(transform.position + _velocity* Time.fixedDeltaTime);
+
+            _rbCharacter.MovePosition(transform.position + dir.normalized * _speed * Time.fixedDeltaTime);
+
+            Rotate(dir);
+        }    
+    }
+
+    public void Rotate(Vector3 dirForward)
+    {
+        transform.forward = dirForward;
     }
 
     /// <summary>
@@ -232,21 +258,6 @@ public class ModelBanana : Characters
         return Physics.Raycast(pos, dir, out RaycastHit hit, dist, _floorLayer);
     }
 
-    //public void Rotation(float x, float y)
-    //{
-    //    _mouseRotationX += x * _mouseSensivility * Time.deltaTime; 
-
-    //    if(_mouseRotationX >= 360 || _mouseRotationX <= -360)
-    //    {
-    //        _mouseRotationX -= 360 * Mathf.Sign(_mouseRotationX); //Si excedo tal valor, me lo resta
-    //    }
-
-    //    y *= _mouseSensivility * Time.deltaTime;
-
-    //    transform.rotation = Quaternion.Euler(0f, _mouseRotationX, 0); //Para que me rote en base al eje y
-
-    //    _camera?.RotationCamera(_mouseRotationX, y);
-    //}
     #endregion
 
     private bool DistTarget(Vector3 dir)

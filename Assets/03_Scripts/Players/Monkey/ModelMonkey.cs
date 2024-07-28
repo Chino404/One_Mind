@@ -40,6 +40,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     [SerializeField] private int _spinDamage;
     private bool isRotating = false;
     private bool _chargedAttack;
+    private Vector3 _launchDir;
     private bool _punching;
     public event Action PowerUp;
 
@@ -164,6 +165,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         if (dirRaw.sqrMagnitude != 0)
         {
+            _launchDir = dir;
+
             if(!_jumpGrabb)
             {
                 _actualSpeed = _iniSpeed;
@@ -171,11 +174,15 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
                 Rotate(dir);
             }
 
-            if (IsTouch(transform.forward, _handleMask) && !_waitRay)
+            if (IsTouch(transform.forward, _handleMask) && !_waitRay) //Si toco algo escalable, cambio de movimiento
             {
+                _grabb = true;
+                _forceGravity = 0;
+                _rbCharacter.isKinematic = true;
+
                 _actualSpeed = 7;
-                ActualMove = HandleMovement;
                 _jumpGrabb = false;
+                ActualMove = HandleMovement;
                 return;
             }
 
@@ -191,9 +198,9 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     {
         _animPlayer.SetBool("Walk", false);
 
-        _grabb = true;
-        _forceGravity = 0;
-        _rbCharacter.isKinematic = true;
+        //_grabb = true;
+        //_forceGravity = 0;
+        //_rbCharacter.isKinematic = true;
 
         if (dirRaw.sqrMagnitude != 0)
         {
@@ -204,9 +211,9 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
             Debug.DrawRay(transform.position + subida, transform.forward * _moveRange, Color.green);
 
             RaycastHit hitInfo;
-            if (Physics.Raycast(vistaEnredadera, out hitInfo)) transform.forward = hitInfo.transform.forward;
+            if (Physics.Raycast(vistaEnredadera, out hitInfo)) transform.forward = hitInfo.transform.forward; //Miro para la enredadera
 
-            if (!Physics.Raycast(vistaEnredadera, _moveRange, _handleMask))
+            if (!Physics.Raycast(vistaEnredadera, _moveRange, _handleMask)) //Si para la direccion que quiero ir no hay mas agarradera, no sigo
             {
                 _stopGrabb = true;
                 return;
@@ -214,6 +221,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
             if (IsTouch(subida, _moveMask))
             {
                 ActualMove = NormalMovement;
+
                 return;
             }
 
@@ -336,10 +344,6 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     #region Attacks
     public void Attack()
     {
-        //if (_grabbed) return;
-        //if(!IsGrounded()) GoToDownAttack();
-        //else NormalPunch();
-
         if(IsGrounded())NormalPunch();
     }
 
@@ -358,15 +362,15 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
                 _comboTimeCounter = _comboTime;
                 break;
 
-            case 2:
-                StartCoroutine(SystemNormalCombo(_pushingForce + (_pushingForce * 0.5f)));
-                _comboTimeCounter = _comboTime;
-                break;
+            //case 2:
+            //    StartCoroutine(SystemNormalCombo(_pushingForce + (_pushingForce * 0.5f)));
+            //    _comboTimeCounter = _comboTime;
+            //    break;
 
-            case 3:
-                StartCoroutine(SystemNormalCombo(_pushingForce + (_pushingForce * 0.75f)));
-                _comboTimeCounter = 0;
-                break;
+            //case 3:
+            //    StartCoroutine(SystemNormalCombo(_pushingForce + (_pushingForce * 0.75f)));
+            //    _comboTimeCounter = 0;
+            //    break;
         }
     }
 
@@ -391,12 +395,14 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     public void ChargedAttack()
     {
         _chargedAttack = true;
+        Debug.DrawRay(transform.position, transform.forward * 20f, Color.red);
         _targetBanana.ChargedAttack();
     }
 
     public void SuccesChargedAttack()
     {
         _chargedAttack = false;
+        EventManager.Trigger("ChargedAttack", _launchDir.normalized);
         _targetBanana.NormalPosition();
     }
 

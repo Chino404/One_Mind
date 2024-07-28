@@ -21,12 +21,17 @@ public class BananaGuide : Rewind
     [Tooltip("Capas de obstaculos")]public LayerMask obstacleLayer;
     [Tooltip("Fueza para esquivar")]public float avoidWeight; //El peso con el que esquiva las cosas, q tanto se va a mover 
     private Vector3 _velocity;
+    [SerializeField] private Vector3 _dir;
+
+    private bool _launch;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _myCollider = GetComponent<Collider>();
         _currentState = new MementoState();
+
+        EventManager.Subscribe("ChargedAttack", ChargedAttack);
 
     }
 
@@ -43,8 +48,10 @@ public class BananaGuide : Rewind
 
     private void FixedUpdate()
     {
+        if (_launch) return;
+
         AddForce(Arrive(target.position));
-        //Rotate(target.forward);
+        Rotate(target.forward);
 
         //AddForce(ObstacleAvoidance() * avoidWeight);
 
@@ -58,6 +65,47 @@ public class BananaGuide : Rewind
     private void Rotate(Vector3 dirForward)
     {
         transform.forward = dirForward;
+
+    }
+
+    public void ChargedAttack(params object[] parameters)
+    {
+        _dir = (Vector3)parameters[0];
+        _dir *= 20f;
+        //_dir *= 30f;
+
+        //StartCoroutine(Launch());
+        StartCoroutine(Destiny());
+
+
+        //_rb.velocity = new Vector3(transform.position.x, transform.position.y, transform.position.z * 20f);
+        //transform.forward *= 20f; 
+
+        //_rb.MovePosition(transform.position + (dir.normalized * 20f) * Time.fixedDeltaTime);
+    }
+
+    IEnumerator Destiny()
+    {
+        _launch = true;
+        float elapsedTime = 0;
+        var positionA = transform.position;
+
+        while (elapsedTime < 0.5f)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / 0.5f;
+
+            transform.position = Vector3.Lerp(positionA, positionA + _dir, t);
+            yield return null;
+        }
+        _launch = false;
+    }
+
+    IEnumerator Launch()
+    {
+        _launch = true;
+        yield return new WaitForSeconds(2);
+        _launch = false;
     }
 
     #region Patrones de Movimiento
