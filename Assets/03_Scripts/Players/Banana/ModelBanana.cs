@@ -197,17 +197,19 @@ public class ModelBanana : Characters
 
 
         if (IsBlocked(dir) || DistTarget(dir)) return; //Si hay algo en frente o salgo del rango no sigo
-        
-        if(dirRaw.sqrMagnitude != 0)
+
+        if (dirRaw.sqrMagnitude != 0)
         {
-            //_velocity = dir * _speed;
+            _velocity = dir.normalized * _speed;
 
-            //_rbCharacter.MovePosition(transform.position + _velocity* Time.fixedDeltaTime);
+            _rbCharacter.MovePosition(transform.position + _velocity * Time.fixedDeltaTime);
 
-            _rbCharacter.MovePosition(transform.position + dir.normalized * _speed * Time.fixedDeltaTime);
+            //_rbCharacter.MovePosition(transform.position + dir.normalized * _speed * Time.fixedDeltaTime);
 
             Rotate(dir);
-        }    
+
+        }
+        else _velocity = Vector3.zero;
     }
 
     public void Rotate(Vector3 dirForward)
