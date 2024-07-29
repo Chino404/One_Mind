@@ -43,7 +43,7 @@ public class Plataform : MonoBehaviour, IInteractable
     
     void FixedUpdate()
     {
-        if (IsBlocked(modelBanana.Velocity)) modelBanana.Velocity=Vector3.zero;
+        if (IsBlocked(modelBanana.Velocity)||banana==null) return;
         if (_isObjectAttached&&banana!=null)
         {
 

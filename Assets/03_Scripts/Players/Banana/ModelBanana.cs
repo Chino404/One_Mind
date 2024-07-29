@@ -128,26 +128,7 @@ public class ModelBanana : Characters
         yield return new WaitForSeconds(attackDuration);
         _electricAttack.SetActive(false);
     }
-    //private void OnTriggerStay(Collider other)
-    //{
-    //    var interactable = other.GetComponent<IInteractable>();
-
-        
-    //    if (interactable != null)
-    //    {
-    //        if (Input.GetMouseButtonDown(1))
-    //        {
-    //            interactable.RightClickAction(transform);
-    //        }
-
-    //        if (Input.GetMouseButtonUp(1))
-    //            interactable.NotParent();
-    //    }
-
-         
-        
-    //}
-
+    
     public void MoveObjects()
     {
         Ray ray = new Ray(transform.position, Vector3.down);

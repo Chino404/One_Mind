@@ -6,11 +6,14 @@ public class BlueCrystal : MonoBehaviour, IInteractable
 {
     private bool _isObjectAttached;
     [SerializeField]private bool _canActivate;
-    
+
+    public BaseBlueCrystal baseCrystal;
     
 
     public void LeftClickAction()
     {
+        if (!_canActivate) return;
+        baseCrystal.SpawnPath();
         
     }
 
@@ -34,17 +37,19 @@ public class BlueCrystal : MonoBehaviour, IInteractable
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == 17)
+        if (collision.gameObject.GetComponent<BaseBlueCrystal>())
         {
             _canActivate = true;
+            baseCrystal = collision.gameObject.GetComponent<BaseBlueCrystal>();
         }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.layer == 17)
+        if (collision.gameObject.GetComponent<BaseBlueCrystal>())
         {
             _canActivate = false;
+            baseCrystal = null;
         }
     }
 
