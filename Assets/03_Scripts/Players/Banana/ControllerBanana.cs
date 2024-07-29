@@ -58,7 +58,9 @@ public class ControllerBanana
         _dir.x = Input.GetAxis("Horizontal");
         _dir.z = Input.GetAxis("Vertical");
 
+
         _model.Movement(_dirRaw, _dir);
+        //else _model.Velocity = Vector3.zero;
 
 
 
