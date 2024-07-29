@@ -176,13 +176,13 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
             if (IsTouch(transform.forward, _handleMask) && !_waitRay) //Si toco algo escalable, cambio de movimiento
             {
-                _grabb = true;
-                _forceGravity = 0;
-                _rbCharacter.isKinematic = true;
+                //_grabb = true;
+                //_forceGravity = 0;
+                //_rbCharacter.isKinematic = true;
 
                 _actualSpeed = 7;
-                _jumpGrabb = false;
                 ActualMove = HandleMovement;
+                _jumpGrabb = false;
                 return;
             }
 
@@ -198,9 +198,9 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     {
         _animPlayer.SetBool("Walk", false);
 
-        //_grabb = true;
-        //_forceGravity = 0;
-        //_rbCharacter.isKinematic = true;
+        _grabb = true;
+        _forceGravity = 0;
+        _rbCharacter.isKinematic = true;
 
         if (dirRaw.sqrMagnitude != 0)
         {
