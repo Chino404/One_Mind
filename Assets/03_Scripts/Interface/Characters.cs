@@ -2,6 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EstadoDeBananaBot
+{
+    EnPosicion,
+    RegresandoAPosicion,
+    AtaqueCargado
+}
+
+public enum EstadoDeBongo
+{
+    Normal,
+    Escalando,
+    Golpeando,
+    CargandoAtaqueElectrico
+}
+
 public abstract class Characters : Entity
 {
     //Referencias

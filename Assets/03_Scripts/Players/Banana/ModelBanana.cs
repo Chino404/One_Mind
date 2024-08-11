@@ -122,6 +122,7 @@ public class ModelBanana : Characters
     {
         StartCoroutine(ElectricAttack());
     }
+
     IEnumerator ElectricAttack()
     {
         _electricAttack.SetActive(true);
