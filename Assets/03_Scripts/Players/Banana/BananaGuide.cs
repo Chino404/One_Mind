@@ -2,11 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//public enum EstadoDeBananaBot
+//{
+//    EnPosicion,
+//    RegresandoAPosicion,
+//    AtaqueCargado
+//}
+
 public class BananaGuide : Rewind
 {
+    [Header("Variables")]
+    [SerializeField]private EstadoDeBananaBot _actualStateBanana;
     public Transform target;
     private Collider _myCollider;
-
     private Rigidbody _rb;
     [Tooltip("Velocidad")]public float maxSpeed = 10f;
     [Tooltip("Fuerza para girar")]public float maxForce = 6f;
@@ -17,19 +26,25 @@ public class BananaGuide : Rewind
     [SerializeField, Tooltip("Radio para alejarse del Player")] private float _rangoRadius;
     public float RangoRadius { get { return _rangoRadius; } }
 
+    [Header("Ataque Cargado")]
+    [SerializeField, Range(0,1f), Tooltip("Tiempo para llegar al lugar de la Explosion")] private float _timeToArrive = 0.5f;
+    [SerializeField, Range(0,4f), Tooltip("Tiempo quieto en el lugar")] private float _quietTime = 2f;
+    [SerializeField] private Collider _zoneChargedAttack;
+
     [Header("Obstacle Acoidance / Esquivar Obstaculos")]
     [Tooltip("Capas de obstaculos")]public LayerMask obstacleLayer;
     [Tooltip("Fueza para esquivar")]public float avoidWeight; //El peso con el que esquiva las cosas, q tanto se va a mover 
     private Vector3 _velocity;
-    [SerializeField] private Vector3 _dir;
+    private Vector3 _dir;
 
-    private bool _launch;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _myCollider = GetComponent<Collider>();
         _currentState = new MementoState();
+
+        _zoneChargedAttack.enabled = false;
 
         EventManager.Subscribe("ChargedAttack", ChargedAttack);
 
@@ -48,10 +63,10 @@ public class BananaGuide : Rewind
 
     private void FixedUpdate()
     {
-        if (_launch) return;
+        if (_actualStateBanana == EstadoDeBananaBot.AtaqueCargado) return;
 
         AddForce(Arrive(target.position));
-        Rotate(target.forward);
+        Rotate(target);
 
         //AddForce(ObstacleAvoidance() * avoidWeight);
 
@@ -62,51 +77,56 @@ public class BananaGuide : Rewind
         
     }
 
-    private void Rotate(Vector3 dirForward)
+    private void Rotate(Transform dirForward)
     {
-        transform.forward = dirForward;
-
+        if (_actualStateBanana == EstadoDeBananaBot.EnPosicion) transform.forward = dirForward.forward;
+        else if (_actualStateBanana == EstadoDeBananaBot.RegresandoAPosicion) transform.LookAt(dirForward);
     }
 
+    #region Ataque Cargado
     public void ChargedAttack(params object[] parameters)
     {
+        if (_actualStateBanana != EstadoDeBananaBot.EnPosicion) return;
         _dir = (Vector3)parameters[0];
         _dir *= 20f;
-        //_dir *= 30f;
 
-        //StartCoroutine(Launch());
         StartCoroutine(Destiny());
-
-
-        //_rb.velocity = new Vector3(transform.position.x, transform.position.y, transform.position.z * 20f);
-        //transform.forward *= 20f; 
-
-        //_rb.MovePosition(transform.position + (dir.normalized * 20f) * Time.fixedDeltaTime);
     }
 
     IEnumerator Destiny()
     {
-        _launch = true;
+        //_launch = true;
+        _actualStateBanana = EstadoDeBananaBot.AtaqueCargado;
+
         float elapsedTime = 0;
         var positionA = transform.position;
 
-        while (elapsedTime < 0.5f)
+        //Tiempo para llegar al destino
+        while (elapsedTime < _timeToArrive)
         {
             elapsedTime += Time.deltaTime;
-            float t = elapsedTime / 0.5f;
+            float t = elapsedTime / _timeToArrive;
 
             transform.position = Vector3.Lerp(positionA, positionA + _dir, t);
             yield return null;
         }
-        _launch = false;
+
+        elapsedTime = 0;
+        _zoneChargedAttack.enabled = true;
+
+        while (elapsedTime < _quietTime)
+        {
+            elapsedTime += Time.deltaTime;
+            
+            yield return null;
+        }
+
+        _actualStateBanana = EstadoDeBananaBot.RegresandoAPosicion;
+
+        _zoneChargedAttack.enabled = false;
     }
 
-    IEnumerator Launch()
-    {
-        _launch = true;
-        yield return new WaitForSeconds(2);
-        _launch = false;
-    }
+    #endregion
 
     #region Patrones de Movimiento
     public Vector3 Seek(Vector3 target)
@@ -128,6 +148,8 @@ public class BananaGuide : Rewind
         var desired = target - transform.position;
         desired.Normalize();
         desired *= maxSpeed * ((dist - _viewRadius) / _arriveRadius); //Si la dist la divido por el radio, me va achicando la velocidad
+
+        _actualStateBanana = EstadoDeBananaBot.EnPosicion;
 
         return CalculateSteering(desired);
     }
