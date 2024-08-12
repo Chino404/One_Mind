@@ -9,7 +9,8 @@ public class CameraTarget : MonoBehaviour
     [SerializeField]private Transform target;
     public Transform Target { set { target = value; } }
 
-    [SerializeField] private float _smoothSpeed;
+    [Header("Smoothing Values")]
+    [Range(0.01f, 5f)][SerializeField] float _smoothSpeed = 3f;
 
     [SerializeField] Vector3 pos;
     private Vector3 _velocity;
@@ -37,6 +38,8 @@ public class CameraTarget : MonoBehaviour
 
         if (target.position.x + pos.x != transform.position.x)_velocity.x = target.position.x + pos.x - transform.position.x;
         else _velocity.x = 0;
+
+
 
         transform.position += _velocity * _smoothSpeed * Time.deltaTime;
     }

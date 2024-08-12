@@ -2,14 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum JugadorAsignado
+{
+    Bongo,
+    BananaBot
+}
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public ModelMonkey playerGM;
     public List<Rewind> rewinds;
+
     [Header("Character Swap")]
     public Characters[] players = new Characters[2];
+    [HideInInspector]public Transform assignedPlayer;
+    [HideInInspector]public PointsForTheCamera points;
+
     private bool _inChange = false;
     private bool _controllerMonkey = true; //Si se puede usar al mono
     public bool ContollerMonkey {  get { return _controllerMonkey; } }
@@ -39,7 +47,12 @@ public class GameManager : MonoBehaviour
     {
         //Activo los controles del Mono
         _controllerMonkey = true;
+
+        assignedPlayer = players[0].transform;
+        points.player = assignedPlayer;
+
         cam.Target = players[0].transform;
+
 
         foreach (var item in rewinds)
         {
@@ -58,6 +71,7 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q)) Swap();
 
+        points.player = assignedPlayer;
     }
 
     public void RemoveAll()
@@ -86,7 +100,10 @@ public class GameManager : MonoBehaviour
     {
         _inChange = true;
         _controllerMonkey = false;
+
+        assignedPlayer = players[1].transform;
         cam.Target = players[1].transform;
+
         players[1].GetComponent<BananaGuide>().enabled = false;
         players[1].GetComponent<ModelBanana>().enabled = true;
         _inChange = false;
@@ -98,7 +115,10 @@ public class GameManager : MonoBehaviour
         players[1].GetComponent<ModelBanana>().enabled = false;
         _inChange = true;
         _controllerMonkey = true;
+
+        assignedPlayer = players[0].transform;
         cam.Target = players[0].transform;
+
         players[1].GetComponent<BananaGuide>().enabled = true;
         _inChange = false;
     }
