@@ -79,6 +79,7 @@ public class ModelBanana : Characters
 
     private void OnDisable()
     {
+        if (children != null)
         children.ReleaseObject();
         //_visorImage.gameObject.SetActive(false);
     }
@@ -138,11 +139,14 @@ public class ModelBanana : Characters
         if (Physics.Raycast(transform.position, Vector3.down, out hit))
         {
             var interactable = hit.transform.GetComponent<IInteractable>();
-            if (interactable!=null)
+            if (interactable != null)
             {
                 interactable.RightClickAction(transform);
                 children = interactable;
             }
+            else if (interactable == null && children != null)
+                children.ReleaseObject();
+                
         }
     }
 

@@ -35,18 +35,19 @@ public class BlueCrystal : MonoBehaviour, IInteractable
             ReleaseObject();
         }
     }
-    private void OnCollisionEnter(Collision collision)
+    
+    private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.GetComponent<BaseBlueCrystal>())
+        if (collision.gameObject.GetComponentInParent<BaseBlueCrystal>())
         {
             _canActivate = true;
-            baseCrystal = collision.gameObject.GetComponent<BaseBlueCrystal>();
+            baseCrystal = collision.gameObject.GetComponentInParent<BaseBlueCrystal>();
         }
     }
-
-    private void OnCollisionExit(Collision collision)
+    
+    private void OnTriggerExit(Collider collision)
     {
-        if (collision.gameObject.GetComponent<BaseBlueCrystal>())
+        if (collision.gameObject.GetComponentInParent<BaseBlueCrystal>())
         {
             _canActivate = false;
             baseCrystal = null;
