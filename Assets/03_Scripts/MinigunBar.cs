@@ -9,18 +9,22 @@ public class MinigunBar : MonoBehaviour
 
     [Tooltip("Cuanto aumenta la barra cuando golpea a un enemigo")]
     public float enemyAttackPoints=0.1f;
+
     [Tooltip("Cuanto aumenta la barra cuando golpea a una caja o rompe algo")]
     public float attackThingsPoints=0.05f;
-    [Tooltip("Cuanto aumenta la barra cuando mata a un enemigo")]
-    public float killsPoints=0.3f;
+
+    //[Tooltip("Cuanto aumenta la barra cuando mata a un enemigo")]
+    //public float killsPoints=0.3f;
+
     [Tooltip("Cuanto dura el modo con la minigun")]
     public float timeInAssaultMode=0.001f;
 
-    bool assaultMode;
+    public ModelMonkey modelMonkey;
 
     private void Start()
     {
         _minigunBar = GetComponent<Image>();
+        
     }
 
     public void PunchEnemy()
@@ -33,26 +37,28 @@ public class MinigunBar : MonoBehaviour
         _minigunBar.fillAmount += attackThingsPoints;
     }
 
-    public void KillEnemies()
-    {
-        _minigunBar.fillAmount += killsPoints;
-    }
+    //public void KillEnemies()
+    //{
+    //    _minigunBar.fillAmount += killsPoints;
+    //}
 
     private void Update()
     {
+        if (Time.timeScale == 0) return;
+
         if (_minigunBar.fillAmount == 1)
         {
-            assaultMode = true;
+            modelMonkey.actualStateBongo = EstadoDeBongo.Minigun;
             Debug.Log("Estoy en modo asalto");
         }
 
-        if (assaultMode)
+        if (modelMonkey.actualStateBongo == EstadoDeBongo.Minigun)
         {
             _minigunBar.fillAmount -= timeInAssaultMode;
 
             if (_minigunBar.fillAmount == 0)
             {
-                assaultMode = false;
+                modelMonkey.actualStateBongo=EstadoDeBongo.Normal;
                 Debug.Log("ya no estoy mas en modo asalto");
             }
         }

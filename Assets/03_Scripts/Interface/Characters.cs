@@ -14,6 +14,7 @@ public enum EstadoDeBongo
     Normal,
     Escalando,
     Golpeando,
+    Minigun,
     CargandoAtaqueElectrico
 }
 
