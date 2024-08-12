@@ -73,7 +73,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     private event MyDelegate _actualMove;
 
     public MyDelegate ActualMove { get { return _actualMove; } set {  _actualMove = value; } }
-    public CameraTarget camera;
+
 
     private void Awake()
     {
@@ -111,7 +111,6 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         GameManager.instance.playerGM = this;
         GameManager.instance.players[0] = this;
-        camera.Target = this.transform;
     }
 
     private void Update()
@@ -135,11 +134,11 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
             PowerUp = null;
         }
 
-        if (_comboTimeCounter > 0) _comboTimeCounter -= Time.deltaTime;
-        else
-        {
-            _currentCombo = 0;
-        }
+        //if (_comboTimeCounter > 0) _comboTimeCounter -= Time.deltaTime;
+        //else
+        //{
+        //    _currentCombo = 0;
+        //}
 
         
         ChangeSpeed();
@@ -365,27 +364,30 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     {
         if (_actualStateBongo == EstadoDeBongo.Golpeando) return;
 
-        _currentCombo++;
+        //_currentCombo++;
         AudioManager.instance.PlayMonkeySFX(AudioManager.instance.swoosh);
         
 
-        switch (_currentCombo)
-        {
-            case 1:
-                StartCoroutine(SystemNormalCombo(_pushingForce));
-                _comboTimeCounter = _comboTime;
-                break;
+        //switch (_currentCombo)
+        //{
+        //    case 1:
+        //        StartCoroutine(SystemNormalCombo(_pushingForce));
+        //        _comboTimeCounter = _comboTime;
+        //        break;
 
-            //case 2:
-            //    StartCoroutine(SystemNormalCombo(_pushingForce + (_pushingForce * 0.5f)));
-            //    _comboTimeCounter = _comboTime;
-            //    break;
+        //    //case 2:
+        //    //    StartCoroutine(SystemNormalCombo(_pushingForce + (_pushingForce * 0.5f)));
+        //    //    _comboTimeCounter = _comboTime;
+        //    //    break;
 
-            //case 3:
-            //    StartCoroutine(SystemNormalCombo(_pushingForce + (_pushingForce * 0.75f)));
-            //    _comboTimeCounter = 0;
-            //    break;
-        }
+        //    //case 3:
+        //    //    StartCoroutine(SystemNormalCombo(_pushingForce + (_pushingForce * 0.75f)));
+        //    //    _comboTimeCounter = 0;
+        //    //    break;
+        //}
+
+        StartCoroutine(SystemNormalCombo(_pushingForce));
+        _comboTimeCounter = _comboTime;
     }
 
     IEnumerator SystemNormalCombo(float powerForce)
