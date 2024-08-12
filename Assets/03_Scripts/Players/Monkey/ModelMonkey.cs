@@ -92,11 +92,12 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         _controller = new ControllerMonkey(this);
         _currentState = new MementoState();
 
-        
+        //GameManager.instance.players[0] = this;
     }
 
     private void Start()
     {
+        GameManager.instance.players[0] = this;
 
         if(!GameManager.instance.rewinds.Contains(this))
         GameManager.instance.rewinds.Add(this);
@@ -109,8 +110,6 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         ActualMove = NormalMovement;
 
-        GameManager.instance.playerGM = this;
-        GameManager.instance.players[0] = this;
     }
 
     private void Update()
