@@ -15,7 +15,7 @@ using UnityEngine;
 public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 {
     [Header("VALORES PERSONAJE")]
-    [SerializeField] private EstadoDeBongo _actualStateBongo;
+    public EstadoDeBongo actualStateBongo;
     [SerializeField] private float _maxLife;
     [SerializeField]private float _actualLife;
     [SerializeField] private float _iniSpeed = 10f;
@@ -74,6 +74,9 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
     public MyDelegate ActualMove { get { return _actualMove; } set {  _actualMove = value; } }
 
+    [Header("VARIABLES MINIGUN")]
+    [Tooltip("Velocidad en estado minigun")]
+    [SerializeField] private float _minigunSpeed;
 
     private void Awake()
     {
@@ -93,6 +96,9 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         _currentState = new MementoState();
 
         //GameManager.instance.players[0] = this;
+
+        
+        
     }
 
     private void Start()
@@ -157,22 +163,23 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     #region Movement
     public void Movement(Vector3 dirRaw, Vector3 dir)
     {
-        if (_actualStateBongo == EstadoDeBongo.Golpeando || IsTouch(dir.normalized, _moveMask)) return;
+        if (actualStateBongo == EstadoDeBongo.Golpeando || IsTouch(dir.normalized, _moveMask)) return;
 
         ActualMove(dirRaw, dir);
     }
 
     private void ChangeSpeed()
     {
-        if (_actualStateBongo == EstadoDeBongo.Normal) _actualSpeed = _iniSpeed;
-        if (_actualStateBongo == EstadoDeBongo.Escalando) _actualSpeed = 7;
-        if (_actualStateBongo == EstadoDeBongo.Golpeando || _actualStateBongo == EstadoDeBongo.CargandoAtaqueElectrico) _actualSpeed = 0;
+        if (actualStateBongo == EstadoDeBongo.Minigun) _actualSpeed = _minigunSpeed;
+        if (actualStateBongo == EstadoDeBongo.Normal) _actualSpeed = _iniSpeed;
+        if (actualStateBongo == EstadoDeBongo.Escalando) _actualSpeed = 7;
+        if (actualStateBongo == EstadoDeBongo.Golpeando || actualStateBongo == EstadoDeBongo.CargandoAtaqueElectrico) _actualSpeed = 0;
     }
 
     public void NormalMovement(Vector3 dirRaw, Vector3 dir)
     {
         _dirGrabb = default;
-        _actualStateBongo = EstadoDeBongo.Normal;
+        actualStateBongo = EstadoDeBongo.Normal;
         _forceGravity = _initialForceGravity;
         _rbCharacter.isKinematic = false;
 
@@ -208,7 +215,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     {
         _animPlayer.SetBool("Walk", false);
 
-        _actualStateBongo = EstadoDeBongo.Escalando;
+        actualStateBongo = EstadoDeBongo.Escalando;
         _forceGravity = 0;
         _rbCharacter.isKinematic = true;
 
@@ -296,9 +303,9 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     {
         if (isRotating) return;
 
-        if(_actualStateBongo == EstadoDeBongo.Escalando) //Si estoy escalando
+        if(actualStateBongo == EstadoDeBongo.Escalando) //Si estoy escalando
         {
-            _actualStateBongo = EstadoDeBongo.Normal;
+            actualStateBongo = EstadoDeBongo.Normal;
             StartCoroutine(WaitRayChange());
 
             if (_dirGrabb.sqrMagnitude != 0 && _stopGrabb)
@@ -361,7 +368,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
     public void NormalPunch()
     {
-        if (_actualStateBongo == EstadoDeBongo.Golpeando) return;
+        if (actualStateBongo == EstadoDeBongo.Golpeando) return;
 
         //_currentCombo++;
         AudioManager.instance.PlayMonkeySFX(AudioManager.instance.swoosh);
@@ -391,14 +398,14 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
     IEnumerator SystemNormalCombo(float powerForce)
     {
-        _actualStateBongo = EstadoDeBongo.Golpeando;
+        actualStateBongo = EstadoDeBongo.Golpeando;
         _rbCharacter.AddForce(transform.forward * powerForce, ForceMode.Impulse);
         _animPlayer.SetTrigger("Attack");
         yield return new WaitForSeconds(0.4f);
-        _actualStateBongo = EstadoDeBongo.Normal;
+        actualStateBongo = EstadoDeBongo.Normal;
         yield return new WaitForSeconds(0.2f);
 
-        if(_actualStateBongo == EstadoDeBongo.Normal)
+        if(actualStateBongo == EstadoDeBongo.Normal)
         {
             _actualSpeed = _iniSpeed;
             _forceGravity = _initialForceGravity;
@@ -409,14 +416,14 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     public void ChargedAttack()
     {
         
-        _actualStateBongo = EstadoDeBongo.CargandoAtaqueElectrico;
+        actualStateBongo = EstadoDeBongo.CargandoAtaqueElectrico;
         Debug.DrawRay(transform.position, transform.forward * 20f, Color.red);
         _targetBanana.ChargedAttack();
     }
 
     public void SuccesChargedAttack()
     {
-        _actualStateBongo = EstadoDeBongo.Normal;
+        actualStateBongo = EstadoDeBongo.Normal;
         EventManager.Trigger("ChargedAttack", _launchDir.normalized);
         _targetBanana.NormalPosition();
     }
