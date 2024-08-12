@@ -18,7 +18,6 @@ public class FPCamera : MonoBehaviour
 
     private void Start()
     {
-        GameManager.instance.camerasPlayers[1] = gameObject;
         //GameManager.instance._animCamBanana = _animatorCam;
     }
 
