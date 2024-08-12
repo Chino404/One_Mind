@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     private float _duration;
 
     //public CameraTracker cam;
-    public CameraTarget cam;
+    //public CameraTarget cam;
 
 
     public List<Enemy> enemies = new();
@@ -39,8 +39,7 @@ public class GameManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else
-            Destroy(gameObject);
+        else Destroy(gameObject);
     }
 
     private void Start()
@@ -51,7 +50,7 @@ public class GameManager : MonoBehaviour
         assignedPlayer = players[0].transform;
         points.player = assignedPlayer;
 
-        cam.Target = players[0].transform;
+        //cam.Target = players[0].transform;
 
 
         foreach (var item in rewinds)
@@ -102,7 +101,7 @@ public class GameManager : MonoBehaviour
         _controllerMonkey = false;
 
         assignedPlayer = players[1].transform;
-        cam.Target = players[1].transform;
+        //cam.Target = players[1].transform;
 
         players[1].GetComponent<BananaGuide>().enabled = false;
         players[1].GetComponent<ModelBanana>().enabled = true;
@@ -117,7 +116,7 @@ public class GameManager : MonoBehaviour
         _controllerMonkey = true;
 
         assignedPlayer = players[0].transform;
-        cam.Target = players[0].transform;
+        //cam.Target = players[0].transform;
 
         players[1].GetComponent<BananaGuide>().enabled = true;
         _inChange = false;

@@ -5,32 +5,47 @@ using UnityEngine;
 public class CameraTracker : MonoBehaviour
 {
     [Header("Components")]
-    public Transform target;
-    [SerializeField]private Transform[] _pointsTarget;
+    [SerializeField] private Transform[] _pointsTarget;
+    [SerializeField] private Transform _point;
+    private Transform _target;
 
     [Header("Smoothing Values")]
     [Range(0.01f, 0.125f)] [SerializeField] float _smoothSpeed = 0.075f;
 
-    public Vector3 _offset, _desiredPos, _smoothPos;
+    Vector3 _offset, _desiredPos, _smoothPos;
 
     private void Start()
     {
-        //target = GameManager.instance.assignedPlayer;
+        if (_target == null) Debug.LogWarning("FALTA TARGET");
 
-        SetPositionAndRotation(_pointsTarget[0]);
+        _point = _pointsTarget[0];
 
-        //_offset = transform.position;
+        StartCoroutine(Wait());
+    }
+
+    IEnumerator Wait()
+    {
+        yield return new WaitForEndOfFrame();
+
+        transform.position = _pointsTarget[0].position;
+
+        _target = GameManager.instance.assignedPlayer;
+
+        // Inicializar offset como la diferencia entre la posición de la cámara y el target
+        _offset = transform.position - _target.position;
+
     }
 
     private void Update()
     {
-        target = GameManager.instance.assignedPlayer;
+        _target = GameManager.instance.assignedPlayer;
     }
 
     private void FixedUpdate()
     {
+        if (_target == null) return;
         //transform.position = target.position + _offset;
-        //_desiredPos = target.position + _offset;
+
         //_desiredPos = target.position + _offset;
         //_smoothPos = Vector3.Lerp(transform.position, _desiredPos, _smoothSpeed);
         //transform.position = _smoothPos;
@@ -41,8 +56,16 @@ public class CameraTracker : MonoBehaviour
 
     private void SetPositionAndRotation(Transform point)
     {
-        transform.SetLocalPositionAndRotation(point.position, point.rotation);
-        Debug.DrawLine(transform.position, target.position, Color.green);
+        _desiredPos = _target.position + _offset;
+        _smoothPos = Vector3.Lerp(transform.position, _desiredPos, _smoothSpeed);
+
+        transform.SetPositionAndRotation(_smoothPos, point.rotation);
+        Debug.DrawLine(transform.position, _target.position, Color.green);
+    }
+
+    public void TransicionPoint()
+    {
+
     }
 
 }
