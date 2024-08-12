@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class NormalPunch : Hits
 {
     [SerializeField] float _damage;
@@ -10,9 +11,12 @@ public class NormalPunch : Hits
     private Collider _myCollider;
     private bool _action;
 
+    public MinigunBar minigunBar;
+
     private void Awake()
     {
         _myCollider = GetComponent<Collider>();
+        
     }
 
 
@@ -33,9 +37,12 @@ public class NormalPunch : Hits
         if (target != null)
         {
             target.TakeDamageEntity(_damage, _entity.transform.position);
+            minigunBar.PunchEnemy();
 
-            
         }
+
+        else if (other.gameObject.layer == 18)
+            minigunBar.PunchThings();
     }
 
     private void ExecuteAudio()
