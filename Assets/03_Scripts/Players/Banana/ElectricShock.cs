@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class ElectricShock : MonoBehaviour
 {
+    private void Start()
+    {
+        gameObject.SetActive(false);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         var interactable = other.GetComponent<IInteractable>();

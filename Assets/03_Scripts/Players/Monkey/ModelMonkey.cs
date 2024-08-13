@@ -77,6 +77,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     [Header("VARIABLES MINIGUN")]
     [Tooltip("Velocidad en estado minigun")]
     [SerializeField] private float _minigunSpeed;
+    public bool canActivateMinigun;
+    
 
     private void Awake()
     {
@@ -116,6 +118,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         ActualMove = NormalMovement;
 
+        canActivateMinigun = false;
+
     }
 
     private void Update()
@@ -147,6 +151,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         
         ChangeSpeed();
+        if (actualStateBongo == EstadoDeBongo.Minigun) return;
         _controller.ArtificialUpdate();
 
     }
@@ -179,7 +184,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     public void NormalMovement(Vector3 dirRaw, Vector3 dir)
     {
         _dirGrabb = default;
-        actualStateBongo = EstadoDeBongo.Normal;
+        //actualStateBongo = EstadoDeBongo.Normal;
         _forceGravity = _initialForceGravity;
         _rbCharacter.isKinematic = false;
 
@@ -238,6 +243,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
             if (IsTouch(dirEscalando, _moveMask))
             {
+                actualStateBongo = EstadoDeBongo.Normal;
                 ActualMove = NormalMovement;
 
                 return;
