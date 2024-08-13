@@ -68,7 +68,7 @@ public class Enemy : Entity, IDamageable
         _initalForceGravity = _forceGravity;
         _timerCounterInveencible = _timeInvencible;
         //AddForce(new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f))*maxVelocity);
-        GameManager.instance.enemies.Add(this);
+        GameManager.Instance.enemies.Add(this);
 
         _iniVelocity = maxVelocity;
 
@@ -81,8 +81,8 @@ public class Enemy : Entity, IDamageable
         fsm.CreateState("Follow Player", new FollowPlayer(this, fsm));
         fsm.ChangeState("Idle");
 
-       target=GameManager.instance.players[0].GetComponent<ModelMonkey>();
-       GameManager.instance.rewinds.Add(this);
+       target=GameManager.Instance.players[0].GetComponent<ModelMonkey>();
+       GameManager.Instance.rewinds.Add(this);
 
         _currentState = new MementoState();
 
@@ -96,12 +96,12 @@ public class Enemy : Entity, IDamageable
         
 
         Vector3 seekDir = Seek(target.transform.position);
-        Vector3 flockingDir = Separation(GameManager.instance.enemies, separationRadius);
-        Vector3 flockingAlignment = Alignment(GameManager.instance.enemies, separationRadius);
+        Vector3 flockingDir = Separation(GameManager.Instance.enemies, separationRadius);
+        Vector3 flockingAlignment = Alignment(GameManager.Instance.enemies, separationRadius);
 
-        _velocity += flockingDir*GameManager.instance.weightSeparation + 
-            seekDir*GameManager.instance.weightSeek+
-            flockingAlignment*GameManager.instance.weightAlignment;
+        _velocity += flockingDir*GameManager.Instance.weightSeparation + 
+            seekDir*GameManager.Instance.weightSeek+
+            flockingAlignment*GameManager.Instance.weightAlignment;
         
 
         //if (!_inAir)
@@ -435,7 +435,7 @@ public class Enemy : Entity, IDamageable
     {
         
         _life = 0;
-        GameManager.instance.enemies.Remove(this);
+        GameManager.Instance.enemies.Remove(this);
         _crystalWall.enemies.Remove(this);
 
         if (_crystalWall.enemies.Count < 1) _crystalWall.DesactivarMuro();

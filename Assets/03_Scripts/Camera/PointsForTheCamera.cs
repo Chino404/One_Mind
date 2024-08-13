@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PointsForTheCamera : MonoBehaviour
 {
-    public Transform player;
+    [HideInInspector]public Transform player;
 
     private void Start()
     {
-        GameManager.instance.points = this;
+        GameManager.Instance.points = this;
     }
 
     private void FixedUpdate()

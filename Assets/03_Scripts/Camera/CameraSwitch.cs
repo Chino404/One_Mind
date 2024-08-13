@@ -6,24 +6,21 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class CameraSwitch : MonoBehaviour
 {
-    [Header("Virtual Camera")]
-    [SerializeField] private CinemachineVirtualCamera _actualVC;
-    [SerializeField] private CinemachineVirtualCamera _newVC = null;
-
-    public static bool _camera2D;
-
+    [Header("Componet")]
+    private CameraTracker _tracker;
+    public Transform backTo;
+    public Transform goTo;
 
     private void Start()
     {
-        _newVC.enabled = false;
+        _tracker = CameraTracker.Instance;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.GetComponent<ModelMonkey>())
         {
-            _newVC.enabled = true;
-            _actualVC.enabled = false;
+            _tracker.TransicionPoint(goTo);
         }
     }
 
@@ -32,16 +29,8 @@ public class CameraSwitch : MonoBehaviour
 
         if(other.gameObject.GetComponent<ModelMonkey>())
         {
-            _newVC.enabled = false;
-            _actualVC.enabled = true;
+            _tracker.TransicionPoint(backTo);
         }
     }
-
-    private void OnValidate()
-    {
-        GetComponent<Collider>().isTrigger = true;
-    }
-
-
 
 }
