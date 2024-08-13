@@ -352,13 +352,13 @@
             "m_Id": "c0afc6788ec74b42a64145bc7d08d9f0"
         },
         {
-            "m_Id": "a27d0b1572fa4cfcac39c7fc0b94a3cd"
-        },
-        {
             "m_Id": "169ca9f86c9942e582ddfe13e86a311a"
         },
         {
             "m_Id": "14cb6719b00240bab9ca2b7ad98b12f7"
+        },
+        {
+            "m_Id": "a0e81dc2b549429e8bd67494fd6387dc"
         }
     ],
     "m_GroupDatas": [
@@ -467,7 +467,7 @@
             },
             "m_InputSlot": {
                 "m_Node": {
-                    "m_Id": "a27d0b1572fa4cfcac39c7fc0b94a3cd"
+                    "m_Id": "a0e81dc2b549429e8bd67494fd6387dc"
                 },
                 "m_SlotId": -7020198
             }
@@ -495,7 +495,7 @@
             },
             "m_InputSlot": {
                 "m_Node": {
-                    "m_Id": "a27d0b1572fa4cfcac39c7fc0b94a3cd"
+                    "m_Id": "a0e81dc2b549429e8bd67494fd6387dc"
                 },
                 "m_SlotId": -407143930
             }
@@ -1245,7 +1245,7 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
-                    "m_Id": "a27d0b1572fa4cfcac39c7fc0b94a3cd"
+                    "m_Id": "a0e81dc2b549429e8bd67494fd6387dc"
                 },
                 "m_SlotId": 1
             },
@@ -2602,7 +2602,7 @@
     "m_Title": "Mask",
     "m_Position": {
         "x": -3205.0,
-        "y": 135.9998779296875
+        "y": 47.999996185302737
     }
 }
 
@@ -3124,21 +3124,6 @@
 {
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
-    "m_ObjectId": "1c17555f0b2b4344821987520fe059bd",
-    "m_Id": -407143930,
-    "m_DisplayName": "Warping Strength",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Vector1_d7e6718b24504f5d9dd8ccc8f9b2af13",
-    "m_StageCapability": 3,
-    "m_Value": 0.0,
-    "m_DefaultValue": 0.0,
-    "m_Labels": []
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "1cd4338bc21642c9bc217716caa4c946",
     "m_Id": 0,
     "m_DisplayName": "Alpha",
@@ -3583,6 +3568,21 @@
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "25cffc85974842b88813904804b6ace1",
+    "m_Id": -7020198,
+    "m_DisplayName": "Warping Speed",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Vector1_d66c55d0a2ce4f1e82293d6b9d595a43",
     "m_StageCapability": 3,
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
@@ -4866,21 +4866,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
-    "m_ObjectId": "46024f910b524c5c9d4549891b8213a5",
-    "m_Id": -7020198,
-    "m_DisplayName": "Warping Speed",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Vector1_d66c55d0a2ce4f1e82293d6b9d595a43",
-    "m_StageCapability": 3,
-    "m_Value": 0.0,
-    "m_DefaultValue": 0.0,
-    "m_Labels": []
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
     "m_ObjectId": "46b242b510e141299bdf4526aaf39234",
     "m_Id": 0,
@@ -5306,6 +5291,31 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
+    "m_ObjectId": "4de70982319d467f9aecad16829dfb26",
+    "m_Id": 1,
+    "m_DisplayName": "Out",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_Labels": []
 }
 
 {
@@ -6736,31 +6746,6 @@
         "e32": 0.0,
         "e33": 1.0
     }
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
-    "m_ObjectId": "6ddef76f2e7e45d791fbfdbdbbdd03a9",
-    "m_Id": 1,
-    "m_DisplayName": "Out",
-    "m_SlotType": 1,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Out",
-    "m_StageCapability": 3,
-    "m_Value": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_Labels": []
 }
 
 {
@@ -8924,6 +8909,21 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "9fd28723a7224e48b815ab1ef266ebab",
+    "m_Id": -407143930,
+    "m_DisplayName": "Warping Strength",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Vector1_d7e6718b24504f5d9dd8ccc8f9b2af13",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector1Node",
     "m_ObjectId": "9feffd3c86da47ec814f35a2241609be",
     "m_Group": {
@@ -8995,6 +8995,56 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.SubGraphNode",
+    "m_ObjectId": "a0e81dc2b549429e8bd67494fd6387dc",
+    "m_Group": {
+        "m_Id": "102bff086ecc43e58b4f99b59f2f19df"
+    },
+    "m_Name": "Texture Warping",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -414.0,
+            "y": 421.0,
+            "width": 212.0,
+            "height": 302.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "9fd28723a7224e48b815ab1ef266ebab"
+        },
+        {
+            "m_Id": "25cffc85974842b88813904804b6ace1"
+        },
+        {
+            "m_Id": "4de70982319d467f9aecad16829dfb26"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_SerializedSubGraph": "{\n    \"subGraph\": {\n        \"fileID\": -5475051401550479605,\n        \"guid\": \"4689b993a84f4624bb4bea50e800e6f9\",\n        \"type\": 3\n    }\n}",
+    "m_PropertyGuids": [
+        "dc11735e-4515-451c-8554-d47dc8186203",
+        "51cc8000-d278-45b0-ad87-9b8a8f347361"
+    ],
+    "m_PropertyIds": [
+        -407143930,
+        -7020198
+    ],
+    "m_Dropdowns": [],
+    "m_DropdownSelectedEntries": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
     "m_ObjectId": "a135667ece164e2a981be8ee6aa3be7c",
     "m_Id": 2,
@@ -9030,56 +9080,6 @@
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.SubGraphNode",
-    "m_ObjectId": "a27d0b1572fa4cfcac39c7fc0b94a3cd",
-    "m_Group": {
-        "m_Id": "102bff086ecc43e58b4f99b59f2f19df"
-    },
-    "m_Name": "Texture Warping",
-    "m_DrawState": {
-        "m_Expanded": true,
-        "m_Position": {
-            "serializedVersion": "2",
-            "x": -432.9999694824219,
-            "y": 395.0,
-            "width": 211.9999542236328,
-            "height": 302.0
-        }
-    },
-    "m_Slots": [
-        {
-            "m_Id": "1c17555f0b2b4344821987520fe059bd"
-        },
-        {
-            "m_Id": "46024f910b524c5c9d4549891b8213a5"
-        },
-        {
-            "m_Id": "6ddef76f2e7e45d791fbfdbdbbdd03a9"
-        }
-    ],
-    "synonyms": [],
-    "m_Precision": 0,
-    "m_PreviewExpanded": true,
-    "m_DismissedVersion": 0,
-    "m_PreviewMode": 0,
-    "m_CustomColors": {
-        "m_SerializableColors": []
-    },
-    "m_SerializedSubGraph": "{\n    \"subGraph\": {\n        \"fileID\": -5475051401550479605,\n        \"guid\": \"3c421f6ef9c94374d8b46038ddfa977b\",\n        \"type\": 3\n    }\n}",
-    "m_PropertyGuids": [
-        "dc11735e-4515-451c-8554-d47dc8186203",
-        "51cc8000-d278-45b0-ad87-9b8a8f347361"
-    ],
-    "m_PropertyIds": [
-        -407143930,
-        -7020198
-    ],
-    "m_Dropdowns": [],
-    "m_DropdownSelectedEntries": []
 }
 
 {

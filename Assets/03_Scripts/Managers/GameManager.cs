@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
         }
 
         //Desactivo la banana
+        if (players[1].GetComponent<ModelBanana>() == null) Debug.LogError("NO SE ASIGNO LA BANANA");
         players[1].GetComponent<ModelBanana>().enabled = false;
     }
 

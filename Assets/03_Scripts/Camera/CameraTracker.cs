@@ -9,13 +9,16 @@ public class CameraTracker : MonoBehaviour
     [Header("Components")]
     [SerializeField] private Transform _point;
 
-    private Transform _target;
+    [SerializeField]private Transform _target;
 
     [Header("Smoothing Values")]
     [Range(0.01f, 0.125f)] [SerializeField] float _smoothSpeedPosition = 0.075f;
     [Range(0.01f, 0.125f)] [SerializeField] float _smoothSpeedRotation = 0.075f;
 
-    Vector3 _offset, _desiredPos, _smoothPos;
+    Vector3 _desiredPos, _smoothPos;
+    Quaternion _smoothRot;
+
+    private float _disTargetOriginal;
 
     private void Awake()
     {
@@ -24,7 +27,6 @@ public class CameraTracker : MonoBehaviour
 
     private void Start()
     {
-        if (_target == null) Debug.LogWarning("FALTA TARGET");
 
         if(_point == null)
         {
@@ -33,6 +35,7 @@ public class CameraTracker : MonoBehaviour
         }
 
         StartCoroutine(Wait());
+
     }
 
     IEnumerator Wait()
@@ -42,6 +45,7 @@ public class CameraTracker : MonoBehaviour
         transform.position = _point.position;
 
         _target = GameManager.instance.assignedPlayer;
+        if (_target == null) Debug.LogError("FALTA TARGET");
     }
 
     private void Update()
@@ -52,6 +56,9 @@ public class CameraTracker : MonoBehaviour
     private void FixedUpdate()
     {
         if (_target == null || _point == null) return;
+
+        _disTargetOriginal = Vector3.Distance(transform.position, _target.position);
+        Debug.Log(_disTargetOriginal);
         
         SetPositionAndRotationTarget();
 
@@ -64,7 +71,9 @@ public class CameraTracker : MonoBehaviour
 
         _smoothPos = Vector3.Lerp(transform.position, _desiredPos, _smoothSpeedPosition);
 
-        transform.SetPositionAndRotation(_smoothPos, Quaternion.Lerp(transform.rotation, _point.rotation, _smoothSpeedRotation));
+        _smoothRot = Quaternion.Lerp(transform.rotation, _point.rotation, _smoothSpeedRotation);
+
+        transform.SetPositionAndRotation(_smoothPos, _smoothRot);
 
         Debug.DrawLine(transform.position, _target.position, Color.green);
     }
