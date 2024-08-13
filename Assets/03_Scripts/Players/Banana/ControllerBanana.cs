@@ -41,6 +41,9 @@ public class ControllerBanana
 
         if (Input.GetKeyDown(KeyCode.Space)) _model.FlyingUp();
 
+        if (Input.GetKeyDown(KeyCode.Q)) GameManager.instance.Swap();
+
+
     }
 
     public void ListenFixedKeys()

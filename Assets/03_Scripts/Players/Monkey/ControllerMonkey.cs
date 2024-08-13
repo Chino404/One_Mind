@@ -35,6 +35,9 @@ public class ControllerMonkey
             if (Input.GetKeyDown(KeyCode.E))
                 _model.actualStateBongo = EstadoDeBongo.Minigun;
 
+        if (Input.GetKeyDown(KeyCode.Q)) GameManager.instance.Swap();
+
+
         //if (Input.GetButton("Fire1")) _model.GoToUpAttack();
         //else
         //{
