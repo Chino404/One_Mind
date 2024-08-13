@@ -103,10 +103,10 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
     private void Start()
     {
-        GameManager.Instance.players[0] = this;
+        GameManager.instance.players[0] = this;
 
-        if(!GameManager.Instance.rewinds.Contains(this))
-        GameManager.Instance.rewinds.Add(this);
+        if(!GameManager.instance.rewinds.Contains(this))
+        GameManager.instance.rewinds.Add(this);
 
         _actualLife = _maxLife;
         _actualSpeed = _iniSpeed;
@@ -120,7 +120,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
     private void Update()
     {
-        if (!GameManager.Instance.ContollerMonkey)
+        if (!GameManager.instance.ContollerMonkey)
         {
             _animPlayer.SetBool("Walk", false);
             return;
@@ -155,7 +155,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     {
         _rbCharacter.AddForce(Vector3.down * _forceGravity, ForceMode.VelocityChange);
 
-        if (!GameManager.Instance.ContollerMonkey) return;
+        if (!GameManager.instance.ContollerMonkey) return;
         _controller.ListenFixedKeys();
 
     }

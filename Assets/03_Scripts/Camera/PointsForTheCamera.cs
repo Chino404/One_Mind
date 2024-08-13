@@ -8,7 +8,7 @@ public class PointsForTheCamera : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.points = this;
+        GameManager.instance.points = this;
     }
 
     private void FixedUpdate()

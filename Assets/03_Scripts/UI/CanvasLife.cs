@@ -7,7 +7,7 @@ public class CanvasLife : MonoBehaviour
     [SerializeField] GameObject _canvasVida;
     private void Update()
     {
-        if(!GameManager.Instance.ContollerMonkey)
+        if(!GameManager.instance.ContollerMonkey)
         {
             _canvasVida.SetActive(false);
         }
