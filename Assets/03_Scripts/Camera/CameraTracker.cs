@@ -4,33 +4,21 @@ using UnityEngine;
 
 public class CameraTracker : MonoBehaviour
 {
-    public static CameraTracker Instance;
-
     [Header("Components")]
+    [SerializeField] private Transform[] _pointsTarget;
     [SerializeField] private Transform _point;
-
     private Transform _target;
 
     [Header("Smoothing Values")]
-    [Range(0.01f, 0.125f)] [SerializeField] float _smoothSpeedPosition = 0.075f;
-    [Range(0.01f, 0.125f)] [SerializeField] float _smoothSpeedRotation = 0.075f;
+    [Range(0.01f, 0.125f)] [SerializeField] float _smoothSpeed = 0.075f;
 
     Vector3 _offset, _desiredPos, _smoothPos;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
 
     private void Start()
     {
         if (_target == null) Debug.LogWarning("FALTA TARGET");
 
-        if(_point == null)
-        {
-            Debug.LogError("ASIGNAR PUNTO A LA CÁMARA");
-            return;
-        }
+        _point = _pointsTarget[0];
 
         StartCoroutine(Wait());
     }
@@ -39,39 +27,45 @@ public class CameraTracker : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
 
-        transform.position = _point.position;
+        transform.position = _pointsTarget[0].position;
 
-        _target = GameManager.Instance.assignedPlayer;
+        _target = GameManager.instance.assignedPlayer;
+
+        // Inicializar offset como la diferencia entre la posición de la cámara y el target
+        _offset = transform.position - _target.position;
+
     }
 
     private void Update()
     {
-        _target = GameManager.Instance.assignedPlayer;
+        _target = GameManager.instance.assignedPlayer;
     }
 
     private void FixedUpdate()
     {
-        if (_target == null || _point == null) return;
+        if (_target == null) return;
+        //transform.position = target.position + _offset;
+
+        //_desiredPos = target.position + _offset;
+        //_smoothPos = Vector3.Lerp(transform.position, _desiredPos, _smoothSpeed);
+        //transform.position = _smoothPos;
         
-        SetPositionAndRotationTarget();
+        SetPositionAndRotation(_pointsTarget[0]);
 
     }
 
-    private void SetPositionAndRotationTarget()
+    private void SetPositionAndRotation(Transform point)
     {
-        // Calcular la posición deseada relativa al punto
-        _desiredPos = _target.position + (_point.position - _target.position);
+        _desiredPos = _target.position + _offset;
+        _smoothPos = Vector3.Lerp(transform.position, _desiredPos, _smoothSpeed);
 
-        _smoothPos = Vector3.Lerp(transform.position, _desiredPos, _smoothSpeedPosition);
-
-        transform.SetPositionAndRotation(_smoothPos, Quaternion.Lerp(transform.rotation, _point.rotation, _smoothSpeedRotation));
-
+        transform.SetPositionAndRotation(_smoothPos, point.rotation);
         Debug.DrawLine(transform.position, _target.position, Color.green);
     }
 
-    public void TransicionPoint(Transform newPoint)
+    public void TransicionPoint()
     {
-        _point = newPoint;
+
     }
 
 }

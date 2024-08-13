@@ -23,7 +23,7 @@ public class Plataform : MonoBehaviour, IInteractable
 
     void Start()
     {
-        modelBanana = GameManager.Instance.players[1].GetComponent<ModelBanana>();
+        modelBanana = GameManager.instance.players[1].GetComponent<ModelBanana>();
         
     }
     
