@@ -41,12 +41,12 @@ public class CameraTracker : MonoBehaviour
 
         transform.position = _point.position;
 
-        _target = GameManager.Instance.assignedPlayer;
+        _target = GameManager.instance.assignedPlayer;
     }
 
     private void Update()
     {
-        _target = GameManager.Instance.assignedPlayer;
+        _target = GameManager.instance.assignedPlayer;
     }
 
     private void FixedUpdate()
