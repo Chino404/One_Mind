@@ -151,6 +151,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         
         ChangeSpeed();
+
         if (actualStateBongo == EstadoDeBongo.Minigun) return;
         _controller.ArtificialUpdate();
 

@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
     {
         if(_controllerMonkey) players[1].GetComponent<ModelBanana>().enabled = false;
 
-        if (Input.GetKeyDown(KeyCode.Q)) Swap();
+        //if(Input.GetKeyDown(KeyCode.Q)) Swap();
 
         points.player = assignedPlayer;
     }
@@ -83,7 +83,6 @@ public class GameManager : MonoBehaviour
 
     public void Swap()
     {
-
         if(_controllerMonkey)
         {
             SwitchCamBanana();
