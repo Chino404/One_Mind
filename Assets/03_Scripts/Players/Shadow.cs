@@ -27,7 +27,7 @@ public class Shadow : MonoBehaviour
     {
         RaycastShadow();
 
-        if (!GameManager.instance.players[0].GetComponent<ModelMonkey>().IsGrounded())
+        if (!GameManager.Instance.players[0].GetComponent<ModelMonkey>().IsGrounded())
         {
             RaycastScaleShadow();
         }

@@ -9,7 +9,7 @@ public class CheckPoint : MonoBehaviour
     {
         if(other.GetComponent<ModelMonkey>())
         {
-            foreach (var item in GameManager.instance.rewinds)
+            foreach (var item in GameManager.Instance.rewinds)
             {
                 item.Save();
             }
