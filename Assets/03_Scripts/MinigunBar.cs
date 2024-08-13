@@ -58,8 +58,9 @@ public class MinigunBar : MonoBehaviour
 
             if (_minigunBar.fillAmount == 0)
             {
-                modelMonkey.actualStateBongo=EstadoDeBongo.Normal;
+                
                 modelMonkey.canActivateMinigun = false;
+                modelMonkey.DesactiveMinigun();
                 Debug.Log("ya no estoy mas en modo asalto");
             }
         }

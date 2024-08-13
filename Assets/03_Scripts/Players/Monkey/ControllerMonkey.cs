@@ -33,7 +33,7 @@ public class ControllerMonkey
 
         if (_model.canActivateMinigun)
             if (Input.GetKeyDown(KeyCode.E))
-                _model.actualStateBongo = EstadoDeBongo.Minigun;
+                _model.ActivateMinigun();
 
         if (Input.GetKeyDown(KeyCode.Q)) GameManager.instance.Swap();
 

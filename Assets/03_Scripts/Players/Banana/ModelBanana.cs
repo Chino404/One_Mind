@@ -35,11 +35,7 @@ public class ModelBanana : Characters
     private ViewBanana _view;
     private ControllerBanana _controller;
 
-    [Header("Bullet")]
-    public BulletBanana bulletBanana;
-    [SerializeField] int _bulletQuantity;
-    Factory<BulletBanana> _factory;
-    ObjectPool<BulletBanana> _objectPool;
+    
 
     [Header("Attack")]
     [SerializeField] private GameObject _electricAttack;
@@ -68,8 +64,7 @@ public class ModelBanana : Characters
         GameManager.instance.players[1] = this;
         //_camera.gameObject.GetComponent<Camera>().enabled = false;
 
-        _factory = new BulletFactory(bulletBanana);
-        _objectPool = new ObjectPool<BulletBanana>(_factory.GetObj, BulletBanana.TurnOff, BulletBanana.TurnOn, _bulletQuantity);
+        
     }
 
     //public void ActivarVisor()
