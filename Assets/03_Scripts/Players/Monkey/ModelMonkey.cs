@@ -22,6 +22,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     [SerializeField]private float _actualLife;
     [SerializeField] private float _iniSpeed = 10f;
     [SerializeField] private float _actualSpeed;
+    private float _aceleration;
     [SerializeField] private float _forceGravity;
     private float _initialForceGravity;
     [SerializeField, Tooltip("Fuerza de salto normal")] private float _jumpForce;
@@ -181,11 +182,20 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         if (actualStateBongo == EstadoDeBongo.Minigun) _actualSpeed = _minigunSpeed;
         if (actualStateBongo == EstadoDeBongo.Normal)
         {
-            if (_actualSpeed < _iniSpeed) _actualSpeed += (20 * Time.deltaTime);
+            if (_actualSpeed < _iniSpeed)
+            {
+                _aceleration += Time.deltaTime;
+                _actualSpeed = Mathf.Lerp(0, _iniSpeed, _aceleration / 0.3f);
+            }
             else _actualSpeed = _iniSpeed;
         }
         if (actualStateBongo == EstadoDeBongo.Escalando) _actualSpeed = 7;
         if (actualStateBongo == EstadoDeBongo.Golpeando || actualStateBongo == EstadoDeBongo.CargandoAtaqueElectrico) _actualSpeed = 0;
+        if(actualStateBongo == EstadoDeBongo.Quieto)
+        {
+            _aceleration = 0;
+            _actualSpeed = 0;
+        }
     }
 
     public void NormalMovement(Vector3 dirRaw, Vector3 dir)
@@ -224,7 +234,6 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         {
             actualStateBongo = EstadoDeBongo.Quieto;
             _animPlayer.SetBool("Walk", false);
-            _actualSpeed = 0;
         }
     }
 
