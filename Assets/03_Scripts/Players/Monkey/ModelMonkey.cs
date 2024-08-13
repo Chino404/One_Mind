@@ -6,7 +6,7 @@ using UnityEngine;
 public enum EstadoDeBongo
 {
     Normal,
-    Quieto,
+    //Quieto,
     Escalando,
     Golpeando,
     Minigun,
@@ -81,6 +81,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     [Tooltip("Velocidad en estado minigun")]
     [SerializeField] private float _minigunSpeed;
     public bool canActivateMinigun;
+    [SerializeField] private Minigun _minigun;
     
 
     private void Awake()
@@ -191,11 +192,11 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         }
         if (actualStateBongo == EstadoDeBongo.Escalando) _actualSpeed = 7;
         if (actualStateBongo == EstadoDeBongo.Golpeando || actualStateBongo == EstadoDeBongo.CargandoAtaqueElectrico) _actualSpeed = 0;
-        if(actualStateBongo == EstadoDeBongo.Quieto)
-        {
-            _aceleration = 0;
-            _actualSpeed = 0;
-        }
+        //if(actualStateBongo == EstadoDeBongo.Quieto)
+        //{
+        //    _aceleration = 0;
+        //    _actualSpeed = 0;
+        //}
     }
 
     public void NormalMovement(Vector3 dirRaw, Vector3 dir)
@@ -207,7 +208,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         if (dirRaw.sqrMagnitude != 0)
         {
-            actualStateBongo = EstadoDeBongo.Normal;
+            //actualStateBongo = EstadoDeBongo.Normal;
 
             _launchDir = dir;
 
@@ -230,9 +231,10 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
             _animPlayer.SetBool("Walk", true);
         }
+        
         else
         {
-            actualStateBongo = EstadoDeBongo.Quieto;
+            //actualStateBongo = EstadoDeBongo.Quieto;
             _animPlayer.SetBool("Walk", false);
         }
     }
@@ -264,7 +266,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
             if (IsTouch(dirEscalando, _moveMask))
             {
-                actualStateBongo = EstadoDeBongo.Quieto;
+                actualStateBongo = EstadoDeBongo.Normal;
                 ActualMove = NormalMovement;
 
                 return;
@@ -332,7 +334,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         if(actualStateBongo == EstadoDeBongo.Escalando) //Si estoy escalando
         {
-            actualStateBongo = EstadoDeBongo.Quieto;
+            //actualStateBongo = EstadoDeBongo.Quieto;
             StartCoroutine(WaitRayChange());
 
             if (_dirGrabb.sqrMagnitude != 0 && _stopGrabb)
@@ -429,10 +431,10 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         _rbCharacter.AddForce(transform.forward * powerForce, ForceMode.Impulse);
         _animPlayer.SetTrigger("Attack");
         yield return new WaitForSeconds(0.4f);
-        actualStateBongo = EstadoDeBongo.Quieto;
+        actualStateBongo = EstadoDeBongo.Normal;
         yield return new WaitForSeconds(0.2f);
 
-        if(actualStateBongo == EstadoDeBongo.Quieto)
+        if(actualStateBongo == EstadoDeBongo.Normal)
         {
             _actualSpeed = _iniSpeed;
             _forceGravity = _initialForceGravity;
@@ -450,7 +452,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
     public void SuccesChargedAttack()
     {
-        actualStateBongo = EstadoDeBongo.Quieto;
+        actualStateBongo = EstadoDeBongo.Normal;
         EventManager.Trigger("ChargedAttack", _launchDir.normalized);
         _targetBanana.NormalPosition();
     }
@@ -493,6 +495,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     }
 
     #endregion
+
+    
 
     #region Damage / Life
     public void TakeDamageEntity(float dmg, Vector3 target)
@@ -590,6 +594,18 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         }
     }*/
     #endregion
+
+    public void ActivateMinigun()
+    {
+        actualStateBongo = EstadoDeBongo.Minigun;
+        _minigun.gameObject.SetActive(true);
+    }
+
+    public void DesactiveMinigun()
+    {
+        actualStateBongo = EstadoDeBongo.Normal;
+        _minigun.gameObject.SetActive(false);
+    }
 
     #region Memento
     public override void Save()

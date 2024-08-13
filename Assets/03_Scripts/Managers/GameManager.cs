@@ -71,6 +71,7 @@ public class GameManager : MonoBehaviour
 
         //if(Input.GetKeyDown(KeyCode.Q)) Swap();
 
+
         points.player = assignedPlayer;
     }
 
