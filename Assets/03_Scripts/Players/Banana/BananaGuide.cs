@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-//public enum EstadoDeBananaBot
-//{
-//    EnPosicion,
-//    RegresandoAPosicion,
-//    AtaqueCargado
-//}
+public enum EstadoDeBananaBotNPC
+{
+    EnPosicion,
+    RegresandoAPosicion,
+    AtaqueCargado
+}
 
 public class BananaGuide : Rewind
 {
     [Header("Variables")]
-    [SerializeField]private EstadoDeBananaBot _actualStateBanana;
+    [SerializeField]private EstadoDeBananaBotNPC _actualStateBanana;
     public Transform target;
     private Collider _myCollider;
     private Rigidbody _rb;
@@ -63,7 +63,7 @@ public class BananaGuide : Rewind
 
     private void FixedUpdate()
     {
-        if (_actualStateBanana == EstadoDeBananaBot.AtaqueCargado) return;
+        if (_actualStateBanana == EstadoDeBananaBotNPC.AtaqueCargado) return;
 
         AddForce(Arrive(target.position));
         Rotate(target);
@@ -79,14 +79,14 @@ public class BananaGuide : Rewind
 
     private void Rotate(Transform dirForward)
     {
-        if (_actualStateBanana == EstadoDeBananaBot.EnPosicion) transform.forward = dirForward.forward;
-        else if (_actualStateBanana == EstadoDeBananaBot.RegresandoAPosicion) transform.LookAt(dirForward);
+        if (_actualStateBanana == EstadoDeBananaBotNPC.EnPosicion) transform.forward = dirForward.forward;
+        else if (_actualStateBanana == EstadoDeBananaBotNPC.RegresandoAPosicion) transform.LookAt(dirForward);
     }
 
     #region Ataque Cargado
     public void ChargedAttack(params object[] parameters)
     {
-        if (_actualStateBanana != EstadoDeBananaBot.EnPosicion) return;
+        if (_actualStateBanana != EstadoDeBananaBotNPC.EnPosicion) return;
         _dir = (Vector3)parameters[0];
         _dir *= 20f;
 
@@ -96,7 +96,7 @@ public class BananaGuide : Rewind
     IEnumerator Destiny()
     {
         //_launch = true;
-        _actualStateBanana = EstadoDeBananaBot.AtaqueCargado;
+        _actualStateBanana = EstadoDeBananaBotNPC.AtaqueCargado;
 
         float elapsedTime = 0;
         var positionA = transform.position;
@@ -121,7 +121,7 @@ public class BananaGuide : Rewind
             yield return null;
         }
 
-        _actualStateBanana = EstadoDeBananaBot.RegresandoAPosicion;
+        _actualStateBanana = EstadoDeBananaBotNPC.RegresandoAPosicion;
 
         _zoneChargedAttack.enabled = false;
     }
@@ -149,7 +149,7 @@ public class BananaGuide : Rewind
         desired.Normalize();
         desired *= maxSpeed * ((dist - _viewRadius) / _arriveRadius); //Si la dist la divido por el radio, me va achicando la velocidad
 
-        _actualStateBanana = EstadoDeBananaBot.EnPosicion;
+        _actualStateBanana = EstadoDeBananaBotNPC.EnPosicion;
 
         return CalculateSteering(desired);
     }
