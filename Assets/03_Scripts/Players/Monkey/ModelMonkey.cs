@@ -3,13 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//public enum EstadoDeBongo
-//{
-//    Normal,
-//    Escalando,
-//    Golpeando,
-//    CargandoAtaqueElectrico
-//}
+public enum EstadoDeBongo
+{
+    Normal,
+    Quieto,
+    Escalando,
+    Golpeando,
+    Minigun,
+    CargandoAtaqueElectrico
+}
 
 [RequireComponent(typeof(Rigidbody))]
 public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
@@ -177,7 +179,11 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     private void ChangeSpeed()
     {
         if (actualStateBongo == EstadoDeBongo.Minigun) _actualSpeed = _minigunSpeed;
-        if (actualStateBongo == EstadoDeBongo.Normal) _actualSpeed = _iniSpeed;
+        if (actualStateBongo == EstadoDeBongo.Normal)
+        {
+            if (_actualSpeed < _iniSpeed) _actualSpeed += (20 * Time.deltaTime);
+            else _actualSpeed = _iniSpeed;
+        }
         if (actualStateBongo == EstadoDeBongo.Escalando) _actualSpeed = 7;
         if (actualStateBongo == EstadoDeBongo.Golpeando || actualStateBongo == EstadoDeBongo.CargandoAtaqueElectrico) _actualSpeed = 0;
     }
@@ -191,10 +197,13 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         if (dirRaw.sqrMagnitude != 0)
         {
+            actualStateBongo = EstadoDeBongo.Normal;
+
             _launchDir = dir;
 
             if(!_jumpGrabb)
             {
+
                 _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
                 Rotate(dir);
             }
@@ -213,7 +222,9 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         }
         else
         {
+            actualStateBongo = EstadoDeBongo.Quieto;
             _animPlayer.SetBool("Walk", false);
+            _actualSpeed = 0;
         }
     }
 
@@ -244,7 +255,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
             if (IsTouch(dirEscalando, _moveMask))
             {
-                actualStateBongo = EstadoDeBongo.Normal;
+                actualStateBongo = EstadoDeBongo.Quieto;
                 ActualMove = NormalMovement;
 
                 return;
@@ -312,7 +323,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         if(actualStateBongo == EstadoDeBongo.Escalando) //Si estoy escalando
         {
-            actualStateBongo = EstadoDeBongo.Normal;
+            actualStateBongo = EstadoDeBongo.Quieto;
             StartCoroutine(WaitRayChange());
 
             if (_dirGrabb.sqrMagnitude != 0 && _stopGrabb)
@@ -409,10 +420,10 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         _rbCharacter.AddForce(transform.forward * powerForce, ForceMode.Impulse);
         _animPlayer.SetTrigger("Attack");
         yield return new WaitForSeconds(0.4f);
-        actualStateBongo = EstadoDeBongo.Normal;
+        actualStateBongo = EstadoDeBongo.Quieto;
         yield return new WaitForSeconds(0.2f);
 
-        if(actualStateBongo == EstadoDeBongo.Normal)
+        if(actualStateBongo == EstadoDeBongo.Quieto)
         {
             _actualSpeed = _iniSpeed;
             _forceGravity = _initialForceGravity;
@@ -430,7 +441,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
     public void SuccesChargedAttack()
     {
-        actualStateBongo = EstadoDeBongo.Normal;
+        actualStateBongo = EstadoDeBongo.Quieto;
         EventManager.Trigger("ChargedAttack", _launchDir.normalized);
         _targetBanana.NormalPosition();
     }
