@@ -13,7 +13,7 @@ public abstract class Rewind : MonoBehaviour
 
     private void Start()
     {
-        GameManager.instance.rewinds.Add(this);
+        GameManager.Instance.rewinds.Add(this);
     }
 
     

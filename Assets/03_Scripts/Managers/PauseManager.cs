@@ -58,7 +58,7 @@ public class PauseManager : MonoBehaviour
     {
         //gameOverCanvas.gameObject.SetActive(true);
         //_animGameOverCanvas.SetTrigger("Enter");
-        foreach (var item in GameManager.instance.rewinds)
+        foreach (var item in GameManager.Instance.rewinds)
         {
             item.Load();
         }
@@ -74,7 +74,7 @@ public class PauseManager : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f);
 
-        foreach (var item in GameManager.instance.rewinds)
+        foreach (var item in GameManager.Instance.rewinds)
         {
             item.Load();
         }
@@ -104,8 +104,8 @@ public class PauseManager : MonoBehaviour
 
     public void ReturnMainMenu()
     {
-       GameManager.instance.rewinds.Clear();
-        GameManager.instance.enemies.Clear();
+       GameManager.Instance.rewinds.Clear();
+        GameManager.Instance.enemies.Clear();
         SceneManager.LoadScene(_mainMenuScene);
         pauseMenu.gameObject.SetActive(false);
     }
