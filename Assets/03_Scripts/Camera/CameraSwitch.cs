@@ -8,7 +8,7 @@ public class CameraSwitch : MonoBehaviour
 {
     [Header("Componet")]
     private CameraTracker _tracker;
-    public Transform backTo;
+    //public Transform backTo;
     public Transform goTo;
 
     private void Start()
@@ -24,13 +24,13 @@ public class CameraSwitch : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
-    {
+    //private void OnTriggerExit(Collider other)
+    //{
 
-        if(other.gameObject.GetComponent<ModelMonkey>())
-        {
-            _tracker.TransicionPoint(backTo);
-        }
-    }
+    //    if(other.gameObject.GetComponent<ModelMonkey>())
+    //    {
+    //        _tracker.TransicionPoint(backTo);
+    //    }
+    //}
 
 }
