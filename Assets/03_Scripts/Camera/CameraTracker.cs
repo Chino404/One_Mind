@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraTracker : MonoBehaviour
@@ -9,7 +10,7 @@ public class CameraTracker : MonoBehaviour
     [Header("Components")]
     [SerializeField] private Transform _point;
 
-    [SerializeField]private Transform _target;
+    private Transform _target;
 
     [Header("Smoothing Values")]
     [Range(0.01f, 0.125f)] [SerializeField] float _smoothSpeedPosition = 0.075f;
@@ -18,7 +19,6 @@ public class CameraTracker : MonoBehaviour
     Vector3 _desiredPos, _smoothPos;
     Quaternion _smoothRot;
 
-    private float _disTargetOriginal;
 
     private void Awake()
     {
@@ -46,6 +46,7 @@ public class CameraTracker : MonoBehaviour
 
         _target = GameManager.instance.assignedPlayer;
         if (_target == null) Debug.LogError("FALTA TARGET");
+
     }
 
     private void Update()
@@ -55,17 +56,14 @@ public class CameraTracker : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_target == null || _point == null) return;
-
-        _disTargetOriginal = Vector3.Distance(transform.position, _target.position);
-        Debug.Log(_disTargetOriginal);
+        if (_target == null || _point == null) return;     
         
         SetPositionAndRotationTarget();
-
     }
 
     private void SetPositionAndRotationTarget()
     {
+
         // Calcular la posición deseada relativa al punto
         _desiredPos = _target.position + (_point.position - _target.position);
 
