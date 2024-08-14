@@ -99,16 +99,19 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         _view = new ViewMonkey(_animatorCharacter);
         _controller = new ControllerMonkey(this);
-        _currentState = new MementoState();  
-        
+        _currentState = new MementoState();
+
+        Debug.Log("ModelMonkey");
+        GameManager.instance.players[0] = this;
+
+
     }
 
     private void Start()
     {
-        GameManager.instance.players[0] = this;
+        //GameManager.instance.players[0] = this;
 
-        if(!GameManager.instance.rewinds.Contains(this))
-        GameManager.instance.rewinds.Add(this);
+        if (!GameManager.instance.rewinds.Contains(this)) GameManager.instance.rewinds.Add(this);
 
         _actualLife = _maxLife;
         _actualSpeed = _iniSpeed;

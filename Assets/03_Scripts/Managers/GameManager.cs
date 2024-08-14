@@ -40,6 +40,8 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
+
+        Debug.Log("GameManager");
     }
 
     private void Start()
@@ -50,10 +52,8 @@ public class GameManager : MonoBehaviour
         assignedPlayer = players[0].transform;
         points.player = assignedPlayer;
 
-        //cam.Target = players[0].transform;
-
         //Desactivo la banana
-        if (players[1].GetComponent<ModelBanana>() == null) Debug.LogError("NO SE ASIGNO LA BANANA");
+        if (players[1] == null) Debug.LogError("NO SE ASIGNO LA BANANA");
         players[1].GetComponent<ModelBanana>().enabled = false;
 
         foreach (var item in rewinds)
