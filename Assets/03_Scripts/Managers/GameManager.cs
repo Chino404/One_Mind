@@ -40,8 +40,6 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
-
-        Debug.Log("GameManager");
     }
 
     private void Start()
