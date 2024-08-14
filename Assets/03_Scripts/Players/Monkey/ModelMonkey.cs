@@ -101,10 +101,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         _controller = new ControllerMonkey(this);
         _currentState = new MementoState();
 
-        Debug.Log("ModelMonkey");
         GameManager.instance.players[0] = this;
-
-
     }
 
     private void Start()
