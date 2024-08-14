@@ -72,7 +72,6 @@ public class GameManager : MonoBehaviour
         //if(Input.GetKeyDown(KeyCode.Q)) Swap();
 
 
-        points.player = assignedPlayer;
     }
 
     public void RemoveAll()
@@ -93,6 +92,9 @@ public class GameManager : MonoBehaviour
         {
             SwitchCamMonkey();
         }
+
+        points.player = assignedPlayer;
+
     }
 
 
