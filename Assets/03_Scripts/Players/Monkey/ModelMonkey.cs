@@ -193,7 +193,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
     public void NormalMovement(Vector3 dirRaw, Vector3 dir)
     {
-        if(actualStateBongo != EstadoDeBongo.Normal) actualStateBongo = EstadoDeBongo.Normal;
+        //if(actualStateBongo != EstadoDeBongo.Normal) actualStateBongo = EstadoDeBongo.Normal;
 
         _dirGrabb = default;
         
