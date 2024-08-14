@@ -444,7 +444,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
     public void ChargedAttack()
     {
-        
+        if (BananaGuide.Instance.actualStateBananaNPC != EstadoDeBananaBotNPC.EnPosicion) return;
+
         actualStateBongo = EstadoDeBongo.CargandoAtaqueElectrico;
         Debug.DrawRay(transform.position, transform.forward * 20f, Color.red);
         _targetBanana.ChargedAttack();
@@ -452,9 +453,18 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
     public void SuccesChargedAttack()
     {
-        actualStateBongo = EstadoDeBongo.Normal;
+        if (BananaGuide.Instance.actualStateBananaNPC != EstadoDeBananaBotNPC.EnPosicion) return;
+
         EventManager.Trigger("ChargedAttack", _launchDir.normalized);
         _targetBanana.NormalPosition();
+        StartCoroutine(ReturnMove());
+    }
+
+    IEnumerator ReturnMove()
+    {
+        yield return new WaitForSeconds(0.5f);
+        actualStateBongo = EstadoDeBongo.Normal;
+
     }
 
     public void SpinAttack()
