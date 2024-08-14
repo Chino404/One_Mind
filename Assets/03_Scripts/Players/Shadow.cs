@@ -78,6 +78,10 @@ public class Shadow : MonoBehaviour
 
             //if (_timer < _transicionDuration) _timer += Time.deltaTime;
         }
+        else
+        {
+            _circleInstance.transform.localScale = new Vector3(0,0,0);
+        }
 
         
 
