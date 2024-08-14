@@ -5,6 +5,7 @@ using UnityEngine;
 public class BulletBanana : MonoBehaviour
 {
     [SerializeField] float _speed;
+    [SerializeField] private float _damage=10;
 
     [Header("Object Pool")]
     public float counter;
@@ -24,12 +25,17 @@ public class BulletBanana : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        var aux = other.gameObject.GetComponent<IExplosion>();
-
-        if (aux != null)
+        
+        if (!other.gameObject.GetComponent<ModelMonkey>())
         {
-            aux.Execute();
+            var damageable = other.gameObject.GetComponent<IDamageable>();
+
+            if (damageable != null)
+            {
+                damageable.TakeDamageEntity(_damage, transform.position);
+            }
         }
+            
     }
 
     public static void TurnOff(BulletBanana bullet)
