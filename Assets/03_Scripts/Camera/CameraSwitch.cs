@@ -9,7 +9,7 @@ public class CameraSwitch : MonoBehaviour
     [Header("Componet")]
     private CameraTracker _tracker;
     //public Transform backTo;
-    public Transform goTo;
+    [Tooltip("Hacia donde se va a mover la cámara")]public Transform goTo;
 
     private void Start()
     {
