@@ -99,11 +99,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
         _view = new ViewMonkey(_animatorCharacter);
         _controller = new ControllerMonkey(this);
-        _currentState = new MementoState();
-
-        //GameManager.instance.players[0] = this;
-
-        
+        _currentState = new MementoState();  
         
     }
 
@@ -446,6 +442,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     {
         if (BananaGuide.Instance.actualStateBananaNPC != EstadoDeBananaBotNPC.EnPosicion) return;
 
+        EventManager.Trigger("ChargeAttack");
+
         actualStateBongo = EstadoDeBongo.CargandoAtaqueElectrico;
         Debug.DrawRay(transform.position, transform.forward * 20f, Color.red);
         _targetBanana.ChargedAttack();
@@ -455,7 +453,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     {
         if (BananaGuide.Instance.actualStateBananaNPC != EstadoDeBananaBotNPC.EnPosicion) return;
 
-        EventManager.Trigger("ChargedAttack", _launchDir.normalized);
+        EventManager.Trigger("LaunchChargedAttack", _launchDir.normalized);
+
         _targetBanana.NormalPosition();
         StartCoroutine(ReturnMove());
     }

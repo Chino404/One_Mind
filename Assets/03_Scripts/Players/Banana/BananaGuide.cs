@@ -29,13 +29,15 @@ public class BananaGuide : Rewind
     public float RangoRadius { get { return _rangoRadius; } }
 
     [Header("Ataque Cargado")]
+    [SerializeField, Range(1, 4f), Tooltip("Tiempo para la carga máxima")] private float _maxTime = 2f;
     [SerializeField, Range(0,1f), Tooltip("Tiempo para llegar al lugar de la Explosion")] private float _timeToArrive = 0.5f;
     [SerializeField, Range(0,4f), Tooltip("Tiempo quieto en el lugar")] private float _quietTime = 2f;
-    [SerializeField] private Collider _zoneChargedAttack;
+    [SerializeField, Tooltip("Collider de la zona del ataque cargado")] private SphereCollider _zoneChargedAttack;
+    private float _chargedTime;
 
     [Header("Obstacle Acoidance / Esquivar Obstaculos")]
-    [Tooltip("Capas de obstaculos")]public LayerMask obstacleLayer;
-    [Tooltip("Fueza para esquivar")]public float avoidWeight; //El peso con el que esquiva las cosas, q tanto se va a mover 
+    [SerializeField, Tooltip("Capas de obstaculos")] private LayerMask _obstacleLayer;
+    [SerializeField,Tooltip("Fueza para esquivar")] private float _avoidWeight; //El peso con el que esquiva las cosas, q tanto se va a mover 
     private Vector3 _velocity;
     private Vector3 _dir;
 
@@ -49,8 +51,10 @@ public class BananaGuide : Rewind
         _currentState = new MementoState();
 
         _zoneChargedAttack.enabled = false;
+        _zoneChargedAttack.radius = 2.5f;
 
-        EventManager.Subscribe("ChargedAttack", ChargedAttack);
+        EventManager.Subscribe("LaunchChargedAttack", LaunchChargedAttack);
+        EventManager.Subscribe("ChargeAttack", ChargeAttack);
 
     }
 
@@ -88,13 +92,25 @@ public class BananaGuide : Rewind
     }
 
     #region Ataque Cargado
-    public void ChargedAttack(params object[] parameters)
+    public void ChargeAttack(params object[] parameters)
     {
-        if (actualStateBananaNPC != EstadoDeBananaBotNPC.EnPosicion) return;
+        if(_chargedTime < _maxTime)
+        {
+            _chargedTime += Time.deltaTime;
+
+            if (_chargedTime >= _maxTime) _zoneChargedAttack.radius = 7;
+            else if (_chargedTime >= _maxTime/2) _zoneChargedAttack.radius = 4;
+        }
+    }
+
+    public void LaunchChargedAttack(params object[] parameters)
+    {
+        //if (actualStateBananaNPC != EstadoDeBananaBotNPC.EnPosicion) return;
         _dir = (Vector3)parameters[0];
         _dir *= 20f;
 
         StartCoroutine(Destiny());
+        _chargedTime = 0;
     }
 
     IEnumerator Destiny()
@@ -127,8 +143,12 @@ public class BananaGuide : Rewind
 
         actualStateBananaNPC = EstadoDeBananaBotNPC.RegresandoAPosicion;
 
+        _zoneChargedAttack.radius = 4;
         _zoneChargedAttack.enabled = false;
     }
+
+
+
 
     #endregion
 
@@ -180,7 +200,7 @@ public class BananaGuide : Rewind
 
         Debug.DrawLine(pos, pos + (dir * dist));
 
-        if (Physics.SphereCast(pos, 1, dir, out RaycastHit hit, dist, obstacleLayer))
+        if (Physics.SphereCast(pos, 1, dir, out RaycastHit hit, dist, _obstacleLayer))
         {
             var obstacle = hit.transform; //Obtengo el transform del obstaculo q acaba de tocar
             Vector3 dirToObject = obstacle.position - transform.position; //La direccion del obstaculo

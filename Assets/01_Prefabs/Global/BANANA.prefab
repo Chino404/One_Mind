@@ -277,9 +277,6 @@ MonoBehaviour:
   groundDistance: 2
   _jumping: 0
   _forceGravity: 15
-  bulletBanana: {fileID: -34319440574629829, guid: a4121fddf384b2347a25d35f3a7f20ed,
-    type: 3}
-  _bulletQuantity: 20
   _electricAttack: {fileID: 957766091799328405}
   attackDuration: 1
 --- !u!114 &4026174139959863091
@@ -294,20 +291,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df13dc7d4913aa7428f02c8c82157cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _actualStateBanana: 0
+  actualStateBananaNPC: 0
   target: {fileID: 0}
   maxSpeed: 15
   maxForce: 15
   _arriveRadius: 1
   _viewRadius: 0.3
   _rangoRadius: 40
+  _maxTime: 3
   _timeToArrive: 0.5
   _quietTime: 2
   _zoneChargedAttack: {fileID: 1251202768115969697}
-  obstacleLayer:
+  _obstacleLayer:
     serializedVersion: 2
-    m_Bits: 256
-  avoidWeight: 5
+    m_Bits: 0
+  _avoidWeight: 0
 --- !u!54 &5010044522723243833
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5727,7 +5725,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7643564962781794100
 Transform:
   m_ObjectHideFlags: 0
@@ -5738,8 +5736,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 15.094878, y: 15.094878, z: 15.094878}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7307619726886907720}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5812,7 +5810,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5773068187839152295
 GameObject:
