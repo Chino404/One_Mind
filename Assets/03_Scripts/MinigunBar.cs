@@ -8,16 +8,18 @@ public class MinigunBar : MonoBehaviour
     [SerializeField] Image _minigunBar;
 
     [Tooltip("Cuanto aumenta la barra cuando golpea a un enemigo")]
-    public float enemyAttackPoints=0.1f;
+    public float enemyAttackPoints=1f;
 
     [Tooltip("Cuanto aumenta la barra cuando golpea a una caja o rompe algo")]
-    public float attackThingsPoints=0.05f;
+    public float attackThingsPoints=0.5f;
 
     //[Tooltip("Cuanto aumenta la barra cuando mata a un enemigo")]
     //public float killsPoints=0.3f;
 
     [Tooltip("Cuanto dura el modo con la minigun")]
-    public float timeInAssaultMode=0.001f;
+    public float maxBarTime=10f;
+
+    private float _actualBarTime = 0f;
 
     public ModelMonkey modelMonkey;
 
@@ -29,12 +31,12 @@ public class MinigunBar : MonoBehaviour
 
     public void PunchEnemy()
     {
-        _minigunBar.fillAmount += enemyAttackPoints;
+        _actualBarTime += enemyAttackPoints;
     }
 
     public void PunchThings()
     {
-        _minigunBar.fillAmount += attackThingsPoints;
+        _actualBarTime += attackThingsPoints;
     }
 
     //public void KillEnemies()
@@ -46,19 +48,22 @@ public class MinigunBar : MonoBehaviour
     {
         if (Time.timeScale == 0) return;
 
-        if (_minigunBar.fillAmount == 1)
+        _minigunBar.fillAmount = _actualBarTime / maxBarTime;
+
+        if (_actualBarTime>=maxBarTime)
         {
+            _actualBarTime = maxBarTime;
             modelMonkey.canActivateMinigun = true;
             Debug.Log("Estoy en modo asalto");
         }
 
         if (modelMonkey.actualStateBongo == EstadoDeBongo.Minigun)
         {
-            _minigunBar.fillAmount -= timeInAssaultMode;
+            _actualBarTime-= Time.deltaTime;
 
-            if (_minigunBar.fillAmount == 0)
+            if (_actualBarTime <= 0)
             {
-                
+                _actualBarTime = 0;
                 modelMonkey.canActivateMinigun = false;
                 modelMonkey.DesactiveMinigun();
                 Debug.Log("ya no estoy mas en modo asalto");
