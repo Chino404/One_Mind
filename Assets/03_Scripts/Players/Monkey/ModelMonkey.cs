@@ -188,23 +188,18 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         }
         if (actualStateBongo == EstadoDeBongo.Escalando) _actualSpeed = 7;
         if (actualStateBongo == EstadoDeBongo.Golpeando || actualStateBongo == EstadoDeBongo.CargandoAtaqueElectrico) _actualSpeed = 0;
-        //if(actualStateBongo == EstadoDeBongo.Quieto)
-        //{
-        //    _aceleration = 0;
-        //    _actualSpeed = 0;
-        //}
+        
     }
 
     public void NormalMovement(Vector3 dirRaw, Vector3 dir)
     {
         _dirGrabb = default;
-        //actualStateBongo = EstadoDeBongo.Normal;
+        
         _forceGravity = _initialForceGravity;
         _rbCharacter.isKinematic = false;
 
         if (dirRaw.sqrMagnitude != 0)
         {
-            //actualStateBongo = EstadoDeBongo.Normal;
 
             _launchDir = dir;
 
