@@ -22,7 +22,11 @@ public class Minigun : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    
+    private void OnEnable()
+    {
+        _isShooting = false;
+    }
+
     void Update()
     {
         if (_isShooting) return;
