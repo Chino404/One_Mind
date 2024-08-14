@@ -55,7 +55,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
     [Header("--- REFERENCIAS ---")]
     [SerializeField] private LayerMask _floorLayer;
-    public float groundDistance = 2;
+    [SerializeField] private float _groundDistance = 2;
     [SerializeField] private Transform _pointRotation;
     [SerializeField] private Transform _pointFromPlayer;
     [SerializeField] private TargetBanana _targetBanana;
@@ -193,6 +193,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
     public void NormalMovement(Vector3 dirRaw, Vector3 dir)
     {
+        if(actualStateBongo != EstadoDeBongo.Normal) actualStateBongo = EstadoDeBongo.Normal;
+
         _dirGrabb = default;
         
         _forceGravity = _initialForceGravity;
@@ -214,6 +216,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
             {
                 //_forceGravity = 0;
                 //_rbCharacter.isKinematic = true;
+                actualStateBongo = EstadoDeBongo.Escalando;
 
                 ActualMove = HandleMovement;
                 _jumpGrabb = false;
@@ -234,7 +237,6 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     {
         _animPlayer.SetBool("Walk", false);
 
-        actualStateBongo = EstadoDeBongo.Escalando;
         _forceGravity = 0;
         _rbCharacter.isKinematic = true;
 
@@ -257,8 +259,8 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
             if (IsTouch(dirEscalando, _moveMask))
             {
-                actualStateBongo = EstadoDeBongo.Normal;
                 ActualMove = NormalMovement;
+                actualStateBongo = EstadoDeBongo.Normal;
 
                 return;
             }
@@ -312,7 +314,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     {      
         Vector3 pos = transform.position;
         Vector3 dir = Vector3.down;
-        float dist = groundDistance;
+        float dist = _groundDistance;
 
         //Debug.DrawLine(pos, pos + (dir * dist));
 
