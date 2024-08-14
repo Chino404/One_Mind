@@ -57,20 +57,9 @@ public class ModelBanana : Characters
 
         _view = new ViewBanana();
         _controller = new ControllerBanana(this);
-    }
 
-    private void Start()
-    {
         GameManager.instance.players[1] = this;
-        //_camera.gameObject.GetComponent<Camera>().enabled = false;
-
-        
     }
-
-    //public void ActivarVisor()
-    //{
-    //    StartCoroutine(AnimVisor());
-    //}
 
     private void OnDisable()
     {

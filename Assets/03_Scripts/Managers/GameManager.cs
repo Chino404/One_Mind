@@ -52,15 +52,15 @@ public class GameManager : MonoBehaviour
 
         //cam.Target = players[0].transform;
 
+        //Desactivo la banana
+        if (players[1].GetComponent<ModelBanana>() == null) Debug.LogError("NO SE ASIGNO LA BANANA");
+        players[1].GetComponent<ModelBanana>().enabled = false;
 
         foreach (var item in rewinds)
         {
             item.Save();
         }
 
-        //Desactivo la banana
-        if (players[1].GetComponent<ModelBanana>() == null) Debug.LogError("NO SE ASIGNO LA BANANA");
-        players[1].GetComponent<ModelBanana>().enabled = false;
     }
 
 
