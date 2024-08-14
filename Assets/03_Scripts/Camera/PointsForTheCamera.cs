@@ -6,9 +6,9 @@ public class PointsForTheCamera : MonoBehaviour
 {
     [HideInInspector]public Transform player;
 
-    private void Start()
+    private void Awake()
     {
-        GameManager.instance.points = this;
+        GameManager.instance.points = this;   
     }
 
     private void FixedUpdate()

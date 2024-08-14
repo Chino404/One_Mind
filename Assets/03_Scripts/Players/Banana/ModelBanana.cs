@@ -58,13 +58,9 @@ public class ModelBanana : Characters
         _view = new ViewBanana();
         _controller = new ControllerBanana(this);
 
-    }
-
-    private void Start()
-    {
         GameManager.instance.players[1] = this;
-
     }
+
 
     private void OnDisable()
     {
