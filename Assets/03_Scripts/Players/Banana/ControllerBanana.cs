@@ -35,6 +35,8 @@ public class ControllerBanana
     //}
     public void ArtificialUpdate()
     {
+        if (Time.timeScale == 0) return;
+
         if (Input.GetMouseButtonDown(0)) _model.ElectricCharge();
         if (Input.GetMouseButtonDown(1)) _model.MoveObjects();
         //if (Input.GetMouseButtonUp(1)) _model.ReleaseObjects();
