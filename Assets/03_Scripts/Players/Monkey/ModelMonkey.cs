@@ -390,6 +390,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
 
     public void NormalPunch()
     {
+        
         if (actualStateBongo == EstadoDeBongo.Golpeando) return;
 
         //_currentCombo++;
