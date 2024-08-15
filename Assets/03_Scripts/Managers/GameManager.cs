@@ -15,8 +15,8 @@ public class GameManager : MonoBehaviour
 
     [Header("Character Swap")]
     public Characters[] players = new Characters[2];
-    [HideInInspector]public Transform assignedPlayer;
-    [HideInInspector]public PointsForTheCamera points;
+    public Transform assignedPlayer;
+    public PointsForTheCamera points;
 
     private bool _inChange = false;
     private bool _controllerMonkey = true; //Si se puede usar al mono
@@ -37,13 +37,14 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
     }
 
     private void Start()
     {
+        Debug.Log("Start GAMEMANAGER");
         //Activo los controles del Mono
         _controllerMonkey = true;
 
@@ -61,11 +62,10 @@ public class GameManager : MonoBehaviour
 
     }
 
-
-
     private void Update()
     {
-        if(_controllerMonkey) players[1].GetComponent<ModelBanana>().enabled = false;
+
+        if (_controllerMonkey && players[1] != null) players[1].GetComponent<ModelBanana>().enabled = false;
 
         //if(Input.GetKeyDown(KeyCode.Q)) Swap();
 

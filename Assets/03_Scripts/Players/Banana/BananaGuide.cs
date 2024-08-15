@@ -252,4 +252,10 @@ public class BananaGuide : Rewind
         //_actualIndex = (int)col.parameters[1];
         maxSpeed = (float)col.parameters[1];
     }
+
+    private void OnDestroy()
+    {
+        EventManager.Unsubscribe("LaunchChargedAttack", LaunchChargedAttack);
+        EventManager.Unsubscribe("ChargeAttack", ChargeAttack);     
+    }
 }
