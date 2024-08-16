@@ -5,7 +5,6 @@ using UnityEngine;
 public class CrystalWall : MonoBehaviour
 {
     [SerializeField] GameObject _crystalWall; 
-    [SerializeField] private WayPoints _point;
 
     [SerializeField]private int _cantEnemies;
     public List<Enemy> enemies = new List<Enemy>();
@@ -35,7 +34,6 @@ public class CrystalWall : MonoBehaviour
 
     public void DesactivarMuro()
     {
-        _point.action = false;
 
         StartCoroutine(WallDisolve());
         //_crystalWall.SetActive(false);
