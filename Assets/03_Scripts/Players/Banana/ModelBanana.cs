@@ -46,7 +46,7 @@ public class ModelBanana : Characters
     private Vector3 _velocity;
     public Vector3 Velocity { get { return _velocity; } set { _velocity = value; } }
 
-    private void Awake()
+    public override void Awake()
     {
         //_visorImage.gameObject.SetActive(false);
 
@@ -59,6 +59,8 @@ public class ModelBanana : Characters
         _controller = new ControllerBanana(this);
 
         GameManager.instance.players[1] = this;
+        base.Awake();
+
     }
 
 

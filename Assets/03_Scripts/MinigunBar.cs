@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MinigunBar : MonoBehaviour
+public class MinigunBar : Rewind
 {
     [SerializeField] Image _minigunBar;
 
@@ -26,7 +26,7 @@ public class MinigunBar : MonoBehaviour
     private void Start()
     {
         _minigunBar = GetComponent<Image>();
-        
+        modelMonkey = GameManager.instance.players[0].GetComponent<ModelMonkey>();
     }
 
     public void PunchEnemy()
@@ -71,4 +71,17 @@ public class MinigunBar : MonoBehaviour
         }
     }
 
+    public override void Save()
+    {
+        _currentState.Rec(_actualBarTime);
+    }
+
+    public override void Load()
+    {
+        if (!_currentState.IsRemember()) return;
+
+        var col = _currentState.Remember();
+        _actualBarTime = (float)col.parameters[0];
+
+    }
 }

@@ -6,7 +6,6 @@ using UnityEngine;
 public enum EstadoDeBongo
 {
     Normal,
-    //Quieto,
     Escalando,
     Golpeando,
     Minigun,
@@ -84,7 +83,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     [SerializeField] private Minigun _minigun;
     
 
-    private void Awake()
+    public override void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked; //Me bloque el mouse al centro de la pantalla
         Cursor.visible = false; //Me lo oculta
@@ -102,13 +101,15 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         _currentState = new MementoState();
 
         GameManager.instance.players[0] = this;
+        base.Awake();
+
     }
 
     private void Start()
     {
         //GameManager.instance.players[0] = this;
 
-        if (!GameManager.instance.rewinds.Contains(this)) GameManager.instance.rewinds.Add(this);
+        //if (!GameManager.instance.rewinds.Contains(this)) GameManager.instance.rewinds.Add(this);
 
         _actualLife = _maxLife;
         _actualSpeed = _iniSpeed;
@@ -617,7 +618,7 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
     #region Memento
     public override void Save()
     {
-        _currentState.Rec(transform.position, transform.rotation, _actualLife);
+        _currentState.Rec(transform.position, transform.rotation, _actualLife, actualStateBongo, _minigun.gameObject.activeInHierarchy, canActivateMinigun);
         //Debug.Log("guarde mono");
     }
 
@@ -629,6 +630,10 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
         transform.position = (Vector3)col.parameters[0]; 
         transform.rotation = (Quaternion)col.parameters[1]; 
         _actualLife = (float)col.parameters[2];
+        actualStateBongo = (EstadoDeBongo)col.parameters[3];
+        _minigun.gameObject.SetActive((bool)col.parameters[4]);
+        canActivateMinigun = (bool)col.parameters[5];
+        
         EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
 
 
