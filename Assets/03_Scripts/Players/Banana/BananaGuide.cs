@@ -32,7 +32,9 @@ public class BananaGuide : Rewind
     [SerializeField, Range(1, 4f), Tooltip("Tiempo para la carga máxima")] private float _maxTime = 2f;
     [SerializeField, Range(0,1f), Tooltip("Tiempo para llegar al lugar de la Explosion")] private float _timeToArrive = 0.5f;
     [SerializeField, Range(0,4f), Tooltip("Tiempo quieto en el lugar")] private float _quietTime = 2f;
-    [SerializeField, Tooltip("Collider de la zona del ataque cargado")] private SphereCollider _zoneChargedAttack;
+    [SerializeField, Tooltip("Collider de la zona del ataque cargado")] private GameObject _ondaExpansiva;
+    [SerializeField] private ParticleSystem _electricity;
+    private bool _activeParticle = false;
     private float _chargedTime;
 
     [Header("Obstacle Acoidance / Esquivar Obstaculos")]
@@ -50,8 +52,13 @@ public class BananaGuide : Rewind
         _myCollider = GetComponent<Collider>();
         _currentState = new MementoState();
 
-        _zoneChargedAttack.enabled = false;
-        _zoneChargedAttack.radius = 2.5f;
+        //_zoneChargedAttack.enabled = false;
+        //_zoneChargedAttack.radius = 2.5f;
+
+        _ondaExpansiva.gameObject.SetActive(false);
+        _ondaExpansiva.transform.localScale = new Vector3(3f,3f,3f);
+
+        _electricity?.Stop();
 
         EventManager.Subscribe("LaunchChargedAttack", LaunchChargedAttack);
         EventManager.Subscribe("ChargeAttack", ChargeAttack);
@@ -98,8 +105,22 @@ public class BananaGuide : Rewind
         {
             _chargedTime += Time.deltaTime;
 
-            if (_chargedTime >= _maxTime) _zoneChargedAttack.radius = 7;
-            else if (_chargedTime >= _maxTime/2) _zoneChargedAttack.radius = 4;
+            if (!_activeParticle)
+            {
+                _activeParticle = true;
+                _electricity?.Play();
+            }
+
+            if (_chargedTime >= _maxTime)
+            {
+                //_zoneChargedAttack.radius = 7;
+                _ondaExpansiva.transform.localScale = new Vector3(7f, 7f, 7f);
+            }
+            else if (_chargedTime >= _maxTime / 2)
+            {
+                //_zoneChargedAttack.radius = 4;
+                _ondaExpansiva.transform.localScale = new Vector3(5f, 5f, 5f);
+            }
         }
     }
 
@@ -109,6 +130,8 @@ public class BananaGuide : Rewind
         _dir = (Vector3)parameters[0];
         _dir *= 20f;
 
+        _electricity?.Stop();
+        _activeParticle = false;
         StartCoroutine(Destiny());
         _chargedTime = 0;
     }
@@ -132,7 +155,8 @@ public class BananaGuide : Rewind
         }
 
         elapsedTime = 0;
-        _zoneChargedAttack.enabled = true;
+        //_zoneChargedAttack.enabled = true;
+        _ondaExpansiva.gameObject.SetActive(true);
 
         while (elapsedTime < _quietTime)
         {
@@ -143,8 +167,11 @@ public class BananaGuide : Rewind
 
         actualStateBananaNPC = EstadoDeBananaBotNPC.RegresandoAPosicion;
 
-        _zoneChargedAttack.radius = 4;
-        _zoneChargedAttack.enabled = false;
+        //_zoneChargedAttack.radius = 4;
+        //_zoneChargedAttack.enabled = false;
+
+        _ondaExpansiva.transform.localScale = new Vector3(3f, 3f, 3f);
+        _ondaExpansiva.gameObject.SetActive(false);
     }
 
 

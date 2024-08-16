@@ -25,7 +25,7 @@ public class Laser : MonoBehaviour
     private Vector3 _boxCastSize = new Vector3(1, 1, 1); // Tamaño del cubo
 
 
-    private LineRenderer _lineRenderer;
+    [SerializeField]private LineRenderer _lineRenderer;
 
     private void Awake()
     {
@@ -93,7 +93,7 @@ public class Laser : MonoBehaviour
         yield return new WaitForSeconds(durationLaserWarning);
         _lineRenderer.enabled = false;
         _activeLaser = true;
-        _lineRenderer.startWidth = 1;
+        _lineRenderer.startWidth = 7;
         yield return new WaitForSeconds(durationLaser);
         _lineRenderer.startWidth = 0;
         _activeWarning = false;
