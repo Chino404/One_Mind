@@ -6,14 +6,11 @@ public abstract class Rewind : MonoBehaviour
 {
     protected MementoState _currentState;
 
-    private void Awake()
+    public virtual void Awake()
     {
         _currentState = new MementoState();
-    }
-
-    private void Start()
-    {
         GameManager.instance.rewinds.Add(this);
+
     }
 
     

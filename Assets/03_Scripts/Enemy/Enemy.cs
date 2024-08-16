@@ -55,11 +55,12 @@ public class Enemy : Entity, IDamageable
     [SerializeField] string _damageAnim = "DamageReceived";
     [SerializeField] private ParticleSystem _deadParticle;
 
-    private void Awake()
+    public override void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         anim.GetComponentInChildren<Animator>();
+        base.Awake();
 
     }
 
@@ -82,7 +83,7 @@ public class Enemy : Entity, IDamageable
         fsm.ChangeState("Idle");
 
        target=GameManager.instance.players[0].GetComponent<ModelMonkey>();
-       GameManager.instance.rewinds.Add(this);
+       //GameManager.instance.rewinds.Add(this);
 
         _currentState = new MementoState();
 
