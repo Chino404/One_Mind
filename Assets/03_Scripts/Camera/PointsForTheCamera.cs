@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PointsForTheCamera : MonoBehaviour
 {
-    [HideInInspector]public Transform player;
+    public Transform player;
 
     private void Awake()
     {

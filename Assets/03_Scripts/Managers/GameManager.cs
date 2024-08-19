@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
         _controllerMonkey = true;
 
         assignedPlayer = players[0].transform;
-        points.player = assignedPlayer;
+        if(points.player == null) points.player = assignedPlayer;
 
         //Desactivo la banana
         if (players[1] == null) Debug.LogError("NO SE ASIGNO LA BANANA");
