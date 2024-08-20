@@ -346,16 +346,16 @@ public class ModelMonkey : Characters, IDamageable, ICure//, IObservableGrapp
                 _dirGrabb = default;
             }
 
-            else if(_dirGrabb.sqrMagnitude == 0) //Si no, salta en direccion opuesta a la agarradera
-            {
-                ActualMove = NormalMovement;
+            //else if(_dirGrabb.sqrMagnitude == 0) //Si no, salta en direccion opuesta a la agarradera
+            //{
+            //    ActualMove = NormalMovement;
 
-                Vector3 oppDir = -transform.forward;
-                Vector3 jumpDir = new Vector3(oppDir.x, _jumpForceAxiY, oppDir.z * _jumpForceAxiZ);
-                _forceGravity = _initialForceGravity;
-                _rbCharacter.isKinematic = false;
-                _rbCharacter.velocity = jumpDir;
-            }
+            //    Vector3 oppDir = -transform.forward;
+            //    Vector3 jumpDir = new Vector3(oppDir.x, _jumpForceAxiY, oppDir.z * _jumpForceAxiZ);
+            //    _forceGravity = _initialForceGravity;
+            //    _rbCharacter.isKinematic = false;
+            //    _rbCharacter.velocity = jumpDir;
+            //}
         }
 
         if (_coyoteTimeCounter > 0f)
