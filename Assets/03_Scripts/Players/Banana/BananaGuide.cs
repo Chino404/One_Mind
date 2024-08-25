@@ -44,7 +44,7 @@ public class BananaGuide : Rewind
     private Vector3 _dir;
 
 
-    private void Awake()
+    public override void Awake()
     {
         Instance = this;
 

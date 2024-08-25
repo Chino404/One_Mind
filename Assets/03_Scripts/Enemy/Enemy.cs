@@ -82,7 +82,7 @@ public class Enemy : Entity, IDamageable
         fsm.CreateState("Follow Player", new FollowPlayer(this, fsm));
         fsm.ChangeState("Idle");
 
-       target=GameManager.instance.players[0].GetComponent<ModelMonkey>();
+       //target=GameManager.instance.players[0].GetComponent<ModelMonkey>();
        //GameManager.instance.rewinds.Add(this);
 
         _currentState = new MementoState();

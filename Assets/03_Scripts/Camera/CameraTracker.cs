@@ -3,9 +3,17 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+
+public enum CharacterTarget
+{
+    Bongo,
+    Frank
+}
 public class CameraTracker : MonoBehaviour
 {
     public static CameraTracker Instance;
+
+    public CharacterTarget characterTarget;
 
     [Header("Components")]
     [SerializeField] private Transform _point;
@@ -44,14 +52,15 @@ public class CameraTracker : MonoBehaviour
 
         transform.position = _point.position;
 
-        _target = GameManager.instance.assignedPlayer;
+        if(characterTarget == CharacterTarget.Bongo) _target = GameManager.instance.bongo;
+        else if (characterTarget == CharacterTarget.Frank) _target = GameManager.instance.frank;
         if (_target == null) Debug.LogError("FALTA TARGET");
 
     }
 
     private void Update()
     {
-        _target = GameManager.instance.assignedPlayer;
+        _target = GameManager.instance.bongo;
     }
 
     private void FixedUpdate()

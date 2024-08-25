@@ -9,9 +9,9 @@ public class Plataform : Rewind, IInteractable
 
     private bool _isObjectAttached;
     
-    [SerializeField] Transform banana;
-    
+    [SerializeField] Transform banana; 
     public ModelBanana modelBanana;
+
     private Ray _moveRay;
     private float _moveRange=0.75f;
     [SerializeField]private LayerMask _moveMask;
@@ -22,16 +22,9 @@ public class Plataform : Rewind, IInteractable
         base.Awake();
     }
 
-    void Start()
-    {
-        modelBanana = GameManager.instance.players[1].GetComponent<ModelBanana>();
-        
-
-    }
-
     void FixedUpdate()
     {
-        if (IsBlocked(modelBanana.Velocity)) modelBanana.Velocity=Vector3.zero;
+        //if (IsBlocked(modelBanana.Velocity)) modelBanana.Velocity = Vector3.zero;
 
         if (_isObjectAttached && banana!=null)
         {
