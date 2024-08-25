@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
         foreach (var item in rewinds)
         {
             item.Save();
+            
         }
 
     }

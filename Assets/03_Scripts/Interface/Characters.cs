@@ -136,6 +136,8 @@ public abstract class Characters : Entity
 
     public void Rotate(Vector3 dirForward) => transform.forward = dirForward;
 
+   
+
     public void NormalMovement(Vector3 dirRaw, Vector3 dir)
     {
         //if(actualStateBongo != EstadoDeBongo.Normal) actualStateBongo = EstadoDeBongo.Normal;
@@ -179,8 +181,14 @@ public abstract class Characters : Entity
 
     public void HandleMovement(Vector3 dirRaw, Vector3 dir)
     {
+        Debug.Log("estoy agarrado");
+
         _animPlayer.SetBool("Walk", false);
 
+        if (actualStateBongo == EstadoDeBongo.Normal)
+        {
+            ActualMove = NormalMovement;
+        }
         _forceGravity = 0;
         _rbCharacter.isKinematic = true;
 
@@ -203,13 +211,15 @@ public abstract class Characters : Entity
 
             if (IsTouch(dirEscalando, _moveMask))
             {
+                
                 ActualMove = NormalMovement;
                 actualStateBongo = EstadoDeBongo.Normal;
+                
 
                 return;
             }
 
-            _stopGrabb = false;
+            _stopGrabb = true;
             _rbCharacter.MovePosition(transform.position + dirEscalando * _actualSpeed * Time.fixedDeltaTime);
 
         }
