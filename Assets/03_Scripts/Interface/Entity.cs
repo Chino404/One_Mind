@@ -6,6 +6,6 @@ public abstract class Entity : Rewind
 {
     public override void Awake()
     {
-        _currentState = new MementoState();
+        base.Awake();
     }
 }
