@@ -29,14 +29,12 @@ public class ControllerMonkey
 
         if (Input.GetMouseButtonDown(0)) _model.Attack();
 
-        if(Input.GetMouseButton(1)) _model.ChargedAttack();
-        if (Input.GetMouseButtonUp(1)) _model.SuccesChargedAttack();
+        //if(Input.GetMouseButton(1)) _model.ChargedAttack();
+        //if (Input.GetMouseButtonUp(1)) _model.SuccesChargedAttack();
 
-        if (_model.canActivateMinigun)
-            if (Input.GetKeyDown(KeyCode.E))
-                _model.ActivateMinigun();
-
-        if (Input.GetKeyDown(KeyCode.Q)) GameManager.instance.Swap();
+        //if (_model.canActivateMinigun)
+        //    if (Input.GetKeyDown(KeyCode.E))
+        //        _model.ActivateMinigun();
 
 
         //if (Input.GetButton("Fire1")) _model.GoToUpAttack();

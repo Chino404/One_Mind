@@ -26,7 +26,7 @@ public class MinigunBar : Rewind
     private void Start()
     {
         _minigunBar = GetComponent<Image>();
-        modelMonkey = GameManager.instance.players[0].GetComponent<ModelMonkey>();
+        //modelMonkey = GameManager.instance.players[0].GetComponent<ModelMonkey>();
     }
 
     public void PunchEnemy()
@@ -53,22 +53,22 @@ public class MinigunBar : Rewind
         if (_actualBarTime>=maxBarTime)
         {
             _actualBarTime = maxBarTime;
-            modelMonkey.canActivateMinigun = true;
+            //modelMonkey.canActivateMinigun = true;
             Debug.Log("Estoy en modo asalto");
         }
 
-        if (modelMonkey.actualStateBongo == EstadoDeBongo.Minigun)
-        {
-            _actualBarTime-= Time.deltaTime;
+        //if (modelMonkey.actualStateBongo == EstadoDeBongo.Minigun)
+        //{
+        //    _actualBarTime-= Time.deltaTime;
 
-            if (_actualBarTime <= 0)
-            {
-                _actualBarTime = 0;
-                modelMonkey.canActivateMinigun = false;
-                modelMonkey.DesactiveMinigun();
-                Debug.Log("ya no estoy mas en modo asalto");
-            }
-        }
+        //    if (_actualBarTime <= 0)
+        //    {
+        //        _actualBarTime = 0;
+        //        //modelMonkey.canActivateMinigun = false;
+        //        //modelMonkey.DesactiveMinigun();
+        //        Debug.Log("ya no estoy mas en modo asalto");
+        //    }
+        //}
     }
 
     public override void Save()

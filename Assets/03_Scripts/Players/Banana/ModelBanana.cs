@@ -6,30 +6,17 @@ using UnityEngine.UI;
 
 public class ModelBanana : Characters
 {
-    //[Header("Camara")]
-    //[Range(1f, 1000f), SerializeField] private float _mouseSensivility = 100f;
-
-    //[Header("Componentes")]
-    //[SerializeField] private Transform _headTransform;
-    //[SerializeField] private Image _visorImage;
-
     [Header("Valores Perosnaje")]
-    [SerializeField] private LayerMask _moveMask; //Para indicar q layer quiero que no se acerque mucho
-    [SerializeField, Tooltip("Rango para evitar pegarme al objeto de _moveMask")] private float _moveRange = 0.75f; //Rango para el Raycast para evitar q el PJ se pegue a la pared
-    [SerializeField]private float _speed = 5f;
-    [SerializeField] private LayerMask _floorLayer;
-    [SerializeField] private float _jumpForce = 2f;
+    //[SerializeField] private LayerMask _moveMask; //Para indicar q layer quiero que no se acerque mucho
+    //[SerializeField, Tooltip("Rango para evitar pegarme al objeto de _moveMask")] private float _moveRange = 0.75f; //Rango para el Raycast para evitar q el PJ se pegue a la pared
+    //[SerializeField]private float _speed = 5f;
+    //[SerializeField] private LayerMask _floorLayer;
+    //[SerializeField] private float _jumpForce = 2f;
     [SerializeField, Tooltip("Tiempo para llegar al maximo del eje Y"),Range(0,1)] private float _timeToArriveAxiY;
     public float groundDistance = 2;
     [SerializeField]private bool _jumping;
-    [SerializeField]private float _forceGravity;
 
-    //private float _mouseRotationX;
-
-    //[SerializeField] private FPCamera _camera;
-    //private Rigidbody _rb;
-
-    private Ray _moveRay;
+    //private Ray _moveRay;
 
     //Constructores
     private ViewBanana _view;
@@ -58,7 +45,6 @@ public class ModelBanana : Characters
         _view = new ViewBanana();
         _controller = new ControllerBanana(this);
 
-        GameManager.instance.players[1] = this;
         base.Awake();
 
     }
@@ -184,7 +170,7 @@ public class ModelBanana : Characters
         
     //}
     
-    public void Movement(Vector3 dirRaw, Vector3 dir)
+    public  override void Movement(Vector3 dirRaw, Vector3 dir)
     {
         //var dir = (transform.right * xAxis + transform.forward * zAxis).normalized;
 
@@ -205,10 +191,10 @@ public class ModelBanana : Characters
         else _velocity = Vector3.zero;
     }
 
-    public void Rotate(Vector3 dirForward)
-    {
-        transform.forward = dirForward;
-    }
+    //public void Rotate(Vector3 dirForward)
+    //{
+    //    transform.forward = dirForward;
+    //}
 
     /// <summary>
     /// Si el Ray choca con un objeto de la _moveMask, me lo indica con un TRUE
@@ -218,21 +204,21 @@ public class ModelBanana : Characters
     private bool IsBlocked(Vector3 dir)
     {
         _moveRay = new Ray(transform.position, dir);
-        Debug.DrawRay(transform.position, dir * _moveRange, Color.red);
+        Debug.DrawRay(transform.position, dir * _forwardRange, Color.red);
 
-        return Physics.Raycast(_moveRay, _moveRange, _moveMask);
+        return Physics.Raycast(_moveRay, _forwardRange, _moveMask);
     }
 
-    public bool IsGrounded()
-    {
-        Vector3 pos = transform.position;
-        Vector3 dir = Vector3.down;
-        float dist = groundDistance;
+    //public bool IsGrounded()
+    //{
+    //    Vector3 pos = transform.position;
+    //    Vector3 dir = Vector3.down;
+    //    float dist = groundDistance;
 
-        Debug.DrawLine(pos, pos + (dir * dist));
+    //    Debug.DrawLine(pos, pos + (dir * dist));
 
-        return Physics.Raycast(pos, dir, out RaycastHit hit, dist, _floorLayer);
-    }
+    //    return Physics.Raycast(pos, dir, out RaycastHit hit, dist, _floorLayer);
+    //}
 
     #endregion
 
