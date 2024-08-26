@@ -58,7 +58,7 @@ public class ModelBanana : Characters
         //_visorImage.gameObject.SetActive(false);
     }
 
-    private void Update()
+    public override void Update()
     {
         //if (!IsGrounded()) _rbCharacter.MovePosition(_rbCharacter.position + Vector3.down * _forceGravity * Time.fixedDeltaTime);
 

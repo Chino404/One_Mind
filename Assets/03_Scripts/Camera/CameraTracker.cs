@@ -54,6 +54,7 @@ public class CameraTracker : MonoBehaviour
 
         if(characterTarget == CharacterTarget.Bongo) _target = GameManager.instance.bongo;
         else if (characterTarget == CharacterTarget.Frank) _target = GameManager.instance.frank;
+
         if (_target == null) Debug.LogError("FALTA TARGET");
 
     }

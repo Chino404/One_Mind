@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class ModelMonkey : Characters, IDamageable, ICure
+public class ModelMonkey : Characters, ICure
 {
     #region VARIABLES QUE YA NO SE USAN
     //private Animator _animPlayer;
@@ -83,7 +83,7 @@ public class ModelMonkey : Characters, IDamageable, ICure
         //canActivateMinigun = false;
     }
 
-    private void Update()
+    public override void Update()
     {
         if (!GameManager.instance.ContollerMonkey)
         {
@@ -101,10 +101,9 @@ public class ModelMonkey : Characters, IDamageable, ICure
         ChangeSpeed();
 
         _controller.ArtificialUpdate();
-
     }
 
-    private void FixedUpdate()
+    public override void FixedUpdate()
     {
         _rbCharacter.AddForce(Vector3.down * _forceGravity, ForceMode.VelocityChange);
 
@@ -311,57 +310,57 @@ public class ModelMonkey : Characters, IDamageable, ICure
     //}
     #endregion
 
-    #region Attacks
-    public void Attack()
-    {
-        if(IsGrounded())NormalPunch();
-    }
+    #region Attacks (YA NO SE USA)
+    //public void Attack()
+    //{
+    //    if(IsGrounded())NormalPunch();
+    //}
 
-    public void NormalPunch()
-    {
-        
-        if (actualStateBongo == EstadoDeBongo.Golpeando) return;
+    //public void NormalPunch()
+    //{
 
-        //_currentCombo++;
-        AudioManager.instance.PlayMonkeySFX(AudioManager.instance.swoosh);
-        
+    //    if (actualStateBongo == EstadoDeBongo.Golpeando) return;
 
-        //switch (_currentCombo)
-        //{
-        //    case 1:
-        //        StartCoroutine(SystemNormalCombo(_pushingForce));
-        //        _comboTimeCounter = _comboTime;
-        //        break;
+    //    //_currentCombo++;
+    //    AudioManager.instance.PlayMonkeySFX(AudioManager.instance.swoosh);
 
-        //    //case 2:
-        //    //    StartCoroutine(SystemNormalCombo(_pushingForce + (_pushingForce * 0.5f)));
-        //    //    _comboTimeCounter = _comboTime;
-        //    //    break;
 
-        //    //case 3:
-        //    //    StartCoroutine(SystemNormalCombo(_pushingForce + (_pushingForce * 0.75f)));
-        //    //    _comboTimeCounter = 0;
-        //    //    break;
-        //}
+    //    //switch (_currentCombo)
+    //    //{
+    //    //    case 1:
+    //    //        StartCoroutine(SystemNormalCombo(_pushingForce));
+    //    //        _comboTimeCounter = _comboTime;
+    //    //        break;
 
-        StartCoroutine(SystemNormalCombo());
-    }
+    //    //    //case 2:
+    //    //    //    StartCoroutine(SystemNormalCombo(_pushingForce + (_pushingForce * 0.5f)));
+    //    //    //    _comboTimeCounter = _comboTime;
+    //    //    //    break;
 
-    IEnumerator SystemNormalCombo()
-    {
-        actualStateBongo = EstadoDeBongo.Golpeando;
-        _animPlayer.SetTrigger("Attack");
-        yield return new WaitForSeconds(0.4f);
-        actualStateBongo = EstadoDeBongo.Normal;
-        yield return new WaitForSeconds(0.2f);
+    //    //    //case 3:
+    //    //    //    StartCoroutine(SystemNormalCombo(_pushingForce + (_pushingForce * 0.75f)));
+    //    //    //    _comboTimeCounter = 0;
+    //    //    //    break;
+    //    //}
 
-        if(actualStateBongo == EstadoDeBongo.Normal)
-        {
-            _actualSpeed = _speed;
-            _forceGravity = _initialForceGravity;
+    //    StartCoroutine(SystemNormalCombo());
+    //}
 
-        }
-    }
+    //IEnumerator SystemNormalCombo()
+    //{
+    //    actualStateBongo = EstadoDeBongo.Golpeando;
+    //    _animPlayer.SetTrigger("Attack");
+    //    yield return new WaitForSeconds(0.4f);
+    //    actualStateBongo = EstadoDeBongo.Normal;
+    //    yield return new WaitForSeconds(0.2f);
+
+    //    if(actualStateBongo == EstadoDeBongo.Normal)
+    //    {
+    //        _actualSpeed = _speed;
+    //        _forceGravity = _initialForceGravity;
+
+    //    }
+    //}
 
     //public void ChargedAttack()
     //{
@@ -426,49 +425,59 @@ public class ModelMonkey : Characters, IDamageable, ICure
     //    isRotating = false;
     //}
 
+    //public void ActivateMinigun()
+    //{
+    //    actualStateBongo = EstadoDeBongo.Minigun;
+    //    _minigun.gameObject.SetActive(true);
+    //}
+
+    //public void DesactiveMinigun()
+    //{
+    //    actualStateBongo = EstadoDeBongo.Normal;
+    //    _minigun.gameObject.SetActive(false);
+    //}
+
     #endregion
 
-    
+    #region Damage / Life (YA NO SE USA)
+    //public void TakeDamageEntity(float dmg, Vector3 target)
+    //{
+    //    if(_actualLife >0)
+    //    {
+    //        _actualLife -= dmg;
 
-    #region Damage / Life
-    public void TakeDamageEntity(float dmg, Vector3 target)
-    {
-        if(_actualLife >0)
-        {
-            _actualLife -= dmg;
+    //        if(_actualLife <= 0)
+    //        {
+    //            //_actualLife = 0;
+    //            Dead();
+    //        }
 
-            if(_actualLife <= 0)
-            {
-                //_actualLife = 0;
-                Dead();
-            }
+    //        EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
+    //    }
+    //}
 
-            EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
-        }
-    }
+    //public void GetUpDamage(float dmg, Vector3 target, float forceToUp)
+    //{
 
-    public void GetUpDamage(float dmg, Vector3 target, float forceToUp)
-    {
+    //}
 
-    }
+    //public void Heal(float life)
+    //{
+    //    if(_actualLife < _maxLife)
+    //    {
+    //        _actualLife += life;
+    //        if (_actualLife > _maxLife) _actualLife = _maxLife;
 
-    public void Heal(float life)
-    {
-        if(_actualLife < _maxLife)
-        {
-            _actualLife += life;
-            if (_actualLife > _maxLife) _actualLife = _maxLife;
+    //        EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
+    //    }
+    //}
 
-            EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
-        }
-    }
+    //public void Dead()
+    //{
+    //    _actualLife = 0;
+    //    PauseManager.instance.GameOver();
 
-    public void Dead()
-    {
-        _actualLife = 0;
-        PauseManager.instance.GameOver();
-
-    }
+    //}
     #endregion
 
     #region Lihana Giro
@@ -527,42 +536,30 @@ public class ModelMonkey : Characters, IDamageable, ICure
     }*/
     #endregion
 
-    //public void ActivateMinigun()
+    #region Memento (YA NO SE USA)
+    //public override void Save()
     //{
-    //    actualStateBongo = EstadoDeBongo.Minigun;
-    //    _minigun.gameObject.SetActive(true);
+    //    _currentState.Rec(transform.position, transform.rotation, _actualLife, actualStateBongo /*, _minigun.gameObject.activeInHierarchy, canActivateMinigun*/);
+    //    //Debug.Log("guarde mono");
     //}
 
-    //public void DesactiveMinigun()
+    //public override void Load()
     //{
-    //    actualStateBongo = EstadoDeBongo.Normal;
-    //    _minigun.gameObject.SetActive(false);
+    //    if (!_currentState.IsRemember()) return;
+
+    //    var col = _currentState.Remember();
+    //    transform.position = (Vector3)col.parameters[0]; 
+    //    transform.rotation = (Quaternion)col.parameters[1]; 
+    //    _actualLife = (float)col.parameters[2];
+    //    actualStateBongo = (EstadoDeBongo)col.parameters[3];
+    //    //_minigun.gameObject.SetActive((bool)col.parameters[4]);
+    //    //canActivateMinigun = (bool)col.parameters[5];
+
+    //    EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
+
+
+    //    //Debug.Log("cargue mono");
     //}
-
-    #region Memento
-    public override void Save()
-    {
-        _currentState.Rec(transform.position, transform.rotation, _actualLife, actualStateBongo /*, _minigun.gameObject.activeInHierarchy, canActivateMinigun*/);
-        //Debug.Log("guarde mono");
-    }
-
-    public override void Load()
-    {
-        if (!_currentState.IsRemember()) return;
-
-        var col = _currentState.Remember();
-        transform.position = (Vector3)col.parameters[0]; 
-        transform.rotation = (Quaternion)col.parameters[1]; 
-        _actualLife = (float)col.parameters[2];
-        actualStateBongo = (EstadoDeBongo)col.parameters[3];
-        //_minigun.gameObject.SetActive((bool)col.parameters[4]);
-        //canActivateMinigun = (bool)col.parameters[5];
-        
-        EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
-
-
-        //Debug.Log("cargue mono");
-    }
     #endregion
 
 }
