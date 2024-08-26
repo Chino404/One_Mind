@@ -4,11 +4,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 
-public enum CharacterTarget
-{
-    Bongo,
-    Frank
-}
 public class CameraTracker : MonoBehaviour
 {
     public static CameraTracker Instance;
@@ -57,11 +52,6 @@ public class CameraTracker : MonoBehaviour
 
         if (_target == null) Debug.LogError("FALTA TARGET");
 
-    }
-
-    private void Update()
-    {
-        _target = GameManager.instance.bongo;
     }
 
     private void FixedUpdate()

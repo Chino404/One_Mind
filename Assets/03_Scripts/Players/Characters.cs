@@ -9,7 +9,7 @@ public enum EstadoDePlayer
     Escalando,
     Golpeando,
 }
-public abstract class Characters : Entity
+public abstract class Characters : Entity, IDamageable
 {
     protected Rigidbody _rbCharacter;
     protected Animator _animPlayer;
