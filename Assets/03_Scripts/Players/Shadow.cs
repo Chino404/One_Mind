@@ -7,9 +7,11 @@ using UnityEngine.UIElements;
 public class Shadow : MonoBehaviour
 {
     public GameObject shadow;
+    [SerializeField] private Characters _character;
+
     private GameObject _circleInstance; // Instancia del círculo 2D
-    [SerializeField] private LayerMask _layerToCastShadow;
-    [SerializeField]private float _iniScale;
+    [SerializeField, Tooltip("En que layer va a aparecer la sombra")] private LayerMask _layerToCastShadow;
+    [SerializeField] private float _iniScale;
     [SerializeField] private float _newScale;
 
     private float disRayScale = 4f;
@@ -21,6 +23,8 @@ public class Shadow : MonoBehaviour
             _circleInstance = Instantiate(shadow);
 
         _circleInstance.transform.localScale = IniScale();
+
+        _character = gameObject.GetComponentInParent<Characters>();
     }
 
     void Update()
@@ -31,10 +35,15 @@ public class Shadow : MonoBehaviour
         //{
         //    RaycastScaleShadow();
         //}
-        //else
-        //{
-        //    _circleInstance.transform.localScale = IniScale();
-        //}
+
+        if (_character.IsGrounded())
+        {
+            RaycastScaleShadow();
+        }
+        else
+        {
+            _circleInstance.transform.localScale = IniScale();
+        }
     }
 
     void RaycastScaleShadow()

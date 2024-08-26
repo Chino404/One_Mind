@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum EstadoDeBongo
+public enum EstadoDePlayer
 {
     Normal,
     Escalando,
@@ -16,19 +16,19 @@ public abstract class Characters : Entity
 
     [Header("--- VALUE CHARACTERS ---")]
 
-    public EstadoDeBongo actualStateBongo;
+    [Space(10)]public EstadoDePlayer actualStatePlayer;
 
-    [Space(10), Header("--> GENERAL")]
+    [Header("--> GENERAL")]
     [SerializeField] protected float _maxLife = 3f;
-    [SerializeField] protected float _actualLife;
+    protected float _actualLife;
     [SerializeField] protected float _speed = 10f;
     protected float _actualSpeed;
     [SerializeField] protected float _forceGravity = 1.25f;
     protected float _initialForceGravity;
     [SerializeField, Tooltip("Fuerza de salto normal")] protected float _jumpForce = 25f;
-    [SerializeField, Range(0, 0.4f), Tooltip("Tiempo para saltar cuando dejo de tocar el suelo")] protected float _coyoteTime = 0.2f;
+    [SerializeField, Range(0, 0.4f), Tooltip("Tiempo para saltar cuando dejo de tocar el suelo")] protected float _coyoteTime = 0.15f;
     protected float _coyoteTimeCounter;
-    [SerializeField, Tooltip("Daño de golpe")] protected int _normalDamage;
+    [SerializeField, Tooltip("Daño de golpe")] protected int _normalDamage = 1;
     protected Vector3 _launchDir;
 
     [Header("--> CLIMB")]
@@ -49,9 +49,9 @@ public abstract class Characters : Entity
     protected Vector3 _dirGrabb; //Direccion de movimiento en la agarradera
 
     [Header("--> PARTICLES")]
-    [SerializeField] protected ParticleSystem _particleSpinAttack;
     [SerializeField] protected ParticleSystem _particleJump;
     [SerializeField] protected ParticleSystem _polvo;
+    //[SerializeField] protected ParticleSystem _particleSpinAttack;
 
     public delegate void MyDelegate(Vector3 dirRaw, Vector3 dir);
     public event MyDelegate _actualMove;
@@ -79,6 +79,23 @@ public abstract class Characters : Entity
         _actualSpeed = _speed;
         _initialForceGravity = _forceGravity;
 
+    }
+
+    public virtual void Update()
+    {
+        if (IsGrounded())
+        {
+            _jumpGrabb = false;
+            _coyoteTimeCounter = _coyoteTime;
+        }
+        else _coyoteTimeCounter -= Time.deltaTime;
+
+        ChangeSpeed();
+    }
+
+    public virtual void FixedUpdate()
+    {
+        _rbCharacter.AddForce(Vector3.down * _forceGravity, ForceMode.VelocityChange);
     }
 
     #region RAYCAST
@@ -122,16 +139,16 @@ public abstract class Characters : Entity
     #region MOVEMENT
     public virtual void Movement(Vector3 dirRaw, Vector3 dir)
     {
-        if (actualStateBongo == EstadoDeBongo.Golpeando || IsTouch(dir.normalized, _moveMask)) return;
+        if (actualStatePlayer == EstadoDePlayer.Golpeando || IsTouch(dir.normalized, _moveMask)) return;
 
         ActualMove(dirRaw, dir);
     }
 
     protected void ChangeSpeed()
     {
-        if (actualStateBongo == EstadoDeBongo.Normal) _actualSpeed = _speed;
-        if (actualStateBongo == EstadoDeBongo.Escalando) _actualSpeed = 7;
-        if (actualStateBongo == EstadoDeBongo.Golpeando) _actualSpeed = 0;
+        if (actualStatePlayer == EstadoDePlayer.Normal) _actualSpeed = _speed;
+        if (actualStatePlayer == EstadoDePlayer.Escalando) _actualSpeed = 7;
+        if (actualStatePlayer == EstadoDePlayer.Golpeando) _actualSpeed = 0;
     }
 
     public void Rotate(Vector3 dirForward) => transform.forward = dirForward;
@@ -163,7 +180,7 @@ public abstract class Characters : Entity
             {
                 //_forceGravity = 0;
                 //_rbCharacter.isKinematic = true;
-                actualStateBongo = EstadoDeBongo.Escalando;
+                actualStatePlayer = EstadoDePlayer.Escalando;
 
                 ActualMove = HandleMovement;
                 _jumpGrabb = false;
@@ -185,7 +202,7 @@ public abstract class Characters : Entity
 
         _animPlayer.SetBool("Walk", false);
 
-        if (actualStateBongo == EstadoDeBongo.Normal)
+        if (actualStatePlayer == EstadoDePlayer.Normal)
         {
             ActualMove = NormalMovement;
         }
@@ -213,7 +230,7 @@ public abstract class Characters : Entity
             {
                 
                 ActualMove = NormalMovement;
-                actualStateBongo = EstadoDeBongo.Normal;
+                actualStatePlayer = EstadoDePlayer.Normal;
                 
 
                 return;
@@ -243,7 +260,7 @@ public abstract class Characters : Entity
     public void Jump()
     {
 
-        if (actualStateBongo == EstadoDeBongo.Escalando) //Si estoy escalando
+        if (actualStatePlayer == EstadoDePlayer.Escalando) //Si estoy escalando
         {
             //actualStateBongo = EstadoDeBongo.Quieto;
             StartCoroutine(WaitRayChange());
@@ -275,7 +292,7 @@ public abstract class Characters : Entity
             //}
         }
 
-        else if ( actualStateBongo == EstadoDeBongo.Normal && _coyoteTimeCounter > 0f)
+        else if ( actualStatePlayer == EstadoDePlayer.Normal && _coyoteTimeCounter > 0f)
         {
             _animPlayer?.SetTrigger("Jump");
             _particleJump?.Play();
@@ -289,6 +306,94 @@ public abstract class Characters : Entity
         _waitRay = true;
         yield return new WaitForSeconds(0.2f);
         _waitRay = false;
+    }
+    #endregion
+
+    #region ATTACKS
+    public void Attack()
+    {
+        if (IsGrounded()) NormalPunch();
+    }
+
+    protected void NormalPunch()
+    {
+
+        if (actualStatePlayer == EstadoDePlayer.Golpeando) return;
+
+        AudioManager.instance.PlayMonkeySFX(AudioManager.instance.swoosh);
+
+        StartCoroutine(SystemNormalCombo());
+    }
+
+    IEnumerator SystemNormalCombo()
+    {
+        actualStatePlayer = EstadoDePlayer.Golpeando;
+        _animPlayer.SetTrigger("Attack");
+        yield return new WaitForSeconds(0.4f);
+        actualStatePlayer = EstadoDePlayer.Normal;
+        yield return new WaitForSeconds(0.2f);
+
+        if (actualStatePlayer == EstadoDePlayer.Normal)
+        {
+            _actualSpeed = _speed;
+            _forceGravity = _initialForceGravity;
+
+        }
+    }
+    #endregion
+
+    #region DAMAGE / LIFE
+    public void TakeDamageEntity(float dmg, Vector3 target)
+    {
+        if (_actualLife > 0)
+        {
+            _actualLife -= dmg;
+
+            if (_actualLife <= 0) Dead();
+
+            EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
+        }
+    }
+
+    public void Heal(float life)
+    {
+        if (_actualLife < _maxLife)
+        {
+            _actualLife += life;
+            if (_actualLife > _maxLife) _actualLife = _maxLife;
+
+            EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
+        }
+    }
+
+    public void Dead()
+    {
+        _actualLife = 0;
+        PauseManager.instance.GameOver();
+
+    }
+    #endregion
+
+    #region Memento
+    public override void Save()
+    {
+        _currentState.Rec(transform.position, transform.rotation, _actualLife, actualStatePlayer);
+        //Debug.Log("guarde mono");
+    }
+
+    public override void Load()
+    {
+        if (!_currentState.IsRemember()) return;
+
+        var col = _currentState.Remember();
+        transform.position = (Vector3)col.parameters[0];
+        transform.rotation = (Quaternion)col.parameters[1];
+        _actualLife = (float)col.parameters[2];
+        actualStatePlayer = (EstadoDePlayer)col.parameters[3];
+
+        EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
+
+        //Debug.Log("cargue mono");
     }
     #endregion
 }
