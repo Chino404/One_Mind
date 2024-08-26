@@ -44,19 +44,21 @@ public class GameManager : MonoBehaviour
         //Activo los controles del Mono
         _controllerMonkey = true;
 
-        foreach (var item in points)
-        {
-            if(item.player == null)
-            {
-                if (item.characterTarget == CharacterTarget.Bongo) item.player = bongo;
-                else if (item.characterTarget == CharacterTarget.Frank) item.player = frank;
-            }
-        }
+        
 
         foreach (var item in rewinds)
         {
             item.Save();
             
+        }
+
+        foreach (var item in points)
+        {
+            if (item.player == null)
+            {
+                if (item.characterTarget == CharacterTarget.Bongo) item.player = bongo;
+                else if (item.characterTarget == CharacterTarget.Frank) item.player = frank;
+            }
         }
     }
 
