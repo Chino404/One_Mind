@@ -16,7 +16,7 @@ public class Impulse : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<ModelMonkey>())
+        if (other.gameObject.GetComponent<Characters>())
         {
             var rb = other.GetComponent<Rigidbody>();
 
