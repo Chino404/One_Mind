@@ -5,12 +5,16 @@ using UnityEngine;
 public class Plataform : Rewind
 {
 
-    private Rigidbody _rb;
-    [SerializeField] Transform[] _waypoints;
     [SerializeField] float _secondsWaiting = 1f;
+    [SerializeField] Transform[] _waypoints;
+    [SerializeField] private float _maxVelocity=7f;
+    [SerializeField] private float _maxForce = 0.01f;
+
     private int _actualIndex;
     private Vector3 _velocity;
-    [SerializeField] private float _maxVelocity=7f;
+    
+
+    private Rigidbody _rb;
 
     //private bool _isObjectAttached;
     
@@ -27,7 +31,7 @@ public class Plataform : Rewind
         base.Awake();
     }
 
-    
+
 
     //void FixedUpdate()
     //{
@@ -42,18 +46,36 @@ public class Plataform : Rewind
 
     //}
 
+
     private void FixedUpdate()
     {
-        AddForce(Seek(_waypoints[_actualIndex].position));
-        if (Vector3.Distance(transform.position, _waypoints[_actualIndex].position) <= 0.2f)
-        {
-            _actualIndex++;
-            if (_actualIndex >= _waypoints.Length)
-                _actualIndex = 0;
-        }
-        transform.position += _velocity * Time.deltaTime;
-        
+
+            if (Vector3.Distance(_rb.position, _waypoints[_actualIndex].position) <= 0.4f)
+            {
+                StartCoroutine(WaitSeconds());
+                _actualIndex++;
+                if (_actualIndex >= _waypoints.Length)
+                    _actualIndex = 0;
+            }
+        _velocity = _waypoints[_actualIndex].position - transform.position;
+        _velocity.Normalize();
+
+        //transform.position += _velocity * Time.fixedDeltaTime;
+        _rb.MovePosition(_rb.position + _velocity*_maxVelocity * Time.fixedDeltaTime);
     }
+
+
+
+    IEnumerator WaitSeconds()
+    {
+        var velocity = _maxVelocity;
+        _maxVelocity = 0;
+        yield return new WaitForSeconds(_secondsWaiting);
+        _maxVelocity = velocity;
+ 
+         //_velocity = Vector3.ClampMagnitude(_velocity, _maxVelocity);
+    }
+    
 
     Vector3 Seek(Vector3 target)
     {
@@ -80,13 +102,13 @@ public class Plataform : Rewind
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<ModelMonkey>())
-            collision.transform.SetParent(this.transform);
+        if (collision.gameObject.GetComponent<Characters>())
+            collision.transform.SetParent(transform);
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.GetComponent<ModelMonkey>())
+        if (collision.gameObject.GetComponent<Characters>())
             collision.transform.SetParent(null);
     }
 
