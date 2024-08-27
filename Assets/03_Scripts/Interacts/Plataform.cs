@@ -8,7 +8,12 @@ public class Plataform : Rewind
     [SerializeField] float _secondsWaiting = 1f;
     [SerializeField] Transform[] _waypoints;
     [SerializeField] private float _maxVelocity=7f;
-    
+
+    private Animator _animator;
+    //[SerializeField] Vector3[] _positions;
+    //[SerializeField]private float _speed;
+    //private int _actualPosition;
+
 
     private int _actualIndex;
     private Vector3 _velocity;
@@ -33,7 +38,21 @@ public class Plataform : Rewind
         base.Awake();
     }
 
+    private void Start()
+    {
+        _animator = GetComponent<Animator>();
+    }
 
+    //private void Update()
+    //{
+    //    if(Vector3.Distance(transform.position, _waypoints[_actualPosition].position) <= 0.2f)
+    //    {
+    //        _actualPosition++;
+    //        if (_actualPosition >= _positions.Length)
+    //            _actualPosition = 0;
+    //    }
+
+    //}
 
     //void FixedUpdate()
     //{
@@ -48,7 +67,7 @@ public class Plataform : Rewind
 
     //}
 
-
+    //MATI GIL
     private void FixedUpdate()
     {
             
