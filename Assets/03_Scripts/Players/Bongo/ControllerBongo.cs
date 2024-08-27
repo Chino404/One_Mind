@@ -5,12 +5,14 @@ using UnityEngine;
 public class ControllerBongo
 {
     private ModelBongo _model;
+    private ViewBongo _viewBongo;
     private Vector3 _dirRaw = new Vector3();
     private Vector3 _dir = new Vector3();
 
-    public ControllerBongo (ModelBongo model)
+    public ControllerBongo (ModelBongo model, ViewBongo viewBongo)
     {
         _model = model;
+        _viewBongo = viewBongo;
     }
 
     public void ArtificialUpdate()
@@ -24,16 +26,38 @@ public class ControllerBongo
         if (Input.GetButtonDown("Jump")) _model.Jump();
 
         if (Input.GetMouseButtonDown(0)) _model.Attack();
-    }
 
-    public void ListenFixedKeys()
-    {
         _dirRaw.x = Input.GetAxisRaw("Horizontal");
         _dirRaw.z = Input.GetAxisRaw("Vertical");
 
         _dir.x = Input.GetAxis("Horizontal");
         _dir.z = Input.GetAxis("Vertical");
+        
 
-        _model.Movement(_dirRaw, _dir);
+        //if (!GameManager.instance.frank.stopMove)
+        //{
+        //    _dirRaw.x = Input.GetAxisRaw("Horizontal");
+        //    _dirRaw.z = Input.GetAxisRaw("Vertical");
+
+        //    _dir.x = Input.GetAxis("Horizontal");
+        //    _dir.z = Input.GetAxis("Vertical");
+        //}
+        //else Debug.Log("BONGO NO entro a CONTROLLER");
+    }
+
+    public void ListenFixedKeys()
+    {
+        if (GameManager.instance.frank.stopMove /*|| _model.stopMove*/)
+        {
+            _viewBongo.Walking(false);
+            return;
+        }
+
+        if(_dirRaw.sqrMagnitude != 0)
+        {
+            _viewBongo.Walking(true);
+            _model.Movement(_dirRaw, _dir);
+        }
+        else _viewBongo.Walking(false);
     }
 }

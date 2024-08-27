@@ -13,10 +13,10 @@ public class ModelBongo : Characters
     {
         base.Awake();
 
-        GameManager.instance.bongo = transform;
+        GameManager.instance.bongo = this;
 
         _view = new ViewBongo(_animPlayer);
-        _controller = new ControllerBongo(this);
+        _controller = new ControllerBongo(this, _view);
 
         _currentState = new MementoState();
     }
@@ -31,6 +31,7 @@ public class ModelBongo : Characters
     {
         base.Update();
 
+        //if (GameManager.instance.frank.stopMove) return;
         _controller.ArtificialUpdate();
     }
 

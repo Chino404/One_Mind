@@ -13,7 +13,7 @@ public class CameraTracker : MonoBehaviour
     [Header("Components")]
     [SerializeField] private Transform _point;
 
-    private Transform _target;
+    [SerializeField]private Transform _target;
 
     [Header("Smoothing Values")]
     [Range(0.01f, 0.125f)] [SerializeField] float _smoothSpeedPosition = 0.075f;
@@ -47,8 +47,8 @@ public class CameraTracker : MonoBehaviour
 
         transform.position = _point.position;
 
-        if(characterTarget == CharacterTarget.Bongo) _target = GameManager.instance.bongo;
-        else if (characterTarget == CharacterTarget.Frank) _target = GameManager.instance.frank;
+        if(characterTarget == CharacterTarget.Bongo) _target = GameManager.instance.bongo.transform;
+        else if (characterTarget == CharacterTarget.Frank) _target = GameManager.instance.frank.transform;
 
         if (_target == null) Debug.LogError("FALTA TARGET");
 

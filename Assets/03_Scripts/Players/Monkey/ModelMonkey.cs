@@ -68,7 +68,7 @@ public class ModelMonkey : Characters, ICure
     {
         base.Awake();
 
-        GameManager.instance.bongo = transform;
+        //GameManager.instance.bongo = transform;
 
         _view = new ViewMonkey(_animPlayer);
         _controller = new ControllerMonkey(this);

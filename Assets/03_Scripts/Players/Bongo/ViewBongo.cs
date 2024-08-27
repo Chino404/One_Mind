@@ -10,4 +10,9 @@ public class ViewBongo
     {
         _animator = animator;
     }
+
+    public void Walking(bool value)
+    {
+        _animator.SetBool("Walk", value);
+    }
 }
