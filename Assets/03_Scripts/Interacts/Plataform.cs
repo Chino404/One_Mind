@@ -8,12 +8,14 @@ public class Plataform : Rewind
     [SerializeField] float _secondsWaiting = 1f;
     [SerializeField] Transform[] _waypoints;
     [SerializeField] private float _maxVelocity=7f;
-    [SerializeField] private float _maxForce = 0.01f;
+    
 
     private int _actualIndex;
     private Vector3 _velocity;
-    
 
+    //Characters character;
+
+    //private bool _characterInPlataform;
     private Rigidbody _rb;
 
     //private bool _isObjectAttached;
@@ -49,29 +51,41 @@ public class Plataform : Rewind
 
     private void FixedUpdate()
     {
-
-            if (Vector3.Distance(_rb.position, _waypoints[_actualIndex].position) <= 0.4f)
-            {
-                StartCoroutine(WaitSeconds());
-                _actualIndex++;
-                if (_actualIndex >= _waypoints.Length)
-                    _actualIndex = 0;
-            }
-        _velocity = _waypoints[_actualIndex].position - transform.position;
+            
+        if (Vector3.Distance(transform.position, _waypoints[_actualIndex].position) <= 0.2f)
+        {
+            StartCoroutine(WaitSeconds());
+            _actualIndex++;
+            if (_actualIndex >= _waypoints.Length)
+                _actualIndex = 0;
+        }
+        _velocity = _waypoints[_actualIndex].position - _rb.position;
         _velocity.Normalize();
 
-        //transform.position += _velocity * Time.fixedDeltaTime;
-        _rb.MovePosition(_rb.position + _velocity*_maxVelocity * Time.fixedDeltaTime);
+        //transform.position += _velocity*_maxVelocity * Time.deltaTime;
+        _rb.MovePosition(_rb.position + _velocity * _maxVelocity * Time.fixedDeltaTime);
+
+        //if (_characterInPlataform)
+        //    CharacterAttached();
+        
     }
 
+    //void CharacterAttached() //Todo lo que quiero que pase cuando el player esta en la plataforma
+    //{
+        
+        //character.GetComponent<Rigidbody>().MovePosition(character.GetComponent<Rigidbody>().position + _velocity*0.001f);
+        
 
+    //}
 
     IEnumerator WaitSeconds()
     {
         var velocity = _maxVelocity;
         _maxVelocity = 0;
+
         yield return new WaitForSeconds(_secondsWaiting);
         _maxVelocity = velocity;
+        
  
          //_velocity = Vector3.ClampMagnitude(_velocity, _maxVelocity);
     }
@@ -100,21 +114,27 @@ public class Plataform : Rewind
     //    return Physics.Raycast(_moveRay, _moveRange, _moveMask);
     //}
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.GetComponent<Characters>())
-            collision.transform.SetParent(transform);
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.GetComponent<Characters>())
+    //    {
+    //        collision.transform.SetParent(transform);
 
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.GetComponent<Characters>())
-            collision.transform.SetParent(null);
-    }
+    //    }
+
+    //}
+
+    //private void OnCollisionExit(Collision collision)
+    //{
+    //    if (collision.gameObject.GetComponent<Characters>())
+    //    {
+    //        collision.transform.SetParent(null);
+    //    }
+    //}
 
     //public void LeftClickAction()
     //{
-        
+
     //}
 
     //public void RightClickAction(Transform parent)
@@ -131,7 +151,7 @@ public class Plataform : Rewind
     //    }
     //}
 
-    
+
 
     public override void Save()
     {
