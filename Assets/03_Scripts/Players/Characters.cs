@@ -45,8 +45,9 @@ public abstract class Characters : Entity, IDamageable
     [SerializeField, Tooltip("Que Layer no quiero que se acerque")] protected LayerMask _moveMask; //Para indicar q layer quierO q no se acerque mucho
     [SerializeField, Tooltip("Layer de Enredaderas u objeto a trepar")] protected LayerMask _handleMask;
     protected Ray _moveRay;
-    protected bool _stopGrabb;
+    public bool stopMove;
     protected Vector3 _dirGrabb; //Direccion de movimiento en la agarradera
+    protected bool _stopGrabb;
 
     [Header("--> PARTICLES")]
     [SerializeField] protected ParticleSystem _particleJump;
@@ -105,7 +106,7 @@ public abstract class Characters : Entity, IDamageable
     /// </summary>
     /// <param name="dir"></param>
     /// <returns></returns>
-    protected bool IsTouch(Vector3 dir, int layerMask)
+    public bool IsTouch(Vector3 dir, int layerMask)
     {
         _moveRay = new Ray(transform.position, dir);
         Debug.DrawRay(transform.position, dir * _forwardRange, Color.red);
@@ -139,7 +140,13 @@ public abstract class Characters : Entity, IDamageable
     #region MOVEMENT
     public virtual void Movement(Vector3 dirRaw, Vector3 dir)
     {
-        if (actualStatePlayer == EstadoDePlayer.Golpeando || IsTouch(dir.normalized, _moveMask)) return;
+        if (actualStatePlayer == EstadoDePlayer.Golpeando || IsTouch(dir.normalized, _moveMask))
+        {
+            stopMove = true;
+            _animPlayer.SetBool("Walk", false);
+            return;
+        }
+        else stopMove = false;
 
         ActualMove(dirRaw, dir);
     }
@@ -187,13 +194,13 @@ public abstract class Characters : Entity, IDamageable
                 return;
             }
 
-            _animPlayer.SetBool("Walk", true);
+            //_animPlayer.SetBool("Walk", true);
         }
 
-        else
-        {
-            _animPlayer.SetBool("Walk", false);
-        }
+        //else
+        //{
+        //    _animPlayer.SetBool("Walk", false);
+        //}
     }
 
     public void HandleMovement(Vector3 dirRaw, Vector3 dir)
@@ -317,7 +324,6 @@ public abstract class Characters : Entity, IDamageable
 
     protected void NormalPunch()
     {
-
         if (actualStatePlayer == EstadoDePlayer.Golpeando) return;
 
         AudioManager.instance.PlayMonkeySFX(AudioManager.instance.swoosh);

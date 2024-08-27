@@ -5,12 +5,14 @@ using UnityEngine;
 public class ControllerFrank
 {
     private ModelFrank _model;
+    private ViewFrank _viewFrank;
     private Vector3 _dirRaw = new Vector3();
     private Vector3 _dir = new Vector3();
 
-    public ControllerFrank(ModelFrank model)
+    public ControllerFrank(ModelFrank model, ViewFrank viewFrank)
     {
         _model = model;
+        _viewFrank = viewFrank;
     }
 
     public void ArtificialUpdate()
@@ -23,17 +25,38 @@ public class ControllerFrank
 
         if (Input.GetButtonDown("Jump")) _model.Jump();
 
-        if (Input.GetMouseButtonDown(0)) _model.Attack();
-    }
+        if (Input.GetMouseButtonDown(1)) _model.Attack();
 
-    public void ListenFixedKeys()
-    {
         _dirRaw.x = Input.GetAxisRaw("Horizontal");
         _dirRaw.z = Input.GetAxisRaw("Vertical");
 
         _dir.x = Input.GetAxis("Horizontal");
         _dir.z = Input.GetAxis("Vertical");
 
-        _model.Movement(_dirRaw, _dir);
+        //if(!GameManager.instance.bongo.stopMove)
+        //{
+        //    _dirRaw.x = Input.GetAxisRaw("Horizontal");
+        //    _dirRaw.z = Input.GetAxisRaw("Vertical");
+
+        //    _dir.x = Input.GetAxis("Horizontal");
+        //    _dir.z = Input.GetAxis("Vertical");
+        //}
+        //else Debug.Log("FRANK NO entro a CONTROLLER");
+    }
+
+    public void ListenFixedKeys()
+    {
+        if (GameManager.instance.bongo.stopMove /*|| _model.stopMove*/)
+        {
+            _viewFrank.Walking(false);
+            return;
+        }
+
+        if(_dirRaw.sqrMagnitude != 0)
+        {
+            _viewFrank.Walking(true);
+            _model.Movement(_dirRaw, _dir);
+        }
+        else _viewFrank.Walking(false);
     }
 }

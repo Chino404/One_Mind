@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum CharacterTarget
@@ -14,8 +15,8 @@ public class GameManager : MonoBehaviour
     public List<Rewind> rewinds;
 
     [Header("Characters")]
-    public Transform frank;
-    public Transform bongo;
+    public ModelBongo bongo;
+    public ModelFrank frank;
     public List<PointsForTheCamera> points = new ();
 
     private bool _controllerMonkey = true; //Si se puede usar al mono
@@ -54,10 +55,12 @@ public class GameManager : MonoBehaviour
 
         foreach (var item in points)
         {
+            if (item == null) continue;
+
             if (item.player == null)
             {
-                if (item.characterTarget == CharacterTarget.Bongo) item.player = bongo;
-                else if (item.characterTarget == CharacterTarget.Frank) item.player = frank;
+                if (item.characterTarget == CharacterTarget.Bongo) item.player = bongo.transform;
+                else if (item.characterTarget == CharacterTarget.Frank) item.player = frank.transform;
             }
         }
     }

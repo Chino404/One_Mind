@@ -13,10 +13,10 @@ public class ModelFrank : Characters
     {
         base.Awake();
 
-        GameManager.instance.frank = transform;
+        GameManager.instance.frank = this;
 
         _view = new ViewFrank(_animPlayer);
-        _controller = new ControllerFrank(this);
+        _controller = new ControllerFrank(this, _view);
 
         _currentState = new MementoState();
     }
@@ -31,6 +31,7 @@ public class ModelFrank : Characters
     {
         base.Update();
 
+        //if (GameManager.instance.bongo.stopMove) return;
         _controller.ArtificialUpdate();
     }
 
