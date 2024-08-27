@@ -18,7 +18,8 @@ public class ControllerBongo
     public void ArtificialUpdate()
     {
         if (Time.timeScale == 0) return;
-        if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.LeftShift))
+
+        if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.LeftShift) && _model.actualStatePlayer == EstadoDePlayer.Escalando)
         {
             _model.ActualMove = _model.NormalMovement;
         }

@@ -44,6 +44,7 @@ public abstract class Characters : Entity, IDamageable
     [SerializeField, Range(0.1f, 1f) , Tooltip("Rango del raycast para las colisiones")] protected float _forwardRange = 0.75f; //Rango para el Raycast para evitar q el PJ se pegue a la pared
     [SerializeField, Tooltip("Que Layer no quiero que se acerque")] protected LayerMask _moveMask; //Para indicar q layer quierO q no se acerque mucho
     [SerializeField, Tooltip("Layer de Enredaderas u objeto a trepar")] protected LayerMask _handleMask;
+    [SerializeField, Tooltip("Layer de objeto para seguir")] protected LayerMask _continueMask;
     protected Ray _moveRay;
     public bool stopMove;
     protected Vector3 _dirGrabb; //Direccion de movimiento en la agarradera
@@ -154,7 +155,7 @@ public abstract class Characters : Entity, IDamageable
     protected void ChangeSpeed()
     {
         if (actualStatePlayer == EstadoDePlayer.Normal) _actualSpeed = _speed;
-        if (actualStatePlayer == EstadoDePlayer.Escalando) _actualSpeed = 7;
+        //if (actualStatePlayer == EstadoDePlayer.Escalando) _actualSpeed = 7;
         if (actualStatePlayer == EstadoDePlayer.Golpeando) _actualSpeed = 0;
     }
 
@@ -205,14 +206,16 @@ public abstract class Characters : Entity, IDamageable
 
     public void HandleMovement(Vector3 dirRaw, Vector3 dir)
     {
-        Debug.Log("estoy agarrado");
+        //Debug.Log("estoy agarrado");
 
         _animPlayer.SetBool("Walk", false);
 
         if (actualStatePlayer == EstadoDePlayer.Normal)
         {
+            StartCoroutine(WaitRayChange());
             ActualMove = NormalMovement;
         }
+
         _forceGravity = 0;
         _rbCharacter.isKinematic = true;
 
@@ -225,7 +228,16 @@ public abstract class Characters : Entity, IDamageable
             Debug.DrawRay(transform.position + dirEscalando, transform.forward * _forwardRange, Color.green);
 
             RaycastHit hitInfo;
-            if (Physics.Raycast(vistaEnredadera, out hitInfo)) transform.forward = hitInfo.transform.forward; //Miro para la enredadera
+            if (Physics.Raycast(vistaEnredadera, out hitInfo, _forwardRange, _handleMask)) transform.forward = hitInfo.transform.forward; //Miro para la enredadera
+
+            Ray vistaParaSaltar = new Ray(transform.position + (dirEscalando * 1.5f), transform.forward);
+            Debug.DrawRay(transform.position + (dirEscalando * 1.5f), transform.forward * _forwardRange, Color.blue);
+
+            if (Physics.Raycast(vistaParaSaltar, _forwardRange, _continueMask)) //Si para la direccion que quiero ir no hay mas agarradera y puedo saltar, lo hago
+            {
+                StartCoroutine(WaitingNormalMovement());
+                return;
+            }
 
             if (!Physics.Raycast(vistaEnredadera, _forwardRange, _handleMask)) //Si para la direccion que quiero ir no hay mas agarradera, no sigo
             {
@@ -233,17 +245,16 @@ public abstract class Characters : Entity, IDamageable
                 return;
             }
 
-            if (IsTouch(dirEscalando, _moveMask))
-            {
-                
-                ActualMove = NormalMovement;
-                actualStatePlayer = EstadoDePlayer.Normal;
-                
+            //if (IsTouch(dirEscalando, _moveMask))
+            //{
 
-                return;
-            }
+            //    ActualMove = NormalMovement;
+            //    actualStatePlayer = EstadoDePlayer.Normal;
 
-            _stopGrabb = true;
+            //    return;
+            //}
+
+            _stopGrabb = false;
             _rbCharacter.MovePosition(transform.position + dirEscalando * _actualSpeed * Time.fixedDeltaTime);
 
         }
@@ -251,6 +262,23 @@ public abstract class Characters : Entity, IDamageable
         {
             _dirGrabb = default;
         }
+    }
+
+    IEnumerator WaitingNormalMovement()
+    {
+        _rbCharacter.isKinematic = false;
+        _rbCharacter.velocity = transform.up * _jumpForceAxiY * 1.5f;
+        StartCoroutine(WaitRayChange());
+
+        yield return new WaitForSeconds(0.1f);
+
+        _forceGravity = _initialForceGravity;
+        _rbCharacter.velocity = transform.forward * 10;
+
+        yield return new WaitForSeconds(0.15f);
+
+        ActualMove = NormalMovement;
+        actualStatePlayer = EstadoDePlayer.Normal;
     }
 
     public void CancelarTodasLasFuerzas()
@@ -267,25 +295,39 @@ public abstract class Characters : Entity, IDamageable
     public void Jump()
     {
 
-        if (actualStatePlayer == EstadoDePlayer.Escalando) //Si estoy escalando
+        if (actualStatePlayer == EstadoDePlayer.Escalando && _dirGrabb.sqrMagnitude != 0 && _stopGrabb) //Si estoy escalando
         {
             //actualStateBongo = EstadoDeBongo.Quieto;
+            //StartCoroutine(WaitRayChange());
+
+            //if (_dirGrabb.sqrMagnitude != 0 && _stopGrabb)
+            //{
+            //    StartCoroutine(WaitRayChange());
+            //    ActualMove = NormalMovement;
+
+            //    _jumpGrabb = true;
+            //    _rbCharacter.isKinematic = false;
+            //    _forceGravity = _initialForceGravity;
+
+            //    //Depende la direccion de donde quiera ir, va a saltar
+            //    if (_dirGrabb.y > 0) _rbCharacter.velocity = new Vector3(0, _dirGrabb.y * _jumpForceAxiY * 2);
+            //    else if (_dirGrabb.x != 0) _rbCharacter.velocity = new Vector3(_dirGrabb.x * _jumpForceAxiX, _jumpForceAxiY);
+
+            //    _dirGrabb = default;
+            //}
+
             StartCoroutine(WaitRayChange());
+            ActualMove = NormalMovement;
 
-            if (_dirGrabb.sqrMagnitude != 0 && _stopGrabb)
-            {
-                ActualMove = NormalMovement;
+            _jumpGrabb = true;
+            _rbCharacter.isKinematic = false;
+            _forceGravity = _initialForceGravity;
 
-                _jumpGrabb = true;
-                _rbCharacter.isKinematic = false;
-                _forceGravity = _initialForceGravity;
+            //Depende la direccion de donde quiera ir, va a saltar
+            if (_dirGrabb.y > 0) _rbCharacter.velocity = new Vector3(0, _dirGrabb.y * _jumpForceAxiY * 2);
+            else if (_dirGrabb.x != 0) _rbCharacter.velocity = new Vector3(_dirGrabb.x * _jumpForceAxiX, _jumpForceAxiY);
 
-                //Depende la direccion de donde quiera ir, va a saltar
-                if (_dirGrabb.y > 0) _rbCharacter.velocity = new Vector3(0, _dirGrabb.y * _jumpForceAxiY * 2);
-                else if (_dirGrabb.x != 0) _rbCharacter.velocity = new Vector3(_dirGrabb.x * _jumpForceAxiX, _jumpForceAxiY);
-
-                _dirGrabb = default;
-            }
+            _dirGrabb = default;
 
             //else if(_dirGrabb.sqrMagnitude == 0) //Si no, salta en direccion opuesta a la agarradera
             //{
