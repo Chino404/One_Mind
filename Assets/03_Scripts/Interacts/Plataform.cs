@@ -18,13 +18,13 @@ public class Plataform : Rewind
     private int _actualIndex;
     private Vector3 _velocity;
 
-    //Characters character;
+    //public Characters character;
 
     //private bool _characterInPlataform;
     private Rigidbody _rb;
 
     //private bool _isObjectAttached;
-    
+
     //[SerializeField] Transform banana; 
     //public ModelBanana modelBanana;
 
@@ -86,15 +86,15 @@ public class Plataform : Rewind
 
         //if (_characterInPlataform)
         //    CharacterAttached();
-        
+
     }
 
     //void CharacterAttached() //Todo lo que quiero que pase cuando el player esta en la plataforma
     //{
-        
-        //character.GetComponent<Rigidbody>().MovePosition(character.GetComponent<Rigidbody>().position + _velocity*0.001f);
-        
 
+    //    character.GetComponent<Rigidbody>().MovePosition(character.GetComponent<Rigidbody>().position + _velocity*0.01f );
+
+       
     //}
 
     IEnumerator WaitSeconds()
@@ -137,8 +137,9 @@ public class Plataform : Rewind
     //{
     //    if (collision.gameObject.GetComponent<Characters>())
     //    {
-    //        collision.transform.SetParent(transform);
-
+    //        //collision.transform.SetParent(transform);
+    //        character = collision.gameObject.GetComponent<Characters>();
+    //        _characterInPlataform = true;
     //    }
 
     //}
@@ -147,28 +148,31 @@ public class Plataform : Rewind
     //{
     //    if (collision.gameObject.GetComponent<Characters>())
     //    {
-    //        collision.transform.SetParent(null);
+    //        //collision.transform.SetParent(null);
+    //        _characterInPlataform = false;
+    //        character = null;
+
     //    }
     //}
 
-    //public void LeftClickAction()
-    //{
+        //public void LeftClickAction()
+        //{
 
-    //}
+        //}
 
-    //public void RightClickAction(Transform parent)
-    //{        
-    //    if (!_isObjectAttached)
-    //    {
-    //        //transform.SetParent(parent);
-    //        banana = parent;
-    //        _isObjectAttached = true;
-    //    }
-    //    else if (_isObjectAttached)
-    //    {
-    //        ReleaseObject();
-    //    }
-    //}
+        //public void RightClickAction(Transform parent)
+        //{        
+        //    if (!_isObjectAttached)
+        //    {
+        //        //transform.SetParent(parent);
+        //        banana = parent;
+        //        _isObjectAttached = true;
+        //    }
+        //    else if (_isObjectAttached)
+        //    {
+        //        ReleaseObject();
+        //    }
+        //}
 
 
 
