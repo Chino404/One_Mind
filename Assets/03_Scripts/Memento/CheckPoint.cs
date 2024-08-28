@@ -7,7 +7,7 @@ public class CheckPoint : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if(other.GetComponent<ModelMonkey>())
+        if(other.GetComponent<Characters>())
         {
             foreach (var item in GameManager.instance.rewinds)
             {
