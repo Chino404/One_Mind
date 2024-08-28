@@ -184,11 +184,14 @@ public abstract class Characters : Entity, IDamageable
                 Rotate(dir);
             }
 
-            if (IsTouch(transform.forward, _handleMask) && !_waitRay) //Si toco algo escalable, cambio de movimiento
+            if (IsTouch(transform.forward * 3, _handleMask) && !_waitRay) //Si toco algo escalable, cambio de movimiento
             {
                 //_forceGravity = 0;
                 //_rbCharacter.isKinematic = true;
                 actualStatePlayer = EstadoDePlayer.Escalando;
+
+                _rbCharacter.velocity = transform.up * _jumpForce;
+                //_rbCharacter.velocity = transform.forward * 10;
 
                 ActualMove = HandleMovement;
                 _jumpGrabb = false;
@@ -229,6 +232,13 @@ public abstract class Characters : Entity, IDamageable
 
             RaycastHit hitInfo;
             if (Physics.Raycast(vistaEnredadera, out hitInfo, _forwardRange, _handleMask)) transform.forward = hitInfo.transform.forward; //Miro para la enredadera
+
+            if (IsGrounded()) 
+            {
+                ActualMove = NormalMovement;
+                actualStatePlayer = EstadoDePlayer.Normal;
+                return;
+            }
 
             Ray vistaParaSaltar = new Ray(transform.position + (dirEscalando * 1.5f), transform.forward);
             Debug.DrawRay(transform.position + (dirEscalando * 1.5f), transform.forward * _forwardRange, Color.blue);
