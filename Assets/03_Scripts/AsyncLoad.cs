@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public class AsyncLoad : MonoBehaviour
 {
     public static int sceneNumber = 0;
-    [SerializeField] private Slider _loader = default;
+    //[SerializeField] private Slider _loader = default;
+    [SerializeField] private Image _loaderImage = default;
     private AsyncOperation _asyncOperation = default;
 
     private void Start()
@@ -32,10 +33,16 @@ public class AsyncLoad : MonoBehaviour
             float progress = Mathf.Clamp01(_asyncOperation.progress / 0.9f);
             yield return null;
 
-            if (_loader)
-                _loader.value = progress;
+            //if (_loader)
+            //    _loader.value = progress;
 
-            if (_loader.value >= 1)
+            //if (_loader.value >= 1)
+            //    _asyncOperation.allowSceneActivation = true;
+
+            if (_loaderImage)
+                _loaderImage.fillAmount = progress;
+
+            if (_loaderImage.fillAmount >= 1)
                 _asyncOperation.allowSceneActivation = true;
         }
     }
