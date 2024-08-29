@@ -31,7 +31,6 @@ public class ModelBongo : Characters
     {
         base.Update();
 
-        //if (GameManager.instance.frank.stopMove) return;
         _controller.ArtificialUpdate();
     }
 
