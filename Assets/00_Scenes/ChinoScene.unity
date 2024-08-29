@@ -3403,8 +3403,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewinds: []
-  frank: {fileID: 0}
   bongo: {fileID: 0}
+  frank: {fileID: 0}
   points: []
   enemies: []
   weightSeparation: 0.5
@@ -3522,11 +3522,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 900870b0b2408de40815bd5e73e4dc57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  banana: {fileID: 0}
-  modelBanana: {fileID: 0}
-  _moveMask:
-    serializedVersion: 2
-    m_Bits: 65536
+  _secondsWaiting: 1
+  _waypoints: []
+  _maxVelocity: 7
 --- !u!23 &1509324319
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6778,6 +6776,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3251621943862304173, guid: c91865b8d83ae4347a1dc0828d6422ba,
+        type: 3}
+      propertyPath: _forwardRange
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6186927996272067328, guid: c91865b8d83ae4347a1dc0828d6422ba,
         type: 3}
       propertyPath: m_Name
