@@ -87,6 +87,7 @@ public abstract class Characters : Entity, IDamageable
     {
         if (IsGrounded())
         {
+            //if (actualStatePlayer != EstadoDePlayer.Normal) ActualMove = NormalMovement;
             _jumpGrabb = false;
             _coyoteTimeCounter = _coyoteTime;
         }
@@ -165,7 +166,7 @@ public abstract class Characters : Entity, IDamageable
 
     public void NormalMovement(Vector3 dirRaw, Vector3 dir)
     {
-        //if(actualStateBongo != EstadoDeBongo.Normal) actualStateBongo = EstadoDeBongo.Normal;
+        if(actualStatePlayer != EstadoDePlayer.Normal) actualStatePlayer = EstadoDePlayer.Normal;
 
         _dirGrabb = default;
 
