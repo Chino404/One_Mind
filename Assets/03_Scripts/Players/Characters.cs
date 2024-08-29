@@ -41,7 +41,7 @@ public abstract class Characters : Entity, IDamageable
     [Header("--> RAYCASTS")]
     [SerializeField, Range(0.1f, 3f) , Tooltip("Rango del raycast para el coyote time")] protected float _groundRange = 2;
     [SerializeField, Tooltip("Layer de objeto en donde pueda saltar")] protected LayerMask _floorLayer;
-    [SerializeField, Range(0.1f, 1f) , Tooltip("Rango del raycast para las colisiones")] protected float _forwardRange = 0.75f; //Rango para el Raycast para evitar q el PJ se pegue a la pared
+    [SerializeField, Range(0.1f, 2f) , Tooltip("Rango del raycast para las colisiones")] protected float _forwardRange = 0.75f; //Rango para el Raycast para evitar q el PJ se pegue a la pared
     [SerializeField, Tooltip("Que Layer no quiero que se acerque")] protected LayerMask _moveMask; //Para indicar q layer quierO q no se acerque mucho
     [SerializeField, Tooltip("Layer de Enredaderas u objeto a trepar")] protected LayerMask _handleMask;
     [SerializeField, Tooltip("Layer de objeto para seguir")] protected LayerMask _continueMask;
@@ -177,8 +177,7 @@ public abstract class Characters : Entity, IDamageable
 
         _dirGrabb = default;
 
-        _forceGravity = _initialForceGravity;
-        _rbCharacter.isKinematic = false;
+        //if(_rbCharacter.isKinematic) _rbCharacter.isKinematic = false;
 
         if (dirRaw.sqrMagnitude != 0)
         {
@@ -191,20 +190,25 @@ public abstract class Characters : Entity, IDamageable
                 _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
                 Rotate(dir);
             }
-
-            if (IsTouch(transform.forward * 3, _handleMask) && !_waitRay) //Si toco algo escalable, cambio de movimiento
-            {
-                //_forceGravity = 0;
-                //_rbCharacter.isKinematic = true;
-                actualStatePlayer = EstadoDePlayer.Escalando;
-                _rbCharacter.velocity = transform.up * _jumpForce;
-
-                ActualMove = HandleMovement;
-                _jumpGrabb = false;
-                return;
-            }
         }
 
+        if (IsTouch(transform.forward, _handleMask) && !_waitRay) //Si toco algo escalable, cambio de movimiento
+        {
+            Debug.LogWarning("ENREDADERA DETECTADA");
+            actualStatePlayer = EstadoDePlayer.Escalando;
+            if (IsGrounded()) _rbCharacter.velocity = transform.up * _jumpForce;
+            StartCoroutine(WaitingKinematic(true));
+
+            ActualMove = HandleMovement;
+            _jumpGrabb = false;
+            return;
+        }
+    }
+
+    IEnumerator WaitingKinematic(bool value)
+    {
+        yield return new WaitForSeconds(0.1f);
+        _rbCharacter.isKinematic = value;
     }
 
     public void HandleMovement(Vector3 dirRaw, Vector3 dir)
@@ -221,8 +225,7 @@ public abstract class Characters : Entity, IDamageable
         _animPlayer.SetFloat("xAxi", dirRaw.x);
         _animPlayer.SetFloat("yAxi", dirRaw.z);
 
-        _forceGravity = 0;
-        _rbCharacter.isKinematic = true;
+        //if(!_rbCharacter.isKinematic) _rbCharacter.isKinematic = true;
 
         if (dirRaw.sqrMagnitude != 0)
         {
@@ -237,6 +240,7 @@ public abstract class Characters : Entity, IDamageable
 
             if (IsGrounded()) 
             {
+                _rbCharacter.isKinematic = false;
                 ActualMove = NormalMovement;
                 actualStatePlayer = EstadoDePlayer.Normal;
                 return;
@@ -270,12 +274,12 @@ public abstract class Characters : Entity, IDamageable
     IEnumerator WaitingNormalMovement()
     {
         _rbCharacter.isKinematic = false;
+
         _rbCharacter.velocity = transform.up * _jumpForceAxiY * 1.5f;
         StartCoroutine(WaitRayChange());
 
         yield return new WaitForSeconds(0.1f);
 
-        _forceGravity = _initialForceGravity;
         _rbCharacter.velocity = transform.forward * 10;
 
         yield return new WaitForSeconds(0.15f);
@@ -300,10 +304,9 @@ public abstract class Characters : Entity, IDamageable
 
         if (actualStatePlayer == EstadoDePlayer.Escalando && _dirGrabb.sqrMagnitude != 0 && _stopGrabb) //Si estoy escalando
         {
-            //actualStateBongo = EstadoDeBongo.Quieto;
             //StartCoroutine(WaitRayChange());
 
-            //if (_dirGrabb.sqrMagnitude != 0 && _stopGrabb)
+            //if (_dirGrabb.sqrMagnitude != 0)
             //{
             //    StartCoroutine(WaitRayChange());
             //    ActualMove = NormalMovement;
@@ -324,7 +327,6 @@ public abstract class Characters : Entity, IDamageable
 
             _jumpGrabb = true;
             _rbCharacter.isKinematic = false;
-            _forceGravity = _initialForceGravity;
 
             //Depende la direccion de donde quiera ir, va a saltar
             if (_dirGrabb.y > 0) _rbCharacter.velocity = new Vector3(0, _dirGrabb.y * _jumpForceAxiY * 2);
@@ -356,7 +358,7 @@ public abstract class Characters : Entity, IDamageable
     IEnumerator WaitRayChange()
     {
         _waitRay = true;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         _waitRay = false;
     }
     #endregion
