@@ -52,11 +52,9 @@ public class ControllerFrank
             return;
         }
 
-        if(_dirRaw.sqrMagnitude != 0)
-        {
-            _viewFrank.Walking(true);
-            _model.Movement(_dirRaw, _dir);
-        }
+        if(_dirRaw.sqrMagnitude != 0) _viewFrank.Walking(true);
         else _viewFrank.Walking(false);
+
+        _model.Movement(_dirRaw, _dir);
     }
 }

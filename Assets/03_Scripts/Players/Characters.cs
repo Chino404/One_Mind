@@ -155,8 +155,15 @@ public abstract class Characters : Entity, IDamageable
 
     protected void ChangeSpeed()
     {
-        if (actualStatePlayer == EstadoDePlayer.Normal) _actualSpeed = _speed;
-        //if (actualStatePlayer == EstadoDePlayer.Escalando) _actualSpeed = 7;
+        if (actualStatePlayer == EstadoDePlayer.Normal)
+        {
+            _actualSpeed = _speed;
+            _animPlayer.SetLayerWeight(1, 0.0f);
+        }
+        if (actualStatePlayer == EstadoDePlayer.Escalando)
+        {
+            _animPlayer.SetLayerWeight(1, 1f);
+        }
         if (actualStatePlayer == EstadoDePlayer.Golpeando) _actualSpeed = 0;
     }
 
@@ -190,35 +197,29 @@ public abstract class Characters : Entity, IDamageable
                 //_forceGravity = 0;
                 //_rbCharacter.isKinematic = true;
                 actualStatePlayer = EstadoDePlayer.Escalando;
-
                 _rbCharacter.velocity = transform.up * _jumpForce;
-                //_rbCharacter.velocity = transform.forward * 10;
 
                 ActualMove = HandleMovement;
                 _jumpGrabb = false;
                 return;
             }
-
-            //_animPlayer.SetBool("Walk", true);
         }
 
-        //else
-        //{
-        //    _animPlayer.SetBool("Walk", false);
-        //}
     }
 
     public void HandleMovement(Vector3 dirRaw, Vector3 dir)
     {
-        //Debug.Log("estoy agarrado");
-
         _animPlayer.SetBool("Walk", false);
 
         if (actualStatePlayer == EstadoDePlayer.Normal)
         {
             StartCoroutine(WaitRayChange());
             ActualMove = NormalMovement;
+            return;
         }
+
+        _animPlayer.SetFloat("xAxi", dirRaw.x);
+        _animPlayer.SetFloat("yAxi", dirRaw.z);
 
         _forceGravity = 0;
         _rbCharacter.isKinematic = true;
@@ -255,15 +256,6 @@ public abstract class Characters : Entity, IDamageable
                 _stopGrabb = true;
                 return;
             }
-
-            //if (IsTouch(dirEscalando, _moveMask))
-            //{
-
-            //    ActualMove = NormalMovement;
-            //    actualStatePlayer = EstadoDePlayer.Normal;
-
-            //    return;
-            //}
 
             _stopGrabb = false;
             _rbCharacter.MovePosition(transform.position + dirEscalando * _actualSpeed * Time.fixedDeltaTime);

@@ -712,7 +712,7 @@ GameObject:
   - component: {fileID: 6749137423645796981}
   - component: {fileID: 7725348958634316061}
   m_Layer: 0
-  m_Name: palo
+  m_Name: BASTON
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -790,14 +790,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3280170075515057220}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0e1104fa82ad3e47a839b7302ad598f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 40
   entity: 1
-  minigunBar: {fileID: 0}
 --- !u!65 &7725348958634316061
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -815,7 +814,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.16692127, y: 2.6041772, z: 0.1669211}
   m_Center: {x: 0, y: -0.00000047683716, z: 0}
@@ -6473,6 +6472,10 @@ MonoBehaviour:
   _handleMask:
     serializedVersion: 2
     m_Bits: 2048
+  _continueMask:
+    serializedVersion: 2
+    m_Bits: 0
+  stopMove: 0
   _particleJump: {fileID: 7098621544391793395}
   _polvo: {fileID: 6630991732132879243}
 --- !u!114 &4687514614702315052

@@ -54,11 +54,9 @@ public class ControllerBongo
             return;
         }
 
-        if(_dirRaw.sqrMagnitude != 0)
-        {
-            _viewBongo.Walking(true);
-            _model.Movement(_dirRaw, _dir);
-        }
+        if(_dirRaw.sqrMagnitude != 0) _viewBongo.Walking(true);
         else _viewBongo.Walking(false);
+
+        _model.Movement(_dirRaw, _dir);
     }
 }
