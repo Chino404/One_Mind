@@ -11,8 +11,6 @@ public class NormalPunch : Hits
     private Collider _myCollider;
     private bool _action;
 
-    public MinigunBar minigunBar;
-
     private void Awake()
     {
         _myCollider = GetComponent<Collider>();
@@ -34,15 +32,11 @@ public class NormalPunch : Hits
     {
         var target = other.gameObject.GetComponent<IDamageable>();
 
-        if (target != null)
-        {
-            target.TakeDamageEntity(_damage, _entity.transform.position);
-            minigunBar.PunchEnemy();
+        if (target != null) target.TakeDamageEntity(_damage, _entity.transform.position);
 
-        }
+        var interactable = other.GetComponent<IInteractable>();
 
-        else if (other.gameObject.layer == 18)
-            minigunBar.PunchThings();
+        if (interactable != null) interactable.LeftClickAction();
     }
 
     private void ExecuteAudio()
