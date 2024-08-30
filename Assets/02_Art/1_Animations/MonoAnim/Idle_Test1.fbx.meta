@@ -111,7 +111,277 @@ ModelImporter:
   humanDescription:
     serializedVersion: 3
     human: []
-    skeleton: []
+    skeleton:
+    - name: Bongo(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Brazo_D
+      parentName: Bongo(Clone)
+      position: {x: 3.7046702, y: 6.2247496, z: -0.09494291}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.01, y: 0.01, z: 0.01}
+    - name: Brazo_Der
+      parentName: Brazo_D
+      position: {x: -0.000010498047, y: 0.000024414061, z: 0.00000035186767}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Brazo_I
+      parentName: Bongo(Clone)
+      position: {x: -3.7046676, y: 6.224752, z: -0.094942875}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.01, y: 0.01, z: 0.01}
+    - name: Brazo_Izq
+      parentName: Brazo_I
+      position: {x: -0.000003995748, y: 0.000006075078, z: -0.00000013716176}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Control_Ske
+      parentName: Bongo(Clone)
+      position: {x: -0, y: 4.8277845, z: -0.21487376}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.01, y: 0.01, z: 0.01}
+    - name: joint1
+      parentName: Control_Ske
+      position: {x: -0, y: -0.00001462093, z: -0.00000070506354}
+      rotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: joint2
+      parentName: joint1
+      position: {x: -168.83781, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: joint3
+      parentName: joint2
+      position: {x: -110.799835, y: -2.9865e-14, z: 0}
+      rotation: {x: 0.99991786, y: -0.012817353, z: -7.848365e-19, w: 6.122731e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Hombro_Der
+      parentName: joint3
+      position: {x: -67.935326, y: -138.3831, z: -7.806975}
+      rotation: {x: -0.4044722, y: 0.9145503, z: -6.908268e-18, w: 1.35768e-16}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Codo_Der
+      parentName: Hombro_Der
+      position: {x: 24.52392, y: -166.68668, z: -5.6506}
+      rotation: {x: 6.0191624e-36, y: 3.5454136e-18, z: 0.01447525, w: 0.9998953}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Mano_Der
+      parentName: Codo_Der
+      position: {x: 12.283163, y: -138.93752, z: 9.83671}
+      rotation: {x: 3.3059967e-33, y: -8.587723e-17, z: -0.36222562, w: 0.93209046}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Dedo_1_Der
+      parentName: Mano_Der
+      position: {x: 88.744995, y: -151.418, z: -10.924809}
+      rotation: {x: 0, y: 6.980795e-17, z: 0.56540024, w: 0.8248167}
+      scale: {x: 1, y: 1, z: 1}
+    - name: joint14
+      parentName: Dedo_1_Der
+      position: {x: -68.96446, y: -62.70881, z: 2.1316282e-14}
+      rotation: {x: 0.0000000061453633, y: -0.00000000421256, z: -0.56540024, w: 0.8248167}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Dedo_2_Der
+      parentName: Mano_Der
+      position: {x: 147.86401, y: -114.324, z: -17.78671}
+      rotation: {x: 0.0000000068349832, y: 0.0000000029654943, z: 0.3980219, w: 0.9173759}
+      scale: {x: 1, y: 1, z: 1}
+    - name: joint16
+      parentName: Dedo_2_Der
+      position: {x: -6.553903, y: -98.19683, z: 3.5527137e-14}
+      rotation: {x: -3.3590243e-33, y: -8.725469e-17, z: -0.3980219, w: 0.9173759}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Dedo_3_Der
+      parentName: Mano_Der
+      position: {x: 167.57, y: -64.479, z: -31.787506}
+      rotation: {x: -7.730736e-34, y: -6.372145e-17, z: 0.08352953, w: 0.9965053}
+      scale: {x: 1, y: 1, z: 1}
+    - name: joint18
+      parentName: Dedo_3_Der
+      position: {x: 85.50269, y: -29.71879, z: -7.1054274e-15}
+      rotation: {x: 0.000000007424543, y: -6.2234357e-10, z: -0.08352953, w: 0.9965053}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pulgar_Der
+      parentName: Mano_Der
+      position: {x: 9.921, y: -117.801994, z: -28.341408}
+      rotation: {x: 0.39892006, y: 0.91698575, z: 0.0000000068320762, w: 0.000000002972186}
+      scale: {x: 1, y: 1, z: 1}
+    - name: joint20
+      parentName: Pulgar_Der
+      position: {x: -4.91456, y: -69.54186, z: -0.0000010362545}
+      rotation: {x: 0.39892006, y: 0.91698575, z: 0.000000023326168, w: 0.000000004203306}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Hombro_Izq
+      parentName: joint3
+      position: {x: -60.75375, y: 141.68253, z: -7.807011}
+      rotation: {x: -0.4044722, y: 0.9145503, z: 0.00000000969051, w: -0.0000000041347064}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Codo_Izq
+      parentName: Hombro_Izq
+      position: {x: -168.48108, y: 3.410605e-13, z: -5.650646}
+      rotation: {x: 1.1798628e-17, y: 2.293091e-15, z: 0.01447525, w: 0.9998953}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Mano_Izq
+      parentName: Codo_Izq
+      position: {x: -139.47903, y: -5.684342e-13, z: 9.836724}
+      rotation: {x: 0, y: 0, z: -0.36222562, w: 0.93209046}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Dedo_1_Izq
+      parentName: Mano_Izq
+      position: {x: -88.74573, y: -151.41855, z: -10.924789}
+      rotation: {x: 2.4948532e-17, y: -4.2791873e-17, z: 0.56540024, w: 0.8248167}
+      scale: {x: 1, y: 1, z: 1}
+    - name: joint14
+      parentName: Dedo_1_Izq
+      position: {x: -93.211754, y: 1.1368684e-13, z: 7.1054274e-15}
+      rotation: {x: 0, y: 0, z: -0.56540024, w: 0.8248167}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Dedo_2_Izq
+      parentName: Mano_Izq
+      position: {x: -147.86418, y: -114.32463, z: -17.786715}
+      rotation: {x: 3.263931e-17, y: -3.7259216e-17, z: 0.3980219, w: 0.9173759}
+      scale: {x: 1, y: 1, z: 1}
+    - name: joint16
+      parentName: Dedo_2_Izq
+      position: {x: -98.41475, y: 0, z: 7.1054274e-15}
+      rotation: {x: 0, y: 0, z: -0.3980219, w: 0.9173759}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Dedo_3_Izq
+      parentName: Mano_Izq
+      position: {x: -167.5703, y: -64.479675, z: -31.787498}
+      rotation: {x: 4.284608e-17, y: -2.4855322e-17, z: 0.08352953, w: 0.9965053}
+      scale: {x: 1, y: 1, z: 1}
+    - name: joint18
+      parentName: Dedo_3_Izq
+      position: {x: -90.52042, y: -1.1368684e-13, z: 7.1054274e-15}
+      rotation: {x: 0, y: 0, z: -0.08352953, w: 0.9965053}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pulgar_Izq
+      parentName: Mano_Izq
+      position: {x: -9.921132, y: -117.802185, z: -28.341406}
+      rotation: {x: 0.39892006, y: 0.91698575, z: 8.0575994e-17, w: -3.1722376e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: joint20
+      parentName: Pulgar_Izq
+      position: {x: -69.71514, y: -1.4210855e-13, z: -1.4210855e-14}
+      rotation: {x: 0.39892006, y: 0.91698575, z: 8.0575994e-17, w: -3.1722376e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: joint4
+      parentName: joint3
+      position: {x: -102.919365, y: 2.5224267e-13, z: -3.5527137e-15}
+      rotation: {x: 0.9997138, y: -0.023924705, z: -4.39322e-18, w: 6.1144734e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: joint5
+      parentName: joint4
+      position: {x: -237.35805, y: 2.8972476, z: 0}
+      rotation: {x: 0, y: 0, z: 0.6992079, w: 0.7149185}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pierna_Der
+      parentName: joint1
+      position: {x: 34.181458, y: 122.69101, z: 7.883875}
+      rotation: {x: 2.4896578e-17, y: -1.1987954e-16, z: 0.9955288, w: 0.094458476}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Rodila_Der
+      parentName: Pierna_Der
+      position: {x: -165.77364, y: -58.299767, z: 12.586671}
+      rotation: {x: 3.2683902e-16, y: -1.313637e-15, z: 0.06428913, w: 0.9979313}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pierna_Der
+      parentName: Rodila_Der
+      position: {x: -165.78333, y: -21.65974, z: -19.80497}
+      rotation: {x: 0, y: 0, z: 0.0075542987, w: 0.9999715}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Dedo_Pie_Der
+      parentName: Pierna_Der
+      position: {x: -66.35902, y: -12.639895, z: 161.0328}
+      rotation: {x: 0, y: 0, z: -0.69086623, w: 0.7229826}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pierna_Izq
+      parentName: joint1
+      position: {x: 34.181, y: -122.690926, z: 7.8838954}
+      rotation: {x: -1.90646e-18, y: -1.2242268e-16, z: 0.9955288, w: 0.094458476}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Rodila_Izq
+      parentName: Pierna_Izq
+      position: {x: -175.5845, y: -7.0670233, z: 12.586655}
+      rotation: {x: 2.6408401e-17, y: -4.493392e-15, z: 0.06428913, w: 0.9979313}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pierna_Izq
+      parentName: Rodila_Izq
+      position: {x: -167.18564, y: 1.4806573, z: -19.804949}
+      rotation: {x: 0, y: 0, z: 0.0075542987, w: 0.9999715}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Dedo_Pie_Izq
+      parentName: Pierna_Izq
+      position: {x: -67.46973, y: -0.16585074, z: 161.03275}
+      rotation: {x: 0, y: 0, z: -0.69086623, w: 0.7229826}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Low
+      parentName: Bongo(Clone)
+      position: {x: -4.559493, y: -657.4651, z: 8.891033}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.01, y: 0.01, z: 0.01}
+    - name: Armeras
+      parentName: Low
+      position: {x: -4.6055484, y: -664.1062, z: 8.980841}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Mochila
+      parentName: Low
+      position: {x: -4.6055484, y: -664.1062, z: 8.980841}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: polySurface69
+      parentName: Low
+      position: {x: -4.6055484, y: -664.1062, z: 8.980841}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pierna_D
+      parentName: Bongo(Clone)
+      position: {x: 1.6036398, y: 1.08027, z: -0.20821802}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.01, y: 0.01, z: 0.01}
+    - name: Pierna_Der
+      parentName: Pierna_D
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pierna_Der
+      parentName: Pierna_Der
+      position: {x: 0.000001586914, y: -0.00000042724614, z: 0.0000002319336}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pierna_Izq
+      parentName: Pierna_D
+      position: {x: -0, y: 0, z: 3.5527137e-15}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pierna_Izq1
+      parentName: Pierna_Izq
+      position: {x: 0.0000014567837, y: 0.000003572476, z: -0.0000006978698}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pierna_I
+      parentName: Bongo(Clone)
+      position: {x: -1.6036443, y: 1.0802723, z: -0.20821771}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.01, y: 0.01, z: 0.01}
+    - name: Pierna_Izq
+      parentName: Pierna_I
+      position: {x: -0, y: 0, z: 1.0658141e-14}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pierna_Izq1
+      parentName: Pierna_Izq
+      position: {x: 0.0000014567837, y: 0.000003572476, z: -0.0000006978698}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Zapatillas
+      parentName: Bongo(Clone)
+      position: {x: -0, y: 0.8285753, z: 0.780756}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.01, y: 0.01, z: 0.01}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
@@ -122,9 +392,9 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: f9c30308eff3a36499772b62d54aa991,
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: bc1253b0c430e154f941fb3f66e52763,
     type: 3}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
