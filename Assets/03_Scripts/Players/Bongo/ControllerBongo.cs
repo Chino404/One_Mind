@@ -48,11 +48,11 @@ public class ControllerBongo
 
     public void ListenFixedKeys()
     {
-        if (GameManager.instance.frank.stopMove /*|| _model.stopMove*/)
-        {
-            _viewBongo.Walking(false);
-            return;
-        }
+        //if (GameManager.instance.frank.stopMove /*|| _model.stopMove*/)
+        //{
+        //    _viewBongo.Walking(false);
+        //    return;
+        //}
 
         if(_dirRaw.sqrMagnitude != 0) _viewBongo.Walking(true);
         else _viewBongo.Walking(false);
