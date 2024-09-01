@@ -12,13 +12,31 @@ public class DualPressurePlate : MonoBehaviour, IInteractable
     private bool _pressed;
     public bool Pressed { get { return _pressed; } }
 
-    public void Desinteract()
+    private void Start()
     {
-        throw new System.NotImplementedException();
+        if (_otherDualPressurePlate == null) Debug.LogWarning($"Falta referencia de la otra placa de presión en: {gameObject.name}");
+        if (_objectToInteract == null) Debug.LogWarning($"Falta objeto para interactuar en: {gameObject.name}");
     }
 
     public void Interact()
     {
-        
+        _pressed = true;
+
+        if(_otherDualPressurePlate != null && _otherDualPressurePlate.Pressed)
+        {
+            _otherDualPressurePlate.ActionDualPressurePlate();
+
+            ActionDualPressurePlate();
+        }
+    }
+
+    public void ActionDualPressurePlate()
+    {
+        if(_objectToInteract != null)_objectToInteract.gameObject.SetActive(false);
+    }
+
+    public void Disconnect()
+    {
+        _pressed = false;
     }
 }

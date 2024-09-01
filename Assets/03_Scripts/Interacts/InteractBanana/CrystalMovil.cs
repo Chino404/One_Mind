@@ -6,7 +6,7 @@ public class CrystalMovil : MonoBehaviour, IInteractable
 {
     private bool _isObjectAttached;
 
-    public void Desinteract()
+    public void Disconnect()
     {
         
     }

@@ -54,7 +54,7 @@ public class BlueCrystal : MonoBehaviour, IInteractable
         }
     }
 
-    public void Desinteract()
+    public void Disconnect()
     {
         
     }
