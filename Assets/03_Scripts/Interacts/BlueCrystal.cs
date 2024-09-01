@@ -10,7 +10,7 @@ public class BlueCrystal : MonoBehaviour, IInteractable
     public BaseBlueCrystal baseCrystal;
     
 
-    public void LeftClickAction()
+    public void Interact()
     {
         if (!_canActivate) return;
         baseCrystal.SpawnPath();
@@ -30,10 +30,10 @@ public class BlueCrystal : MonoBehaviour, IInteractable
             transform.SetParent(parent);
             _isObjectAttached = true;
         }
-        else if (_isObjectAttached)
-        {
-            ReleaseObject();
-        }
+        //else if (_isObjectAttached)
+        //{
+        //    ReleaseObject();
+        //}
     }
     
     private void OnTriggerEnter(Collider collision)
@@ -54,4 +54,8 @@ public class BlueCrystal : MonoBehaviour, IInteractable
         }
     }
 
+    public void Desinteract()
+    {
+        
+    }
 }

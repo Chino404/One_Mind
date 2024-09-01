@@ -395,6 +395,13 @@ public abstract class Characters : Entity, IDamageable
     }
     #endregion
 
+    private void OnTriggerEnter(Collider other)
+    {
+        var interact = other.gameObject.GetComponent<IInteractable>();
+
+        if (interact != null) interact.Interact();
+    }
+
     #region DAMAGE / LIFE
     public void TakeDamageEntity(float dmg, Vector3 target)
     {

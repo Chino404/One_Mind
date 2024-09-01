@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class GreenCrystal : MonoBehaviour, IInteractable
 {
-    public void LeftClickAction()
+    public void Desinteract()
+    {
+        
+    }
+
+    public void Interact()
     {
         Debug.Log("hago accion");
         gameObject.SetActive(false);
