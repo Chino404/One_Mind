@@ -22,6 +22,13 @@ public class AsyncLoad : MonoBehaviour
         StartCoroutine(AsyncCharge());
     }
 
+    private void Update()
+    {
+        if(_asyncOperation.allowSceneActivation==false)
+            _loaderImage.GetComponent<RectTransform>().Rotate(0f, 0f, -200f * Time.deltaTime);
+
+    }
+
     IEnumerator AsyncCharge()
     {
         _asyncOperation = SceneManager.LoadSceneAsync(sceneNumber);
@@ -30,8 +37,9 @@ public class AsyncLoad : MonoBehaviour
 
         while (!_asyncOperation.isDone)
         {
-            float progress = Mathf.Clamp01(_asyncOperation.progress / 0.9f);
-            yield return null;
+
+            //float progress = Mathf.Clamp01(_asyncOperation.progress / 0.9f);
+            //yield return null;
 
             //if (_loader)
             //    _loader.value = progress;
@@ -39,10 +47,13 @@ public class AsyncLoad : MonoBehaviour
             //if (_loader.value >= 1)
             //    _asyncOperation.allowSceneActivation = true;
 
-            if (_loaderImage)
-                _loaderImage.fillAmount = progress;
+            //if (_loaderImage)
+            //    _loaderImage.fillAmount = progress;
 
-            if (_loaderImage.fillAmount >= 1)
+            //if (_loaderImage.fillAmount >= 1)
+
+
+            yield return new WaitForSeconds(2f);
                 _asyncOperation.allowSceneActivation = true;
         }
     }
