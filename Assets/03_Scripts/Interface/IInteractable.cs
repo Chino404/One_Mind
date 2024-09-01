@@ -4,7 +4,10 @@ using UnityEngine;
 
 public interface IInteractable 
 {
-    public void LeftClickAction();
-    public void RightClickAction(Transform parent);
-    public void ReleaseObject();
+    public void Interact();
+    public void Desinteract();
+
+
+    //public void RightClickAction(Transform parent);
+    //public void ReleaseObject();
 }

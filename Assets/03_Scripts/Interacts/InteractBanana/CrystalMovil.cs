@@ -5,7 +5,13 @@ using UnityEngine;
 public class CrystalMovil : MonoBehaviour, IInteractable
 {
     private bool _isObjectAttached;
-    public void LeftClickAction()
+
+    public void Desinteract()
+    {
+        
+    }
+
+    public void Interact()
     {
         
     }

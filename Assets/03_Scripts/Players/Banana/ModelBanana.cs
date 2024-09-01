@@ -53,8 +53,7 @@ public class ModelBanana : Characters
     private void OnDisable()
     {
 
-        if (children != null)
-        children.ReleaseObject();
+        //if (children != null)children.ReleaseObject();
         //_visorImage.gameObject.SetActive(false);
     }
 
@@ -76,7 +75,7 @@ public class ModelBanana : Characters
         //}
     }
 
-    private void FixedUpdate()
+    public override void FixedUpdate()
     {
         //if (!IsGrounded()) _rbCharacter.MovePosition(_rbCharacter.position - _rbCharacter.transform.up * _forceGravity * Time.fixedDeltaTime);
         //if (!IsGrounded() && !_jumping)
@@ -108,20 +107,20 @@ public class ModelBanana : Characters
     public void MoveObjects()
     {
         Ray ray = new Ray(transform.position, Vector3.down);
-        RaycastHit hit;
+        //RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, Vector3.down, out hit))
-        {
-            var interactable = hit.transform.GetComponent<IInteractable>();
-            if (interactable != null)
-            {
-                interactable.RightClickAction(transform);
-                children = interactable;
-            }
-            else if (interactable == null && children != null)
-                children.ReleaseObject();
+        //if (Physics.Raycast(transform.position, Vector3.down, out hit))
+        //{
+        //    var interactable = hit.transform.GetComponent<IInteractable>();
+        //    if (interactable != null)
+        //    {
+        //        interactable.RightClickAction(transform);
+        //        children = interactable;
+        //    }
+        //    //else if (interactable == null && children != null)
+        //    //    children.ReleaseObject();
                 
-        }
+        //}
     }
 
     //IEnumerator AnimVisor()
