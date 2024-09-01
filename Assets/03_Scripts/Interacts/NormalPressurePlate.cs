@@ -29,8 +29,8 @@ public class NormalPressurePlate : MonoBehaviour, IInteractable
         }
     }
 
-    public void Desinteract()
+    public void Disconnect()
     {
-        throw new System.NotImplementedException();
+        
     }
 }

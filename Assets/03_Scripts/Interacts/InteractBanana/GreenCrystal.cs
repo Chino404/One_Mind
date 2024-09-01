@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GreenCrystal : MonoBehaviour, IInteractable
 {
-    public void Desinteract()
+    public void Disconnect()
     {
         
     }
