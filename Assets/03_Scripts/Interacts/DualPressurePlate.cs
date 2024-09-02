@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DualPressurePlate : MonoBehaviour, IInteractable
+public class DualPressurePlate : MonoBehaviour, IPress
 {
     [Header("PARAMETERS")]
     [Space(5)]
     [SerializeField,Tooltip("Colocar la otra placa de presion en la cual va a estar vinculada")] private DualPressurePlate _otherDualPressurePlate;
     [SerializeField, Tooltip("Objeto al que se le va a ejecutar una acción")] private GameObject _objectToInteract;
 
-    private bool _pressed;
-    public bool Pressed { get { return _pressed; } }
+    private bool _active;
+    public bool Active { get { return _active; } }
 
     private void Start()
     {
@@ -18,11 +18,11 @@ public class DualPressurePlate : MonoBehaviour, IInteractable
         if (_objectToInteract == null) Debug.LogWarning($"Falta objeto para interactuar en: {gameObject.name}");
     }
 
-    public void Interact()
+    public void Pressed()
     {
-        _pressed = true;
+        _active = true;
 
-        if(_otherDualPressurePlate != null && _otherDualPressurePlate.Pressed)
+        if (_otherDualPressurePlate != null && _otherDualPressurePlate.Active)
         {
             _otherDualPressurePlate.ActionDualPressurePlate();
 
@@ -35,8 +35,8 @@ public class DualPressurePlate : MonoBehaviour, IInteractable
         if(_objectToInteract != null)_objectToInteract.gameObject.SetActive(false);
     }
 
-    public void Disconnect()
+    public void Depressed()
     {
-        _pressed = false;
+        _active = false;
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NormalPressurePlate : MonoBehaviour, IInteractable
+public class NormalPressurePlate : MonoBehaviour, IPress
 {
     [Header("OBJECTS TO...")]
     [Space(5),SerializeField] private GameObject[] _active;
@@ -16,8 +16,9 @@ public class NormalPressurePlate : MonoBehaviour, IInteractable
         }
     }
 
-    public void Interact()
+    public void Pressed()
     {
+        
         for (int i = 0; i < _active.Length; i++)
         {
             _active[i].gameObject.SetActive(true);
@@ -29,7 +30,7 @@ public class NormalPressurePlate : MonoBehaviour, IInteractable
         }
     }
 
-    public void Disconnect()
+    public void Depressed()
     {
         
     }
