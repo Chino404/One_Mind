@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 
 public class CameraTracker : MonoBehaviour
@@ -47,10 +48,12 @@ public class CameraTracker : MonoBehaviour
 
         transform.position = _point.position;
 
-        if(characterTarget == CharacterTarget.Bongo) _target = GameManager.instance.bongo.transform;
-        else if (characterTarget == CharacterTarget.Frank) _target = GameManager.instance.frank.transform;
+        if (characterTarget == CharacterTarget.Bongo) _target = GameManager.instance.bongo.transform;
+
+        else if (characterTarget == CharacterTarget.Frank)_target = GameManager.instance.frank.transform;
 
         if (_target == null) Debug.LogError("FALTA TARGET");
+        else gameObject.GetComponent<CameraTransparency>().target = _target;
 
     }
 
