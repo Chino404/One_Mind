@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Timeline.TimelineAsset;
 
 public class TransparencyMaterial : MonoBehaviour
 {
@@ -10,14 +9,14 @@ public class TransparencyMaterial : MonoBehaviour
     private bool _action;
 
     private Color _iniColor;
-    private Color _endColor;
+    [SerializeField, Tooltip("Agregar los objetos en donde se van a activar junto a este la transparencia")] private TransparencyMaterial[] _gruopObjetTransparency;
+    [SerializeField, Range(0,1f)] private float _valueAlpha = 0.1f;
 
     private void Start()
     {
         _material = GetComponent<Renderer>().material;
 
         _iniColor = _material.color;
-        _endColor.a = 0;
     }
 
     /// <summary>
@@ -29,6 +28,11 @@ public class TransparencyMaterial : MonoBehaviour
         {
             _action = true;
             StartCoroutine(InterpolateFade(t));
+
+            for (int i = 0; i < _gruopObjetTransparency.Length; i++)
+            {
+                _gruopObjetTransparency[i].Fade(t); 
+            }
         }
     }
 
@@ -42,7 +46,7 @@ public class TransparencyMaterial : MonoBehaviour
             float t = elapsedTime / durationFade;
 
             // Interpolar el valor alfa
-            float alpha = Mathf.Lerp(_iniColor.a, _endColor.a, t);
+            float alpha = Mathf.Lerp(_iniColor.a, _valueAlpha, t);
 
             // Crear un nuevo color con el alfa interpolado, manteniendo los valores RGB originales
             _material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, alpha);
@@ -51,7 +55,7 @@ public class TransparencyMaterial : MonoBehaviour
         }
 
         // Asegúrate de que el color final sea el correcto
-        _material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, _endColor.a);
+        _material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, _valueAlpha);
     }
 
 
@@ -65,6 +69,11 @@ public class TransparencyMaterial : MonoBehaviour
         {
             _action = false;
             StartCoroutine(InterpolateVisible(t));
+
+            for (int i = 0; i < _gruopObjetTransparency.Length; i++)
+            {
+                _gruopObjetTransparency[i].Appear(t);
+            }
         }
     }
 
@@ -78,7 +87,7 @@ public class TransparencyMaterial : MonoBehaviour
             float t = elapsedTime / durationFade;
 
             // Interpolar el valor alfa
-            float alpha = Mathf.Lerp(_endColor.a, _iniColor.a, t);
+            float alpha = Mathf.Lerp(_valueAlpha, _iniColor.a, t);
 
             // Crear un nuevo color con el alfa interpolado, manteniendo los valores RGB originales
             _material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, alpha);

@@ -35,7 +35,7 @@ public class AsyncLoad : MonoBehaviour
         _asyncOperation.allowSceneActivation = false;
         Application.backgroundLoadingPriority = ThreadPriority.High;
 
-        while (!_asyncOperation.isDone)
+        while (_asyncOperation.progress < .9f)
         {
 
             //float progress = Mathf.Clamp01(_asyncOperation.progress / 0.9f);
@@ -52,9 +52,9 @@ public class AsyncLoad : MonoBehaviour
 
             //if (_loaderImage.fillAmount >= 1)
 
-
+            yield return null;
+        }
             yield return new WaitForSeconds(2f);
                 _asyncOperation.allowSceneActivation = true;
-        }
     }
 }
