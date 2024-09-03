@@ -8,6 +8,8 @@ public class NormalPressurePlate : MonoBehaviour, IPress
     [Space(5),SerializeField] private GameObject[] _active;
     [SerializeField] private GameObject[] _deactive;
 
+    private bool _pressed;
+
     private void Start()
     {
         for (int i = 0; i < _active.Length; i++)
@@ -18,15 +20,18 @@ public class NormalPressurePlate : MonoBehaviour, IPress
 
     public void Pressed()
     {
-        
-        for (int i = 0; i < _active.Length; i++)
+        if(!_pressed)
         {
-            _active[i].gameObject.SetActive(true);
-        }
+            _pressed = true;
+            for (int i = 0; i < _active.Length; i++)
+            {
+                _active[i].gameObject.SetActive(true);
+            }
 
-        for (int i = 0; i < _deactive.Length; i++)
-        {
-            _deactive[i].gameObject.SetActive(false);
+            for (int i = 0; i < _deactive.Length; i++)
+            {
+                _deactive[i].gameObject.SetActive(false);
+            }
         }
     }
 
