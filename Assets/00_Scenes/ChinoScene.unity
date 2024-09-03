@@ -3367,6 +3367,7 @@ GameObject:
   - component: {fileID: 1176892464}
   - component: {fileID: 1176892463}
   - component: {fileID: 1176892462}
+  - component: {fileID: 1176892465}
   m_Layer: 8
   m_Name: Wall
   m_TagString: Untagged
@@ -3460,6 +3461,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1176892460}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1176892465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1176892460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b2e23b28a4bed34090ab6d2a0759de6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1244944355
 GameObject:
   m_ObjectHideFlags: 0
@@ -7449,6 +7462,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4385085868586446532, guid: 2cbeb14f20621a64484f2d9ecf7376dc,
         type: 3}
+      propertyPath: _durationFade
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385085868586446532, guid: 2cbeb14f20621a64484f2d9ecf7376dc,
+        type: 3}
       propertyPath: _maskTransparent.m_Bits
       value: 256
       objectReference: {fileID: 0}
@@ -7516,6 +7534,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_BackGroundColor.r
       value: 0.115521535
+      objectReference: {fileID: 0}
+    - target: {fileID: 6707459977903647063, guid: 2cbeb14f20621a64484f2d9ecf7376dc,
+        type: 3}
+      propertyPath: _durationFade
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 6707459977903647063, guid: 2cbeb14f20621a64484f2d9ecf7376dc,
         type: 3}
