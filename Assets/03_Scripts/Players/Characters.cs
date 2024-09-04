@@ -158,11 +158,11 @@ public abstract class Characters : Entity, IDamageable
         if (actualStatePlayer == EstadoDePlayer.Normal)
         {
             _actualSpeed = _speed;
-            _animPlayer.SetLayerWeight(1, 0.0f);
+            //_animPlayer.SetLayerWeight(1, 0.0f);
         }
         if (actualStatePlayer == EstadoDePlayer.Escalando)
         {
-            _animPlayer.SetLayerWeight(1, 1f);
+            //_animPlayer.SetLayerWeight(1, 1f);
         }
         if (actualStatePlayer == EstadoDePlayer.Golpeando) _actualSpeed = 0;
     }

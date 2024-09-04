@@ -25,7 +25,7 @@ public class ControllerFrank
 
         if (Input.GetButtonDown("Jump")) _model.Jump();
 
-        if (Input.GetMouseButtonDown(1)) _model.Attack();
+        //if (Input.GetMouseButtonDown(1)) _model.Attack();
 
         _dirRaw.x = Input.GetAxisRaw("Horizontal");
         _dirRaw.z = Input.GetAxisRaw("Vertical");
