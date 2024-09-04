@@ -88,6 +88,7 @@ public abstract class Characters : Entity, IDamageable
         if (IsGrounded())
         {
             //if (actualStatePlayer != EstadoDePlayer.Normal) ActualMove = NormalMovement;
+            _animPlayer?.SetTrigger("IsGrounded");
             _jumpGrabb = false;
             _coyoteTimeCounter = _coyoteTime;
         }
