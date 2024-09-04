@@ -8,19 +8,33 @@ public class DualPressurePlate : MonoBehaviour, IPress
     [Space(5)]
     [SerializeField,Tooltip("Colocar la otra placa de presion en la cual va a estar vinculada")] private DualPressurePlate _otherDualPressurePlate;
     [SerializeField, Tooltip("Objeto al que se le va a ejecutar una acción")] private GameObject _objectToInteract;
+    [SerializeField, Tooltip("Objetos que sirven para indicar que esta placa de presion fue activada")] private Light[] _indicators;
 
     private bool _active;
     public bool Active { get { return _active; } }
 
-    private void Start()
+    private bool _actionCompleted = false;
+
+    private void Awake()
     {
         if (_otherDualPressurePlate == null) Debug.LogWarning($"Falta referencia de la otra placa de presión en: {gameObject.name}");
         if (_objectToInteract == null) Debug.LogWarning($"Falta objeto para interactuar en: {gameObject.name}");
+
+        for (int i = 0; i < _indicators.Length; i++)
+        {
+            _indicators[i].gameObject.SetActive(false);
+        }
     }
+
 
     public void Pressed()
     {
         _active = true;
+
+        for (int i = 0; i < _indicators.Length; i++)
+        {
+            _indicators[i].gameObject.SetActive(true);
+        }
 
         if (_otherDualPressurePlate != null && _otherDualPressurePlate.Active)
         {
@@ -32,11 +46,25 @@ public class DualPressurePlate : MonoBehaviour, IPress
 
     public void ActionDualPressurePlate()
     {
-        if(_objectToInteract != null)_objectToInteract.gameObject.SetActive(false);
+
+        if (_objectToInteract != null)
+        {
+            _objectToInteract.gameObject.SetActive(false);
+            _actionCompleted = true;
+        }
+
     }
 
     public void Depressed()
     {
+        if (_actionCompleted) return;
+
         _active = false;
+
+        for (int i = 0; i < _indicators.Length; i++)
+        {
+            _indicators[i].gameObject.SetActive(false);
+        }
+
     }
 }
