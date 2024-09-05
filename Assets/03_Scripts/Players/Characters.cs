@@ -59,6 +59,7 @@ public abstract class Characters : Entity, IDamageable
     public event MyDelegate _actualMove;
     public MyDelegate ActualMove { get { return _actualMove; } set { _actualMove = value; } }
 
+    [HideInInspector]public CheckPoint actualCheckpoint;
 
     public override void Awake()
     {
@@ -454,8 +455,18 @@ public abstract class Characters : Entity, IDamageable
         if (!_currentState.IsRemember()) return;
 
         var col = _currentState.Remember();
-        transform.position = (Vector3)col.parameters[0];
-        transform.rotation = (Quaternion)col.parameters[1];
+        if (actualCheckpoint != null)
+        {
+            transform.position = actualCheckpoint.spawnPoint.position;
+            transform.rotation = actualCheckpoint.spawnPoint.rotation;
+        }
+        else
+        {
+            transform.position = (Vector3)col.parameters[0];
+            transform.rotation = (Quaternion)col.parameters[1];
+        }
+
+
         _actualLife = (float)col.parameters[2];
         actualStatePlayer = (EstadoDePlayer)col.parameters[3];
         _rbCharacter.isKinematic = false;

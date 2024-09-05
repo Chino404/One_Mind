@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public List<Rewind> rewinds;
+    
 
     [Header("Characters")]
     public ModelBongo bongo;
