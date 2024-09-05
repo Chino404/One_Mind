@@ -6,15 +6,25 @@ public class NormalPressurePlate : MonoBehaviour, IPress
 {
     [Header("OBJECTS TO...")]
     [Space(5),SerializeField] private GameObject[] _active;
-    [SerializeField] private GameObject[] _deactive;
+    [SerializeField] private GameObject[] _desactive;
+
+    private Animator _animator;
 
     private bool _pressed;
+
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+    }
 
     private void Start()
     {
         for (int i = 0; i < _active.Length; i++)
         {
-            if (_active[i].activeInHierarchy) _active[i].gameObject.SetActive(false);
+            if (_active[i].activeInHierarchy) //Si los objetos a activar estan activos en la jerarquia, los apago
+            {
+                _active[i].gameObject.SetActive(false);
+            }
         }
     }
 
@@ -23,20 +33,27 @@ public class NormalPressurePlate : MonoBehaviour, IPress
         if(!_pressed)
         {
             _pressed = true;
-            for (int i = 0; i < _active.Length; i++)
+            _animator?.SetTrigger("Pressed");
+
+            for (int i = 0; i < _active.Length; i++) //Activo los objetos
             {
                 _active[i].gameObject.SetActive(true);
+
+                _active[i].gameObject.GetComponent<WallHolograph>().Active();
             }
 
-            for (int i = 0; i < _deactive.Length; i++)
+            for (int i = 0; i < _desactive.Length; i++) //Desactivo los objetos
             {
-                _deactive[i].gameObject.SetActive(false);
+                //_deactive[i].gameObject.SetActive(false);
+
+                _desactive[i].gameObject.GetComponent<WallHolograph>().Desactive();
+
             }
         }
     }
 
     public void Depressed()
     {
-        
+
     }
 }

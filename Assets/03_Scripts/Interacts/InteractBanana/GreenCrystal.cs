@@ -9,7 +9,7 @@ public class GreenCrystal : MonoBehaviour, IInteractable
         
     }
 
-    public void Interact()
+    public void Action()
     {
         Debug.Log("hago accion");
         gameObject.SetActive(false);

@@ -36,7 +36,7 @@ public class NormalPunch : Hits
 
         var interactable = other.GetComponent<IInteractable>();
 
-        if (interactable != null) interactable.Interact();
+        if (interactable != null) interactable.Action();
     }
 
     private void ExecuteAudio()
