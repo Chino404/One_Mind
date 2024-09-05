@@ -27,7 +27,7 @@ public abstract class Characters : Entity, IDamageable
     protected float _initialForceGravity;
     [SerializeField, Tooltip("Fuerza de salto normal")] protected float _jumpForce = 25f;
     [SerializeField, Range(0, 0.4f), Tooltip("Tiempo para saltar cuando dejo de tocar el suelo")] protected float _coyoteTime = 0.15f;
-    protected float _coyoteTimeCounter;
+    [SerializeField]protected float _coyoteTimeCounter;
     [SerializeField, Tooltip("Daño de golpe")] protected int _normalDamage = 1;
     protected Vector3 _launchDir;
 
