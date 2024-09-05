@@ -10,7 +10,7 @@ public class BlueCrystal : MonoBehaviour, IInteractable
     public BaseBlueCrystal baseCrystal;
     
 
-    public void Interact()
+    public void Action()
     {
         if (!_canActivate) return;
         baseCrystal.SpawnPath();

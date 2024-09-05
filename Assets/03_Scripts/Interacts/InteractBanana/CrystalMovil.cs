@@ -11,7 +11,7 @@ public class CrystalMovil : MonoBehaviour, IInteractable
         
     }
 
-    public void Interact()
+    public void Action()
     {
         
     }
