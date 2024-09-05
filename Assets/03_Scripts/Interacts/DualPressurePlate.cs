@@ -7,7 +7,7 @@ public class DualPressurePlate : MonoBehaviour, IPress
     [Header("PARAMETERS")]
     [Space(5)]
     [SerializeField,Tooltip("Colocar la otra placa de presion en la cual va a estar vinculada")] private DualPressurePlate _otherDualPressurePlate;
-    [SerializeField, Tooltip("Objeto al que se le va a ejecutar una acción")] private GameObject _objectToInteract;
+    [SerializeField, Tooltip("Puerta al que se le va a ejecutar una acción")] private DualDoor _objectToInteract;
     [SerializeField, Tooltip("Objetos que sirven para indicar que esta placa de presion fue activada")] private Light[] _indicators;
 
     private bool _active;
@@ -49,7 +49,10 @@ public class DualPressurePlate : MonoBehaviour, IPress
 
         if (_objectToInteract != null)
         {
-            _objectToInteract.gameObject.SetActive(false);
+            //_objectToInteract.gameObject.SetActive(false);
+
+            _objectToInteract.OpenTheDoor();
+
             _actionCompleted = true;
         }
 

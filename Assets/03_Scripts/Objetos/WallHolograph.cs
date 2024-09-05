@@ -8,7 +8,7 @@ public class WallHolograph : MonoBehaviour
     [SerializeField, Range(0, 1f)] private float _valueOpacity = 1;
     private int _IdOpacity = Shader.PropertyToID("_Opacity");
 
-    [SerializeField] private Animator _animator;
+    private Animator _animator;
 
     public bool isActive;
 
