@@ -10,8 +10,6 @@ public class WallHolograph : MonoBehaviour
 
     private Animator _animator;
 
-    public bool isActive;
-
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -32,7 +30,7 @@ public class WallHolograph : MonoBehaviour
     {
         //gameObject.SetActive(true);
         _animator.SetTrigger("Desactive");
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.25f);
         _animator.SetTrigger("Active");
 
     }
@@ -44,8 +42,19 @@ public class WallHolograph : MonoBehaviour
 
     IEnumerator timeToDesactive()
     {
-        _animator.SetTrigger("Desactive");
-        yield return new WaitForSeconds(1.0f);
+
+        var timer = 0f;
+
+        while (timer < 0.25f)
+        {
+            timer += Time.deltaTime;
+            float t = timer / 0.25f;
+            _valueOpacity = Mathf.Lerp(1, 0, t);
+            yield return null;
+        }
+
+        //_animator.SetTrigger("Desactive");
+        //yield return new WaitForSeconds(0.25f);
         gameObject.SetActive(false);
     }
 }
