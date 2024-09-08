@@ -13,6 +13,7 @@ public class CameraTracker : MonoBehaviour
 
     [Header("Components")]
     [SerializeField] private Transform _point;
+    public Transform Point {  get { return _point; } }
 
     [SerializeField]private Transform _target;
 
