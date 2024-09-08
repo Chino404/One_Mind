@@ -137,7 +137,7 @@ public abstract class Characters : Entity, IDamageable
 
         Debug.DrawLine(pos, pos + (dir * dist));
 
-        return Physics.Raycast(pos, dir, out RaycastHit hit, dist, _floorLayer);
+        return Physics.Raycast(pos, dir, out RaycastHit hit, _groundRange, _floorLayer);
     }
 
     #endregion
