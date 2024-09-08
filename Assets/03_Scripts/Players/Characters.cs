@@ -7,8 +7,9 @@ public enum EstadoDePlayer
 {
     Normal,
     Escalando,
-    Golpeando,
+    Golpeando
 }
+
 public abstract class Characters : Entity, IDamageable
 {
     protected Rigidbody _rbCharacter;
