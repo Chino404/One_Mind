@@ -50,6 +50,7 @@ public class TransparencyMaterial : MonoBehaviour
 
             // Crear un nuevo color con el alfa interpolado, manteniendo los valores RGB originales
             _material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, alpha);
+           
 
             yield return null;
         }
