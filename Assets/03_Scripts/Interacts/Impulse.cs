@@ -22,7 +22,7 @@ public class Impulse : MonoBehaviour
 
             _animator.SetTrigger("Interact");
 
-            AudioManager.instance.PlaySFX(AudioManager.instance.mushroom);
+            OldAudioManager.instance.PlaySFX(OldAudioManager.instance.mushroom);
             
             rb.velocity = transform.up * _force;
         }

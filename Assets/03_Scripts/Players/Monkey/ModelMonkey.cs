@@ -93,7 +93,7 @@ public class ModelMonkey : Characters, ICure
 
         if (IsGrounded())
         {
-            _jumpGrabb = false;
+            _isJumpGrabb = false;
             _coyoteTimeCounter = _coyoteTime;
         }
         else _coyoteTimeCounter -= Time.deltaTime;

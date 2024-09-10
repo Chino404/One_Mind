@@ -25,7 +25,7 @@ public class ExplosiveInsect : Rewind, IExplosion
 
     public void Execute()
     {
-        AudioManager.instance.PlaySFX(AudioManager.instance.explosion);
+        OldAudioManager.instance.PlaySFX(OldAudioManager.instance.explosion);
         _particles.Explode();
         _point.action = false;
         gameObject.SetActive(false);
