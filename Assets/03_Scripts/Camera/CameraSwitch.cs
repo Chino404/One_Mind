@@ -6,15 +6,15 @@ using UnityEngine;
 public class CameraSwitch : MonoBehaviour
 {
     [Header("Componet")]
-    private CameraTracker _tracker;
+    [SerializeField]private CameraTracker _tracker;
     [Tooltip("Hacia donde se va a mover la cámara")]public Transform goTo;
     private Transform _backTo;
     [SerializeField] private bool _backToPosition;
 
-    private void Start()
-    {
-        _tracker = CameraTracker.Instance;
-    }
+    //private void Start()
+    //{
+    //    _tracker = CameraTracker.Instance;
+    //}
 
     private void OnTriggerEnter(Collider other)
     {

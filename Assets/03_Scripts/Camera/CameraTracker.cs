@@ -15,7 +15,7 @@ public class CameraTracker : MonoBehaviour
     [SerializeField] private Transform _point;
     public Transform Point {  get { return _point; } }
 
-    [SerializeField]private Transform _target;
+    private Transform _target;
 
     [Header("Smoothing Values")]
     [Range(0.01f, 0.125f)] [SerializeField] float _smoothSpeedPosition = 0.075f;
