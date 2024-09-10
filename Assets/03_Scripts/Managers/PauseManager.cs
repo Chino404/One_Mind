@@ -95,7 +95,7 @@ public class PauseManager : MonoBehaviour
     public void PauseGame()
     {
         pauseMenu.gameObject.SetActive(true);
-        OldAudioManager.instance.StopAll();
+        //OldAudioManager.instance.StopAll();
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         Time.timeScale = 0;
