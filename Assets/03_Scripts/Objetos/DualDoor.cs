@@ -13,6 +13,7 @@ public class DualDoor : MonoBehaviour
 
     public void OpenTheDoor()
     {
+        AudioManager.instance.PlaySFX(AudioManager.instance.doorOpen);
         _animator.SetTrigger("Open");
     }
 }

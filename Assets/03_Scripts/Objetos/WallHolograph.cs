@@ -38,6 +38,7 @@ public class WallHolograph : MonoBehaviour
     public void Desactive()
     {
         StartCoroutine(timeToDesactive());
+        AudioManager.instance.PlaySFX(AudioManager.instance.wallHoloraphActive);
     }
 
     IEnumerator timeToDesactive()

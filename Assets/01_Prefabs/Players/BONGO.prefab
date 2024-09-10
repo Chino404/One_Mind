@@ -17853,52 +17853,6 @@ Transform:
   - {fileID: 7926802852041189756}
   m_Father: {fileID: 7787342621577600169}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &7398327933770065314
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 960441490631120555}
-  - component: {fileID: 1241322186047442785}
-  m_Layer: 3
-  m_Name: TargetBanana
-  m_TagString: Untagged
-  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &960441490631120555
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7398327933770065314}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2283251149073497910}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1241322186047442785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7398327933770065314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0e6044e61b1f5049a28f98863f22f5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _normalTarget: {x: 0, y: 0, z: 0}
-  _chargedTarget: {x: 0, y: 2.5, z: 0}
 --- !u!1 &7476549148643079126
 GameObject:
   m_ObjectHideFlags: 0
@@ -18578,7 +18532,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 19907060961225484}
-  - {fileID: 960441490631120555}
   - {fileID: 1305748470027885730}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -18654,7 +18607,7 @@ MonoBehaviour:
   _normalDamage: 1
   _jumpForceAxiX: 20
   _jumpForceAxiY: 15
-  _groundRange: 1.5
+  _groundRange: 1.3
   _floorLayer:
     serializedVersion: 2
     m_Bits: 131136
@@ -18679,7 +18632,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8906201917774778276}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 466b383841702ff41a62ff4192194980, type: 3}
   m_Name: 

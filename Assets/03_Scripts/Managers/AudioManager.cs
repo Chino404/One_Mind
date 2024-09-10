@@ -17,7 +17,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip poof;
     public AudioClip hitFrog;
     public AudioClip explosion;
-    public AudioClip visorActive;
+    public AudioClip doorOpen;
+    public AudioClip wallHoloraphActive;
 
     [Header("Monkey Audio")]
     public AudioClip hitMonkey;
@@ -26,8 +27,6 @@ public class AudioManager : MonoBehaviour
     public AudioClip jump;
     [Tooltip("Caer al vacío")]public AudioClip fallIntoTheVoid;
 
-    [Header("Banana Audio")]
-    public AudioClip shoot;
 
     private void Awake()
     {

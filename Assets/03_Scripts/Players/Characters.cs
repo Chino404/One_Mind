@@ -90,11 +90,15 @@ public abstract class Characters : Entity, IDamageable
         if (IsGrounded())
         {
             //if (actualStatePlayer != EstadoDePlayer.Normal) ActualMove = NormalMovement;
-            _animPlayer?.SetTrigger("IsGrounded");
+            _animPlayer.SetBool("IsGrounded", true);
             _jumpGrabb = false;
             _coyoteTimeCounter = _coyoteTime;
         }
-        else _coyoteTimeCounter -= Time.deltaTime;
+        else
+        {
+            _coyoteTimeCounter -= Time.deltaTime;
+            _animPlayer.SetBool("IsGrounded", false);
+        }
 
         ChangeSpeed();
     }
@@ -135,8 +139,6 @@ public abstract class Characters : Entity, IDamageable
         Vector3 dir = Vector3.down;
         float dist = _groundRange;
 
-        Debug.DrawLine(pos, pos + (dir * dist));
-
         return Physics.Raycast(pos, dir, out RaycastHit hit, _groundRange, _floorLayer);
     }
 
@@ -145,13 +147,18 @@ public abstract class Characters : Entity, IDamageable
     #region MOVEMENT
     public virtual void Movement(Vector3 dirRaw, Vector3 dir)
     {
-        if (actualStatePlayer == EstadoDePlayer.Golpeando || IsTouch(dir.normalized, _moveMask))
+        if (/*actualStatePlayer == EstadoDePlayer.Golpeando || */IsTouch(dir.normalized, _moveMask))
         {
             stopMove = true;
-            _animPlayer.SetBool("Walk", false);
+            _animPlayer.SetBool("IsWallDetected", true);
+            //_animPlayer.SetBool("Walk", false);
             return;
         }
-        else stopMove = false;
+        else
+        {
+            _animPlayer.SetBool("IsWallDetected", false);
+            stopMove = false;
+        }
 
         ActualMove(dirRaw, dir);
     }
@@ -477,4 +484,13 @@ public abstract class Characters : Entity, IDamageable
         //Debug.Log("cargue mono");
     }
     #endregion
+
+    private void OnDrawGizmos()
+    {
+        Vector3 pos = transform.position;
+        Vector3 dir = Vector3.down;
+        float dist = _groundRange;
+
+        Debug.DrawLine(pos, pos + (dir * dist));
+    }
 }
