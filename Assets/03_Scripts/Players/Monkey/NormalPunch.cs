@@ -43,7 +43,7 @@ public class NormalPunch : Hits
     {
         if (_action) return;
 
-        if (entity == Entidad.Frog) AudioManager.instance.PlaySFX(AudioManager.instance.hitFrog);
+        if (entity == Entidad.Frog) OldAudioManager.instance.PlaySFX(OldAudioManager.instance.hitFrog);
     }
 
     public enum Entidad

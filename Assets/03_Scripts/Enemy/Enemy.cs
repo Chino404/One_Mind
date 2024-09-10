@@ -208,7 +208,7 @@ public class Enemy : Entity, IDamageable
         {
             _life -= damage;
             StopCoroutine(HitCoolDown());
-            AudioManager.instance.PlayMonkeySFX(AudioManager.instance.hitMonkey);
+            OldAudioManager.instance.PlayMonkeySFX(OldAudioManager.instance.hitMonkey);
 
             if (_life <= 0)
             {
@@ -226,7 +226,7 @@ public class Enemy : Entity, IDamageable
     {
         _deadParticle?.Play();
         _meshRenderer.enabled = false;
-        AudioManager.instance.PlayMonkeySFX(AudioManager.instance.poof);
+        OldAudioManager.instance.PlayMonkeySFX(OldAudioManager.instance.poof);
 
         yield return new WaitForSeconds(0.5f);
 

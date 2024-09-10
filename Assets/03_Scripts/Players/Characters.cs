@@ -28,7 +28,7 @@ public abstract class Characters : Entity, IDamageable
     protected float _initialForceGravity;
     [SerializeField, Tooltip("Fuerza de salto normal")] protected float _jumpForce = 25f;
     [SerializeField, Range(0, 0.4f), Tooltip("Tiempo para saltar cuando dejo de tocar el suelo")] protected float _coyoteTime = 0.15f;
-    [SerializeField]protected float _coyoteTimeCounter;
+    [SerializeField] protected float _coyoteTimeCounter;
     [SerializeField, Tooltip("Daño de golpe")] protected int _normalDamage = 1;
     protected Vector3 _launchDir;
 
@@ -36,8 +36,8 @@ public abstract class Characters : Entity, IDamageable
     [SerializeField, Range(1, 40), Tooltip("Fuerza de salto en el eje X")] protected float _jumpForceAxiX = 20;
     [SerializeField, Range(1, 40), Tooltip("Fuerza de salto en el eje Y")] protected float _jumpForceAxiY = 15;
     //[SerializeField, Range(1, 40), Tooltip("Fuerza de salto en el eje Z, dirección opuesta a la enredadera")] protected float _jumpForceAxiZ = 10;
-    protected bool _jumpGrabb;
-    protected bool _waitRay;
+    protected bool _isJumpGrabb;
+    protected bool _isWaitRay;
 
     [Header("--> RAYCASTS")]
     [SerializeField, Range(0.1f, 3f) , Tooltip("Rango del raycast para el coyote time")] protected float _groundRange = 2;
@@ -47,9 +47,9 @@ public abstract class Characters : Entity, IDamageable
     [SerializeField, Tooltip("Layer de Enredaderas u objeto a trepar")] protected LayerMask _handleMask;
     [SerializeField, Tooltip("Layer de objeto para seguir")] protected LayerMask _continueMask;
     protected Ray _moveRay;
-    public bool stopMove;
+    public bool isStopMove;
     protected Vector3 _dirGrabb; //Direccion de movimiento en la agarradera
-    protected bool _stopGrabb;
+    protected bool _isStopGrabb;
 
     [Header("--> PARTICLES")]
     [SerializeField] protected ParticleSystem _particleJump;
@@ -89,9 +89,8 @@ public abstract class Characters : Entity, IDamageable
     {
         if (IsGrounded())
         {
-            //if (actualStatePlayer != EstadoDePlayer.Normal) ActualMove = NormalMovement;
             _animPlayer.SetBool("IsGrounded", true);
-            _jumpGrabb = false;
+            _isJumpGrabb = false;
             _coyoteTimeCounter = _coyoteTime;
         }
         else
@@ -149,7 +148,7 @@ public abstract class Characters : Entity, IDamageable
     {
         if (/*actualStatePlayer == EstadoDePlayer.Golpeando || */IsTouch(dir.normalized, _moveMask))
         {
-            stopMove = true;
+            isStopMove = true;
             _animPlayer.SetBool("IsWallDetected", true);
             //_animPlayer.SetBool("Walk", false);
             return;
@@ -157,7 +156,7 @@ public abstract class Characters : Entity, IDamageable
         else
         {
             _animPlayer.SetBool("IsWallDetected", false);
-            stopMove = false;
+            isStopMove = false;
         }
 
         ActualMove(dirRaw, dir);
@@ -194,7 +193,7 @@ public abstract class Characters : Entity, IDamageable
 
             _launchDir = dir;
 
-            if (!_jumpGrabb)
+            if (!_isJumpGrabb)
             {
 
                 _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
@@ -202,7 +201,7 @@ public abstract class Characters : Entity, IDamageable
             }
         }
 
-        if (IsTouch(transform.forward, _handleMask) && !_waitRay) //Si toco algo escalable, cambio de movimiento
+        if (IsTouch(transform.forward, _handleMask) && !_isWaitRay) //Si toco algo escalable, cambio de movimiento
         {
             Debug.LogWarning("ENREDADERA DETECTADA");
             actualStatePlayer = EstadoDePlayer.Escalando;
@@ -210,7 +209,7 @@ public abstract class Characters : Entity, IDamageable
             StartCoroutine(WaitingKinematic(true));
 
             ActualMove = HandleMovement;
-            _jumpGrabb = false;
+            _isJumpGrabb = false;
             return;
         }
     }
@@ -267,11 +266,11 @@ public abstract class Characters : Entity, IDamageable
 
             if (!Physics.Raycast(vistaEnredadera, _forwardRange, _handleMask)) //Si para la direccion que quiero ir no hay mas agarradera, no sigo
             {
-                _stopGrabb = true;
+                _isStopGrabb = true;
                 return;
             }
 
-            _stopGrabb = false;
+            _isStopGrabb = false;
             _rbCharacter.MovePosition(transform.position + dirEscalando * _actualSpeed * Time.fixedDeltaTime);
 
         }
@@ -312,7 +311,7 @@ public abstract class Characters : Entity, IDamageable
     public void Jump()
     {
 
-        if (actualStatePlayer == EstadoDePlayer.Escalando && _dirGrabb.sqrMagnitude != 0 && _stopGrabb) //Si estoy escalando
+        if (actualStatePlayer == EstadoDePlayer.Escalando && _dirGrabb.sqrMagnitude != 0 && _isStopGrabb) //Si estoy escalando
         {
             //StartCoroutine(WaitRayChange());
 
@@ -335,7 +334,7 @@ public abstract class Characters : Entity, IDamageable
             StartCoroutine(WaitRayChange());
             ActualMove = NormalMovement;
 
-            _jumpGrabb = true;
+            _isJumpGrabb = true;
             _rbCharacter.isKinematic = false;
 
             //Depende la direccion de donde quiera ir, va a saltar
@@ -358,18 +357,21 @@ public abstract class Characters : Entity, IDamageable
 
         else if ( actualStatePlayer == EstadoDePlayer.Normal && _coyoteTimeCounter > 0f)
         {
+            _coyoteTimeCounter = 0f;
             _animPlayer?.SetTrigger("Jump");
             _particleJump?.Play();
             _rbCharacter.velocity = Vector3.up * _jumpForce;
-            AudioManager.instance.PlayMonkeySFX(AudioManager.instance.jump);
+
+            AudioManager.instance.Play(SoundId.Jump);
+            //OldAudioManager.instance.PlayMonkeySFX(OldAudioManager.instance.jump);
         }
     }
 
     IEnumerator WaitRayChange()
     {
-        _waitRay = true;
+        _isWaitRay = true;
         yield return new WaitForSeconds(0.1f);
-        _waitRay = false;
+        _isWaitRay = false;
     }
     #endregion
 
@@ -383,7 +385,7 @@ public abstract class Characters : Entity, IDamageable
     {
         if (actualStatePlayer == EstadoDePlayer.Golpeando) return;
 
-        AudioManager.instance.PlayMonkeySFX(AudioManager.instance.swoosh);
+        OldAudioManager.instance.PlayMonkeySFX(OldAudioManager.instance.swoosh);
 
         StartCoroutine(SystemNormalCombo());
     }

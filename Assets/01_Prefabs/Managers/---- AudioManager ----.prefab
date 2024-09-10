@@ -139,6 +139,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2048048948923281690}
   - component: {fileID: 8692935048089889922}
+  - component: {fileID: 1456585706873850156}
   m_Layer: 0
   m_Name: ---- AudioManager ----
   m_TagString: Untagged
@@ -170,7 +171,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5168946704435792101}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 06f3ec84251a2ba4cb25a46fe2508db1, type: 3}
   m_Name: 
@@ -190,6 +191,43 @@ MonoBehaviour:
   attackSpin: {fileID: 8300000, guid: 3f55e261ee5a32b4b87ddf2cf1dca402, type: 3}
   jump: {fileID: 8300000, guid: c03ca6cdc5bd12240b8ae56b154c050e, type: 3}
   fallIntoTheVoid: {fileID: 8300000, guid: a3a1fc8d88295b14d95b0b7e839056c8, type: 3}
+--- !u!114 &1456585706873850156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5168946704435792101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28fa961a9ea3c45e5815698c6d261202, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Jump
+    clip: {fileID: 8300000, guid: c03ca6cdc5bd12240b8ae56b154c050e, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    output: {fileID: 336519010787691560, guid: e86c14edebd3fdc4d9a4b30f60285ecb, type: 2}
+    source: {fileID: 0}
+  - name: Open_Door
+    clip: {fileID: 8300000, guid: 75be19b9cf0ce7147a6bbfab09c5690e, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    output: {fileID: -7543299602545284783, guid: e86c14edebd3fdc4d9a4b30f60285ecb,
+      type: 2}
+    source: {fileID: 0}
+  - name: Desactive_Wall_Holograph
+    clip: {fileID: 8300000, guid: 8011a3f6be8a8304a95a32e18a4901f0, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    output: {fileID: -7543299602545284783, guid: e86c14edebd3fdc4d9a4b30f60285ecb,
+      type: 2}
+    source: {fileID: 0}
+  _mixer: {fileID: 24100000, guid: e86c14edebd3fdc4d9a4b30f60285ecb, type: 2}
 --- !u!1 &6047992367245479537
 GameObject:
   m_ObjectHideFlags: 0
