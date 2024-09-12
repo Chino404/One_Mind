@@ -17,6 +17,8 @@ public class DualPressurePlate : MonoBehaviour, IPress
     [SerializeField] GameObject _normalPlaque;
     [SerializeField] GameObject _pressedPlaque;
 
+    
+
     private void Awake()
     {
         if (_otherDualPressurePlate == null) Debug.LogWarning($"Falta referencia de la otra placa de presión en: {gameObject.name}");
@@ -26,13 +28,14 @@ public class DualPressurePlate : MonoBehaviour, IPress
         {
             _indicators[i].gameObject.SetActive(false);
         }
+       
     }
 
 
     public void Pressed()
     {
         _active = true;
-
+        
         for (int i = 0; i < _indicators.Length; i++)
         {
             _indicators[i].gameObject.SetActive(true);
@@ -56,6 +59,8 @@ public class DualPressurePlate : MonoBehaviour, IPress
             //_objectToInteract.gameObject.SetActive(false);
 
             _objectToInteract.OpenTheDoor();
+            if(!_actionCompleted)
+            AudioManager.instance.Play(SoundId.Open_Door);
 
             _actionCompleted = true;
         }
@@ -67,6 +72,7 @@ public class DualPressurePlate : MonoBehaviour, IPress
         if (_actionCompleted) return;
 
         _active = false;
+        
 
         for (int i = 0; i < _indicators.Length; i++)
         {
