@@ -14,6 +14,8 @@ public class DualPressurePlate : MonoBehaviour, IPress
     public bool Active { get { return _active; } }
 
     private bool _actionCompleted = false;
+    [SerializeField] GameObject _normalPlaque;
+    [SerializeField] GameObject _pressedPlaque;
 
     private void Awake()
     {
@@ -34,6 +36,8 @@ public class DualPressurePlate : MonoBehaviour, IPress
         for (int i = 0; i < _indicators.Length; i++)
         {
             _indicators[i].gameObject.SetActive(true);
+            _normalPlaque.SetActive(false);
+            _pressedPlaque.SetActive(true);
         }
 
         if (_otherDualPressurePlate != null && _otherDualPressurePlate.Active)
@@ -67,6 +71,8 @@ public class DualPressurePlate : MonoBehaviour, IPress
         for (int i = 0; i < _indicators.Length; i++)
         {
             _indicators[i].gameObject.SetActive(false);
+            _normalPlaque.SetActive(true);
+            _pressedPlaque.SetActive(false);
         }
 
     }
