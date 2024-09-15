@@ -159,6 +159,7 @@ public abstract class Characters : Entity, IDamageable
             isStopMove = false;
         }
 
+
         ActualMove(dirRaw, dir);
     }
 
