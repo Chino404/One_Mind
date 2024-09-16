@@ -12,6 +12,10 @@ public class NormalPressurePlate : MonoBehaviour, IPress
 
     private bool _pressed;
 
+    [Header("Prefab Settings")]
+    [SerializeField] private GameObject _prefab;
+    [SerializeField] private Transform _spawnPoint;
+
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -49,6 +53,14 @@ public class NormalPressurePlate : MonoBehaviour, IPress
                 _desactive[i].gameObject.GetComponent<WallHolograph>().Desactive();
 
             }
+
+          
+
+            if (_prefab != null && _spawnPoint != null)
+            {
+                Instantiate(_prefab, _spawnPoint.position, _spawnPoint.rotation); // Instancia el prefab
+            }
+            
         }
     }
 
