@@ -18,7 +18,8 @@ public class DualPressurePlate : MonoBehaviour, IPress
     public Material[] materials;
     [SerializeField] GameObject view;
     
-    Renderer _renderer;
+    private Renderer _renderer;
+    private Animator _animator;
 
     private void Awake()
     {
@@ -29,7 +30,8 @@ public class DualPressurePlate : MonoBehaviour, IPress
         {
             _indicators[i].gameObject.SetActive(false);
         }
-       
+
+        _animator = GetComponent<Animator>();
     }
 
     void Start()
@@ -48,6 +50,7 @@ public class DualPressurePlate : MonoBehaviour, IPress
         {
             _indicators[i].gameObject.SetActive(true);
 
+            _animator?.SetTrigger("Pressed");
             _renderer.sharedMaterial = materials[1];
         }
 
@@ -85,6 +88,8 @@ public class DualPressurePlate : MonoBehaviour, IPress
         for (int i = 0; i < _indicators.Length; i++)
         {
             _indicators[i].gameObject.SetActive(false);
+            _animator?.SetTrigger("Normal");
+
             _renderer.sharedMaterial = materials[0];
 
         }
