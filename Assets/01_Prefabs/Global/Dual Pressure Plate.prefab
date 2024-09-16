@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3231728112996317380}
   - component: {fileID: 8293742198642494548}
   - component: {fileID: 496994695619281154}
+  - component: {fileID: 8072220694532299470}
   m_Layer: 6
   m_Name: Dual Pressure Plate
   m_TagString: Untagged
@@ -126,6 +127,27 @@ MonoBehaviour:
   - {fileID: 0}
   materials: []
   view: {fileID: 778778266891715512}
+--- !u!95 &8072220694532299470
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6440579754023411416}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 42985a7bfbab8a54d8942dc3e3da294e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &7007662109843625356
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -209,6 +231,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 13924df2231db2447a55c3f1990378e0, type: 2}
+    - target: {fileID: -3240084944888637655, guid: 070a6e40dc4056548b674a9f9d026961,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 070a6e40dc4056548b674a9f9d026961,
         type: 3}
       propertyPath: m_Name
