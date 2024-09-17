@@ -14,7 +14,9 @@ public class DeadInFall : MonoBehaviour
 
             if (other.gameObject.layer == 3)
             {
-                OldAudioManager.instance.PlaySFX(OldAudioManager.instance.fallIntoTheVoid);
+                //OldAudioManager.instance.PlaySFX(OldAudioManager.instance.fallIntoTheVoid);
+                AudioManager.instance.Play(SoundId.Fall);
+
                 target.Dead();
             }
 
