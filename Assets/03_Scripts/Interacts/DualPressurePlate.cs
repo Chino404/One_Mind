@@ -51,7 +51,10 @@ public class DualPressurePlate : MonoBehaviour, IPress
             _indicators[i].gameObject.SetActive(true);
 
             _animator?.SetTrigger("Pressed");
+            if (!_actionCompleted)
+                AudioManager.instance.Play(SoundId.ButtonDualDoor);
             _renderer.sharedMaterial = materials[1];
+            
         }
 
         if (_otherDualPressurePlate != null && _otherDualPressurePlate.Active)

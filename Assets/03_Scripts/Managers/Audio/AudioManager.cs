@@ -80,4 +80,5 @@ public static class SoundId
     public const int Open_Door = 1;
     public const int Desactive_Wall_Holograph = 2;
     public const int Fall = 3;
+    public const int ButtonDualDoor = 4;
 }
