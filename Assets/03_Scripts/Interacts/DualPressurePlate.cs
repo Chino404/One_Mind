@@ -46,13 +46,13 @@ public class DualPressurePlate : MonoBehaviour, IPress
     {
         _active = true;
         
+        _animator?.SetTrigger("Pressed");
+
         for (int i = 0; i < _indicators.Length; i++)
         {
             _indicators[i].gameObject.SetActive(true);
 
-            _animator?.SetTrigger("Pressed");
-            if (!_actionCompleted)
-                AudioManager.instance.Play(SoundId.ButtonDualDoor);
+            if (!_actionCompleted) AudioManager.instance.Play(SoundId.ButtonDualDoor);
             _renderer.sharedMaterial = materials[1];
             
         }
@@ -73,8 +73,7 @@ public class DualPressurePlate : MonoBehaviour, IPress
             //_objectToInteract.gameObject.SetActive(false);
 
             _objectToInteract.OpenTheDoor();
-            if(!_actionCompleted)
-            AudioManager.instance.Play(SoundId.Open_Door);
+            if(!_actionCompleted) AudioManager.instance.Play(SoundId.Open_Door);
 
             _actionCompleted = true;
         }
@@ -87,11 +86,12 @@ public class DualPressurePlate : MonoBehaviour, IPress
 
         _active = false;
         
+        _animator?.SetTrigger("Normal");
+        
 
         for (int i = 0; i < _indicators.Length; i++)
         {
             _indicators[i].gameObject.SetActive(false);
-            _animator?.SetTrigger("Normal");
 
             _renderer.sharedMaterial = materials[0];
 
