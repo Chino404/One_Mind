@@ -45,8 +45,9 @@ public class DualPressurePlate : MonoBehaviour, IPress
     public void Pressed()
     {
         _active = true;
-        
-        _animator?.SetTrigger("Pressed");
+
+        //_animator?.SetTrigger("Pressed");
+        if (_animator != null) _animator.SetTrigger("Pressed");
 
         for (int i = 0; i < _indicators.Length; i++)
         {
