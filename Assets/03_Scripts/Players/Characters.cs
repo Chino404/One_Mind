@@ -53,7 +53,7 @@ public abstract class Characters : Entity, IDamageable
 
     [Header("--> PARTICLES")]
     [SerializeField] protected ParticleSystem _particleJump;
-    [SerializeField] protected ParticleSystem _polvo;
+    //[SerializeField] protected ParticleSystem _polvo;
     //[SerializeField] protected ParticleSystem _particleSpinAttack;
 
     public delegate void MyDelegate(Vector3 dirRaw, Vector3 dir);
