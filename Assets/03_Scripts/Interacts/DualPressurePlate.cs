@@ -26,12 +26,18 @@ public class DualPressurePlate : MonoBehaviour, IPress
         if (_otherDualPressurePlate == null) Debug.LogWarning($"Falta referencia de la otra placa de presión en: {gameObject.name}");
         if (_objectToInteract == null) Debug.LogWarning($"Falta objeto para interactuar en: {gameObject.name}");
 
+        _animator = GetComponent<Animator>();
+
         for (int i = 0; i < _indicators.Length; i++)
         {
+            if (_indicators[i] == null)
+            {
+                Debug.LogWarning($"FALTAN INDICADORES EN: {gameObject.name}");
+                break;
+            } 
             _indicators[i].gameObject.SetActive(false);
         }
 
-        _animator = GetComponent<Animator>();
     }
 
     void Start()
@@ -46,17 +52,15 @@ public class DualPressurePlate : MonoBehaviour, IPress
     {
         _active = true;
 
-        //_animator?.SetTrigger("Pressed");
-        if (_animator != null) _animator.SetTrigger("Pressed");
+        _animator?.SetTrigger("Pressed");
+        _renderer.sharedMaterial = materials[1];
 
         for (int i = 0; i < _indicators.Length; i++)
         {
-            _indicators[i].gameObject.SetActive(true);
-
-            if (!_actionCompleted) AudioManager.instance.Play(SoundId.ButtonDualDoor);
-            _renderer.sharedMaterial = materials[1];
-            
+            if (_indicators[i] != null) _indicators[i].gameObject.SetActive(true);       
         }
+
+        if (!_actionCompleted) AudioManager.instance.Play(SoundId.ButtonDualDoor);
 
         if (_otherDualPressurePlate != null && _otherDualPressurePlate.Active)
         {
@@ -88,14 +92,12 @@ public class DualPressurePlate : MonoBehaviour, IPress
         _active = false;
         
         _animator?.SetTrigger("Normal");
+        _renderer.sharedMaterial = materials[0];
         
 
         for (int i = 0; i < _indicators.Length; i++)
         {
-            _indicators[i].gameObject.SetActive(false);
-
-            _renderer.sharedMaterial = materials[0];
-
+            if (_indicators[i] != null)_indicators[i].gameObject.SetActive(false);
         }
 
     }
