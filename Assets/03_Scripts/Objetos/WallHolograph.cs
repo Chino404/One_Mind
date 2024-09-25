@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WallHolograph : MonoBehaviour
+public class WallHolograph : Rewind
 {
     private Renderer _opacityMaterial;
     [SerializeField, Range(0, 1f)] private float _valueOpacity = 1;
@@ -10,10 +10,11 @@ public class WallHolograph : MonoBehaviour
 
     private Animator _animator;
 
-    private void Awake()
+    public override void Awake()
     {
         _animator = GetComponent<Animator>();
         _opacityMaterial = GetComponent<Renderer>();
+        base.Awake();
     }
 
     private void Update()
@@ -58,5 +59,19 @@ public class WallHolograph : MonoBehaviour
         //_animator.SetTrigger("Desactive");
         //yield return new WaitForSeconds(0.25f);
         gameObject.SetActive(false);
+    }
+
+    public override void Save()
+    {
+        Debug.Log("guardo pared holografica");
+        _currentState.Rec(gameObject.activeInHierarchy, _valueOpacity);
+    }
+
+    public override void Load()
+    {
+        if (!_currentState.IsRemember()) return;
+        var col = _currentState.Remember();
+        gameObject.SetActive((bool)col.parameters[0]);
+        _valueOpacity = (float)col.parameters[1];
     }
 }

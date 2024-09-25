@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NormalPressurePlate : MonoBehaviour, IPress
+public class NormalPressurePlate : Rewind, IPress
 {
     [Header("OBJECTS TO...")]
     [Space(5),SerializeField] private GameObject[] _active;
@@ -16,9 +16,10 @@ public class NormalPressurePlate : MonoBehaviour, IPress
     [SerializeField] private GameObject _prefab;
     [SerializeField] private Transform _spawnPoint;
 
-    private void Awake()
+    public override void Awake()
     {
         _animator = GetComponent<Animator>();
+        base.Awake();
     }
 
     private void Start()
@@ -67,5 +68,20 @@ public class NormalPressurePlate : MonoBehaviour, IPress
     public void Depressed()
     {
 
+    }
+
+    public override void Save()
+    {
+        _currentState.Rec(_pressed);
+            
+         
+    }
+
+    public override void Load()
+    {
+        if (!_currentState.IsRemember()) return;
+
+        var col = _currentState.Remember();
+        _pressed = (bool)col.parameters[0];
     }
 }
