@@ -10,6 +10,11 @@ public class SpinButton : MonoBehaviour, IPress
     [SerializeField, Range(-360f, 360f) , Tooltip("Grados a rotar")] private float _degrees = 90f;
     [SerializeField] private float _rotationTime = 0.5f;
 
+    [Header("-> BUCLE")]
+    [SerializeField, Tooltip("Para que giren")] private bool _spin;
+    [SerializeField] private float _speedRotation;
+    
+
     private bool _isRotating = false;
 
     private void Awake()
@@ -20,7 +25,7 @@ public class SpinButton : MonoBehaviour, IPress
     private void Update()
     {
         //Rotacion de plataformas
-        //_pivotPlatforms.Rotate(0, _speedRotation * Time.deltaTime ,0);
+        if(_spin)_pivotPlatforms.Rotate(0, _speedRotation * Time.deltaTime ,0);
     }
 
     public void Pressed()
