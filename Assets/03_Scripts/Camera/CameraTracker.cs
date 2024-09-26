@@ -1,9 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
-
 
 public class CameraTracker : MonoBehaviour
 {
@@ -58,22 +54,21 @@ public class CameraTracker : MonoBehaviour
 
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
-        if (_target == null || _point == null) return;     
-        
+        if (_target == null || _point == null) return;
+
         SetPositionAndRotationTarget();
     }
 
     private void SetPositionAndRotationTarget()
     {
-
         // Calcular la posición deseada relativa al punto
         _desiredPos = _target.position + (_point.position - _target.position);
 
-        _smoothPos = Vector3.Lerp(transform.position, _desiredPos, _smoothSpeedPosition);
-
-        _smoothRot = Quaternion.Lerp(transform.rotation, _point.rotation, _smoothSpeedRotation);
+        // Suavizado en base a Time.deltaTime para asegurar suavidad continua
+        _smoothPos = Vector3.Lerp(transform.position, _desiredPos, _smoothSpeedPosition * Time.deltaTime * 60); //Multiplicando por 60 asegura que las velocidades del Lerp sean proporcionales y consistentes
+        _smoothRot = Quaternion.Lerp(transform.rotation, _point.rotation, _smoothSpeedRotation * Time.deltaTime * 60);
 
         transform.SetPositionAndRotation(_smoothPos, _smoothRot);
 

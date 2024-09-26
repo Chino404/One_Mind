@@ -54,13 +54,14 @@ public abstract class Characters : Entity, IDamageable
     [Header("--> PARTICLES")]
     [SerializeField] protected ParticleSystem _particleJump;
     //[SerializeField] protected ParticleSystem _polvo;
-    //[SerializeField] protected ParticleSystem _particleSpinAttack;
 
     public delegate void MyDelegate(Vector3 dirRaw, Vector3 dir);
     public event MyDelegate _actualMove;
     public MyDelegate ActualMove { get { return _actualMove; } set { _actualMove = value; } }
 
-    [HideInInspector]public CheckPoint actualCheckpoint;
+    [HideInInspector] public CheckPoint actualCheckpoint;
+
+    [HideInInspector] public PlatformController currentPlatform;
 
     public override void Awake()
     {
@@ -87,24 +88,42 @@ public abstract class Characters : Entity, IDamageable
 
     public virtual void Update()
     {
-        if (IsGrounded())
-        {
-            _animPlayer.SetBool("IsGrounded", true);
-            _isJumpGrabb = false;
-            _coyoteTimeCounter = _coyoteTime;
-        }
-        else
-        {
-            _coyoteTimeCounter -= Time.deltaTime;
-            _animPlayer.SetBool("IsGrounded", false);
-        }
+        CoyoteTime();
 
-        ChangeSpeed();
+        if (currentPlatform != null)
+        {
+            // Añado el movimiento de la plataforma a la posición del jugador
+            _rbCharacter.MovePosition(_rbCharacter.position + currentPlatform.GetPlatformMovement());
+
+            // Primero, ajusto la posición del jugador en función de la rotación de la plataforma
+            Vector3 relativePos = _rbCharacter.position - currentPlatform.transform.position;
+            relativePos = currentPlatform.GetPlatformRotation() * relativePos;
+            _rbCharacter.MovePosition(currentPlatform.transform.position + relativePos);
+
+            // Después, roto al jugador con la plataforma (si se desea que el jugador rote)
+            _rbCharacter.MoveRotation(currentPlatform.GetPlatformRotation() * _rbCharacter.rotation);
+        }
     }
 
     public virtual void FixedUpdate()
     {
         _rbCharacter.AddForce(Vector3.down * _forceGravity, ForceMode.VelocityChange);
+    }
+
+    void CoyoteTime()
+    {
+        if (IsGrounded())
+        {
+            _animPlayer.SetBool("IsGrounded", true);
+            _coyoteTimeCounter = _coyoteTime;
+
+            _isJumpGrabb = false;
+        }
+        else
+        {
+            _animPlayer.SetBool("IsGrounded", false);
+            _coyoteTimeCounter -= Time.deltaTime;
+        }
     }
 
     #region RAYCAST
@@ -161,20 +180,6 @@ public abstract class Characters : Entity, IDamageable
 
 
         ActualMove(dirRaw, dir);
-    }
-
-    protected void ChangeSpeed()
-    {
-        if (actualStatePlayer == EstadoDePlayer.Normal)
-        {
-            _actualSpeed = _speed;
-            //_animPlayer.SetLayerWeight(1, 0.0f);
-        }
-        if (actualStatePlayer == EstadoDePlayer.Escalando)
-        {
-            //_animPlayer.SetLayerWeight(1, 1f);
-        }
-        if (actualStatePlayer == EstadoDePlayer.Golpeando) _actualSpeed = 0;
     }
 
     public void Rotate(Vector3 dirForward) => transform.forward = dirForward;

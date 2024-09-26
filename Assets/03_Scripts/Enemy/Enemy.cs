@@ -35,7 +35,8 @@ public class Enemy : Entity, IDamageable
     Vector3 _velocity;
     public Vector3 Velocity { get { return _velocity; } }
     public float maxForce;
-    public ModelMonkey target;
+
+    public Transform target;
 
     [Header("Radius")]
     public float separationRadius;
