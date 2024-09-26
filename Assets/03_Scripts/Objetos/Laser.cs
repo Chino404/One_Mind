@@ -73,7 +73,7 @@ public class Laser : MonoBehaviour
             // Realizar el BoxCast desde el punto de inicio hacia la dirección
             if (Physics.BoxCast(startPoint.position - direction * (distance / 2), _boxCastSize / 2, direction, out _hitTarget, transform.rotation, distance))
             {
-                var targetComponent = _hitTarget.collider.GetComponent<ModelMonkey>();
+                var targetComponent = _hitTarget.collider.GetComponent<Characters>();
 
                 if (targetComponent != null)
                 {
