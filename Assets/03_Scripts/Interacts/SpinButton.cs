@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SpinButton : MonoBehaviour, IPress
 {
+    [Header("-> PRESSED")]
     [SerializeField] private GameObject[] _floors;
 
     [SerializeField] private Transform _pivotPlatforms;
