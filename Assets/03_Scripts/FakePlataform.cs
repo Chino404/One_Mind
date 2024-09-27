@@ -5,9 +5,12 @@ using UnityEngine;
 public class FakePlataform : Rewind
 {
     [SerializeField, Range(0.1f, 1)] private float _timeToDisolve = 0.25f;
+    [SerializeField] private float _timeToRespawn=1.5f;
     private float _valueDisolve = 1f;
     private Renderer _disolveMaterial;
     private int _IdDisolve = Shader.PropertyToID("_Disolve");
+
+    
 
     private void Start()
     {
@@ -38,7 +41,7 @@ public class FakePlataform : Rewind
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Characters>())
+        if (other.GetComponent<Characters>()&&_valueDisolve==1)
         {
             StartCoroutine(ShaderDisolve());
         }
@@ -56,9 +59,21 @@ public class FakePlataform : Rewind
             _valueDisolve = Mathf.Lerp(1, 0, t);
 
             _disolveMaterial.material.SetFloat(_IdDisolve, _valueDisolve);
+            
+            yield return null;
+        }
+        timer = 0f;
+        yield return new WaitForSeconds(_timeToRespawn);
+        while (timer < _timeToDisolve)
+        {
+            timer += Time.deltaTime;
+            float t = timer / _timeToDisolve;
+            _valueDisolve = Mathf.Lerp(0, 1, t);
+            _disolveMaterial.material.SetFloat(_IdDisolve, _valueDisolve);
             yield return null;
         }
 
-        gameObject.SetActive(false);
+
+        //gameObject.SetActive(false);
     }
 }

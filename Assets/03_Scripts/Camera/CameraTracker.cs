@@ -54,7 +54,7 @@ public class CameraTracker : MonoBehaviour
 
     }
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         if (_target == null || _point == null) return;
 

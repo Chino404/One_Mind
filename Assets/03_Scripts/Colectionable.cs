@@ -8,7 +8,7 @@ public class Colectionable : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer==3)
+        if (other.GetComponent<Characters>())
         {
             Debug.Log("agarre coleccionable");
             points.AddPoints(1);
