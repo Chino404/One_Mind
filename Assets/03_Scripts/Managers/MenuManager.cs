@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
     [SerializeField]int _asyncScene;
+    [SerializeField] Canvas _levelSelectorCanvas;
 
     private void Start()
     {
@@ -22,6 +23,11 @@ public class MenuManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void LevelSelector()
+    {
+
     }
 }
 
