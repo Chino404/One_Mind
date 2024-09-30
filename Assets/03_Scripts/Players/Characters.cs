@@ -169,6 +169,7 @@ public abstract class Characters : Entity, IDamageable
         {
             isStopMove = true;
             _animPlayer.SetBool("IsWallDetected", true);
+            transform.forward = dir;
             //_animPlayer.SetBool("Walk", false);
             return;
         }
