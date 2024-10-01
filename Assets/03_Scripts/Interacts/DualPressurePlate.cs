@@ -5,11 +5,10 @@ using UnityEngine;
 public class DualPressurePlate : MonoBehaviour, IInteracteable
 {
     [Header("PARAMETERS")]
-    [Space(5)]
-    [SerializeField,Tooltip("Colocar la otra placa de presion en la cual va a estar vinculada")] private DualPressurePlate _otherDualPressurePlate;
+    [SerializeField] private CharacterTarget _player;
+    [Space(10), SerializeField,Tooltip("Colocar la otra placa de presion en la cual va a estar vinculada")] private DualPressurePlate _otherDualPressurePlate;
     [SerializeField, Tooltip("Puerta al que se le va a ejecutar una acción")] private DualDoor _objectToInteract;
-    [Space(10)]
-    [SerializeField, Tooltip("Objetos que sirven para indicar que esta placa de presion fue activada")] private Light[] _indicators;
+    [Space(10), SerializeField, Tooltip("Objetos que sirven para indicar que esta placa de presion fue activada")] private Light[] _indicators;
 
     private bool _active;
     public bool Active { get { return _active; } }
@@ -19,10 +18,10 @@ public class DualPressurePlate : MonoBehaviour, IInteracteable
     [SerializeField] private Material[] _materials;
 
 
-    [Space(5), SerializeField] GameObject view;
+    [Space(5), SerializeField] GameObject _view;
 
-    [SerializeField] private Color _colorParticle;
-    [SerializeField] private Material _materialParticle;
+    [Header("-> PARTICLE")]
+    [SerializeField] private ParticleSystem[] _particleButton;
     
     private Renderer _renderer;
     private Animator _animator;
@@ -47,13 +46,10 @@ public class DualPressurePlate : MonoBehaviour, IInteracteable
     }
 
     void Start()
-    {
-        
-        _renderer = view.GetComponent<Renderer>();
+    {     
+        _renderer = _view.GetComponent<Renderer>();
         _renderer.enabled = true;
         _renderer.sharedMaterial = _materials[0];
-
-
     }
 
     public void Interact()
@@ -61,7 +57,17 @@ public class DualPressurePlate : MonoBehaviour, IInteracteable
         _active = true;
 
         _animator?.SetTrigger("Pressed");
-        _renderer.sharedMaterial = _materials[1];
+
+        if(_player == CharacterTarget.Bongo)
+        {
+            if (_materials[1] == null) Debug.LogWarning($"Falta un material de Bongo en: {gameObject.name}");
+            else _renderer.sharedMaterial = _materials[1];
+        }
+        else
+        {
+            if (_materials[2] == null) Debug.LogWarning($"Falta un material de Frank en: {gameObject.name}");
+            else _renderer.sharedMaterial = _materials[2];
+        }
 
         for (int i = 0; i < _indicators.Length; i++)
         {
@@ -81,12 +87,13 @@ public class DualPressurePlate : MonoBehaviour, IInteracteable
     public void ActionDualPressurePlate()
     {
 
-        if (_objectToInteract != null)
+        if (_objectToInteract != null && !_actionCompleted)
         {
-            //_objectToInteract.gameObject.SetActive(false);
+            if(_player == CharacterTarget.Bongo) _particleButton[0].Play();
+            else _particleButton[1].Play();
 
             _objectToInteract.OpenTheDoor();
-            if(!_actionCompleted) AudioManager.instance.Play(SoundId.Open_Door);
+            AudioManager.instance.Play(SoundId.Open_Door);
 
             _actionCompleted = true;
         }
