@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NormalPressurePlate : Rewind, IPress
+public class NormalPressurePlate : Rewind, IInteracteable
 {
     [Header("OBJECTS TO...")]
     [Space(5),SerializeField] private GameObject[] _active;
@@ -33,7 +33,7 @@ public class NormalPressurePlate : Rewind, IPress
         }
     }
 
-    public void Pressed()
+    public void Interact()
     {
         if(!_pressed)
         {
@@ -65,7 +65,7 @@ public class NormalPressurePlate : Rewind, IPress
         }
     }
 
-    public void Depressed()
+    public void Disconnect()
     {
 
     }
