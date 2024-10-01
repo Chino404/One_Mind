@@ -8,6 +8,7 @@ public class DualPressurePlate : MonoBehaviour, IInteracteable
     [Space(5)]
     [SerializeField,Tooltip("Colocar la otra placa de presion en la cual va a estar vinculada")] private DualPressurePlate _otherDualPressurePlate;
     [SerializeField, Tooltip("Puerta al que se le va a ejecutar una acción")] private DualDoor _objectToInteract;
+    [Space(10)]
     [SerializeField, Tooltip("Objetos que sirven para indicar que esta placa de presion fue activada")] private Light[] _indicators;
 
     private bool _active;
@@ -15,8 +16,13 @@ public class DualPressurePlate : MonoBehaviour, IInteracteable
 
     private bool _actionCompleted = false;
 
-    public Material[] materials;
-    [SerializeField] GameObject view;
+    [SerializeField] private Material[] _materials;
+
+
+    [Space(5), SerializeField] GameObject view;
+
+    [SerializeField] private Color _colorParticle;
+    [SerializeField] private Material _materialParticle;
     
     private Renderer _renderer;
     private Animator _animator;
@@ -45,7 +51,9 @@ public class DualPressurePlate : MonoBehaviour, IInteracteable
         
         _renderer = view.GetComponent<Renderer>();
         _renderer.enabled = true;
-        _renderer.sharedMaterial = materials[0];
+        _renderer.sharedMaterial = _materials[0];
+
+
     }
 
     public void Interact()
@@ -53,7 +61,7 @@ public class DualPressurePlate : MonoBehaviour, IInteracteable
         _active = true;
 
         _animator?.SetTrigger("Pressed");
-        _renderer.sharedMaterial = materials[1];
+        _renderer.sharedMaterial = _materials[1];
 
         for (int i = 0; i < _indicators.Length; i++)
         {
@@ -92,7 +100,7 @@ public class DualPressurePlate : MonoBehaviour, IInteracteable
         _active = false;
         
         _animator?.SetTrigger("Normal");
-        _renderer.sharedMaterial = materials[0];
+        _renderer.sharedMaterial = _materials[0];
         
 
         for (int i = 0; i < _indicators.Length; i++)
