@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpinButton : MonoBehaviour, IPress
+public class SpinButton : MonoBehaviour, IInteracteable
 {
     [Header("-> PRESSED")]
     [SerializeField] private GameObject[] _floors;
@@ -29,7 +29,7 @@ public class SpinButton : MonoBehaviour, IPress
         if(_spin)_pivotPlatforms.Rotate(0, _speedRotation * Time.deltaTime ,0);
     }
 
-    public void Pressed()
+    public void Interact()
     {
         //if (_isPressing) return;
         if(!_isRotating) StartCoroutine(MoveFloors());
@@ -82,7 +82,7 @@ public class SpinButton : MonoBehaviour, IPress
         _isRotating = false;
     }
 
-    public void Depressed()
+    public void Disconnect()
     {
 
     }

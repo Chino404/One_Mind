@@ -416,23 +416,24 @@ public abstract class Characters : Entity, IDamageable
 
     private void OnTriggerEnter(Collider other)
     {
-        var pressable = other.GetComponent<IPress>();
+        var interact = other.GetComponent<IInteracteable>();
 
-        if (pressable != null) pressable.Pressed();
+        if (interact != null) interact.Interact();
+
     }
 
     private void OnTriggerExit(Collider other)
     {
-        var pressable = other.GetComponent<IPress>();
+        var interact = other.GetComponent<IInteracteable>();
 
-        if (pressable != null) pressable.Depressed();
+        if (interact != null) interact.Disconnect();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        var interact = collision.gameObject.GetComponent<IInteractable>();
+        var interact = collision.gameObject.GetComponent<IInteracteable>();
 
-        if(interact != null) interact.Action();
+        if(interact != null) interact.Interact();
     }
 
     #region DAMAGE / LIFE

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActiveObject : MonoBehaviour, IInteractable
+public class ActiveObject : MonoBehaviour, IInteracteable
 {
     [SerializeField, Tooltip("Objetos a activar")] private GameObject[] _objectsToActive;
 
@@ -14,11 +14,16 @@ public class ActiveObject : MonoBehaviour, IInteractable
         }
     }
 
-    public void Action()
+    public void Interact()
     {
         for (int i = 0; i < _objectsToActive.Length; i++)
         {
             _objectsToActive[i].SetActive(true);
         }
+    }
+
+    public void Disconnect()
+    {
+
     }
 }

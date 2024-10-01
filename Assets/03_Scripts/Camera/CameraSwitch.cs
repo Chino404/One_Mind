@@ -18,6 +18,13 @@ public class CameraSwitch : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(!goTo)
+        {
+            Debug.LogError($"Poner un 'point' para la cámara en: {gameObject.name}");
+
+            return;
+        }
+
         if(other.gameObject.GetComponent<Characters>())
         {
             if(_backToPosition)_backTo = _tracker.Point;

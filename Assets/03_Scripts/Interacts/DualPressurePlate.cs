@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DualPressurePlate : MonoBehaviour, IPress
+public class DualPressurePlate : MonoBehaviour, IInteracteable
 {
     [Header("PARAMETERS")]
     [Space(5)]
@@ -48,7 +48,7 @@ public class DualPressurePlate : MonoBehaviour, IPress
         _renderer.sharedMaterial = materials[0];
     }
 
-    public void Pressed()
+    public void Interact()
     {
         _active = true;
 
@@ -85,7 +85,7 @@ public class DualPressurePlate : MonoBehaviour, IPress
 
     }
 
-    public void Depressed()
+    public void Disconnect()
     {
         if (_actionCompleted) return;
 

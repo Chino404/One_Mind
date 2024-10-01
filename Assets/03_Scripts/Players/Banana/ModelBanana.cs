@@ -28,7 +28,7 @@ public class ModelBanana : Characters
     [SerializeField] private GameObject _electricAttack;
     public float attackDuration=1f;
 
-    IInteractable children;
+    IInteracteable children;
 
     private Vector3 _velocity;
     public Vector3 Velocity { get { return _velocity; } set { _velocity = value; } }
