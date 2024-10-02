@@ -7,10 +7,10 @@ public interface IInteracteable
     /// <summary>
     /// Llamar cuando se INTERACTUA
     /// </summary>
-    public void Interact();
+    public void Active();
 
     /// <summary>
     /// Llamaer cuando se DEJA de interactuar
     /// </summary>
-    public void Disconnect();
+    public void Desactive();
 }

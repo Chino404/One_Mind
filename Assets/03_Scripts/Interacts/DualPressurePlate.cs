@@ -8,10 +8,10 @@ public class DualPressurePlate : MonoBehaviour, IInteracteable
     [SerializeField] private CharacterTarget _player;
     [Space(10), SerializeField,Tooltip("Colocar la otra placa de presion en la cual va a estar vinculada")] private DualPressurePlate _otherDualPressurePlate;
     [SerializeField, Tooltip("Puerta al que se le va a ejecutar una acción")] private DualDoor _objectToInteract;
-    [Space(10), SerializeField, Tooltip("Objetos que sirven para indicar que esta placa de presion fue activada")] private Light[] _indicators;
+    [Space(10), SerializeField, Tooltip("Objetos que sirven para indicar que esta placa de presion fue activada")] private ActiveTorch[] _indicators;
 
-    private bool _active;
-    public bool Active { get { return _active; } }
+    private bool _activePressurePlate;
+    public bool ActivePressurePlate { get { return _activePressurePlate; } }
 
     private bool _actionCompleted = false;
 
@@ -38,9 +38,8 @@ public class DualPressurePlate : MonoBehaviour, IInteracteable
             if (_indicators[i] == null)
             {
                 Debug.LogWarning($"FALTAN INDICADORES EN: {gameObject.name}");
-                break;
+                continue;
             } 
-            _indicators[i].gameObject.SetActive(false);
         }
 
     }
@@ -52,9 +51,11 @@ public class DualPressurePlate : MonoBehaviour, IInteracteable
         _renderer.sharedMaterial = _materials[0];
     }
 
-    public void Interact()
+    public void Active()
     {
-        _active = true;
+        if (_actionCompleted) return;
+
+        _activePressurePlate = true;
 
         _animator?.SetTrigger("Pressed");
 
@@ -70,13 +71,13 @@ public class DualPressurePlate : MonoBehaviour, IInteracteable
         }
 
         for (int i = 0; i < _indicators.Length; i++)
-        {
-            if (_indicators[i] != null) _indicators[i].gameObject.SetActive(true);       
+        {      
+            if (_indicators[i] != null) _indicators[i].Active();       
         }
 
         if (!_actionCompleted) AudioManager.instance.Play(SoundId.ButtonDualDoor);
 
-        if (_otherDualPressurePlate != null && _otherDualPressurePlate.Active)
+        if (_otherDualPressurePlate != null && _otherDualPressurePlate.ActivePressurePlate)
         {
             _otherDualPressurePlate.ActionDualPressurePlate();
 
@@ -87,24 +88,23 @@ public class DualPressurePlate : MonoBehaviour, IInteracteable
     public void ActionDualPressurePlate()
     {
 
-        if (_objectToInteract != null && !_actionCompleted)
+        if (_objectToInteract != null)
         {
             if(_player == CharacterTarget.Bongo) _particleButton[0].Play();
             else _particleButton[1].Play();
 
             _objectToInteract.OpenTheDoor();
-            AudioManager.instance.Play(SoundId.Open_Door);
 
             _actionCompleted = true;
         }
 
     }
 
-    public void Disconnect()
+    public void Desactive()
     {
         if (_actionCompleted) return;
 
-        _active = false;
+        _activePressurePlate = false;
         
         _animator?.SetTrigger("Normal");
         _renderer.sharedMaterial = _materials[0];
@@ -112,7 +112,8 @@ public class DualPressurePlate : MonoBehaviour, IInteracteable
 
         for (int i = 0; i < _indicators.Length; i++)
         {
-            if (_indicators[i] != null)_indicators[i].gameObject.SetActive(false);
+            //if (_indicators[i] != null)_indicators[i].gameObject.SetActive(false);
+            if (_indicators[i] != null)_indicators[i].Desactive();
         }
 
     }

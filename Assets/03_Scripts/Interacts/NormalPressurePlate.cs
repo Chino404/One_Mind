@@ -33,7 +33,7 @@ public class NormalPressurePlate : Rewind, IInteracteable
         }
     }
 
-    public void Interact()
+    public void Active()
     {
         if(!_pressed)
         {
@@ -65,7 +65,7 @@ public class NormalPressurePlate : Rewind, IInteracteable
         }
     }
 
-    public void Disconnect()
+    public void Desactive()
     {
 
     }

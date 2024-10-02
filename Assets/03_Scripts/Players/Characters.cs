@@ -418,7 +418,7 @@ public abstract class Characters : Entity, IDamageable
     {
         var interact = other.GetComponent<IInteracteable>();
 
-        if (interact != null) interact.Interact();
+        if (interact != null) interact.Active();
 
     }
 
@@ -426,14 +426,14 @@ public abstract class Characters : Entity, IDamageable
     {
         var interact = other.GetComponent<IInteracteable>();
 
-        if (interact != null) interact.Disconnect();
+        if (interact != null) interact.Desactive();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         var interact = collision.gameObject.GetComponent<IInteracteable>();
 
-        if(interact != null) interact.Interact();
+        if(interact != null) interact.Active();
     }
 
     #region DAMAGE / LIFE
