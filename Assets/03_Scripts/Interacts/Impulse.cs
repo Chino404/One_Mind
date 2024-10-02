@@ -5,7 +5,7 @@ using UnityEngine;
 public class Impulse : MonoBehaviour
 {
     [SerializeField] ForceMode _impulseMode;
-    [Range(20, 70)]
+    [Range(20, 150)]
     [SerializeField] private int _force = 40;
     private Animator _animator;
 
@@ -22,7 +22,7 @@ public class Impulse : MonoBehaviour
 
             _animator.SetTrigger("Interact");
 
-            OldAudioManager.instance.PlaySFX(OldAudioManager.instance.mushroom);
+            //OldAudioManager.instance.PlaySFX(OldAudioManager.instance.mushroom);
             
             rb.velocity = transform.up * _force;
         }
