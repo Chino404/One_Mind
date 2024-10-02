@@ -14,7 +14,7 @@ public class ActiveObject : MonoBehaviour, IInteracteable
         }
     }
 
-    public void Interact()
+    public void Active()
     {
         for (int i = 0; i < _objectsToActive.Length; i++)
         {
@@ -22,7 +22,7 @@ public class ActiveObject : MonoBehaviour, IInteracteable
         }
     }
 
-    public void Disconnect()
+    public void Desactive()
     {
 
     }

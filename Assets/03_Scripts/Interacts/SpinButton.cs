@@ -29,7 +29,7 @@ public class SpinButton : MonoBehaviour, IInteracteable
         if(_spin)_pivotPlatforms.Rotate(0, _speedRotation * Time.deltaTime ,0);
     }
 
-    public void Interact()
+    public void Active()
     {
         //if (_isPressing) return;
         if(!_isRotating) StartCoroutine(MoveFloors());
@@ -82,7 +82,7 @@ public class SpinButton : MonoBehaviour, IInteracteable
         _isRotating = false;
     }
 
-    public void Disconnect()
+    public void Desactive()
     {
 
     }

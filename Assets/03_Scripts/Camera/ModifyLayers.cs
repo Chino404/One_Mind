@@ -35,7 +35,7 @@ public class ModifyLayers : MonoBehaviour, IInteracteable
 
     }
 
-    public void Interact()
+    public void Active()
     {
         for (int i = 0; i < _activeLayers.Length; i++)
         {
@@ -48,7 +48,7 @@ public class ModifyLayers : MonoBehaviour, IInteracteable
         }
     }
 
-    public void Disconnect()
+    public void Desactive()
     {
         
     }
