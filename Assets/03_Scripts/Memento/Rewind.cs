@@ -12,7 +12,13 @@ public abstract class Rewind : MonoBehaviour
         GameManager.instance.rewinds.Add(this);
     }
 
-    
+    /// <summary>
+    /// Guardar
+    /// </summary>
     public abstract void Save();
+
+    /// <summary>
+    /// Cargar
+    /// </summary>
     public abstract void Load();
 }

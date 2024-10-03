@@ -16,6 +16,8 @@ public class ActiveObject : MonoBehaviour, IInteracteable
     [SerializeField, Tooltip("Objetos a activar")] private GameObject[] _objectsToActive;
     [SerializeField, Tooltip("Objetos a desactivar")] private GameObject[] _objectsToDeactive;
 
+    public bool desactivarCuandoSalgo;
+
     private void Awake()
     {
         for (int i = 0; i < _objectsToActive.Length; i++)
@@ -27,6 +29,7 @@ public class ActiveObject : MonoBehaviour, IInteracteable
     public void Active()
     {
         if (_action == Action.Activar) ActiveObjects();
+
         else if (_action == Action.Desactivar) DeactiveObjects();
     }
 
@@ -48,6 +51,28 @@ public class ActiveObject : MonoBehaviour, IInteracteable
 
     public void Deactive()
     {
-
+        if(desactivarCuandoSalgo)
+        {
+            for (int i = 0; i < _objectsToDeactive.Length; i++)
+            {
+                _objectsToDeactive[i].SetActive(false);
+            }
+        }
     }
+
+    //public override void Save()
+    //{
+    //    //foreach (var item in _objectsToActive)
+    //    //{
+    //    //    _currentState.Rec(item.activeInHierarchy);
+    //    //}
+    //}
+
+    //public override void Load()
+    //{
+    //    //if(!_currentState.IsRemember()) return;
+
+    //    //var col = _currentState.Remember();
+    //    //gameObject.SetActive((bool)col.parameters[0]);
+    //}
 }
