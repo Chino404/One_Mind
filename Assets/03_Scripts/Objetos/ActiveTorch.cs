@@ -10,6 +10,7 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
 
     [Space(10),SerializeField] private Light _light;
     [SerializeField]private Color _colorFire;
+    public Color ColorFire { get { return _colorFire; } }
     private int _IdFireColor = Shader.PropertyToID("_FireColor");
     [SerializeField, Range(0,3f)] private float _rangeLight = 1.8f;
     private float _actualRangeLight;
