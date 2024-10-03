@@ -2,15 +2,70 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
     [SerializeField]int _asyncScene;
     [SerializeField] Canvas _levelSelectorCanvas;
+    [SerializeField] Canvas _mainMenuCanvas;
+    public Image[] _colectablesLvl1; 
+    public Image[] _colectablesLvl2;
+
+    //public static MenuManager instance;
+
+    //private void Awake()
+    //{
+    //    if (instance == null)
+    //    {
+
+    //        instance = this;
+            
+    //    }
+
+    //    else Destroy(gameObject);
+    //}
 
     private void Start()
     {
         Time.timeScale = 1;
+        foreach (var item in ColectableManager.instance.collectablesCollectedLvl1)
+        {
+            if (item == true)
+            {
+                foreach (var elem in _colectablesLvl1)
+                {
+                    if (elem.color != Color.green)
+                    {
+                        elem.color = Color.green;
+                        break;
+                    }
+
+                }
+
+            }
+
+            //else foreach (var elem in _colectablesLvl1)
+            //        if (elem.color != Color.green)
+            //            elem.color = Color.red;
+        }
+
+        foreach (var item in ColectableManager.instance.collectablesCollectedLvl2)
+        {
+            if (item == true)
+            {
+                foreach (var elem in _colectablesLvl2)
+                {
+                    if (elem.color != Color.green)
+                    {
+                        elem.color = Color.green;
+                        break;
+                    }
+
+                }
+
+            }
+        }
     }
 
     public void PlayGame(int sceneNumber)
@@ -27,7 +82,15 @@ public class MenuManager : MonoBehaviour
 
     public void LevelSelector()
     {
+        _levelSelectorCanvas.gameObject.SetActive(true);
+        _mainMenuCanvas.gameObject.SetActive(false);
+    }
 
+    public void BackToMainMenu()
+    {
+        
+        _mainMenuCanvas.gameObject.SetActive(true);
+        _levelSelectorCanvas.gameObject.SetActive(false);
     }
 }
 
