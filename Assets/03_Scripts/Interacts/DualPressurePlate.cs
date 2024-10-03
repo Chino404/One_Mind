@@ -100,7 +100,7 @@ public class DualPressurePlate : MonoBehaviour, IInteracteable
 
     }
 
-    public void Desactive()
+    public void Deactive()
     {
         if (_actionCompleted) return;
 
@@ -113,7 +113,7 @@ public class DualPressurePlate : MonoBehaviour, IInteracteable
         for (int i = 0; i < _indicators.Length; i++)
         {
             //if (_indicators[i] != null)_indicators[i].gameObject.SetActive(false);
-            if (_indicators[i] != null)_indicators[i].Desactive();
+            if (_indicators[i] != null)_indicators[i].Deactive();
         }
 
     }

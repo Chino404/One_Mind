@@ -82,7 +82,7 @@ public class SpinButton : MonoBehaviour, IInteracteable
         _isRotating = false;
     }
 
-    public void Desactive()
+    public void Deactive()
     {
 
     }

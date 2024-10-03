@@ -12,5 +12,5 @@ public interface IInteracteable
     /// <summary>
     /// Llamaer cuando se DEJA de interactuar
     /// </summary>
-    public void Desactive();
+    public void Deactive();
 }
