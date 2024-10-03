@@ -8,13 +8,11 @@ public class CameraSwitch : MonoBehaviour
     [Header("Componet")]
     [SerializeField]private CameraTracker _tracker;
     [Tooltip("Hacia donde se va a mover la cámara")]public Transform goTo;
-    private Transform _backTo;
-    [SerializeField] private bool _backToPosition;
 
-    //private void Start()
-    //{
-    //    _tracker = CameraTracker.Instance;
-    //}
+    [SerializeField] private bool _backToPosition;
+    [SerializeField, Tooltip("Punto especifo a cual volver")] private Transform _pointBack;
+    private Transform _backTo;
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -27,7 +25,8 @@ public class CameraSwitch : MonoBehaviour
 
         if(other.gameObject.GetComponent<Characters>())
         {
-            if(_backToPosition)_backTo = _tracker.Point;
+            if(_backToPosition && !_pointBack) _backTo = _tracker.Point;
+
             _tracker.TransicionPoint(goTo);
         }
     }
@@ -37,6 +36,12 @@ public class CameraSwitch : MonoBehaviour
 
         if (other.gameObject.GetComponent<Characters>() && _backToPosition)
         {
+            if(_pointBack)
+            {
+                _tracker.TransicionPoint(_pointBack);
+                return;
+            }
+
             _tracker.TransicionPoint(_backTo);
             _backTo = null;
         }
