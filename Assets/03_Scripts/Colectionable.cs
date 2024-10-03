@@ -28,7 +28,6 @@ public class Colectionable : MonoBehaviour
     private void OnDisable()
     {
         if (_isCollected == false) return;
-        Debug.Log("ayy");
         Scene currentScene = SceneManager.GetActiveScene();
         if (currentScene.buildIndex == 2)
         {
