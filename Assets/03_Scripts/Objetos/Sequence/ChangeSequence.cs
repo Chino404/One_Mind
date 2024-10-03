@@ -10,9 +10,6 @@ public class ChangeSequence : MonoBehaviour, IInteracteable
     [Space(10),SerializeField] private int[] _mySequence;
     [SerializeField, Range(0, 1.5f), Tooltip("Tiempo que las antorchas estan activadas antes de pasar a la otra")] private float _myActivedTime;
 
-    //[Space(10), SerializeField, Tooltip("Q se elijan aleatoriamente los valores")] private bool _randomNumber;
-    //[SerializeField, Tooltip("Valor maximo del index de las antorchas | ACLARACIÓN: Comienza desde 0 y el maximo es incluido")] private int _maxIndex;
-
     private void Awake()
     {
         if (_torchSequence == null) Debug.LogError($"Falta referencia de la secuencia en: {gameObject.name}");
@@ -36,18 +33,6 @@ public class ChangeSequence : MonoBehaviour, IInteracteable
 
         this.enabled = false;
     }
-
-    //void RandomIndex()
-    //{
-    //    for (int i = 0; i < _mySequence.Length; i++)
-    //    {
-    //        _torchSequence.sequenceList.Add(Random.Range(0, _maxIndex + 1)); //Lleno la lista con valores aleatorios
-    //    }
-
-    //    _torchSequence.StartSequence();
-
-    //    _myCollider.enabled = false;
-    //}
 
     public void Deactive()
     {
