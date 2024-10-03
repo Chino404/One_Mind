@@ -4,31 +4,28 @@ using UnityEngine;
 
 public class ChangeSequence : MonoBehaviour, IInteracteable
 {
-    [Space(10), SerializeField, Tooltip("Objeto que tenga la secuencia de las antorchas")] private TorchSequence _torchSequence;
+    [SerializeField, Tooltip("Objeto que tenga la secuencia de las antorchas")] private TorchSequence _torchSequence;
+    [SerializeField] private ChangeSequence _changeSequenceRef;
 
-    [SerializeField] private int[] _mySequence;
+    [Space(10),SerializeField] private int[] _mySequence;
+    [SerializeField, Range(0, 1.5f), Tooltip("Tiempo que las antorchas estan activadas antes de pasar a la otra")] private float _myActivedTime;
 
     //[Space(10), SerializeField, Tooltip("Q se elijan aleatoriamente los valores")] private bool _randomNumber;
     //[SerializeField, Tooltip("Valor maximo del index de las antorchas | ACLARACIÓN: Comienza desde 0 y el maximo es incluido")] private int _maxIndex;
 
-    private Collider _myCollider;
-
     private void Awake()
     {
-        _myCollider = GetComponent<Collider>();
-
         if (_torchSequence == null) Debug.LogError($"Falta referencia de la secuencia en: {gameObject.name}");
     }
 
     public void Active()
     {
+
+        if (!_changeSequenceRef.isActiveAndEnabled) _changeSequenceRef.enabled = true;
+
         _torchSequence.sequenceList.Clear(); //Limpio la lista
 
-        //if(_randomNumber)
-        //{
-        //    RandomIndex();
-        //    return;
-        //}
+        _torchSequence.activeTime = _myActivedTime;
 
         for (int i = 0; i < _mySequence.Length; i++)
         {
@@ -37,7 +34,7 @@ public class ChangeSequence : MonoBehaviour, IInteracteable
 
         _torchSequence.StartSequence(); //Arranco la secuencia
 
-        _myCollider.enabled = false;
+        this.enabled = false;
     }
 
     //void RandomIndex()

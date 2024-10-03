@@ -7,6 +7,7 @@ public class TorchSequence : MonoBehaviour
     [SerializeField,Tooltip("Las anotrchas que van en la secuencia")] private ActiveTorch[] _torchs;
 
     [SerializeField,Tooltip("El indice de la antorcha a prenderse")] public List<int> sequenceList;
+    [Space(10),Range(0, 1.5f), Tooltip("Tiempo que las antorchas estan activadas antes de pasar a la otra | PÚBLICA")] public float activeTime;
 
     private void Awake()
     {
@@ -65,18 +66,31 @@ public class TorchSequence : MonoBehaviour
             }
 
             yield return new WaitForSeconds(0.1f);
-#endregion
+
+            for (int i = 0; i < _torchs.Length; i++)
+            {
+                _torchs[i].Active();
+            }
+
+            yield return new WaitForSeconds(0.1f);
+
+            for (int i = 0; i < _torchs.Length; i++)
+            {
+                _torchs[i].Deactive();
+            }
+
+            yield return new WaitForSeconds(0.1f);
+            #endregion
 
             for (int i = 0; i < sequenceList.Count; i++)
             {
-
                 _torchs[sequenceList[i]].Active();
 
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(activeTime);
 
                 _torchs[sequenceList[i]].Deactive();
 
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(activeTime);
             }
         }
     }
