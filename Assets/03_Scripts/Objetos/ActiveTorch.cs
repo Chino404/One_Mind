@@ -9,6 +9,8 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
     private float _timer = 0;
 
     [Space(10),SerializeField] private Light _light;
+    [SerializeField]private Color _colorFire;
+    private int _IdFireColor = Shader.PropertyToID("_FireColor");
     [SerializeField, Range(0,3f)] private float _rangeLight = 1.8f;
     private float _actualRangeLight;
 
@@ -20,17 +22,23 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
 
     private bool _isActive;
 
-    //public ParticleSystem orangeFire;
-    //public ParticleSystem purpleFire;
 
     private void Awake()
     {
         myParticleSystem = GetComponentInChildren<ParticleSystem>();
-        //myParticleSystem = orangeFire;
+
+        ChangeColorFire(_colorFire);
+
         if (_fireMaterial == null) Debug.LogWarning($"Falta el Renderer en: {gameObject.name}");
 
         if (_light == null) Debug.LogWarning($"Poner una LIGHT en: {gameObject.name}");
         else _light.range = 0;
+    }
+
+    public void ChangeColorFire(Color color)
+    {
+        _fireMaterial.material.SetColor(_IdFireColor, color);
+        _light.color = color;
     }
 
     public void Active()
