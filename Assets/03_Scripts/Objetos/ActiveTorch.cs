@@ -71,7 +71,7 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
         _timer = 0;
     }
 
-    public void Desactive()
+    public void Deactive()
     {
         _timer = 0;
         StartCoroutine(DespawnFire());

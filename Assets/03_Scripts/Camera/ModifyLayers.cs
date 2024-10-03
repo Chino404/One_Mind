@@ -48,7 +48,7 @@ public class ModifyLayers : MonoBehaviour, IInteracteable
         }
     }
 
-    public void Desactive()
+    public void Deactive()
     {
         
     }

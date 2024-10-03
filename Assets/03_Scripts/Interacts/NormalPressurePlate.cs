@@ -65,7 +65,7 @@ public class NormalPressurePlate : Rewind, IInteracteable
         }
     }
 
-    public void Desactive()
+    public void Deactive()
     {
 
     }

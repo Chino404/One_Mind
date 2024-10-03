@@ -19,6 +19,7 @@ public class CheckPoint : MonoBehaviour
         if(other.GetComponent<Characters>())
         {
             other.GetComponent<Characters>().actualCheckpoint = this;
+
             foreach (var item in GameManager.instance.rewinds)
             {
                 item.Save();

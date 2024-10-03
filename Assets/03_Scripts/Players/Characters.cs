@@ -426,7 +426,7 @@ public abstract class Characters : Entity, IDamageable
     {
         var interact = other.GetComponent<IInteracteable>();
 
-        if (interact != null) interact.Desactive();
+        if (interact != null) interact.Deactive();
     }
 
     private void OnCollisionEnter(Collision collision)
