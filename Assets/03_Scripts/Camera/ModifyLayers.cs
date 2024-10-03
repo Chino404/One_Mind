@@ -5,10 +5,12 @@ using UnityEngine.UI;
 
 public class ModifyLayers : MonoBehaviour, IInteracteable
 {
+    [SerializeField, Tooltip("Desactivar las layers de _activeLayers ni bien arranca el juego")] private bool _deactiveInAwake = true;
     [SerializeField, Tooltip("Capa en la que no se renderiza los objetos para la cámara | Poner solo una Layer")] private LayerMask _doNotRenderer;
     private int _valueMaskNotRenderer;
+    [SerializeField, Tooltip("Desactivar el collider cuando se haya ejecutado el códigco")] private bool _deactiveMyColider = true;
 
-    [SerializeField, Tooltip("Desactivar las layers de _activeLayers ni bien arranca el juego")] private bool _deactiveInAwake = true;
+
     [Space(10), SerializeField, Tooltip("Objetos que se van a ACTIVAR para la cámara")] private GameObject[] _activeLayers;
     private Queue<int> _listSaveActiveLayers;
 
@@ -47,10 +49,10 @@ public class ModifyLayers : MonoBehaviour, IInteracteable
             {
                 _activeLayers[i].layer = _valueMaskNotRenderer; //Desactivar las layers
 
-                foreach (Transform child in _activeLayers[i].transform) //Y las de sus hijos
-                {
-                    child.gameObject.layer = _valueMaskNotRenderer;
-                }
+                //foreach (Transform child in _activeLayers[i].transform) //Y las de sus hijos
+                //{
+                //    child.gameObject.layer = _valueMaskNotRenderer;
+                //}
 
                 //ChangeLayersInNotRenderer(_activeLayers);
             }
@@ -60,10 +62,10 @@ public class ModifyLayers : MonoBehaviour, IInteracteable
         {
             _listSaveDesactiveLayers.Enqueue(_desactiveLayers[i].gameObject.layer);
 
-            foreach (Transform child in _desactiveLayers[i].transform)
-            {
-                _listSaveDesactiveLayers.Enqueue(child.gameObject.layer);
-            }
+            //foreach (Transform child in _desactiveLayers[i].transform)
+            //{
+            //    _listSaveDesactiveLayers.Enqueue(child.gameObject.layer);
+            //}
         }
 
     }
@@ -82,7 +84,7 @@ public class ModifyLayers : MonoBehaviour, IInteracteable
 
         //ChangeLayersInNotRenderer(_desactiveLayers);
 
-        if (!_backToDeactive && !_backToActive) _myCollider.enabled = false;
+        if (_deactiveMyColider) _myCollider.enabled = false;
     }
 
     public void Deactive()
