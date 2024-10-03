@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DualPressurePlate : MonoBehaviour, IInteracteable
+public class DualPressurePlate : Rewind, IInteracteable
 {
     [Header("PARAMETERS")]
     [SerializeField] private CharacterTarget _player;
@@ -26,8 +26,9 @@ public class DualPressurePlate : MonoBehaviour, IInteracteable
     private Renderer _renderer;
     private Animator _animator;
 
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
         if (_otherDualPressurePlate == null) Debug.LogWarning($"Falta referencia de la otra placa de presión en: {gameObject.name}");
         if (_objectToInteract == null) Debug.LogWarning($"Falta objeto para interactuar en: {gameObject.name}");
 
@@ -116,5 +117,19 @@ public class DualPressurePlate : MonoBehaviour, IInteracteable
             if (_indicators[i] != null)_indicators[i].Deactive();
         }
 
+    }
+
+    public override void Save()
+    {
+        _currentState.Rec(_actionCompleted);
+    }
+
+    public override void Load()
+    {
+        if (!_currentState.IsRemember()) return;
+
+        var col = _currentState.Remember();
+        _actionCompleted = (bool)col.parameters[0];
+        
     }
 }

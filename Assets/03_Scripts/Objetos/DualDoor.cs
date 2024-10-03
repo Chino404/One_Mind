@@ -8,6 +8,7 @@ public class DualDoor : MonoBehaviour
 
     private void Awake()
     {
+        
         _animator = GetComponent<Animator>();
     }
 
@@ -18,4 +19,6 @@ public class DualDoor : MonoBehaviour
         AudioManager.instance.Play(SoundId.Open_Door);
 
     }
+
+    
 }

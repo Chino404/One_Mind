@@ -57,6 +57,7 @@ public class ActiveObject : MonoBehaviour, IInteracteable
             {
                 _objectsToDeactive[i].SetActive(false);
             }
+            gameObject.SetActive(false);
         }
     }
 

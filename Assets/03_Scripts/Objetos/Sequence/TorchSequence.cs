@@ -41,6 +41,7 @@ public class TorchSequence : MonoBehaviour
             #region PARPADEO
             for (int i = 0; i < _torchs.Length; i++)
             {
+                //_torchs[i].myParticleSystem = _torchs[i].purpleFire;
                 _torchs[i].Active();
             }
 
@@ -76,6 +77,7 @@ public class TorchSequence : MonoBehaviour
 
             for (int i = 0; i < _torchs.Length; i++)
             {
+                //_torchs[i].myParticleSystem = _torchs[i].orangeFire;
                 _torchs[i].Deactive();
             }
 

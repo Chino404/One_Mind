@@ -16,14 +16,17 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
     [Space(10), SerializeField]private Renderer _fireMaterial;
 
     private float _valueFireTreshold = 0f;
-    private ParticleSystem _myParticleSystem;
+    public ParticleSystem myParticleSystem;
 
     private bool _isActive;
 
+    //public ParticleSystem orangeFire;
+    //public ParticleSystem purpleFire;
+
     private void Awake()
     {
-        _myParticleSystem = GetComponentInChildren<ParticleSystem>();
-
+        myParticleSystem = GetComponentInChildren<ParticleSystem>();
+        //myParticleSystem = orangeFire;
         if (_fireMaterial == null) Debug.LogWarning($"Falta el Renderer en: {gameObject.name}");
 
         if (_light == null) Debug.LogWarning($"Poner una LIGHT en: {gameObject.name}");
@@ -33,7 +36,7 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
     public void Active()
     {
         _timer = 0;
-        _myParticleSystem?.Play();
+        myParticleSystem?.Play();
         StartCoroutine(SpawnFire());
     }
 
@@ -106,7 +109,7 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
             _valueFireTreshold = 0;
         }
 
-        _myParticleSystem?.Stop();
+        myParticleSystem?.Stop();
 
         _timer = 0;
         _timeToDespawn = 0;
