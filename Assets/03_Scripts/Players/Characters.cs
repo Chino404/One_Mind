@@ -482,8 +482,8 @@ public abstract class Characters : Entity, IDamageable
         var col = _currentState.Remember();
         if (actualCheckpoint != null)
         {
-            transform.position = actualCheckpoint.spawnPoint.position;
-            transform.rotation = actualCheckpoint.spawnPoint.rotation;
+            transform.position = actualCheckpoint.SpawnPoint.position;
+            transform.rotation = actualCheckpoint.SpawnPoint.rotation;
         }
         else
         {
