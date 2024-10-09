@@ -36,7 +36,7 @@ public class Shadow : MonoBehaviour
         //    RaycastScaleShadow();
         //}
 
-        if (_character.IsGrounded())
+        if (_character.IsGrounded(_layerToCastShadow))
         {
             RaycastScaleShadow();
         }
