@@ -31,6 +31,7 @@ public class AsyncLoad : MonoBehaviour
 
     IEnumerator AsyncCharge()
     {
+        
         _asyncOperation = SceneManager.LoadSceneAsync(sceneNumber);
         _asyncOperation.allowSceneActivation = false;
         Application.backgroundLoadingPriority = ThreadPriority.High;
