@@ -12,12 +12,14 @@ public class ModifyLayers : MonoBehaviour, IInteracteable
 
 
     [Space(10), SerializeField, Tooltip("Objetos que se van a ACTIVAR para la cámara")] private GameObject[] _activeLayers;
-    private Queue<int> _listSaveActiveLayers;
+    //private Queue<int> _listSaveActiveLayers;
+    [SerializeField]private List<int> _listSaveActiveLayers = new List<int>();
 
     [SerializeField, Tooltip("Volver a DESACTIVAR las layer que se activaron cuando salga del Collider")] private bool _backToDeactive;
 
     [Space(10), SerializeField, Tooltip("Objetos que se van a DESACTIVAR para la cámara")] private GameObject[] _desactiveLayers;
-    private Queue<int> _listSaveDesactiveLayers;
+    //private Queue<int> _listSaveDesactiveLayers;
+    private List<int> _listSaveDesactiveLayers = new List<int>();
 
     [SerializeField, Tooltip("Volver a ACTIVAR las layer que se desactivaron cuando salga del Collider")] private bool _backToActive;
 
@@ -28,31 +30,29 @@ public class ModifyLayers : MonoBehaviour, IInteracteable
         if (gameObject.GetComponent<Collider>()) _myCollider = GetComponent<Collider>();
         else Debug.LogError($"Falta Collider en: {gameObject.name}");
 
-        _listSaveActiveLayers = new Queue<int>();
-        _listSaveDesactiveLayers = new Queue<int>();
+        //_listSaveActiveLayers = new Queue<int>();
+        //_listSaveDesactiveLayers = new Queue<int>();
 
         _valueMaskNotRenderer = (int)Mathf.Log(_doNotRenderer.value, 2);
 
         for (int i = 0; i < _activeLayers.Length; i++)
         {
             //Me guardo la capa del objeto
-            _listSaveActiveLayers.Enqueue(_activeLayers[i].gameObject.layer);
+            //_listSaveActiveLayers.Enqueue(_activeLayers[i].gameObject.layer);
 
-            //Y sus hijos
-            foreach (Transform child in _activeLayers[i].transform)
+            if (!_activeLayers[i]) return;
+
+            _listSaveActiveLayers.Add(_activeLayers[i].layer);
+
+            if (_listSaveActiveLayers[i] == 9)
             {
-                _listSaveActiveLayers.Enqueue(child.gameObject.layer);
-
+                Debug.LogWarning("Una capa no se guardo bien, se cambiara por la LAYER 8");
+                _listSaveActiveLayers[i] = 8;
             }
 
             if (_deactiveInAwake)
             {
                 _activeLayers[i].layer = _valueMaskNotRenderer; //Desactivar las layers
-
-                //foreach (Transform child in _activeLayers[i].transform) //Y las de sus hijos
-                //{
-                //    child.gameObject.layer = _valueMaskNotRenderer;
-                //}
 
                 //ChangeLayersInNotRenderer(_activeLayers);
             }
@@ -60,12 +60,8 @@ public class ModifyLayers : MonoBehaviour, IInteracteable
 
         for (int i = 0; i < _desactiveLayers.Length; i++)
         {
-            _listSaveDesactiveLayers.Enqueue(_desactiveLayers[i].gameObject.layer);
-
-            //foreach (Transform child in _desactiveLayers[i].transform)
-            //{
-            //    _listSaveDesactiveLayers.Enqueue(child.gameObject.layer);
-            //}
+            //_listSaveDesactiveLayers.Enqueue(_desactiveLayers[i].gameObject.layer);
+            if (_desactiveLayers[i])_listSaveDesactiveLayers.Add(_desactiveLayers[i].layer);
         }
 
     }
@@ -74,15 +70,14 @@ public class ModifyLayers : MonoBehaviour, IInteracteable
     {                                                                                                                                                        
         for (int i = 0; i < _activeLayers.Length; i++)
         {
-            _activeLayers[i].layer = _listSaveActiveLayers.Dequeue();
+            //_activeLayers[i].layer = _listSaveActiveLayers.Dequeue();
+            if (_activeLayers[i]) _activeLayers[i].layer = _listSaveActiveLayers[i];
         }
 
         for (int i = 0; i < _desactiveLayers.Length; i++)
         {
-            _desactiveLayers[i].layer = _valueMaskNotRenderer;
+            if (_desactiveLayers[i]) _desactiveLayers[i].layer = _valueMaskNotRenderer;
         }
-
-        //ChangeLayersInNotRenderer(_desactiveLayers);
 
         if (_deactiveMyColider) _myCollider.enabled = false;
     }
@@ -94,9 +89,13 @@ public class ModifyLayers : MonoBehaviour, IInteracteable
             //Las desactivos
             for (int i = 0; i < _activeLayers.Length; i++)
             {
-                _listSaveActiveLayers.Enqueue(_activeLayers[i].layer);
+                //_listSaveActiveLayers.Enqueue(_activeLayers[i].layer);
+                if (_activeLayers[i])
+                {
+                    _listSaveActiveLayers.Add(_activeLayers[i].layer);
 
-                _activeLayers[i].layer = _valueMaskNotRenderer;
+                    _activeLayers[i].layer = _valueMaskNotRenderer;
+                }
             }
         }
 
@@ -105,13 +104,15 @@ public class ModifyLayers : MonoBehaviour, IInteracteable
             //Las vuelvo a activar
             for (int i = 0; i < _desactiveLayers.Length; i++)
             {
-                _desactiveLayers[i].layer = _listSaveDesactiveLayers.Dequeue();
+                //_desactiveLayers[i].layer = _listSaveDesactiveLayers.Dequeue();
+                if (_desactiveLayers[i])_desactiveLayers[i].layer = _listSaveDesactiveLayers[i];
             }
 
             //Me las vuelvo a guardar
             for (int i = 0; i < _desactiveLayers.Length; i++)
             {
-                _listSaveDesactiveLayers.Enqueue(_desactiveLayers[i].gameObject.layer);
+                //_listSaveDesactiveLayers.Enqueue(_desactiveLayers[i].gameObject.layer);
+                if (_desactiveLayers[i])_listSaveDesactiveLayers.Add(_desactiveLayers[i].layer);
             }
         }
     }
@@ -124,18 +125,8 @@ public class ModifyLayers : MonoBehaviour, IInteracteable
     {
         for (int i = 0; i < obj.Length; i++)
         {
-            obj[i].layer = _valueMaskNotRenderer; //Cambio a la layer q no renderiza la cámara
-
-            foreach (Transform child in obj[i].transform) //Y las de sus hijos
-            {
-                child.gameObject.layer = _valueMaskNotRenderer;
-            }
+            if (obj[i]) obj[i].layer = _valueMaskNotRenderer; //Cambio a la layer q no renderiza la cámara
         }
     }
-
-    //void BackNormalLayer()
-    //{
-
-    //}
 
 }

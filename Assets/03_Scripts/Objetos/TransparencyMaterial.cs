@@ -31,7 +31,10 @@ public class TransparencyMaterial : MonoBehaviour
 
             for (int i = 0; i < _gruopObjetTransparency.Length; i++)
             {
-                _gruopObjetTransparency[i].Fade(t); 
+                if (_gruopObjetTransparency[i])
+                {
+                    _gruopObjetTransparency[i].Fade(t); 
+                }
             }
         }
     }
@@ -73,7 +76,7 @@ public class TransparencyMaterial : MonoBehaviour
 
             for (int i = 0; i < _gruopObjetTransparency.Length; i++)
             {
-                _gruopObjetTransparency[i].Appear(t);
+                if (_gruopObjetTransparency[i]) _gruopObjetTransparency[i].Appear(t);
             }
         }
     }

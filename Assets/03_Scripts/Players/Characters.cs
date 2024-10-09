@@ -204,6 +204,10 @@ public abstract class Characters : Entity, IDamageable
             {
 
                 _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
+
+                //Vector3 velocity = new Vector3(dirRaw.normalized.x * _actualSpeed, _rbCharacter.velocity.y, dirRaw.normalized.z * _actualSpeed);
+                //_rbCharacter.velocity = velocity;
+
                 Rotate(dir);
             }
         }
