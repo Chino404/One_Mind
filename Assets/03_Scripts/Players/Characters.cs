@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
+using static UnityEditor.Rendering.CameraUI;
 
 
 public enum EstadoDePlayer
@@ -20,16 +22,17 @@ public abstract class Characters : Entity, IDamageable
     [Space(10)]public EstadoDePlayer actualStatePlayer;
 
     [Header("--> GENERAL")]
-    [SerializeField] protected float _maxLife = 3f;
+    [SerializeField] protected float _maxLife = 1f;
     protected float _actualLife;
     [SerializeField] protected float _speed = 10f;
     protected float _actualSpeed;
     [SerializeField] protected float _forceGravity = 1.25f;
     protected float _initialForceGravity;
-    [SerializeField, Tooltip("Fuerza de salto normal")] protected float _jumpForce = 25f;
+    [Space(10), SerializeField, Tooltip("Fuerza de salto normal")] protected float _jumpForce = 25f;
+    [SerializeField] private float _iceFriction = 0.9f;
     [SerializeField, Range(0, 0.4f), Tooltip("Tiempo para saltar cuando dejo de tocar el suelo")] protected float _coyoteTime = 0.15f;
-    [SerializeField] protected float _coyoteTimeCounter;
-    [SerializeField, Tooltip("Daño de golpe")] protected int _normalDamage = 1;
+    protected float _coyoteTimeCounter;
+    //[SerializeField, Tooltip("Daño de golpe")] protected int _normalDamage = 1;
     protected Vector3 _launchDir;
 
     [Header("--> CLIMB")]
@@ -42,9 +45,10 @@ public abstract class Characters : Entity, IDamageable
     [Header("--> RAYCASTS")]
     [SerializeField, Range(0.1f, 3f) , Tooltip("Rango del raycast para el coyote time")] protected float _groundRange = 2;
     [SerializeField, Tooltip("Layer de objeto en donde pueda saltar")] protected LayerMask _floorLayer;
-    [SerializeField, Range(0.1f, 2f) , Tooltip("Rango del raycast para las colisiones")] protected float _forwardRange = 0.75f; //Rango para el Raycast para evitar q el PJ se pegue a la pared
+    [SerializeField] private LayerMask _iceLayer;
+    [Space(10),SerializeField, Range(0.1f, 2f) , Tooltip("Rango del raycast para las colisiones")] protected float _forwardRange = 0.75f; //Rango para el Raycast para evitar q el PJ se pegue a la pared
     [SerializeField, Tooltip("Que Layer no quiero que se acerque")] protected LayerMask _moveMask; //Para indicar q layer quierO q no se acerque mucho
-    [SerializeField, Tooltip("Layer de Enredaderas u objeto a trepar")] protected LayerMask _handleMask;
+    [Space(10),SerializeField, Tooltip("Layer de Enredaderas u objeto a trepar")] protected LayerMask _handleMask;
     [SerializeField, Tooltip("Layer de objeto para seguir")] protected LayerMask _continueMask;
     protected Ray _moveRay;
     public bool isStopMove;
@@ -71,7 +75,7 @@ public abstract class Characters : Entity, IDamageable
         _rbCharacter = GetComponent<Rigidbody>();
         _rbCharacter.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ; //De esta manera para que se freezeen los dos
         _rbCharacter.angularDrag = 1f; //Friccion de la rotacion
-        _rbCharacter.drag = 1;
+        //_rbCharacter.drag = 1;
 
         _animPlayer = GetComponentInChildren<Animator>();
 
@@ -112,7 +116,7 @@ public abstract class Characters : Entity, IDamageable
 
     void CoyoteTime()
     {
-        if (IsGrounded())
+        if (IsGrounded(_floorLayer))
         {
             _animPlayer.SetBool("IsGrounded", true);
             _coyoteTimeCounter = _coyoteTime;
@@ -151,13 +155,13 @@ public abstract class Characters : Entity, IDamageable
     /// Si estoy tocando algun objeto de la layer para saltar
     /// </summary>
     /// <returns></returns>
-    public bool IsGrounded()
+    public bool IsGrounded(LayerMask layer)
     {
         Vector3 pos = transform.position;
         Vector3 dir = Vector3.down;
-        float dist = _groundRange;
+        RaycastHit hit;
 
-        return Physics.Raycast(pos, dir, out RaycastHit hit, _groundRange, _floorLayer);
+        return Physics.Raycast(pos, dir, out hit, _groundRange, layer);
     }
 
     #endregion
@@ -165,12 +169,11 @@ public abstract class Characters : Entity, IDamageable
     #region MOVEMENT
     public virtual void Movement(Vector3 dirRaw, Vector3 dir)
     {
-        if (/*actualStatePlayer == EstadoDePlayer.Golpeando || */IsTouch(dir.normalized, _moveMask))
+        if (IsTouch(dir.normalized, _moveMask))
         {
             isStopMove = true;
             _animPlayer.SetBool("IsWallDetected", true);
             transform.forward = dir;
-            //_animPlayer.SetBool("Walk", false);
             return;
         }
         else
@@ -194,29 +197,39 @@ public abstract class Characters : Entity, IDamageable
         _dirGrabb = default;
 
         //if(_rbCharacter.isKinematic) _rbCharacter.isKinematic = false;
+        dir.Normalize();
 
         if (dirRaw.sqrMagnitude != 0)
         {
 
             _launchDir = dir;
+            Rotate(dir);
 
-            if (!_isJumpGrabb)
-            {
 
-                _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
+            _rbCharacter.MovePosition(transform.position + (dir.normalized * _actualSpeed * Time.fixedDeltaTime));
 
-                //Vector3 velocity = new Vector3(dirRaw.normalized.x * _actualSpeed, _rbCharacter.velocity.y, dirRaw.normalized.z * _actualSpeed);
-                //_rbCharacter.velocity = velocity;
 
-                Rotate(dir);
-            }
+            //if (!_isJumpGrabb)
+            //{
+
+            //    _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
+
+            //    //Vector3 velocity = new Vector3(dirRaw.normalized.x, 0, dirRaw.normalized.z);
+            //    //_rbCharacter.velocity = velocity * _actualSpeed;
+
+            //    Rotate(dir);
+            //}
+
+
         }
 
         if (IsTouch(transform.forward, _handleMask) && !_isWaitRay) //Si toco algo escalable, cambio de movimiento
         {
             Debug.LogWarning("ENREDADERA DETECTADA");
             actualStatePlayer = EstadoDePlayer.Escalando;
-            if (IsGrounded()) _rbCharacter.velocity = transform.up * _jumpForce;
+
+            if (IsGrounded(_floorLayer)) _rbCharacter.velocity = transform.up * _jumpForce;
+
             StartCoroutine(WaitingKinematic(true));
 
             ActualMove = HandleMovement;
@@ -258,7 +271,7 @@ public abstract class Characters : Entity, IDamageable
             RaycastHit hitInfo;
             if (Physics.Raycast(vistaEnredadera, out hitInfo, _forwardRange, _handleMask)) transform.forward = hitInfo.transform.forward; //Miro para la enredadera
 
-            if (IsGrounded()) 
+            if (IsGrounded(_floorLayer)) 
             {
                 _rbCharacter.isKinematic = false;
                 ActualMove = NormalMovement;
@@ -371,7 +384,7 @@ public abstract class Characters : Entity, IDamageable
             _coyoteTimeCounter = 0f;
             _animPlayer?.SetTrigger("Jump");
             _particleJump?.Play();
-            _rbCharacter.velocity = Vector3.up * _jumpForce;
+            _rbCharacter.velocity = Vector3.up * _jumpForce;;
 
             AudioManager.instance.Play(SoundId.Jump);
             //OldAudioManager.instance.PlayMonkeySFX(OldAudioManager.instance.jump);
@@ -389,7 +402,7 @@ public abstract class Characters : Entity, IDamageable
     #region ATTACKS
     public void Attack()
     {
-        if (IsGrounded()) NormalPunch();
+        if (IsGrounded(_floorLayer)) NormalPunch();
     }
 
     protected void NormalPunch()
