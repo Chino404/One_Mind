@@ -30,10 +30,10 @@ public abstract class Characters : Entity, IDamageable
     [SerializeField] protected float _forceGravity = 1.25f;
     protected float _initialForceGravity;
     [Space(10), SerializeField, Tooltip("Fuerza de salto normal")] protected float _jumpForce = 25f;
-    [SerializeField, Range(0, 0.1f), Tooltip("Cuanto mas alto el valor, mas se resbala")] private float _iceFriction = 0.65f;
-    private bool _inIce;
     [SerializeField, Range(0, 0.4f), Tooltip("Tiempo para saltar cuando dejo de tocar el suelo")] protected float _coyoteTime = 0.15f;
     protected float _coyoteTimeCounter;
+    [SerializeField, Range(0, 0.1f), Tooltip("Cuanto mas alto el valor, mas se resbala")] private float _iceFriction = 0.65f;
+    private bool _inIce;
     //[SerializeField, Tooltip("Daño de golpe")] protected int _normalDamage = 1;
 
     [Header("--> CLIMB")]
