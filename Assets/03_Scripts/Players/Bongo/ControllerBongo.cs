@@ -54,7 +54,10 @@ public class ControllerBongo
         //    return;
         //}
 
-        if(_dirRaw.sqrMagnitude != 0) _viewBongo.Walking(true);
+        if (_dirRaw.sqrMagnitude != 0)
+        {
+            _viewBongo.Walking(true);
+        }
         else _viewBongo.Walking(false);
 
         _model.Movement(_dirRaw, _dir);

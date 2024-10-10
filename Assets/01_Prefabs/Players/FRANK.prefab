@@ -1619,15 +1619,17 @@ MonoBehaviour:
   _speed: 10
   _forceGravity: 1.25
   _jumpForce: 25
+  _iceFriction: 0.9
   _coyoteTime: 0.15
-  _coyoteTimeCounter: 0
-  _normalDamage: 1
   _jumpForceAxiX: 20
   _jumpForceAxiY: 15
   _groundRange: 1.3
   _floorLayer:
     serializedVersion: 2
-    m_Bits: 131136
+    m_Bits: 64
+  _iceLayer:
+    serializedVersion: 2
+    m_Bits: 0
   _forwardRange: 0.75
   _moveMask:
     serializedVersion: 2
@@ -1658,7 +1660,7 @@ MonoBehaviour:
   _character: {fileID: 0}
   _layerToCastShadow:
     serializedVersion: 2
-    m_Bits: 147520
+    m_Bits: 16448
   _iniScale: 0.005
   _newScale: 0.015
 --- !u!54 &998891695011306010
