@@ -15,6 +15,7 @@ public enum EstadoDePlayer
 public abstract class Characters : Entity, IDamageable
 {
     protected Rigidbody _rbCharacter;
+    private Vector3 _myVelocity;
     protected Animator _animPlayer;
 
     [Header("--- VALUE CHARACTERS ---")]
@@ -29,11 +30,11 @@ public abstract class Characters : Entity, IDamageable
     [SerializeField] protected float _forceGravity = 1.25f;
     protected float _initialForceGravity;
     [Space(10), SerializeField, Tooltip("Fuerza de salto normal")] protected float _jumpForce = 25f;
-    [SerializeField] private float _iceFriction = 0.9f;
+    [SerializeField, Range(0, 0.1f), Tooltip("Cuanto mas alto el valor, mas se resbala")] private float _iceFriction = 0.65f;
+    private bool _inIce;
     [SerializeField, Range(0, 0.4f), Tooltip("Tiempo para saltar cuando dejo de tocar el suelo")] protected float _coyoteTime = 0.15f;
     protected float _coyoteTimeCounter;
     //[SerializeField, Tooltip("Daño de golpe")] protected int _normalDamage = 1;
-    protected Vector3 _launchDir;
 
     [Header("--> CLIMB")]
     [SerializeField, Range(1, 40), Tooltip("Fuerza de salto en el eje X")] protected float _jumpForceAxiX = 20;
@@ -75,7 +76,7 @@ public abstract class Characters : Entity, IDamageable
         _rbCharacter = GetComponent<Rigidbody>();
         _rbCharacter.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ; //De esta manera para que se freezeen los dos
         _rbCharacter.angularDrag = 1f; //Friccion de la rotacion
-        //_rbCharacter.drag = 1;
+        _rbCharacter.drag = 1;
 
         _animPlayer = GetComponentInChildren<Animator>();
 
@@ -116,12 +117,23 @@ public abstract class Characters : Entity, IDamageable
 
     void CoyoteTime()
     {
-        if (IsGrounded(_floorLayer))
+        if (IsGrounded(_iceLayer))
         {
+            if(_rbCharacter.drag != 0)_rbCharacter.drag = 0;
+
+            _inIce = true;
+            _animPlayer.SetBool("IsGrounded", true);
+            _coyoteTimeCounter = _coyoteTime;
+        }
+        else if (IsGrounded(_floorLayer))
+        {
+            if(_rbCharacter.drag != 1) _rbCharacter.drag = 1;
+            _inIce = false;
+            _isJumpGrabb = false;
+
             _animPlayer.SetBool("IsGrounded", true);
             _coyoteTimeCounter = _coyoteTime;
 
-            _isJumpGrabb = false;
         }
         else
         {
@@ -192,36 +204,56 @@ public abstract class Characters : Entity, IDamageable
 
     public void NormalMovement(Vector3 dirRaw, Vector3 dir)
     {
+        //if (_isJumpGrabb) return;
         if(actualStatePlayer != EstadoDePlayer.Normal) actualStatePlayer = EstadoDePlayer.Normal;
 
         _dirGrabb = default;
-
         //if(_rbCharacter.isKinematic) _rbCharacter.isKinematic = false;
-        dir.Normalize();
 
-        if (dirRaw.sqrMagnitude != 0)
+
+
+        //_rbCharacter.MovePosition(transform.position + (dir.normalized * _actualSpeed * Time.fixedDeltaTime));
+
+        _myVelocity = Vector3.zero;
+
+        if(dirRaw.sqrMagnitude != 0)
         {
+            Vector3 mov= new Vector3(dir.normalized.x, 0, dir.normalized.z);
+            _myVelocity = mov * _actualSpeed;
 
-            _launchDir = dir;
-            Rotate(dir);
-
-
-            _rbCharacter.MovePosition(transform.position + (dir.normalized * _actualSpeed * Time.fixedDeltaTime));
-
-
-            //if (!_isJumpGrabb)
-            //{
-
-            //    _rbCharacter.MovePosition(transform.position + dir.normalized * _actualSpeed * Time.fixedDeltaTime);
-
-            //    //Vector3 velocity = new Vector3(dirRaw.normalized.x, 0, dirRaw.normalized.z);
-            //    //_rbCharacter.velocity = velocity * _actualSpeed;
-
-            //    Rotate(dir);
-            //}
-
-
+            Rotate(mov);
         }
+
+        _myVelocity.y = _rbCharacter.velocity.y;
+
+        if (_inIce)
+        {
+            // Aplica la fuerza en el suelo con fricción de hielo
+            _rbCharacter.AddForce(new Vector3(_myVelocity.x * _iceFriction, 0, _myVelocity.z * _iceFriction), ForceMode.VelocityChange);
+        }
+        else
+        {
+            _rbCharacter.velocity = _myVelocity;
+        }
+
+
+        //if (IsGrounded(_iceLayer)) _rbCharacter.AddForce(_myVelocity * _iceFriction, ForceMode.VelocityChange);
+        //else _rbCharacter.velocity = _myVelocity;
+
+        //_rbCharacter.velocity = _myVelocity;
+
+
+        //Vector3 velocity = new Vector3(dirRaw.normalized.x, 0, dirRaw.normalized.z);
+        //_rbCharacter.velocity = velocity * _actualSpeed;
+
+        //if (IsGrounded(_iceLayer))
+        //{
+        //    //Debug.Log("Hielo");
+        //    _rbCharacter.AddForce(transform.position + (dir.normalized * _iceFriction), ForceMode.VelocityChange);
+
+        //    return;
+        //}
+
 
         if (IsTouch(transform.forward, _handleMask) && !_isWaitRay) //Si toco algo escalable, cambio de movimiento
         {
@@ -384,10 +416,21 @@ public abstract class Characters : Entity, IDamageable
             _coyoteTimeCounter = 0f;
             _animPlayer?.SetTrigger("Jump");
             _particleJump?.Play();
-            _rbCharacter.velocity = Vector3.up * _jumpForce;;
+
+            _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _jumpForce, _rbCharacter.velocity.z);
+
+            // Limitar la velocidad horizontal al saltar
+            float maxHorizontalSpeed = 13f; // Ajusta este valor según lo que te parezca razonable
+            Vector3 horizontalVelocity = new Vector3(_rbCharacter.velocity.x, 0, _rbCharacter.velocity.z);
+
+            if (horizontalVelocity.magnitude > maxHorizontalSpeed)
+            {
+                // Limitar la velocidad horizontal a un máximo
+                horizontalVelocity = horizontalVelocity.normalized * maxHorizontalSpeed;
+                _rbCharacter.velocity = new Vector3(horizontalVelocity.x, _rbCharacter.velocity.y, horizontalVelocity.z);
+            }
 
             AudioManager.instance.Play(SoundId.Jump);
-            //OldAudioManager.instance.PlayMonkeySFX(OldAudioManager.instance.jump);
         }
     }
 
