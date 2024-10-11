@@ -33,7 +33,9 @@ public abstract class Characters : Entity, IDamageable
     [SerializeField, Range(0, 0.4f), Tooltip("Tiempo para saltar cuando dejo de tocar el suelo")] protected float _coyoteTime = 0.15f;
     protected float _coyoteTimeCounter;
     [SerializeField, Range(0, 0.1f), Tooltip("Cuanto mas alto el valor, mas se resbala")] private float _iceFriction = 0.65f;
-    private bool _inIce;
+    //[SerializeField, Range(0, 20f), Tooltip("Cuanto mas alto el valor, mas se resbala")] private float _iceFriction = 0.65f;
+    [SerializeField,Range(0, 15f),Tooltip("Velocidad máxima cuando se salta en el hielo")] private float _maxSpeedJumpIce;
+    private bool _isInIce;
     //[SerializeField, Tooltip("Daño de golpe")] protected int _normalDamage = 1;
 
     [Header("--> CLIMB")]
@@ -121,14 +123,14 @@ public abstract class Characters : Entity, IDamageable
         {
             if(_rbCharacter.drag != 0)_rbCharacter.drag = 0;
 
-            _inIce = true;
+            _isInIce = true;
             _animPlayer.SetBool("IsGrounded", true);
             _coyoteTimeCounter = _coyoteTime;
         }
         else if (IsGrounded(_floorLayer))
         {
             if(_rbCharacter.drag != 1) _rbCharacter.drag = 1;
-            _inIce = false;
+            _isInIce = false;
             _isJumpGrabb = false;
 
             _animPlayer.SetBool("IsGrounded", true);
@@ -200,7 +202,10 @@ public abstract class Characters : Entity, IDamageable
 
     public void Rotate(Vector3 dirForward) => transform.forward = dirForward;
 
-   
+    public void ApplyForce(float force, Vector3 dir)
+    {
+        _rbCharacter.velocity += (dir * force);
+    }
 
     public void NormalMovement(Vector3 dirRaw, Vector3 dir)
     {
@@ -226,16 +231,22 @@ public abstract class Characters : Entity, IDamageable
 
         _myVelocity.y = _rbCharacter.velocity.y;
 
-        if (_inIce)
+        if (_isInIce)
         {
+            float force = 0f;
             // Aplica la fuerza en el suelo con fricción de hielo
-            _rbCharacter.AddForce(new Vector3(_myVelocity.x * _iceFriction, 0, _myVelocity.z * _iceFriction), ForceMode.VelocityChange);
+            if (IsGrounded(_iceLayer)) force = _iceFriction;
+            else force = _iceFriction / _maxSpeedJumpIce;
+            //else force = _iceFriction / 5;
+
+            _rbCharacter.AddForce(new Vector3(_myVelocity.x * force, 0, _myVelocity.z * force), ForceMode.VelocityChange);
+
+            ////ApplyForce(force);
         }
         else
         {
             _rbCharacter.velocity = _myVelocity;
         }
-
 
         //if (IsGrounded(_iceLayer)) _rbCharacter.AddForce(_myVelocity * _iceFriction, ForceMode.VelocityChange);
         //else _rbCharacter.velocity = _myVelocity;
@@ -420,13 +431,12 @@ public abstract class Characters : Entity, IDamageable
             _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _jumpForce, _rbCharacter.velocity.z);
 
             // Limitar la velocidad horizontal al saltar
-            float maxHorizontalSpeed = 13f; // Ajusta este valor según lo que te parezca razonable
             Vector3 horizontalVelocity = new Vector3(_rbCharacter.velocity.x, 0, _rbCharacter.velocity.z);
 
-            if (horizontalVelocity.magnitude > maxHorizontalSpeed)
+            if (horizontalVelocity.magnitude > _maxSpeedJumpIce)
             {
                 // Limitar la velocidad horizontal a un máximo
-                horizontalVelocity = horizontalVelocity.normalized * maxHorizontalSpeed;
+                horizontalVelocity = horizontalVelocity.normalized * _maxSpeedJumpIce;
                 _rbCharacter.velocity = new Vector3(horizontalVelocity.x, _rbCharacter.velocity.y, horizontalVelocity.z);
             }
 
