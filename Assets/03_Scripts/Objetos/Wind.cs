@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider), typeof(AudioSource))]
 public class Wind : MonoBehaviour
 {
-    [SerializeField, Range(0.08f, 0.2f),Tooltip("Fuerza del viento")] private float _forceWind = 0.1f;
+    [SerializeField, Range(0.08f, 0.6f),Tooltip("Fuerza del viento")] private float _forceWind = 0.1f;
     private bool _playerDetected;
     [SerializeField, Tooltip("Siempre activo")] private bool _alwaysActive;
 
