@@ -77,8 +77,10 @@ public class AudioManager : MonoBehaviour
 public static class SoundId
 {
     public const int Jump = 0;
-    public const int Open_Door = 1;
-    public const int Desactive_Wall_Holograph = 2;
+    public const int OpenDoor = 1;
+    public const int DesactiveWallHolograph = 2;
     public const int Fall = 3;
     public const int ButtonDualDoor = 4;
+    public const int IceBreak = 5;
+    public const int Wind = 6;
 }
