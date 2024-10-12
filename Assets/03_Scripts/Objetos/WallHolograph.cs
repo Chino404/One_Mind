@@ -39,7 +39,7 @@ public class WallHolograph : Rewind
     public void Desactive()
     {
         StartCoroutine(timeToDesactive());
-        AudioManager.instance.Play(SoundId.Desactive_Wall_Holograph);
+        AudioManager.instance.Play(SoundId.DesactiveWallHolograph);
         //OldAudioManager.instance.PlaySFX(OldAudioManager.instance.wallHoloraphActive);
     }
 

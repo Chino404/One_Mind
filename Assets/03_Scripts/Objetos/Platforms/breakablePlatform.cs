@@ -30,6 +30,7 @@ public class breakablePlatform : MonoBehaviour
     IEnumerator Breaking()
     {
         _isBreaking = true;
+        AudioManager.instance.Play(SoundId.IceBreak);
 
         yield return new WaitForSeconds(_timeToBreaking);
 
