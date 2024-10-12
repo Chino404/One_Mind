@@ -32,8 +32,8 @@ public abstract class Characters : Entity, IDamageable
     [Space(10), SerializeField, Tooltip("Fuerza de salto normal")] protected float _jumpForce = 25f;
     [SerializeField, Range(0, 0.4f), Tooltip("Tiempo para saltar cuando dejo de tocar el suelo")] protected float _coyoteTime = 0.15f;
     protected float _coyoteTimeCounter;
-    [SerializeField, Range(0, 0.1f), Tooltip("Cuanto mas alto el valor, mas se resbala")] private float _iceFriction = 0.65f;
-    //[SerializeField, Range(0, 20f), Tooltip("Cuanto mas alto el valor, mas se resbala")] private float _iceFriction = 0.65f;
+    [Space(10), SerializeField, Range(0, 0.1f), Tooltip("Cuanto mas alto el valor, mas se resbala")] private float _iceFriction = 0.65f;
+    [SerializeField, Range(0, 20f), Tooltip("Cuanto mas alto el valor, mas se resbala")] private float _blueIceFriction = 0.65f;
     [SerializeField,Range(0, 15f),Tooltip("Velocidad máxima cuando se salta en el hielo")] private float _maxSpeedJumpIce;
     private bool _isInIce;
     //[SerializeField, Tooltip("Daño de golpe")] protected int _normalDamage = 1;
@@ -48,7 +48,8 @@ public abstract class Characters : Entity, IDamageable
     [Header("--> RAYCASTS")]
     [SerializeField, Range(0.1f, 3f) , Tooltip("Rango del raycast para el coyote time")] protected float _groundRange = 2;
     [SerializeField, Tooltip("Layer de objeto en donde pueda saltar")] protected LayerMask _floorLayer;
-    [SerializeField] private LayerMask _iceLayer;
+    [Space(10),SerializeField] private LayerMask _iceLayer;
+    [SerializeField] private LayerMask _blueIceLayer;
     [Space(10),SerializeField, Range(0.1f, 2f) , Tooltip("Rango del raycast para las colisiones")] protected float _forwardRange = 0.75f; //Rango para el Raycast para evitar q el PJ se pegue a la pared
     [SerializeField, Tooltip("Que Layer no quiero que se acerque")] protected LayerMask _moveMask; //Para indicar q layer quierO q no se acerque mucho
     [Space(10),SerializeField, Tooltip("Layer de Enredaderas u objeto a trepar")] protected LayerMask _handleMask;
@@ -119,7 +120,7 @@ public abstract class Characters : Entity, IDamageable
 
     void CoyoteTime()
     {
-        if (IsGrounded(_iceLayer))
+        if (IsGrounded(_iceLayer) || IsGrounded(_blueIceLayer))
         {
             if(_rbCharacter.drag != 0)_rbCharacter.drag = 0;
 
@@ -166,7 +167,7 @@ public abstract class Characters : Entity, IDamageable
     }
 
     /// <summary>
-    /// Si estoy tocando algun objeto de la layer para saltar
+    /// Si estoy tocando algun objeto debajo mio, correspondiente a la layer
     /// </summary>
     /// <returns></returns>
     public bool IsGrounded(LayerMask layer)
@@ -209,14 +210,13 @@ public abstract class Characters : Entity, IDamageable
 
     public void NormalMovement(Vector3 dirRaw, Vector3 dir)
     {
-        //if (_isJumpGrabb) return;
+        if (_isJumpGrabb) return;
+
         if(actualStatePlayer != EstadoDePlayer.Normal) actualStatePlayer = EstadoDePlayer.Normal;
 
         _dirGrabb = default;
+
         //if(_rbCharacter.isKinematic) _rbCharacter.isKinematic = false;
-
-
-
         //_rbCharacter.MovePosition(transform.position + (dir.normalized * _actualSpeed * Time.fixedDeltaTime));
 
         _myVelocity = Vector3.zero;
@@ -235,13 +235,21 @@ public abstract class Characters : Entity, IDamageable
         {
             float force = 0f;
             // Aplica la fuerza en el suelo con fricción de hielo
-            if (IsGrounded(_iceLayer)) force = _iceFriction;
-            else force = _iceFriction / _maxSpeedJumpIce;
+            if (IsGrounded(_iceLayer))
+            {
+                force = _iceFriction;
+            }
+            else if (IsGrounded(_blueIceLayer))
+            {
+                force = _blueIceFriction;
+            }
+            else
+            {
+                force = _iceFriction / _maxSpeedJumpIce;
+            }
             //else force = _iceFriction / 5;
 
             _rbCharacter.AddForce(new Vector3(_myVelocity.x * force, 0, _myVelocity.z * force), ForceMode.VelocityChange);
-
-            ////ApplyForce(force);
         }
         else
         {
