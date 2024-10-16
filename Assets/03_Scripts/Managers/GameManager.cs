@@ -16,8 +16,12 @@ public class GameManager : MonoBehaviour
     
 
     [Header("Characters")]
-    public ModelBongo bongo;
-    public ModelFrank frank;
+    [HideInInspector]public ModelBongo bongo;
+    public CameraTracker bongoCamera;
+
+    [HideInInspector]public ModelFrank frank;
+    public CameraTracker frankCamera;
+
     public List<PointsForTheCamera> points = new ();
 
     private bool _controllerMonkey = true; //Si se puede usar al mono
@@ -44,8 +48,10 @@ public class GameManager : MonoBehaviour
         Debug.Log("Start GAMEMANAGER");
 
         //Activo los controles del Mono
-        _controllerMonkey = true;
+        //_controllerMonkey = true;
 
+        if (!bongo) Debug.LogError("Falta la referencia de BONGO");
+        if (!frank) Debug.LogError("Falta la referencia de FRANK");
         
 
         foreach (var item in rewinds)

@@ -40,7 +40,7 @@ public class ModifyLayers : MonoBehaviour, IInteracteable
             //Me guardo la capa del objeto
             //_listSaveActiveLayers.Enqueue(_activeLayers[i].gameObject.layer);
 
-            if (!_activeLayers[i]) return;
+            if (_activeLayers[i] == null) return;
 
             _listSaveActiveLayers.Add(_activeLayers[i].layer);
 

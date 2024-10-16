@@ -24,6 +24,25 @@ public class CameraTracker : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        transform.position = _point.position;
+
+        if (characterTarget == CharacterTarget.Bongo)
+        {
+            _target = GameManager.instance.bongo.transform;
+
+            GameManager.instance.bongoCamera = this;
+        }
+
+        else if (characterTarget == CharacterTarget.Frank)
+        {
+            _target = GameManager.instance.frank.transform;
+
+            GameManager.instance.frankCamera = this;
+        }
+
+        if (_target == null) Debug.LogError($"Falta target en: {gameObject.name}");
+        else gameObject.GetComponent<CameraTransparency>().target = _target;
     }
 
     private void Start()
@@ -31,11 +50,11 @@ public class CameraTracker : MonoBehaviour
 
         if(_point == null)
         {
-            Debug.LogError("ASIGNAR PUNTO A LA CÁMARA");
+            Debug.LogError($"Asignar punto en la cámara: {gameObject.name}");
             return;
         }
 
-        StartCoroutine(Wait());
+        //StartCoroutine(Wait());
 
     }
 
@@ -45,9 +64,19 @@ public class CameraTracker : MonoBehaviour
 
         transform.position = _point.position;
 
-        if (characterTarget == CharacterTarget.Bongo) _target = GameManager.instance.bongo.transform;
+        if (characterTarget == CharacterTarget.Bongo)
+        {
+            _target = GameManager.instance.bongo.transform;
 
-        else if (characterTarget == CharacterTarget.Frank)_target = GameManager.instance.frank.transform;
+            GameManager.instance.bongoCamera = this;
+        }
+
+        else if (characterTarget == CharacterTarget.Frank)
+        {
+            _target = GameManager.instance.frank.transform;
+
+            GameManager.instance.frankCamera = this;
+        }
 
         if (_target == null) Debug.LogError("FALTA TARGET");
         else gameObject.GetComponent<CameraTransparency>().target = _target;
