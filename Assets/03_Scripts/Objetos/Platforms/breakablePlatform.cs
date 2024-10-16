@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
-public class breakablePlatform : MonoBehaviour
+public class BreakablePlatform : Rewind
 {
     [SerializeField, Tooltip("Tiempo que tarda para ROMPERSE"), Range(0,5f)] private float _timeToBreaking = 3;
     [SerializeField, Tooltip("Tiempo que tarda para RECOMPONERSE"), Range(0,5f)] private float _timeToRecover = 3;
@@ -13,8 +13,9 @@ public class breakablePlatform : MonoBehaviour
     private Collider _myCollider;
     private MeshRenderer _myRenderer;
 
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
         _myCollider = GetComponent<Collider>();
         _myRenderer = GetComponent<MeshRenderer>();
     }
@@ -45,4 +46,18 @@ public class breakablePlatform : MonoBehaviour
         _isBreaking = false;
     }
 
+    public override void Save()
+    {
+        _currentState.Rec(_myCollider.enabled, _myRenderer.enabled, _isBreaking);
+    }
+
+    public override void Load()
+    {
+        if (!_currentState.IsRemember()) return;
+        StopAllCoroutines();
+        var col = _currentState.Remember();
+        _myCollider.enabled = (bool)col.parameters[0];
+        _myRenderer.enabled = (bool)col.parameters[1];
+        _isBreaking = (bool)col.parameters[2];
+    }
 }
