@@ -6,7 +6,7 @@ using UnityEngine;
 public class CameraSwitch : MonoBehaviour
 {
     [Header("Componet")]
-    [SerializeField] private CameraTracker _tracker;
+    private CameraTracker _tracker;
     public CharacterTarget myCharacterTarget;
     [Tooltip("Hacia donde se va a mover la cámara")]public Transform goTo;
 
