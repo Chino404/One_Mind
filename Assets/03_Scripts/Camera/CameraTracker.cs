@@ -11,7 +11,7 @@ public class CameraTracker : MonoBehaviour
     [SerializeField] private Transform _point;
     public Transform Point {  get { return _point; } }
 
-    private Transform _target;
+    [SerializeField]private Transform _target;
 
     [Header("Smoothing Values")]
     [Range(0.01f, 0.125f)] [SerializeField] float _smoothSpeedPosition = 0.075f;
@@ -29,14 +29,14 @@ public class CameraTracker : MonoBehaviour
 
         if (characterTarget == CharacterTarget.Bongo)
         {
-            _target = GameManager.instance.bongo.transform;
+            if(!_target) _target = GameManager.instance.bongo.transform;
 
             GameManager.instance.bongoCamera = this;
         }
 
         else if (characterTarget == CharacterTarget.Frank)
         {
-            _target = GameManager.instance.frank.transform;
+            if(!_target)_target = GameManager.instance.frank.transform;
 
             GameManager.instance.frankCamera = this;
         }
