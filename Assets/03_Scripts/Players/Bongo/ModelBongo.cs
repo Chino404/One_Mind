@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(-1)]
 [RequireComponent(typeof(Rigidbody))]
 public class ModelBongo : Characters
 {

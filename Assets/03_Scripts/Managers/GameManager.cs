@@ -8,7 +8,7 @@ public enum CharacterTarget
     Bongo,
     Frank
 }
-
+[DefaultExecutionOrder(-50)]
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
@@ -16,10 +16,10 @@ public class GameManager : MonoBehaviour
     
 
     [Header("Characters")]
-    [HideInInspector]public ModelBongo bongo;
+    public ModelBongo bongo;
     public CameraTracker bongoCamera;
 
-    [HideInInspector]public ModelFrank frank;
+    public ModelFrank frank;
     public CameraTracker frankCamera;
 
     public List<PointsForTheCamera> points = new ();
@@ -41,11 +41,12 @@ public class GameManager : MonoBehaviour
             //DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
+
+        Debug.Log("AWAKE GAMEMANAGER");
     }
 
     private void Start()
     {
-        Debug.Log("Start GAMEMANAGER");
 
         //Activo los controles del Mono
         //_controllerMonkey = true;
