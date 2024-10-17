@@ -18,7 +18,7 @@ public class ModelBongo : Characters
 
         base.Awake();
 
-        GameManager.instance.bongo = this;
+        GameManager.instance.bongo = instance;
 
         _view = new ViewBongo(_animPlayer);
         _controller = new ControllerBongo(this, _view);
