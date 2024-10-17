@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Colectionable : MonoBehaviour
 {
     [SerializeField] private float _rotationSpeed;
+    [SerializeField] private float _imageDisplayDuration = 2f;
     private bool _isCollected;
+    public Image imageColec;
 
     private void Update()
     {
@@ -20,9 +23,37 @@ public class Colectionable : MonoBehaviour
             Debug.Log("agarre coleccionable");
 
             _isCollected = true;
+            imageColec.gameObject.SetActive(true);
+            StartCoroutine(ShowImageAndDisable());
             gameObject.SetActive(false);
         }
 
+    }
+
+    //new
+    private IEnumerator ShowImageAndDisable()
+    {
+        float elapsedTime = 0f;
+        Color imageColor = imageColec.color;
+        imageColor.a = 0.5f; 
+        imageColec.color = imageColor;
+
+        
+        while (elapsedTime < _imageDisplayDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            imageColor.a = Mathf.Clamp01(elapsedTime / _imageDisplayDuration); 
+            imageColec.color = imageColor;
+            yield return null;
+        }
+
+        
+        yield return new WaitForSeconds(1f); 
+
+        
+        imageColor.a = 0; 
+        imageColec.color = imageColor;
+        imageColec.gameObject.SetActive(false);
     }
 
     private void OnDisable()
