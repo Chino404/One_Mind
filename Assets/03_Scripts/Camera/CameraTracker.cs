@@ -5,7 +5,8 @@ public class CameraTracker : MonoBehaviour
 {
     public static CameraTracker Instance;
 
-    public CharacterTarget characterTarget;
+    [SerializeField]private CharacterTarget _myCharacterTarget;
+    public CharacterTarget MyCharacterTarget { get { return _myCharacterTarget; } }
 
     [Header("Components")]
     [SerializeField] private Transform _point;
@@ -24,21 +25,30 @@ public class CameraTracker : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        //else if (_myCharacterTarget==Instance.MyCharacterTarget) Destroy(gameObject);
+
+        
 
         transform.position = _point.position;
 
-        if (characterTarget == CharacterTarget.Bongo)
+        if (_myCharacterTarget == CharacterTarget.Bongo)
         {
+            if (GameManager.instance.bongoCamera) Destroy(gameObject);
+
             if(!_target) _target = GameManager.instance.bongo.transform;
 
+
             GameManager.instance.bongoCamera = this;
+            
         }
 
-        else if (characterTarget == CharacterTarget.Frank)
+        else if (_myCharacterTarget == CharacterTarget.Frank)
         {
+            if (GameManager.instance.frankCamera) Destroy(gameObject);
             if(!_target)_target = GameManager.instance.frank.transform;
 
             GameManager.instance.frankCamera = this;
+            
         }
 
         if (_target == null) Debug.LogError($"Falta target en: {gameObject.name}");
@@ -64,14 +74,14 @@ public class CameraTracker : MonoBehaviour
 
         transform.position = _point.position;
 
-        if (characterTarget == CharacterTarget.Bongo)
+        if (MyCharacterTarget == CharacterTarget.Bongo)
         {
             _target = GameManager.instance.bongo.transform;
 
             GameManager.instance.bongoCamera = this;
         }
 
-        else if (characterTarget == CharacterTarget.Frank)
+        else if (MyCharacterTarget == CharacterTarget.Frank)
         {
             _target = GameManager.instance.frank.transform;
 
