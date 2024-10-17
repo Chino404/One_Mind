@@ -34,20 +34,20 @@ public class CameraTracker : MonoBehaviour
         if (_myCharacterTarget == CharacterTarget.Bongo)
         {
             if (GameManager.instance.bongoCamera) Destroy(gameObject);
+            else GameManager.instance.bongoCamera = this;
 
             if(!_target) _target = GameManager.instance.bongo.transform;
 
 
-            GameManager.instance.bongoCamera = this;
             
         }
 
         else if (_myCharacterTarget == CharacterTarget.Frank)
         {
             if (GameManager.instance.frankCamera) Destroy(gameObject);
+            else GameManager.instance.frankCamera = this;
             if(!_target)_target = GameManager.instance.frank.transform;
 
-            GameManager.instance.frankCamera = this;
             
         }
 
