@@ -9,9 +9,12 @@ public class ModelFrank : Characters
     //Referencias
     private ControllerFrank _controller;
     private ViewFrank _view;
+    public static ModelFrank instance;
 
     public override void Awake()
     {
+        if (instance == null) instance = this;
+        else Destroy(gameObject);
         base.Awake();
 
         GameManager.instance.frank = this;
