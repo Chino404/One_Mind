@@ -9,9 +9,13 @@ public class ModelBongo : Characters
     //Referencias
     private ControllerBongo _controller;
     private ViewBongo _view;
+    public static ModelBongo instance;
 
     public override void Awake()
     {
+        if (instance == null) instance = this;
+        else Destroy(gameObject);
+
         base.Awake();
 
         GameManager.instance.bongo = this;
