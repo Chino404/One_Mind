@@ -6,13 +6,14 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
-    [SerializeField]int _asyncScene;
-    [SerializeField] Canvas _levelSelectorCanvas;
-    [SerializeField] Canvas _mainMenuCanvas;
-    public Image[] _colectablesLvl1; 
-    public Image[] _colectablesLvl2;
+    [SerializeField] private BookAnim _refBookAnim;
 
-    
+    [Space(10), SerializeField]private int _asyncScene;
+    [SerializeField] private Canvas _mainMenuCanvas;
+    [SerializeField] private Canvas _levelSelectorCanvas;
+
+    [Space(10), SerializeField]private Image[] _colectablesLvl1; 
+    [SerializeField] private Image[] _colectablesLvl2;
 
     private void Start()
     {
