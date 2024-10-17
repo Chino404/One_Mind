@@ -23,9 +23,17 @@ public class MenuManager : MonoBehaviour
             {
                 foreach (var elem in _colectablesLvl1)
                 {
-                    if (elem.color != Color.green)
+                    //if (elem.color != Color.green)
+                    //{
+                    //    elem.color = Color.green;
+                    //    break;
+                    //}
+
+                    if (elem.color.a != 1f)
                     {
-                        elem.color = Color.green;
+                        Color newColor = elem.color;
+                        newColor.a = 1f;
+                        elem.color = newColor;
                         break;
                     }
 
@@ -44,9 +52,17 @@ public class MenuManager : MonoBehaviour
             {
                 foreach (var elem in _colectablesLvl2)
                 {
-                    if (elem.color != Color.green)
+                    //if (elem.color != Color.green)
+                    //{
+                    //    elem.color = Color.green;
+                    //    break;
+                    //}
+
+                    if (elem.color.a != 1f)
                     {
-                        elem.color = Color.green;
+                        Color newColor = elem.color;
+                        newColor.a = 1f; 
+                        elem.color = newColor;
                         break;
                     }
 
