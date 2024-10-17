@@ -18,6 +18,7 @@ public class Impulse : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Characters>())
         {
+            var player = other.gameObject.GetComponent<Characters>();
             var rb = other.GetComponent<Rigidbody>();
 
             _animator.SetTrigger("Interact");
@@ -25,6 +26,11 @@ public class Impulse : MonoBehaviour
             //OldAudioManager.instance.PlaySFX(OldAudioManager.instance.mushroom);
 
             rb.velocity = transform.up * _force;
+
+
+            //rb.AddForce(transform.up * _force, _impulseMode);
+
+            //rb.velocity = new Vector3(rb.velocity.x, _force, rb.velocity.z); 
             
         }
     }
