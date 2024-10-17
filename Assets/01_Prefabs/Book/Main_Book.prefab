@@ -337,8 +337,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3295654306110465304}
-  - component: {fileID: 2042114668646471562}
   - component: {fileID: 1087440778030457374}
+  - component: {fileID: 2042114668646471562}
   m_Layer: 0
   m_Name: Main_Book
   m_TagString: Untagged
@@ -366,6 +366,22 @@ Transform:
   - {fileID: 6695719690212937765}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 60.611, y: 180, z: 0}
+--- !u!114 &1087440778030457374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2175115061598282867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98f554be00bb8dd4597815dcc8686678, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _menuManager: {fileID: 0}
+  _animBook: {fileID: 0}
+  canvas: []
+  delay: 1
 --- !u!95 &2042114668646471562
 Animator:
   serializedVersion: 5
@@ -387,19 +403,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1087440778030457374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2175115061598282867}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98f554be00bb8dd4597815dcc8686678, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animBook: {fileID: 2042114668646471562}
 --- !u!1 &2299024106041862205
 GameObject:
   m_ObjectHideFlags: 0
