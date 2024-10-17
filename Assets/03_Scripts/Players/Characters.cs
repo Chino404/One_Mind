@@ -14,7 +14,7 @@ public enum EstadoDePlayer
 public abstract class Characters : Entity, IDamageable
 {
     protected Rigidbody _rbCharacter;
-    private Vector3 _myVelocity;
+    public Vector3 _myVelocityCharacter;
     protected Animator _animPlayer;
 
     [Header("--- VALUE CHARACTERS ---")]
@@ -205,6 +205,8 @@ public abstract class Characters : Entity, IDamageable
     public void ApplyForce(float force, Vector3 dir)
     {
         _rbCharacter.velocity += (dir * force);
+
+        //_rbCharacter.velocity = new Vector3(0, force, 0);
     }
 
     public void NormalMovement(Vector3 dirRaw, Vector3 dir)
@@ -218,17 +220,17 @@ public abstract class Characters : Entity, IDamageable
         //if(_rbCharacter.isKinematic) _rbCharacter.isKinematic = false;
         //_rbCharacter.MovePosition(transform.position + (dir.normalized * _actualSpeed * Time.fixedDeltaTime));
 
-        _myVelocity = Vector3.zero;
+        _myVelocityCharacter = Vector3.zero;
 
         if(dirRaw.sqrMagnitude != 0)
         {
             Vector3 mov= new Vector3(dir.normalized.x, 0, dir.normalized.z);
-            _myVelocity = mov * _actualSpeed;
+            _myVelocityCharacter = mov * _actualSpeed;
 
             Rotate(mov);
         }
 
-        _myVelocity.y = _rbCharacter.velocity.y;
+        _myVelocityCharacter.y = _rbCharacter.velocity.y;
 
         if (_isInIce)
         {
@@ -248,11 +250,11 @@ public abstract class Characters : Entity, IDamageable
             }
             //else force = _iceFriction / 5;
 
-            _rbCharacter.AddForce(new Vector3(_myVelocity.x * force, 0, _myVelocity.z * force), ForceMode.VelocityChange);
+            _rbCharacter.AddForce(new Vector3(_myVelocityCharacter.x * force, 0, _myVelocityCharacter.z * force), ForceMode.VelocityChange);
         }
         else
         {
-            _rbCharacter.velocity = _myVelocity;
+            _rbCharacter.velocity = _myVelocityCharacter;
         }
 
         //if (IsGrounded(_iceLayer)) _rbCharacter.AddForce(_myVelocity * _iceFriction, ForceMode.VelocityChange);
