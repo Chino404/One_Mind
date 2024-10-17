@@ -23,9 +23,9 @@ public class Colectionable : MonoBehaviour
             Debug.Log("agarre coleccionable");
 
             _isCollected = true;
+            gameObject.SetActive(false);
             imageColec.gameObject.SetActive(true);
             StartCoroutine(ShowImageAndDisable());
-            gameObject.SetActive(false);
         }
 
     }
