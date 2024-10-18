@@ -14,7 +14,11 @@ public class ModelFrank : Characters
     public override void Awake()
     {
         if (instance == null) instance = this;
-        else Destroy(gameObject);
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
         GameManager.instance.frank = instance;
         base.Awake();
 
