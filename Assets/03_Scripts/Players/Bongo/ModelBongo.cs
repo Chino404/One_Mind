@@ -16,9 +16,9 @@ public class ModelBongo : Characters
         if (instance == null) instance = this;
         else Destroy(gameObject);
 
+        GameManager.instance.bongo = instance;
         base.Awake();
 
-        GameManager.instance.bongo = instance;
 
         _view = new ViewBongo(_animPlayer);
         _controller = new ControllerBongo(this, _view);
