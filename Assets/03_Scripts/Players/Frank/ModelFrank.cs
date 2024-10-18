@@ -15,9 +15,9 @@ public class ModelFrank : Characters
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
+        GameManager.instance.frank = instance;
         base.Awake();
 
-        GameManager.instance.frank = instance;
 
         _view = new ViewFrank(_animPlayer);
         _controller = new ControllerFrank(this, _view);
