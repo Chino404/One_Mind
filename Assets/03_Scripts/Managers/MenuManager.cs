@@ -15,6 +15,23 @@ public class MenuManager : MonoBehaviour
     [Space(10), SerializeField]private Image[] _colectablesLvl1; 
     [SerializeField] private Image[] _colectablesLvl2;
 
+    [Tooltip("En este array se ponen todos los botones que empiezan desactivados. El primero del array no se desactiva")]
+    public Button[] buttons;
+
+    private void Awake()
+    {
+        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            buttons[i].interactable = false;
+        }
+
+        for (int i = 0; i < unlockedLevel; i++)
+        {
+            buttons[i].interactable = true;
+        }
+    }
+
     private void Start()
     {
         Time.timeScale = 1;
@@ -71,6 +88,28 @@ public class MenuManager : MonoBehaviour
 
             }
         }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SceneManager.LoadSceneAsync(_asyncScene);
+            AsyncLoad.sceneNumber = 2;
+            Time.timeScale = 1;
+        }if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SceneManager.LoadSceneAsync(_asyncScene);
+            AsyncLoad.sceneNumber = 3;
+            Time.timeScale = 1;
+        }if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            SceneManager.LoadSceneAsync(_asyncScene);
+            AsyncLoad.sceneNumber = 4;
+            Time.timeScale = 1;
+        }
+
+
     }
 
     public void PlayGame(int sceneNumber)
