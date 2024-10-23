@@ -431,7 +431,7 @@ public abstract class Characters : Entity, IDamageable
             //}
         }
 
-        else if ( actualStatePlayer == EstadoDePlayer.Normal && _coyoteTimeCounter == _coyoteTime)
+        else if ( actualStatePlayer == EstadoDePlayer.Normal && _coyoteTimeCounter >0.1f)
         {
             _coyoteTimeCounter = 0f;
             _animPlayer?.SetTrigger("Jump");
