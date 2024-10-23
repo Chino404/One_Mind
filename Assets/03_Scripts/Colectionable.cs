@@ -24,7 +24,7 @@ public class Colectionable : MonoBehaviour
 
             _isCollected = true;
             gameObject.SetActive(false);
-            imageColec.gameObject.SetActive(true);
+            imageColec.gameObject?.SetActive(true);
             StartCoroutine(ShowImageAndDisable());
         }
 
@@ -53,7 +53,7 @@ public class Colectionable : MonoBehaviour
         
         imageColor.a = 0; 
         imageColec.color = imageColor;
-        imageColec.gameObject.SetActive(false);
+        imageColec.gameObject?.SetActive(false);
     }
 
     private void OnDisable()
