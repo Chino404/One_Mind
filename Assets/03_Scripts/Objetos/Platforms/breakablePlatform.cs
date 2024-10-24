@@ -9,8 +9,12 @@ public class BreakablePlatform : Rewind
     [SerializeField, Tooltip("Tiempo que tarda para RECOMPONERSE"), Range(0,5f)] private float _timeToRecover = 3;
     private bool _isBreaking;
 
-    //Provisorio hasta tener animaciones
     private Collider _myCollider;
+
+    //Provisorio hasta tener animaciones
+    [SerializeField] private Color _normalColor;
+    [SerializeField] private Color _breakingColor;
+    private Material _myMaterial;
     private MeshRenderer _myRenderer;
 
     public override void Awake()
@@ -18,6 +22,9 @@ public class BreakablePlatform : Rewind
         base.Awake();
         _myCollider = GetComponent<Collider>();
         _myRenderer = GetComponent<MeshRenderer>();
+        _myMaterial = GetComponent<Material>();
+
+         //_normalColor = _myMaterial.color;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -32,6 +39,11 @@ public class BreakablePlatform : Rewind
     {
         _isBreaking = true;
         AudioManager.instance.Play(SoundId.IceBreak);
+
+        //while ()
+        //{
+
+        //}
 
         yield return new WaitForSeconds(_timeToBreaking);
 
