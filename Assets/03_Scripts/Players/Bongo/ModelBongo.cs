@@ -24,7 +24,7 @@ public class ModelBongo : Characters
         base.Awake();
 
 
-        _view = new ViewBongo(_animPlayer);
+        _view = new ViewBongo(this, _animPlayer);
         _controller = new ControllerBongo(this, _view);
 
         _currentState = new MementoState();

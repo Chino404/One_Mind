@@ -32,30 +32,12 @@ public class ControllerFrank
 
         _dir.x = Input.GetAxis("Horizontal");
         _dir.z = Input.GetAxis("Vertical");
-
-        //if(!GameManager.instance.bongo.stopMove)
-        //{
-        //    _dirRaw.x = Input.GetAxisRaw("Horizontal");
-        //    _dirRaw.z = Input.GetAxisRaw("Vertical");
-
-        //    _dir.x = Input.GetAxis("Horizontal");
-        //    _dir.z = Input.GetAxis("Vertical");
-        //}
-        //else Debug.Log("FRANK NO entro a CONTROLLER");
     }
 
     public void ListenFixedKeys()
     {
-        //if (GameManager.instance.bongo.stopMove /*|| _model.stopMove*/)
-        //{
-        //    _viewFrank.Walking(false);
-        //    return;
-        //}
 
-        if (_dirRaw.sqrMagnitude != 0)
-        {
-            _viewFrank.Walking(true);
-        }
+        if (_dirRaw.sqrMagnitude != 0) _viewFrank.Walking(true);
         else _viewFrank.Walking(false);
 
         _model.Movement(_dirRaw, _dir);

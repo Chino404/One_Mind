@@ -34,7 +34,8 @@ public abstract class Characters : Entity, IDamageable
     [Space(10), SerializeField, Range(0, 0.1f), Tooltip("Cuanto mas alto el valor, mas se resbala")] private float _iceFriction = 0.65f;
     [SerializeField, Range(0, 20f), Tooltip("Cuanto mas alto el valor, mas se resbala")] private float _blueIceFriction = 0.65f;
     [SerializeField,Range(0, 15f),Tooltip("Velocidad máxima cuando se salta en el hielo")] private float _maxSpeedJumpIce;
-    private bool _isInIce;
+    [SerializeField]private bool _isInIce;
+    public bool IsInIce { get { return _isInIce; } }
     //[SerializeField, Tooltip("Daño de golpe")] protected int _normalDamage = 1;
 
     [Header("--> CLIMB")]
@@ -139,6 +140,7 @@ public abstract class Characters : Entity, IDamageable
         }
         else
         {
+            //_isInIce = false;
             _animPlayer.SetBool("IsGrounded", false);
             _coyoteTimeCounter -= Time.deltaTime;
         }
