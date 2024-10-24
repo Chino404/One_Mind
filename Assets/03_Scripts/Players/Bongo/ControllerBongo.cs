@@ -26,38 +26,18 @@ public class ControllerBongo
 
         if (Input.GetButtonDown("Jump")) _model.Jump();
 
-        //if (Input.GetMouseButtonDown(0)) _model.Attack();
-
         _dirRaw.x = Input.GetAxisRaw("Horizontal");
         _dirRaw.z = Input.GetAxisRaw("Vertical");
 
         _dir.x = Input.GetAxis("Horizontal");
         _dir.z = Input.GetAxis("Vertical");
-        
-
-        //if (!GameManager.instance.frank.stopMove)
-        //{
-        //    _dirRaw.x = Input.GetAxisRaw("Horizontal");
-        //    _dirRaw.z = Input.GetAxisRaw("Vertical");
-
-        //    _dir.x = Input.GetAxis("Horizontal");
-        //    _dir.z = Input.GetAxis("Vertical");
-        //}
-        //else Debug.Log("BONGO NO entro a CONTROLLER");
+       
     }
 
     public void ListenFixedKeys()
     {
-        //if (GameManager.instance.frank.stopMove /*|| _model.stopMove*/)
-        //{
-        //    _viewBongo.Walking(false);
-        //    return;
-        //}
 
-        if (_dirRaw.sqrMagnitude != 0)
-        {
-            _viewBongo.Walking(true);
-        }
+        if (_dirRaw.sqrMagnitude != 0) _viewBongo.Walking(true);
         else _viewBongo.Walking(false);
 
         _model.Movement(_dirRaw, _dir);

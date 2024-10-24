@@ -4,15 +4,31 @@ using UnityEngine;
 
 public class ViewBongo
 {
-    private Animator _animator;
+    private Animator _myAnimator;
+    private ModelBongo _myModelBongo;
 
-    public ViewBongo(Animator animator)
+    public ViewBongo(ModelBongo model , Animator animator)
     {
-        _animator = animator;
+        _myAnimator = animator;
+        _myModelBongo = model;
+
+        
     }
 
     public void Walking(bool value)
     {
-        _animator.SetBool("Walk", value);
+        if(_myModelBongo.IsInIce)
+        {
+            _myAnimator.SetLayerWeight(1, 1f);
+            _myAnimator.SetLayerWeight(0, 0f);
+        }
+        else
+        {
+            _myAnimator.SetLayerWeight(1, 0f);
+            _myAnimator.SetLayerWeight(0, 1f);
+        }
+
+        _myAnimator.SetBool("Walk", value);
     }
+
 }

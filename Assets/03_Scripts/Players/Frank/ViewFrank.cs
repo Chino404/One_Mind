@@ -4,15 +4,28 @@ using UnityEngine;
 
 public class ViewFrank
 {
-    private Animator _animator;
+    private Animator _myAnimator;
+    private ModelFrank _myModelFrank;
 
-    public ViewFrank(Animator animator)
+    public ViewFrank(ModelFrank model,Animator animator)
     {
-        _animator = animator;
+        _myAnimator = animator;
+        _myModelFrank = model;
     }
 
     public void Walking(bool value)
     {
-        _animator.SetBool("Walk", value);
+        if (_myModelFrank.IsInIce)
+        {
+            _myAnimator.SetLayerWeight(1, 1f);
+            _myAnimator.SetLayerWeight(0, 0f);
+        }
+        else
+        {
+            _myAnimator.SetLayerWeight(1, 0f);
+            _myAnimator.SetLayerWeight(0, 1f);
+        }
+
+        _myAnimator.SetBool("Walk", value);
     }
 }

@@ -23,7 +23,7 @@ public class ModelFrank : Characters
         base.Awake();
 
 
-        _view = new ViewFrank(_animPlayer);
+        _view = new ViewFrank(this, _animPlayer);
         _controller = new ControllerFrank(this, _view);
 
         _currentState = new MementoState();
