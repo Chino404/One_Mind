@@ -97,12 +97,16 @@ public class MenuManager : MonoBehaviour
             SceneManager.LoadSceneAsync(_asyncScene);
             AsyncLoad.sceneNumber = 2;
             Time.timeScale = 1;
-        }if (Input.GetKeyDown(KeyCode.Alpha2))
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             SceneManager.LoadSceneAsync(_asyncScene);
             AsyncLoad.sceneNumber = 3;
             Time.timeScale = 1;
-        }if (Input.GetKeyDown(KeyCode.Alpha3))
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             SceneManager.LoadSceneAsync(_asyncScene);
             AsyncLoad.sceneNumber = 4;
