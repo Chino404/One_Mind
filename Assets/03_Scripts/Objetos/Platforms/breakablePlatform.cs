@@ -6,25 +6,21 @@ using UnityEngine;
 public class BreakablePlatform : Rewind
 {
     [SerializeField, Tooltip("Tiempo que tarda para ROMPERSE"), Range(0,5f)] private float _timeToBreaking = 3;
+    [SerializeField, Tooltip("Tiempo de animacion de advertencia"), Range(0, 0.5f)] private float _timeToWarning;
     [SerializeField, Tooltip("Tiempo que tarda para RECOMPONERSE"), Range(0,5f)] private float _timeToRecover = 3;
     private bool _isBreaking;
 
     private Collider _myCollider;
+    private Animator _myAnimator;
 
     //Provisorio hasta tener animaciones
-    [SerializeField] private Color _normalColor;
-    [SerializeField] private Color _breakingColor;
-    private Material _myMaterial;
-    private MeshRenderer _myRenderer;
+    [Space(10),SerializeField] private GameObject _ice;
 
     public override void Awake()
     {
         base.Awake();
         _myCollider = GetComponent<Collider>();
-        _myRenderer = GetComponent<MeshRenderer>();
-        _myMaterial = GetComponent<Material>();
-
-         //_normalColor = _myMaterial.color;
+        _myAnimator = GetComponentInChildren<Animator>();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -37,30 +33,33 @@ public class BreakablePlatform : Rewind
 
     IEnumerator Breaking()
     {
+
         _isBreaking = true;
         AudioManager.instance.Play(SoundId.IceBreak);
-
-        //while ()
-        //{
-
-        //}
+        _myAnimator.SetTrigger("OnPlatform");
 
         yield return new WaitForSeconds(_timeToBreaking);
 
+        _myAnimator.SetBool("IsBreaking", true);
+
+        yield return new WaitForSeconds(_timeToWarning);
+
+        _myAnimator.SetBool("IsBreaking", false);
+
         _myCollider.enabled = false;
-        _myRenderer.enabled = false;
+        _ice.SetActive(false);
 
         yield return new WaitForSeconds(_timeToRecover);
 
         _myCollider.enabled = true;
-        _myRenderer.enabled = true;
+        _ice.SetActive(true);
 
         _isBreaking = false;
     }
 
     public override void Save()
     {
-        _currentState.Rec(_myCollider.enabled, _myRenderer.enabled, _isBreaking);
+        _currentState.Rec(_myCollider.enabled, _ice.activeInHierarchy, _isBreaking);
     }
 
     public override void Load()
@@ -69,7 +68,7 @@ public class BreakablePlatform : Rewind
         StopAllCoroutines();
         var col = _currentState.Remember();
         _myCollider.enabled = (bool)col.parameters[0];
-        _myRenderer.enabled = (bool)col.parameters[1];
+        _ice.SetActive((bool)col.parameters[1]);
         _isBreaking = (bool)col.parameters[2];
     }
 }
