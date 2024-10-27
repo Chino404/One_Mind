@@ -46,6 +46,13 @@ public class BookAnim : MonoBehaviour
         _anim.SetTrigger("ReturnToMenu");
     }
 
+    public void GoToOptionsOrCredits()
+    {
+        VerifyActiveCanvas();
+        _anim.SetTrigger("LevelSelectorPage");
+        _anim.SetTrigger("OptionOrCredits");
+    }
+
     public void OpenBook() => SwitchToCanvas(0); 
     public void GoToLevelSelectorPage() => SwitchToCanvas(1); 
     public void ReturnToMenu() => SwitchToCanvas(0);
