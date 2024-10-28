@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-1580166742046989521
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -7,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_NieveSobreObjetoPuerta
-  m_Shader: {fileID: -6465566751694194690, guid: bcbf4ac75ed53d04ea0091cb479a886f,
+  m_Name: Hojas
+  m_Shader: {fileID: -6465566751694194690, guid: 03eed9e3606b5b24b97539a27f899cf5,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -24,15 +37,11 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _Alpha:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: b0a4c2716d217b24fa0a07bcf9229655, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8ef7d2f3dfdb5bf41aa3f8aefe5f90af, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _PuertaMap:
+    - _Metalic:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -50,34 +59,20 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Boolean: 0
-    - _Dithering: 1
-    - _Edge: 0.05
+    - _A: 0.501
+    - _B: 0.552
+    - _Edge: 2.08
+    - _Fuerza: 5.7
+    - _Gradient: 20.59
+    - _H: 0.537
     - _Lineas: 10
-    - _Opacity: 1
-    - _Puerta: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Scale: 5
-    - _SnowSize: 226.83
-    - _Speed: 5
-    - _TransparencyMaterial: 1
+    - _Scale: 6.01
+    - _Speed: 0.1
+    - _Velo: -5
     - _X: 0
     - _Y: 0
     - _Z: 0
-    m_Colors:
-    - _SnowDirection: {r: -0.18, g: 45.53, b: 16.84, a: 0}
+    m_Colors: []
   m_BuildTextureStacks: []
---- !u!114 &5538089319606939249
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 7
