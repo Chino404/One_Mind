@@ -40,21 +40,35 @@ public class BookAnim : MonoBehaviour
         _anim.SetTrigger("LevelSelectorPage");
     }
 
+    public void GoToOptionsPageAnim()
+    {
+        VerifyActiveCanvas();
+        _anim.SetTrigger("OptionOrCredits");
+        //_anim.SetBool("Options", true);
+    }
+
     public void ReturnToMenuAnim()
     {
         VerifyActiveCanvas();
         _anim.SetTrigger("ReturnToMenu");
     }
 
-    public void GoToOptionsOrCredits()
+    public void ReturnToLevelSelectorAnim()
     {
         VerifyActiveCanvas();
-        _anim.SetTrigger("LevelSelectorPage");
-        _anim.SetTrigger("OptionOrCredits");
+        _anim.SetTrigger("ReturnToMenu");
     }
+
+    //public void GoToOptionsOrCredits()
+    //{
+    //    VerifyActiveCanvas();
+    //    _anim.SetTrigger("LevelSelectorPage");
+    //    _anim.SetTrigger("OptionOrCredits");
+    //}
 
     public void OpenBook() => SwitchToCanvas(0); 
     public void GoToLevelSelectorPage() => SwitchToCanvas(1); 
+    public void GoToOptionsPage() => SwitchToCanvas(2);
     public void ReturnToMenu() => SwitchToCanvas(0);
 
 
