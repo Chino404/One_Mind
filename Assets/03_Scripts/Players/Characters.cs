@@ -17,6 +17,8 @@ public abstract class Characters : Entity, IDamageable
     public Vector3 _myVelocityCharacter;
     protected Animator _animPlayer;
 
+    public bool mostrar;
+
     [Header("--- VALUE CHARACTERS ---")]
 
     [Space(10)]public EstadoDePlayer actualStatePlayer;
@@ -32,7 +34,7 @@ public abstract class Characters : Entity, IDamageable
     [SerializeField, Range(0, 0.4f), Tooltip("Tiempo para saltar cuando dejo de tocar el suelo")] protected float _coyoteTime = 0.15f;
     protected float _coyoteTimeCounter;
     [Space(10), SerializeField, Range(0, 0.1f), Tooltip("Cuanto mas alto el valor, mas se resbala")] private float _iceFriction = 0.65f;
-    [SerializeField, Range(0, 20f), Tooltip("Cuanto mas alto el valor, mas se resbala")] private float _blueIceFriction = 0.65f;
+    //[SerializeField, Range(0, 20f), Tooltip("Cuanto mas alto el valor, mas se resbala")] private float _blueIceFriction = 0.65f;
     [SerializeField,Range(0, 15f),Tooltip("Velocidad máxima cuando se salta en el hielo")] private float _maxSpeedJumpIce;
     [SerializeField]private bool _isInIce;
     public bool IsInIce { get { return _isInIce; } }
@@ -111,6 +113,9 @@ public abstract class Characters : Entity, IDamageable
             // Después, roto al jugador con la plataforma (si se desea que el jugador rote)
             _rbCharacter.MoveRotation(currentPlatform.GetPlatformRotation() * _rbCharacter.rotation);
         }
+
+        if(mostrar) Debug.Log(_rbCharacter.velocity);
+
     }
 
     public virtual void FixedUpdate()
@@ -125,12 +130,14 @@ public abstract class Characters : Entity, IDamageable
             if(_rbCharacter.drag != 0)_rbCharacter.drag = 0;
 
             _isInIce = true;
+
             _animPlayer.SetBool("IsGrounded", true);
             _coyoteTimeCounter = _coyoteTime;
         }
         else if (IsGrounded(_floorLayer))
         {
             if(_rbCharacter.drag != 1) _rbCharacter.drag = 1;
+
             _isInIce = false;
             _isJumpGrabb = false;
 
@@ -140,7 +147,8 @@ public abstract class Characters : Entity, IDamageable
         }
         else
         {
-            //_isInIce = false;
+            //if(_rbCharacter.velocity.x == 0 && _rbCharacter.velocity.z == 0) _isInIce = false;
+            if(_rbCharacter.velocity.x <= 5 && _rbCharacter.velocity.x >= -5  &&  _rbCharacter.velocity.z <= 5 && _rbCharacter.velocity.z >= -5) _isInIce = false;
             _animPlayer.SetBool("IsGrounded", false);
             _coyoteTimeCounter -= Time.deltaTime;
         }
@@ -219,6 +227,7 @@ public abstract class Characters : Entity, IDamageable
 
         _dirGrabb = default;
 
+        //Dejar por las dudas!!!
         //if(_rbCharacter.isKinematic) _rbCharacter.isKinematic = false;
         //_rbCharacter.MovePosition(transform.position + (dir.normalized * _actualSpeed * Time.fixedDeltaTime));
 
@@ -242,10 +251,10 @@ public abstract class Characters : Entity, IDamageable
             {
                 force = _iceFriction;
             }
-            else if (IsGrounded(_blueIceLayer))
-            {
-                force = _blueIceFriction;
-            }
+            //else if (IsGrounded(_blueIceLayer))
+            //{
+            //    force = _blueIceFriction;
+            //}
             else
             {
                 force = _iceFriction / _maxSpeedJumpIce;
@@ -258,23 +267,6 @@ public abstract class Characters : Entity, IDamageable
         {
             _rbCharacter.velocity = _myVelocityCharacter;
         }
-
-        //if (IsGrounded(_iceLayer)) _rbCharacter.AddForce(_myVelocity * _iceFriction, ForceMode.VelocityChange);
-        //else _rbCharacter.velocity = _myVelocity;
-
-        //_rbCharacter.velocity = _myVelocity;
-
-
-        //Vector3 velocity = new Vector3(dirRaw.normalized.x, 0, dirRaw.normalized.z);
-        //_rbCharacter.velocity = velocity * _actualSpeed;
-
-        //if (IsGrounded(_iceLayer))
-        //{
-        //    //Debug.Log("Hielo");
-        //    _rbCharacter.AddForce(transform.position + (dir.normalized * _iceFriction), ForceMode.VelocityChange);
-
-        //    return;
-        //}
 
 
         if (IsTouch(transform.forward, _handleMask) && !_isWaitRay) //Si toco algo escalable, cambio de movimiento
