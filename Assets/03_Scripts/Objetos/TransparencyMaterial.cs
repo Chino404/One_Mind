@@ -2,21 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider))]
 public class TransparencyMaterial : MonoBehaviour, ITransparency
 {
-    private Material _material;
+    [SerializeField]private Renderer _rendererMaterial;
+    //[SerializeField]private Material _rendererMaterial;
 
-    private bool _action;
+    private bool _isActiveTrasnparency;
+    [SerializeField] private bool _isThisShader;
+    private int _idOpacity = Shader.PropertyToID("_Opacity");
 
     private Color _iniColor;
-    [SerializeField, Tooltip("Agregar los objetos en donde se van a activar junto a este la transparencia")] private TransparencyMaterial[] _gruopObjetTransparency;
+    [Space(10), SerializeField, Tooltip("Agregar los objetos en donde se van a activar junto a este la transparencia")] private TransparencyMaterial[] _gruopObjetTransparency;
     [SerializeField, Range(0,1f)] private float _valueAlpha = 0.1f;
 
     private void Start()
     {
-        _material = GetComponent<Renderer>().material;
+        _rendererMaterial = GetComponent<Renderer>();
 
-        _iniColor = _material.color;
+
+        if(!_isThisShader) _iniColor = _rendererMaterial.material.color;
+
     }
 
     /// <summary>
@@ -24,10 +30,14 @@ public class TransparencyMaterial : MonoBehaviour, ITransparency
     /// </summary>
     public void Fade(float t)
     {
-        if(!_action)
+        if(!_isActiveTrasnparency)
         {
-            _action = true;
-            StartCoroutine(InterpolateFade(t));
+            Debug.Log("Me llamaron");
+
+            _isActiveTrasnparency = true;
+
+            if(_isThisShader) StartCoroutine(InterpolateFadeShader(t));
+            else StartCoroutine(InterpolateFadeMaterial(t));
 
             for (int i = 0; i < _gruopObjetTransparency.Length; i++)
             {
@@ -39,7 +49,7 @@ public class TransparencyMaterial : MonoBehaviour, ITransparency
         }
     }
 
-    IEnumerator InterpolateFade(float durationFade)
+    IEnumerator InterpolateFadeMaterial(float durationFade)
     {
         float elapsedTime = 0;
 
@@ -52,14 +62,39 @@ public class TransparencyMaterial : MonoBehaviour, ITransparency
             float alpha = Mathf.Lerp(_iniColor.a, _valueAlpha, t);
 
             // Crear un nuevo color con el alfa interpolado, manteniendo los valores RGB originales
-            _material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, alpha);
+            _rendererMaterial.material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, alpha);
            
 
             yield return null;
         }
 
         // Asegúrate de que el color final sea el correcto
-        _material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, _valueAlpha);
+        _rendererMaterial.material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, _valueAlpha);
+    }
+
+    IEnumerator InterpolateFadeShader(float durationFade)
+    {
+        float elapsedTime = 0;
+
+        while (elapsedTime < durationFade)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / durationFade;
+
+            // Interpolar el valor alfa
+            float alpha = Mathf.Lerp(1, _valueAlpha, t);
+
+            // Crear un nuevo color con el alfa interpolado, manteniendo los valores RGB originales
+            //_objectTransparency.material.SetFloat(_idOpacity, alpha);
+            _rendererMaterial.material.SetFloat(_idOpacity, alpha);
+
+
+            yield return null;
+        }
+
+        // Asegúrate de que el color final sea el correcto
+
+        _rendererMaterial.material.SetFloat(_idOpacity, _valueAlpha);
     }
 
 
@@ -69,10 +104,12 @@ public class TransparencyMaterial : MonoBehaviour, ITransparency
     /// <param name="t"></param>
     public void Appear(float t)
     {
-        if(_action)
+        if(_isActiveTrasnparency)
         {
-            _action = false;
-            StartCoroutine(InterpolateVisible(t));
+            _isActiveTrasnparency = false;
+
+            if (_isThisShader) StartCoroutine(InterpolateVisibleShader(t));
+            else StartCoroutine(InterpolateVisiblematerial(t));
 
             for (int i = 0; i < _gruopObjetTransparency.Length; i++)
             {
@@ -81,7 +118,7 @@ public class TransparencyMaterial : MonoBehaviour, ITransparency
         }
     }
 
-    IEnumerator InterpolateVisible(float durationFade)
+    IEnumerator InterpolateVisiblematerial(float durationFade)
     {
         float elapsedTime = 0;
 
@@ -94,12 +131,35 @@ public class TransparencyMaterial : MonoBehaviour, ITransparency
             float alpha = Mathf.Lerp(_valueAlpha, _iniColor.a, t);
 
             // Crear un nuevo color con el alfa interpolado, manteniendo los valores RGB originales
-            _material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, alpha);
+            _rendererMaterial.material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, alpha);
 
             yield return null;
         }
 
         // Asegúrate de que el color final sea el correcto
-        _material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, _iniColor.a);
+        _rendererMaterial.material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, _iniColor.a);
+    }
+
+    IEnumerator InterpolateVisibleShader(float durationFade)
+    {
+        float elapsedTime = 0;
+
+        while (elapsedTime < durationFade)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / durationFade;
+
+            // Interpolar el valor alfa
+            float alpha = Mathf.Lerp(_valueAlpha, 1, t);
+
+            // Crear un nuevo color con el alfa interpolado, manteniendo los valores RGB originales
+            _rendererMaterial.material.SetFloat(_idOpacity, alpha);
+
+
+            yield return null;
+        }
+
+        // Asegúrate de que el color final sea el correcto
+        _rendererMaterial.material.SetFloat(_idOpacity, 1);
     }
 }

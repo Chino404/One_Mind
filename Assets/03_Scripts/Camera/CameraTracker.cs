@@ -27,8 +27,6 @@ public class CameraTracker : MonoBehaviour
         Instance = this;
         //else if (_myCharacterTarget==Instance.MyCharacterTarget) Destroy(gameObject);
 
-        
-
         transform.position = _point.position;
 
         if (_myCharacterTarget == CharacterTarget.Bongo)
@@ -37,18 +35,14 @@ public class CameraTracker : MonoBehaviour
             else GameManager.instance.bongoCamera = this;
 
             if(!_target) _target = GameManager.instance.bongo.transform;
-
-
-            
         }
 
         else if (_myCharacterTarget == CharacterTarget.Frank)
         {
             if (GameManager.instance.frankCamera) Destroy(gameObject);
             else GameManager.instance.frankCamera = this;
-            if(!_target)_target = GameManager.instance.frank.transform;
 
-            
+            if(!_target)_target = GameManager.instance.frank.transform;      
         }
 
         if (_target == null) Debug.LogError($"Falta target en: {gameObject.name}");

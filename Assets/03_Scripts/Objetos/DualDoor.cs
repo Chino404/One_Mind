@@ -5,15 +5,16 @@ using UnityEngine;
 public class DualDoor : MonoBehaviour, ITransparency
 {
     private Animator _animator;
+    private bool _isActiveTransparency;
 
     [SerializeField, Tooltip("El marco de la puerta")] private Renderer _objectTransparency;
     private int _idOpacity = Shader.PropertyToID("_Opacity");
-    private float _actualValueAlpha;
+
+    [SerializeField, Range(0, 0.9f), Tooltip("El valor final de la opacidad")]private float _endValueAlpha;
 
     private void Awake()
     {    
         _animator = GetComponent<Animator>();
-        _actualValueAlpha = 1;
     }
 
     public void OpenTheDoor()
@@ -26,10 +27,17 @@ public class DualDoor : MonoBehaviour, ITransparency
 
     public void Fade(float t)
     {
-        
+        if(!_isActiveTransparency && _objectTransparency)
+        {
+            _isActiveTransparency = true;
+
+            StartCoroutine(InterpolateFadeShader(t));
+
+            //Debug.Log("Fade");
+        }
     }
 
-    IEnumerator InterpolateFade(float durationFade)
+    IEnumerator InterpolateFadeShader(float durationFade)
     {
         float elapsedTime = 0;
 
@@ -39,22 +47,51 @@ public class DualDoor : MonoBehaviour, ITransparency
             float t = elapsedTime / durationFade;
 
             // Interpolar el valor alfa
-            //float alpha = Mathf.Lerp(_iniColor.a, _valueAlpha, t);
-            float alpha = Mathf.Lerp(1, 0, t);
+            float alpha = Mathf.Lerp(1, _endValueAlpha, t);
 
             // Crear un nuevo color con el alfa interpolado, manteniendo los valores RGB originales
-            //_material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, alpha);
+            _objectTransparency.material.SetFloat(_idOpacity, alpha);
 
 
             yield return null;
         }
 
         // Asegúrate de que el color final sea el correcto
-        //_material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, _valueAlpha);
+
+        _objectTransparency.material.SetFloat(_idOpacity, _endValueAlpha);
     }
 
     public void Appear(float t)
     {
-        
+        if (_isActiveTransparency && _objectTransparency)
+        {
+            _isActiveTransparency = false;
+
+            StartCoroutine(InterpolateVisibleShader(t));
+            //Debug.Log("Appear");
+        }
+    }
+
+    IEnumerator InterpolateVisibleShader(float durationFade)
+    {
+        float elapsedTime = 0;
+
+        while (elapsedTime < durationFade)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / durationFade;
+
+            // Interpolar el valor alfa
+            float alpha = Mathf.Lerp(_endValueAlpha, 1, t);
+
+            // Crear un nuevo color con el alfa interpolado, manteniendo los valores RGB originales
+            _objectTransparency.material.SetFloat(_idOpacity, alpha);
+
+
+            yield return null;
+        }
+
+        // Asegúrate de que el color final sea el correcto
+        _objectTransparency.material.SetFloat(_idOpacity, 1);
     }
 }
