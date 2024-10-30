@@ -14,7 +14,8 @@ public class CameraTransparency : MonoBehaviour
     [HideInInspector] public Transform target;
 
     private float _dist;
-    private TransparencyMaterial _transMaterial;
+    //private TransparencyMaterial _transMaterial;
+    private ITransparency _transMaterial;
 
     private void Update()
     {
@@ -24,9 +25,10 @@ public class CameraTransparency : MonoBehaviour
 
             if (Physics.Raycast(transform.position, (target.position - transform.position).normalized, out RaycastHit hit, _dist, _maskTransparent))
             {
-                if(hit.transform.GetComponent<TransparencyMaterial>() != null)
+                if(hit.transform.GetComponent<ITransparency>() != null)
                 {
-                    _transMaterial = hit.transform.GetComponent<TransparencyMaterial>();
+                    //_transMaterial = hit.transform.GetComponent<TransparencyMaterial>();
+                    _transMaterial = hit.transform.GetComponent<ITransparency>();
 
                     _transMaterial.Fade(_durationFade);
                 }

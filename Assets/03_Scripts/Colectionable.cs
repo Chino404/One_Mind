@@ -24,8 +24,8 @@ public class Colectionable : MonoBehaviour
 
             _isCollected = true;
             gameObject.SetActive(false);
-            imageColec.gameObject?.SetActive(true);
-            StartCoroutine(ShowImageAndDisable());
+            //imageColec.gameObject?.SetActive(true);
+            //StartCoroutine(ShowImageAndDisable());
         }
 
     }

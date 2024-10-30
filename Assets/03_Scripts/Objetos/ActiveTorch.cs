@@ -13,12 +13,12 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
     public Color ColorFire { get { return _colorFire; } }
     private int _IdFireColor = Shader.PropertyToID("_FireColor");
     [SerializeField, Range(0,3f)] private float _rangeLight = 1.8f;
-    private float _actualRangeLight;
+    [Tooltip("Valor actual del rango de la luz")]private float _actualRangeLight;
 
     private int _IdFireThreshold = Shader.PropertyToID("_FireThreshold");
-    [Space(10), SerializeField]private Renderer _fireMaterial;
+    [Space(10), SerializeField, Tooltip("Material del fuego")]private Renderer _fireMaterial;
 
-    private float _valueFireTreshold = 0f;
+    [Tooltip("valor del tamaño del fueho")]private float _valueFireTreshold = 0f;
     public ParticleSystem myParticleSystem;
 
     private bool _isActive;
