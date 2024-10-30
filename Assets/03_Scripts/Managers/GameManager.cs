@@ -13,13 +13,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public List<Rewind> rewinds;
-    
 
     [Header("Characters")]
-    public ModelBongo bongo;
+    [HideInInspector]public ModelBongo bongo;
     public CameraTracker bongoCamera;
 
-    public ModelFrank frank;
+    [HideInInspector]public ModelFrank frank;
     public CameraTracker frankCamera;
 
     public List<PointsForTheCamera> points = new ();
