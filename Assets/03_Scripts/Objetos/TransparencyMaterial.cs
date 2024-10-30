@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TransparencyMaterial : MonoBehaviour
+public class TransparencyMaterial : MonoBehaviour, ITransparency
 {
     private Material _material;
 
