@@ -5,8 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class TransparencyMaterial : MonoBehaviour, ITransparency
 {
-    [SerializeField]private Renderer _rendererMaterial;
-    //[SerializeField]private Material _rendererMaterial;
+    //private MeshRenderer _meshRendererMaterial;
+    private Renderer _meshRendererMaterial;
 
     private bool _isActiveTrasnparency;
     [SerializeField] private bool _isThisShader;
@@ -18,10 +18,10 @@ public class TransparencyMaterial : MonoBehaviour, ITransparency
 
     private void Start()
     {
-        _rendererMaterial = GetComponent<Renderer>();
+        //_meshRendererMaterial = GetComponent<MeshRenderer>();
+        _meshRendererMaterial = GetComponent<Renderer>();
 
-
-        if(!_isThisShader) _iniColor = _rendererMaterial.material.color;
+        if(!_isThisShader) _iniColor = _meshRendererMaterial.material.color;
 
     }
 
@@ -62,14 +62,14 @@ public class TransparencyMaterial : MonoBehaviour, ITransparency
             float alpha = Mathf.Lerp(_iniColor.a, _valueAlpha, t);
 
             // Crear un nuevo color con el alfa interpolado, manteniendo los valores RGB originales
-            _rendererMaterial.material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, alpha);
+            _meshRendererMaterial.material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, alpha);
            
 
             yield return null;
         }
 
         // Asegúrate de que el color final sea el correcto
-        _rendererMaterial.material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, _valueAlpha);
+        _meshRendererMaterial.material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, _valueAlpha);
     }
 
     IEnumerator InterpolateFadeShader(float durationFade)
@@ -85,8 +85,12 @@ public class TransparencyMaterial : MonoBehaviour, ITransparency
             float alpha = Mathf.Lerp(1, _valueAlpha, t);
 
             // Crear un nuevo color con el alfa interpolado, manteniendo los valores RGB originales
-            //_objectTransparency.material.SetFloat(_idOpacity, alpha);
-            _rendererMaterial.material.SetFloat(_idOpacity, alpha);
+            _meshRendererMaterial.material.SetFloat(_idOpacity, alpha);
+
+            //for (int i = 0; i < _meshRendererMaterial.materials.Length; i++)
+            //{
+            //    _meshRendererMaterial.materials[i].SetFloat(_idOpacity, alpha);
+            //}
 
 
             yield return null;
@@ -94,7 +98,7 @@ public class TransparencyMaterial : MonoBehaviour, ITransparency
 
         // Asegúrate de que el color final sea el correcto
 
-        _rendererMaterial.material.SetFloat(_idOpacity, _valueAlpha);
+        _meshRendererMaterial.material.SetFloat(_idOpacity, _valueAlpha);
     }
 
 
@@ -131,13 +135,13 @@ public class TransparencyMaterial : MonoBehaviour, ITransparency
             float alpha = Mathf.Lerp(_valueAlpha, _iniColor.a, t);
 
             // Crear un nuevo color con el alfa interpolado, manteniendo los valores RGB originales
-            _rendererMaterial.material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, alpha);
+            _meshRendererMaterial.material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, alpha);
 
             yield return null;
         }
 
         // Asegúrate de que el color final sea el correcto
-        _rendererMaterial.material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, _iniColor.a);
+        _meshRendererMaterial.material.color = new Color(_iniColor.r, _iniColor.g, _iniColor.b, _iniColor.a);
     }
 
     IEnumerator InterpolateVisibleShader(float durationFade)
@@ -153,13 +157,17 @@ public class TransparencyMaterial : MonoBehaviour, ITransparency
             float alpha = Mathf.Lerp(_valueAlpha, 1, t);
 
             // Crear un nuevo color con el alfa interpolado, manteniendo los valores RGB originales
-            _rendererMaterial.material.SetFloat(_idOpacity, alpha);
+            _meshRendererMaterial.material.SetFloat(_idOpacity, alpha);
 
+            //for (int i = 0; i < _meshRendererMaterial.materials.Length; i++)
+            //{
+            //    _meshRendererMaterial.materials[i].SetFloat(_idOpacity, alpha);
+            //}
 
             yield return null;
         }
 
         // Asegúrate de que el color final sea el correcto
-        _rendererMaterial.material.SetFloat(_idOpacity, 1);
+        _meshRendererMaterial.material.SetFloat(_idOpacity, 1);
     }
 }
