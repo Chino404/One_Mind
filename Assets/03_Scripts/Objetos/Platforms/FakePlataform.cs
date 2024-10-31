@@ -6,7 +6,7 @@ public class FakePlataform : Rewind
 {
     [SerializeField, Range(0.1f, 1), Tooltip("Tiempo de la transición del Disolve")] private float _timeToDisolve = 0.25f;
     [SerializeField, Tooltip("Tiempo que tarda en respawnear cuando se DESACTIVO")] private float _timeToRespawn = 1.5f;
-    private float _valueDisolve;
+    [SerializeField]private float _valueDisolve;
     private Renderer _disolveMaterial;
     private int _IdDisolve = Shader.PropertyToID("_Disolve");
 
@@ -17,7 +17,7 @@ public class FakePlataform : Rewind
         _valueDisolve = 0f;     
     }
 
-    private void Start()
+    private void OnEnable()
     {
         StartCoroutine(ShaderDisolve(false));
     }
@@ -35,6 +35,7 @@ public class FakePlataform : Rewind
 
         gameObject.SetActive((bool)col.parameters[0]);
         _valueDisolve = (float)col.parameters[1];
+        StopAllCoroutines();
 
     }
 
@@ -51,7 +52,7 @@ public class FakePlataform : Rewind
         }
     }
 
-    IEnumerator ShaderDisolve(bool desactive)
+    public IEnumerator ShaderDisolve(bool desactive)
     {
         var timer = 0f;
 

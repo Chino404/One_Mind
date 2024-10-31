@@ -38,6 +38,7 @@ public class ActiveObject : MonoBehaviour, IInteracteable
         for (int i = 0; i < _objectsToActive.Length; i++)
         {
             _objectsToActive[i].SetActive(true);
+            
         }
     }
 
