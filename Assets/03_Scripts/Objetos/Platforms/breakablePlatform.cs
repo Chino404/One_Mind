@@ -15,8 +15,7 @@ public enum BreakingState
 public class BreakablePlatform : Rewind
 {
     [SerializeField]private BreakingState _myState = BreakingState.Normal;
-    [SerializeField,Tooltip("Trigger actual activado")]private List<string> _listTirggers;
-    [SerializeField] private string _currentTirgger;
+    [SerializeField] private string _currentTrigger;
     [SerializeField]private bool _isBreaking;
 
     [Space(10),SerializeField, Tooltip("Tiempo para la animacion de ADVERTENCIA"), Range(0, 3f)] private float _timeToWarning = 1f;
@@ -40,7 +39,6 @@ public class BreakablePlatform : Rewind
     {
         if (collision.gameObject.GetComponent<Characters>())
         {
-            //if(!_isBreaking) StartCoroutine(Breaking());
             if (_isBreaking) return;
             _isBreaking = true;
 
@@ -50,13 +48,14 @@ public class BreakablePlatform : Rewind
 
     private void Onplatform()
     {
-        //if (_isBreaking) return;
 
         if (_myState == BreakingState.Subido) return;
         _myState = BreakingState.Subido;
 
-        _myAnimator.SetBool("NextState", true);
+        _currentTrigger = "OnPlatform";
         _myAnimator.SetTrigger("OnPlatform");
+
+
         AudioManager.instance.Play(SoundId.IceBreak);
     }
 
@@ -66,23 +65,23 @@ public class BreakablePlatform : Rewind
 
         _myState = BreakingState.Advertencia;
 
-        StartCoroutine(TimeToNextAnimation(_timeToWarning, "Warning"));
+        //StartCoroutine(TimeToNextAnimation(_timeToWarning, "Warning"));
+
+        StartCoroutine(ActionBreaking());
     }
 
-    public void Break()
+    IEnumerator ActionBreaking()
     {
-        if (_myState == BreakingState.Roto) return;
-        _myState = BreakingState.Roto;
+        _myAnimator.SetTrigger("Warning");
 
-        StartCoroutine(TimeToNextAnimation(_timeToBreaking, "Break"));
-    }
+        yield return new WaitForSeconds(_timeToWarning);
 
-    public void Recover()
-    {
-        if (_myState == BreakingState.Recomponerse) return;
-        _myState = BreakingState.Recomponerse;
+        _myAnimator.SetTrigger("Break");
 
-        StartCoroutine(TimeToNextAnimation(_timeToRecover, "Recover"));
+        yield return new WaitForSeconds(_timeToRecover);
+
+        _myAnimator.SetTrigger("Recover");
+
     }
 
     public void Idle()
@@ -90,57 +89,20 @@ public class BreakablePlatform : Rewind
         if (_myState == BreakingState.Normal) return; 
         _myState = BreakingState.Normal;
 
-        //_myAnimator.ResetTrigger(_currentTirgger);
-
-        foreach (var trigger in _listTirggers)
-        {
-            _myAnimator.ResetTrigger(trigger);
-        }
+        _myAnimator.SetTrigger("Idle");
 
         _isBreaking = false;
-        _myAnimator.SetTrigger("Idle");
     }
 
     IEnumerator TimeToNextAnimation(float time, string valuTrigger)
     {
-        float t = 0;
+        _myAnimator.SetBool(_currentTrigger, false);
 
-        _myAnimator.SetBool("NextState", false);
+        _currentTrigger = valuTrigger;
 
-        while (t < time)
-        {
-            t += Time.deltaTime;
+        yield return new WaitForSeconds(time);
 
-            yield return null;
-        }
-
-        _myAnimator.SetBool("NextState", true);
         _myAnimator.SetTrigger(valuTrigger);
-        //_myAnimator.ResetTrigger(valuTrigger);
-    }
-
-
-    private IEnumerator BreakingCorutine()
-    {
-
-        //AudioManager.instance.Play(SoundId.IceBreak);
-        _myAnimator.SetTrigger("OnPlatform");
-
-        yield return new WaitForSeconds(_timeToBreaking);
-
-        _myAnimator.SetBool("IsBreaking", true);
-
-        yield return new WaitForSeconds(_timeToWarning);
-
-        _myAnimator.SetBool("IsBreaking", false);
-
-        _myCollider.enabled = false;
-        _ice.SetActive(false);
-
-        yield return new WaitForSeconds(_timeToRecover);
-
-        _myCollider.enabled = true;
-        _ice.SetActive(true);
     }
 
     #region Memento
@@ -153,7 +115,7 @@ public class BreakablePlatform : Rewind
     public override void Load()
     {
         if (!_currentState.IsRemember()) return;
-        //StopAllCoroutines();
+        StopAllCoroutines();
         var col = _currentState.Remember();
         _myCollider.enabled = (bool)col.parameters[0];
         _ice.SetActive((bool)col.parameters[1]);
