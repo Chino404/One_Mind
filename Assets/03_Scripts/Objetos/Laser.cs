@@ -1,8 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 [RequireComponent(typeof(LineRenderer))]
 public class Laser : MonoBehaviour
@@ -21,7 +18,8 @@ public class Laser : MonoBehaviour
     private bool _activeWarning;
     [SerializeField]private bool _activeLaser;
 
-    private Vector3 _boxCastSize = new Vector3(1, 1, 1); // Tamaño del cubo
+    [SerializeField]private Vector3 _boxCastSize = new Vector3(1, 1, 1); // Tamaño del cubo
+    [SerializeField] private Quaternion _rotationBoxCast; // Rotación del cubo
 
 
     [SerializeField]private LineRenderer _lineRenderer;
@@ -35,10 +33,13 @@ public class Laser : MonoBehaviour
         if (endPoint == null) Debug.LogError($"Falta el EndPoint en el {gameObject.name}");
 
         _lineRenderer.startWidth = 0;
+
     }
 
     private void Update()
     {
+        _rotationBoxCast = transform.rotation;
+
         _lineRenderer.SetPosition(0, startPoint.transform.position);
 
         if(!_activeWarning && _timer >= timeDisableLaser)
@@ -56,7 +57,7 @@ public class Laser : MonoBehaviour
             endPoint.position = _hit.point;
             _lineRenderer.SetPosition(1, endPoint.transform.position);
 
-            _boxCastSize = new Vector3(1, Vector3.Distance(startPoint.position, endPoint.position), 1);
+            _boxCastSize = new Vector3(_boxCastSize.x, Vector3.Distance(startPoint.position, endPoint.position), _boxCastSize.z);
 
             _lineRenderer.enabled = true;
         }
@@ -126,8 +127,18 @@ public class Laser : MonoBehaviour
         float distance = Vector3.Distance(startPoint.position, endPoint.position);
 
         // Dibujar el cubo en el punto de inicio con la dirección y tamaño correcto
-        //Gizmos.color = Color.red;
+        Gizmos.color = Color.red;
+        var centerBox = startPoint.position + direction * (distance / 2);
         //Gizmos.DrawWireCube(startPoint.position + direction * (distance / 2), _boxCastSize);
+
+        // Guarda la matriz actual
+        Gizmos.matrix = Matrix4x4.TRS(centerBox, _rotationBoxCast, _boxCastSize);
+
+        // Dibuja el cubo en la posición y rotación especificadas
+        Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
+
+        // Restaura la matriz original
+        Gizmos.matrix = Matrix4x4.identity;
 
         // Dibujar una línea entre los dos puntos
         Gizmos.color = Color.yellow;
