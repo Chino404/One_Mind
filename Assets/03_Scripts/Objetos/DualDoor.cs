@@ -10,6 +10,7 @@ public class DualDoor : MonoBehaviour, ITransparency
     [SerializeField, Tooltip("El marco de la puerta")] private Renderer _objectTransparency;
     private int _idOpacity = Shader.PropertyToID("_Opacity");
 
+    [SerializeField, Range(0.5f, 2f), Tooltip("Fijarse en el valor de la opacidad del Shader")] private float _startValueAlpha = 2f;
     [SerializeField, Range(0, 0.9f), Tooltip("El valor final de la opacidad")]private float _endValueAlpha;
 
     private void Awake()
@@ -82,7 +83,7 @@ public class DualDoor : MonoBehaviour, ITransparency
             float t = elapsedTime / durationFade;
 
             // Interpolar el valor alfa
-            float alpha = Mathf.Lerp(_endValueAlpha, 1, t);
+            float alpha = Mathf.Lerp(_endValueAlpha, _startValueAlpha, t);
 
             // Crear un nuevo color con el alfa interpolado, manteniendo los valores RGB originales
             _objectTransparency.material.SetFloat(_idOpacity, alpha);
@@ -92,6 +93,6 @@ public class DualDoor : MonoBehaviour, ITransparency
         }
 
         // Asegúrate de que el color final sea el correcto
-        _objectTransparency.material.SetFloat(_idOpacity, 1);
+        _objectTransparency.material.SetFloat(_idOpacity, _startValueAlpha);
     }
 }
