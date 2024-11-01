@@ -105,6 +105,12 @@ public class MenuManager : MonoBehaviour
             AsyncLoad.sceneNumber = 4;
             Time.timeScale = 1;
         }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            SceneManager.LoadSceneAsync(_asyncScene);
+            AsyncLoad.sceneNumber = 5;
+            Time.timeScale = 1;
+        }
 
         if (Input.GetKeyDown(KeyCode.F11))
         {
