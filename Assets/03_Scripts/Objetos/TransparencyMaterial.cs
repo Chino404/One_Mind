@@ -32,7 +32,6 @@ public class TransparencyMaterial : MonoBehaviour, ITransparency
     {
         if(!_isActiveTrasnparency)
         {
-            Debug.Log("Me llamaron");
 
             _isActiveTrasnparency = true;
 
@@ -82,15 +81,15 @@ public class TransparencyMaterial : MonoBehaviour, ITransparency
             float t = elapsedTime / durationFade;
 
             // Interpolar el valor alfa
-            float alpha = Mathf.Lerp(1, _valueAlpha, t);
+            float alpha = Mathf.Lerp(2, _valueAlpha, t);
 
             // Crear un nuevo color con el alfa interpolado, manteniendo los valores RGB originales
-            _meshRendererMaterial.material.SetFloat(_idOpacity, alpha);
+            //_meshRendererMaterial.material.SetFloat(_idOpacity, alpha);
 
-            //for (int i = 0; i < _meshRendererMaterial.materials.Length; i++)
-            //{
-            //    _meshRendererMaterial.materials[i].SetFloat(_idOpacity, alpha);
-            //}
+            for (int i = 0; i < _meshRendererMaterial.materials.Length; i++)
+            {
+                _meshRendererMaterial.materials[i].SetFloat(_idOpacity, alpha);
+            }
 
 
             yield return null;
@@ -154,7 +153,7 @@ public class TransparencyMaterial : MonoBehaviour, ITransparency
             float t = elapsedTime / durationFade;
 
             // Interpolar el valor alfa
-            float alpha = Mathf.Lerp(_valueAlpha, 1, t);
+            float alpha = Mathf.Lerp(_valueAlpha, 2, t);
 
             // Crear un nuevo color con el alfa interpolado, manteniendo los valores RGB originales
             _meshRendererMaterial.material.SetFloat(_idOpacity, alpha);
@@ -168,6 +167,6 @@ public class TransparencyMaterial : MonoBehaviour, ITransparency
         }
 
         // Asegúrate de que el color final sea el correcto
-        _meshRendererMaterial.material.SetFloat(_idOpacity, 1);
+        _meshRendererMaterial.material.SetFloat(_idOpacity, 2);
     }
 }
