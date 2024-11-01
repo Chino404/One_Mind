@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.08435658, g: 0.044072237, b: 0.13635483, a: 1}
+  m_IndirectSpecularColor: {r: 0.08439878, g: 0.044121273, b: 0.13639887, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5397,6 +5397,48 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1527203050}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &130995833 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3275245420163737345, guid: 6483f0377dd9953409d9389edc53f06b,
+    type: 3}
+  m_PrefabInstance: {fileID: 638305729}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &130995837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130995833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b2e23b28a4bed34090ab6d2a0759de6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isThisShader: 1
+  _gruopObjetTransparency: []
+  _valueAlpha: 0.8
+--- !u!65 &130995838
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130995833}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 798.2011, y: 1746.2897, z: 814.2896}
+  m_Center: {x: -51.141296, y: 0.000061035156, z: 30.463665}
 --- !u!1001 &132306002
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27267,7 +27309,7 @@ PrefabInstance:
     - target: {fileID: 443209411413103080, guid: 6483f0377dd9953409d9389edc53f06b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.3093319
+      value: -1.177808
       objectReference: {fileID: 0}
     - target: {fileID: 443209411413103080, guid: 6483f0377dd9953409d9389edc53f06b,
         type: 3}
@@ -27277,7 +27319,7 @@ PrefabInstance:
     - target: {fileID: 443209411413103080, guid: 6483f0377dd9953409d9389edc53f06b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.1686325
+      value: 3.5781589
       objectReference: {fileID: 0}
     - target: {fileID: 443209411413103080, guid: 6483f0377dd9953409d9389edc53f06b,
         type: 3}
@@ -27357,7 +27399,15 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3275245420163737345, guid: 6483f0377dd9953409d9389edc53f06b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 130995838}
+    - targetCorrespondingSourceObject: {fileID: 3275245420163737345, guid: 6483f0377dd9953409d9389edc53f06b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 130995837}
   m_SourcePrefab: {fileID: 100100000, guid: 6483f0377dd9953409d9389edc53f06b, type: 3}
 --- !u!4 &638305730 stripped
 Transform:
@@ -37935,6 +37985,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 887703546}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &892117223 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4440730830580682263, guid: b31b93b992906c74da48c72eb49ea9a2,
+    type: 3}
+  m_PrefabInstance: {fileID: 895453455}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &892394537
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38099,10 +38155,23 @@ PrefabInstance:
       propertyPath: m_Name
       value: Arbol_2 (58)
       objectReference: {fileID: 0}
+    - target: {fileID: 4440730830580682263, guid: b31b93b992906c74da48c72eb49ea9a2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4440730830580682263, guid: b31b93b992906c74da48c72eb49ea9a2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 895453460}
+    - targetCorrespondingSourceObject: {fileID: 4440730830580682263, guid: b31b93b992906c74da48c72eb49ea9a2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 895453459}
   m_SourcePrefab: {fileID: 100100000, guid: b31b93b992906c74da48c72eb49ea9a2, type: 3}
 --- !u!4 &895453456 stripped
 Transform:
@@ -38110,6 +38179,42 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 895453455}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &895453459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 892117223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b2e23b28a4bed34090ab6d2a0759de6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isThisShader: 1
+  _gruopObjetTransparency: []
+  _valueAlpha: 0.8
+--- !u!65 &895453460
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 892117223}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 838.3014, y: 1604.3838, z: 711.41797}
+  m_Center: {x: 0, y: 0.000061035156, z: 0.0009765625}
 --- !u!1001 &895493831
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -75513,7 +75618,7 @@ Transform:
   m_GameObject: {fileID: 1883594110}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -35.8653, y: 6.43, z: 97.25}
+  m_LocalPosition: {x: -35.8653, y: 6.43, z: 96.25}
   m_LocalScale: {x: 1, y: 16.75517, z: 11.056282}
   m_ConstrainProportionsScale: 0
   m_Children: []
