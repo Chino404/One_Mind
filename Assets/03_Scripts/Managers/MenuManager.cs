@@ -18,18 +18,11 @@ public class MenuManager : MonoBehaviour
     [Tooltip("En este array se ponen todos los botones que empiezan desactivados. El primero del array no se desactiva")]
     public Button[] buttons;
 
+    
+
     private void Awake()
     {
-        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
-        for (int i = 0; i < buttons.Length; i++)
-        {
-            buttons[i].interactable = false;
-        }
-
-        for (int i = 0; i < unlockedLevel; i++)
-        {
-            buttons[i].interactable = true;
-        }
+        
     }
 
     private void Start()
@@ -113,6 +106,11 @@ public class MenuManager : MonoBehaviour
             Time.timeScale = 1;
         }
 
+        if (Input.GetKeyDown(KeyCode.F11))
+        {
+            PlayerPrefs.DeleteAll();
+            Debug.Log("Se borro la data");
+        }
 
     }
 
@@ -130,8 +128,19 @@ public class MenuManager : MonoBehaviour
 
     public void LevelSelector()
     {
-        _levelSelectorCanvas.gameObject.SetActive(true);
-        _mainMenuCanvas.gameObject.SetActive(false);
+        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            buttons[i].interactable = false;
+        }
+
+
+        for (int i = 0; i < unlockedLevel; i++)
+        {
+            buttons[i].interactable = true;
+        }
+        //_levelSelectorCanvas.gameObject.SetActive(true);
+        //_mainMenuCanvas.gameObject.SetActive(false);
     }
 
     public void BackToMainMenu()
@@ -140,6 +149,8 @@ public class MenuManager : MonoBehaviour
         _mainMenuCanvas.gameObject.SetActive(true);
         _levelSelectorCanvas.gameObject.SetActive(false);
     }
+    
+
 }
 
     
