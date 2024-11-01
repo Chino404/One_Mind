@@ -512,14 +512,16 @@ public abstract class Characters : Entity, IDamageable
     #region DAMAGE / LIFE
     public void TakeDamageEntity(float dmg, Vector3 target)
     {
-        if (_actualLife > 0)
-        {
-            _actualLife -= dmg;
+        //if (_actualLife > 0)
+        //{
+        //    _actualLife -= dmg;
 
-            if (_actualLife <= 0) Dead();
+        //    if (_actualLife <= 0) Dead();
 
-            EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
-        }
+        //    EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
+        //}
+
+        Dead();
     }
 
     public void Heal(float life)
