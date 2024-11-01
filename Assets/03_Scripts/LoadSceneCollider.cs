@@ -14,6 +14,7 @@ public class LoadSceneCollider : MonoBehaviour
         if (other.GetComponent<Characters>())
         {
             SceneManager.LoadSceneAsync(_nextScene, LoadSceneMode.Additive);
+            
             gameObject.SetActive(false);
         }
     }
