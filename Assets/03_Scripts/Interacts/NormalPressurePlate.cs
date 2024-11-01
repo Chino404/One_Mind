@@ -84,6 +84,8 @@ public class NormalPressurePlate : Rewind, IInteracteable
 
         var col = _currentState.Remember();
         _pressed = (bool)col.parameters[0];
-        _animator?.SetTrigger("Normal");
+        
+        if (_pressed == false)
+            _animator?.SetTrigger("Normal");
     }
 }
