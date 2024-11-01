@@ -44,7 +44,12 @@ public class BookAnim : MonoBehaviour
     {
         VerifyActiveCanvas();
         _anim.SetTrigger("OptionOrCredits");
-        //_anim.SetBool("Options", true);
+    }
+
+    public void GoToCreditsAnim()
+    {
+        VerifyActiveCanvas();
+        _anim.SetTrigger("OpenCredits");
     }
 
     public void ReturnToMenuAnim()
@@ -59,82 +64,18 @@ public class BookAnim : MonoBehaviour
         _anim.SetTrigger("ReturnToMenu");
     }
 
-    //public void GoToOptionsOrCredits()
-    //{
-    //    VerifyActiveCanvas();
-    //    _anim.SetTrigger("LevelSelectorPage");
-    //    _anim.SetTrigger("OptionOrCredits");
-    //}
 
     public void OpenBook() => SwitchToCanvas(0); 
     public void GoToLevelSelectorPage() => SwitchToCanvas(1); 
     public void GoToOptionsPage() => SwitchToCanvas(2);
+    public void GoToCredtisPage() => SwitchToCanvas(3);
     public void ReturnToMenu() => SwitchToCanvas(0);
 
-
+    /// <summary>
+    /// Verifico si hay un Canvas activado antes
+    /// </summary>
     private void VerifyActiveCanvas() => canvas[currentCanvasIndex].gameObject.SetActive(false);
 
-
-
-    public void ThirdOpen()
-    {
-        _anim.SetBool("Open_3", true);
-        StartCoroutine(ToggleCanvasAfterDelay(2)); 
-    }
-
-    public void CloseSecond()
-    {
-        _anim.SetBool("Open_2", false);
-        StartCoroutine(ToggleCanvasAfterDelay(1, false)); 
-    }
-
-    public void CloseThird()
-    {
-        _anim.SetBool("Open_3", false);
-        StartCoroutine(ToggleCanvasAfterDelay(2, false)); 
-    }
-
-    /// <summary>
-    /// Alternar Canvas después del delay
-    /// </summary>
-    /// <param name="index"></param>
-    /// <param name="isOpen"></param>
-    /// <returns></returns>
-    private IEnumerator ToggleCanvasAfterDelay(int index, bool isOpen = true) //(canvas a activar/desactivar, bool)
-    {
-        // Desactivar el canvas actualmente activo, si hay uno
-        //if (currentCanvasIndex >= 0 && currentCanvasIndex < canvas.Length && currentCanvasIndex != index)
-        //{
-        //    canvas[currentCanvasIndex].gameObject.SetActive(false);
-        //}
-
-        yield return new WaitForSeconds(_delay); // Espera el tiempo de retraso
-
-        if (isOpen)
-        {
-            // Desactivar el canvas actualmente activo, si hay uno
-            //if (currentCanvasIndex >= 0 && currentCanvasIndex < canvas.Length && currentCanvasIndex != index)
-            //{
-            //    canvas[currentCanvasIndex].gameObject.SetActive(false);
-            //}
-
-            // Activar el nuevo canvas
-            if (index >= 0 && index < canvas.Length)
-            {
-                canvas[index].gameObject.SetActive(true);
-                currentCanvasIndex = index; // Actualiza el índice del canvas activo
-            }
-        }
-        else
-        {
-            // Solo desactivar el canvas actual
-            if (currentCanvasIndex == index)
-            {
-                canvas[index].gameObject.SetActive(false);
-                currentCanvasIndex = -1; // Resetea el índice
-            }
-        }
-    }
 
     private void SwitchToCanvas(int index, bool isOpen = true)
     {
