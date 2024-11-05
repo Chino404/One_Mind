@@ -9,6 +9,7 @@ public enum EstadoDePlayer
     Normal,
     Escalando,
     Golpeando
+    
 }
 
 public abstract class Characters : Entity, IDamageable
@@ -73,6 +74,8 @@ public abstract class Characters : Entity, IDamageable
 
     [HideInInspector] public PlatformController currentPlatform;
 
+    public bool isMovementInverse;
+
     public override void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked; //Me bloque el mouse al centro de la pantalla
@@ -93,6 +96,8 @@ public abstract class Characters : Entity, IDamageable
         _actualLife = _maxLife;
         _actualSpeed = _speed;
         _initialForceGravity = _forceGravity;
+
+        
 
     }
 
@@ -208,6 +213,7 @@ public abstract class Characters : Entity, IDamageable
 
 
         ActualMove(dirRaw, dir);
+        
     }
 
     public void Rotate(Vector3 dirForward) => transform.forward = dirForward;
@@ -217,6 +223,11 @@ public abstract class Characters : Entity, IDamageable
         _rbCharacter.velocity += (dir * force);
 
         //_rbCharacter.velocity = new Vector3(0, force, 0);
+    }
+
+    public void InverseMovement(Vector3 dirRaw, Vector3 dir)
+    {
+        NormalMovement(-dirRaw, dir);
     }
 
     public void NormalMovement(Vector3 dirRaw, Vector3 dir)

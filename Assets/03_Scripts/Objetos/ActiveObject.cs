@@ -18,7 +18,7 @@ public class ActiveObject : MonoBehaviour, IInteracteable
 
     public bool desactivarCuandoSalgo;
 
-    private void Awake()
+    private void Start()
     {
         for (int i = 0; i < _objectsToActive.Length; i++)
         {

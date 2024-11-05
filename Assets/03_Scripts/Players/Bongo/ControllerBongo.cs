@@ -29,7 +29,11 @@ public class ControllerBongo
         _dirRaw.x = Input.GetAxisRaw("Horizontal");
         _dirRaw.z = Input.GetAxisRaw("Vertical");
 
-        _dir.x = Input.GetAxis("Horizontal");
+        if (_model.isMovementInverse == true)
+            _dir.x = -Input.GetAxis("Horizontal");
+        else
+            _dir.x = Input.GetAxis("Horizontal");
+
         _dir.z = Input.GetAxis("Vertical");
        
     }
