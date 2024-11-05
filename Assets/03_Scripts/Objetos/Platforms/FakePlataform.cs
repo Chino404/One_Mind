@@ -17,6 +17,8 @@ public class FakePlataform : Rewind
         _valueDisolve = 0f;     
     }
 
+    
+
     private void OnEnable()
     {
         StartCoroutine(ShaderDisolve(false));
@@ -25,6 +27,8 @@ public class FakePlataform : Rewind
     public override void Save()
     {
         _currentState.Rec(gameObject.activeInHierarchy, _valueDisolve);
+        Debug.Log($"{gameObject.name} guardo plataforma");
+
     }
 
     public override void Load()
@@ -36,6 +40,7 @@ public class FakePlataform : Rewind
         gameObject.SetActive((bool)col.parameters[0]);
         _valueDisolve = (float)col.parameters[1];
         StopAllCoroutines();
+        Debug.Log($"{gameObject.name} cargue plataforma");
 
     }
 

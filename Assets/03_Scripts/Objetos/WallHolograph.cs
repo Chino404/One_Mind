@@ -63,7 +63,7 @@ public class WallHolograph : Rewind
 
     public override void Save()
     {
-        Debug.Log("guardo pared holografica");
+        
         _currentState.Rec(gameObject.activeInHierarchy, _valueOpacity);
     }
 
