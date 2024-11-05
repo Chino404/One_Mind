@@ -5,24 +5,27 @@ using UnityEngine;
 public class Laser : MonoBehaviour
 {
     [Header("LASER WARNING VALUES")]
+    [Space(5), SerializeField] private LayerMask _layerObject;
+    public Transform startPoint;
+    public Transform endPoint;
+
+    [Space(10),Header("-> Timers")]
     [Tooltip("Tiempo en que el laser esta desactivado")]public float timeDisableLaser = 3f;
     [Tooltip("Duracion de la advertencia del laser")]public float durationLaserWarning = 2f;
     [Tooltip("Duracion del laser")]public float durationLaser = 3f;
     [Range(0, 1)]public float widthLaserWarning;
+
     private float _timer;
     private RaycastHit _hit;
     private RaycastHit _hitTarget;
-    public Transform startPoint;
-    public Transform endPoint;
-    [SerializeField] private LayerMask _layerObject;
     private bool _activeWarning;
-    [SerializeField]private bool _activeLaser;
+    private bool _activeLaser;
 
-    [SerializeField]private Vector3 _boxCastSize = new Vector3(1, 1, 1); // Tamaño del cubo
-    [SerializeField] private Quaternion _rotationBoxCast; // Rotación del cubo
-
-
+    [Space(10), SerializeField] private Vector3 _boxCastSize = new Vector3(1, 1, 1); // Tamaño del cubo
+    [Tooltip("Rotación del cubo")] private Quaternion _rotationBoxCast;
     [SerializeField]private LineRenderer _lineRenderer;
+
+    private bool _isStart;
 
     private void Awake()
     {
@@ -34,6 +37,7 @@ public class Laser : MonoBehaviour
 
         _lineRenderer.startWidth = 0;
 
+        _isStart = true;
     }
 
     private void Update()
@@ -90,11 +94,15 @@ public class Laser : MonoBehaviour
     IEnumerator ActiveWarning()
     {
         StartCoroutine(InterpolateWidthLaserWarning());
+
         yield return new WaitForSeconds(durationLaserWarning);
+
         _lineRenderer.enabled = false;
         _activeLaser = true;
-        _lineRenderer.startWidth = 7;
+        _lineRenderer.startWidth = 1;
+
         yield return new WaitForSeconds(durationLaser);
+
         _lineRenderer.startWidth = 0;
         _activeWarning = false;
         _activeLaser = false;
@@ -120,19 +128,17 @@ public class Laser : MonoBehaviour
     {
         if (startPoint == null || endPoint == null) return;
 
-        // Dirección del Raycast (hacia el punto final)
-        Vector3 direction = (endPoint.position - startPoint.position).normalized;
+        Vector3 direction = (endPoint.position - startPoint.position).normalized; //Dirección del Raycast (hacia el punto final)
 
-        // Calcular la distancia
-        float distance = Vector3.Distance(startPoint.position, endPoint.position);
+        float distance = Vector3.Distance(startPoint.position, endPoint.position); //Caluclo la distancia
 
+        //CUBO
         // Dibujar el cubo en el punto de inicio con la dirección y tamaño correcto
         Gizmos.color = Color.red;
         var centerBox = startPoint.position + direction * (distance / 2);
-        //Gizmos.DrawWireCube(startPoint.position + direction * (distance / 2), _boxCastSize);
 
         // Guarda la matriz actual
-        Gizmos.matrix = Matrix4x4.TRS(centerBox, _rotationBoxCast, _boxCastSize);
+        if(_isStart)Gizmos.matrix = Matrix4x4.TRS(centerBox, _rotationBoxCast, _boxCastSize);
 
         // Dibuja el cubo en la posición y rotación especificadas
         Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
@@ -140,6 +146,8 @@ public class Laser : MonoBehaviour
         // Restaura la matriz original
         Gizmos.matrix = Matrix4x4.identity;
 
+
+        //LINEA
         // Dibujar una línea entre los dos puntos
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(startPoint.position, endPoint.position);

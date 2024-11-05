@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Net;
 using UnityEngine;
 
 public class CameraTracker : MonoBehaviour
@@ -12,7 +13,8 @@ public class CameraTracker : MonoBehaviour
     [SerializeField] private Transform _point;
     public Transform Point {  get { return _point; } }
 
-    [SerializeField]private Transform _target;
+    [SerializeField] private Transform _target;
+    public Transform Target { get { return _target; } }
 
     [Header("Smoothing Values")]
     [Range(0.01f, 0.125f)] [SerializeField] float _smoothSpeedPosition = 0.075f;
@@ -57,8 +59,6 @@ public class CameraTracker : MonoBehaviour
             Debug.LogError($"Asignar punto en la cámara: {gameObject.name}");
             return;
         }
-
-        //StartCoroutine(Wait());
 
     }
 
@@ -111,8 +111,6 @@ public class CameraTracker : MonoBehaviour
         _smoothRot = Quaternion.Lerp(transform.rotation, _point.rotation, _smoothSpeedRotation * Time.deltaTime * 60);
 
         transform.SetPositionAndRotation(_smoothPos, _smoothRot);
-
-        Debug.DrawLine(transform.position, _target.position, Color.green);
     }
 
     public void TransicionPoint(Transform newPoint)
