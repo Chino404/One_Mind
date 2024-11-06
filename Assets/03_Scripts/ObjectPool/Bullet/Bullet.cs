@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviour
 
     void Update()
     {
-        //transform.position += transform.right* _speed * Time.deltaTime;
+        transform.position += transform.forward* _speed * Time.deltaTime;
         
         _counter += Time.deltaTime;
         
@@ -39,13 +39,13 @@ public class Bullet : MonoBehaviour
         bullet.gameObject.SetActive(true);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        IDamageable damageable = other.GetComponent<IDamageable>();
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    IDamageable damageable = other.GetComponent<IDamageable>();
 
-        if (damageable != null)
-        {
-            Debug.Log("hago daño");
-        }
-    }
+    //    if (damageable != null)
+    //    {
+    //        Debug.Log("hago daño");
+    //    }
+    //}
 }
