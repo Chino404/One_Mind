@@ -23,6 +23,7 @@ public abstract class Characters : Entity, IDamageable
     [Header("--- VALUE CHARACTERS ---")]
 
     [Space(10)]public EstadoDePlayer actualStatePlayer;
+    public bool isMovementInverse;
 
     [Header("--> GENERAL")]
     [SerializeField] protected float _maxLife = 1f;
@@ -74,7 +75,6 @@ public abstract class Characters : Entity, IDamageable
 
     [HideInInspector] public PlatformController currentPlatform;
 
-    public bool isMovementInverse;
 
     public override void Awake()
     {
@@ -467,16 +467,16 @@ public abstract class Characters : Entity, IDamageable
     #endregion
 
     #region ATTACKS
-    public void Attack()
+    public virtual void Attack()
     {
         if (IsGrounded(_floorLayer)) NormalPunch();
     }
 
-    protected void NormalPunch()
+    public void NormalPunch()
     {
         if (actualStatePlayer == EstadoDePlayer.Golpeando) return;
 
-        OldAudioManager.instance.PlayMonkeySFX(OldAudioManager.instance.swoosh);
+        
 
         StartCoroutine(SystemNormalCombo());
     }
