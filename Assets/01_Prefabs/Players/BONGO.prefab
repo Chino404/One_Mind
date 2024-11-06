@@ -3980,6 +3980,7 @@ GameObject:
   - component: {fileID: 540277784268143826}
   - component: {fileID: 7785190566405812220}
   - component: {fileID: 6017900514401301626}
+  - component: {fileID: 742990055536539797}
   - component: {fileID: 4252966178901963834}
   - component: {fileID: 4814007562702765276}
   - component: {fileID: 1913994463334359694}
@@ -4107,7 +4108,6 @@ MonoBehaviour:
   _particleJump: {fileID: 5689783172398807740}
   actualCheckpoint: {fileID: 0}
   currentPlatform: {fileID: 0}
-  _myBoxCollider: {fileID: 0}
 --- !u!114 &6017900514401301626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4127,6 +4127,22 @@ MonoBehaviour:
     m_Bits: 16448
   _iniScale: 0.005
   _newScale: 0.015
+--- !u!114 &742990055536539797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8906201917774778276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0a56bfe521cf024a82c2ab82574a803, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 0}
+  canvasRectTransform: {fileID: 0}
+  targetLockImage: {fileID: 0}
+  targetObject: {fileID: 0}
 --- !u!54 &4252966178901963834
 Rigidbody:
   m_ObjectHideFlags: 0

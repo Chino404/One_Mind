@@ -76,6 +76,7 @@ GameObject:
   - component: {fileID: 4732541158008042795}
   - component: {fileID: 2948563052905607197}
   - component: {fileID: 9088149097229407496}
+  - component: {fileID: 4504790333093850533}
   m_Layer: 8
   m_Name: DualDoor_Prefab
   m_TagString: Untagged
@@ -113,6 +114,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a95cb3e707b6224182afcca5ed4fa35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _objectTransparency: {fileID: 0}
+  _startValueAlpha: 2
+  _endValueAlpha: 0.3
 --- !u!95 &4732541158008042795
 Animator:
   serializedVersion: 5
@@ -176,6 +180,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 6.330721, z: 1.4147784}
   m_Center: {x: 2.6739873e-13, y: 0.5134959, z: -4.7573895}
+--- !u!65 &4504790333093850533
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3375086964424854955}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.61, y: 1.5181322, z: 9.082467}
+  m_Center: {x: 0.19, y: 4.259066, z: -0.7973671}
 --- !u!1 &4702810354456987599
 GameObject:
   m_ObjectHideFlags: 0
