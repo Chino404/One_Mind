@@ -14,7 +14,7 @@ public class BookAnim : MonoBehaviour
     [Space(10), SerializeField] private Canvas _pressClickCanvas;
     [SerializeField] private Canvas[] canvas;
 
-    [SerializeField, Tooltip("Delay para que aparezca el canvas")] private float _delay = 1.0f;
+    //[SerializeField, Tooltip("Delay para que aparezca el canvas")] private float _delay = 1.0f;
     private int currentCanvasIndex = -1;
     private bool onFirstClick = false;
 
