@@ -49,4 +49,10 @@ public class ModelBongo : Characters
 
         _controller.ListenFixedKeys();
     }
+
+    public override void Attack()
+    {
+        base.Attack();
+
+    }
 }

@@ -36,6 +36,9 @@ public class ControllerFrank
             _dir.x = Input.GetAxis("Horizontal");
 
         _dir.z = Input.GetAxis("Vertical");
+
+        if (Input.GetMouseButton(1))
+            _model.Attack();
     }
 
     public void ListenFixedKeys()

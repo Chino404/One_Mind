@@ -35,6 +35,9 @@ public class ControllerBongo
             _dir.x = Input.GetAxis("Horizontal");
 
         _dir.z = Input.GetAxis("Vertical");
+
+        if (Input.GetMouseButton(0))
+            _model.Attack();
        
     }
 
