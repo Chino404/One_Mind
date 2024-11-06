@@ -49,4 +49,9 @@ public class ModelFrank : Characters
 
         _controller.ListenFixedKeys();
     }
+
+    public override void Attack()
+    {
+        base.Attack();
+    }
 }

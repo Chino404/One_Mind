@@ -7,8 +7,8 @@ using UnityEngine;
 public enum EstadoDePlayer
 {
     Normal,
-    Escalando,
-    Golpeando
+    Escalando
+    
     
 }
 
@@ -469,33 +469,35 @@ public abstract class Characters : Entity, IDamageable
     #region ATTACKS
     public virtual void Attack()
     {
-        if (IsGrounded(_floorLayer)) NormalPunch();
-    }
-
-    public void NormalPunch()
-    {
-        if (actualStatePlayer == EstadoDePlayer.Golpeando) return;
-
-        
-
-        StartCoroutine(SystemNormalCombo());
-    }
-
-    IEnumerator SystemNormalCombo()
-    {
-        actualStatePlayer = EstadoDePlayer.Golpeando;
+        //NormalPunch();
         _animPlayer.SetTrigger("Attack");
-        yield return new WaitForSeconds(0.4f);
-        actualStatePlayer = EstadoDePlayer.Normal;
-        yield return new WaitForSeconds(0.2f);
 
-        if (actualStatePlayer == EstadoDePlayer.Normal)
-        {
-            _actualSpeed = _speed;
-            _forceGravity = _initialForceGravity;
-
-        }
     }
+
+    //public void NormalPunch()
+    //{
+    //    if (actualStatePlayer == EstadoDePlayer.Golpeando) return;
+
+
+
+    //    StartCoroutine(SystemNormalCombo());
+    //}
+
+    //IEnumerator SystemNormalCombo()
+    //{
+    //    actualStatePlayer = EstadoDePlayer.Golpeando;
+    //    _animPlayer.SetTrigger("Attack");
+    //    yield return new WaitForSeconds(0.4f);
+    //    actualStatePlayer = EstadoDePlayer.Normal;
+    //    yield return new WaitForSeconds(0.2f);
+
+    //    if (actualStatePlayer == EstadoDePlayer.Normal)
+    //    {
+    //        _actualSpeed = _speed;
+    //        _forceGravity = _initialForceGravity;
+
+    //    }
+    //}
     #endregion
 
     private void OnTriggerEnter(Collider other)
