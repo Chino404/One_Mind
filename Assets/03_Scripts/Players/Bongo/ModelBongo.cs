@@ -12,8 +12,6 @@ public class ModelBongo : Characters
     private ControllerBongo _controller;
     private ViewBongo _view;
 
-    [Space(15),Header("--- VALUE BONGO ---")]
-    private Collider _myBoxCollider;
 
     public override void Awake()
     {
@@ -26,8 +24,6 @@ public class ModelBongo : Characters
 
         GameManager.instance.bongo = instance;
         base.Awake();
-
-        _myBoxCollider = GetComponent<BoxCollider>();
 
         _view = new ViewBongo(this, _animPlayer);
         _controller = new ControllerBongo(this, _view);
@@ -59,22 +55,6 @@ public class ModelBongo : Characters
     {
         //base.Attack();
 
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.layer == 10)
-        {
-            Debug.Log("Fije algo");
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if(other.gameObject.layer == 10)
-        {
-            Debug.Log("Deje de fijar");
-        }    
     }
 
 }
