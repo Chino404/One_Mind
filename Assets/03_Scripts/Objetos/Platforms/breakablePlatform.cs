@@ -18,8 +18,8 @@ public class BreakablePlatform : Rewind
     [SerializeField] private string _currentTrigger;
     [SerializeField]private bool _isBreaking;
 
-    [Space(10),SerializeField, Tooltip("Tiempo para la animacion de ADVERTENCIA"), Range(0, 3f)] private float _timeToWarning = 1f;
-    [SerializeField, Tooltip("Tiempo para la animacion de ROMPERSE"), Range(0,1f)] private float _timeToBreaking = 0.5f;
+    [Space(10),SerializeField, Tooltip("Tiempo para la animacion de ADVERTENCIA"), Range(0, 5f)] private float _timeToWarning = 1f;
+    [SerializeField, Tooltip("Tiempo para la animacion de ROMPERSE"), Range(0,5f)] private float _timeToBreaking = 0.5f;
     [SerializeField, Tooltip("Tiempo que tarda para RECOMPONERSE"), Range(0,5f)] private float _timeToRecover = 2;
 
     private Collider _myCollider;
