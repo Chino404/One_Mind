@@ -71,7 +71,7 @@ public class Plataform : Rewind
     private void FixedUpdate()
     {
             
-        if (Vector3.Distance(transform.position, _waypoints[_actualIndex].position) <= 0.2f)
+        if (Vector3.Distance(transform.position, _waypoints[_actualIndex].position) <= 1f)
         {
             StartCoroutine(WaitSeconds());
             _actualIndex++;
@@ -94,7 +94,7 @@ public class Plataform : Rewind
 
     //    character.GetComponent<Rigidbody>().MovePosition(character.GetComponent<Rigidbody>().position + _velocity*0.01f );
 
-       
+
     //}
 
     IEnumerator WaitSeconds()
@@ -104,11 +104,11 @@ public class Plataform : Rewind
 
         yield return new WaitForSeconds(_secondsWaiting);
         _maxVelocity = velocity;
-        
- 
-         //_velocity = Vector3.ClampMagnitude(_velocity, _maxVelocity);
+
+
+        //_velocity = Vector3.ClampMagnitude(_velocity, _maxVelocity);
     }
-    
+
 
     Vector3 Seek(Vector3 target)
     {

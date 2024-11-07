@@ -39,13 +39,18 @@ public class Bullet : MonoBehaviour
         bullet.gameObject.SetActive(true);
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    IDamageable damageable = other.GetComponent<IDamageable>();
+    private void OnTriggerEnter(Collider other)
+    {
+        IDamageable damageable = other.GetComponent<IDamageable>();
 
-    //    if (damageable != null)
-    //    {
-    //        Debug.Log("hago daño");
-    //    }
-    //}
+        if (damageable != null)
+        {
+            damageable.Dead();
+        }
+
+        else
+        {
+            gameObject.SetActive(false);
+        }
+    }
 }
