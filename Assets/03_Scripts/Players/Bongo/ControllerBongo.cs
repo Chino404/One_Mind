@@ -36,6 +36,8 @@ public class ControllerBongo
 
         _dir.z = Input.GetAxis("Vertical");
 
+        _model.valueScroll = Input.GetAxis("Mouse ScrollWheel");
+
         if (Input.GetMouseButton(0))
             _model.Attack();
        

@@ -68,7 +68,7 @@ public class CameraTransparency : MonoBehaviour
 
             else if (_transMaterial != null)
             {
-                Debug.Log($"Desaparecer {_transMaterial}");
+                //Debug.Log($"Desaparecer {_transMaterial}");
                 _transMaterial.Appear(_durationFade);
                 _transMaterial = null;
             }
