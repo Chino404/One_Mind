@@ -24,17 +24,23 @@ public class ControllerBongo
             _model.ActualMove = _model.NormalMovement;
         }
 
+        #region Jump
         if (Input.GetButtonDown("Jump")) _model.Jump();
+
+        if (Input.GetButton("Jump")) _model.Plan(true);
+        else _model.Plan(false);
+        #endregion
+
+        #region Move
 
         _dirRaw.x = Input.GetAxisRaw("Horizontal");
         _dirRaw.z = Input.GetAxisRaw("Vertical");
 
-        if (_model.isMovementInverse == true)
-            _dir.x = -Input.GetAxis("Horizontal");
-        else
-            _dir.x = Input.GetAxis("Horizontal");
+        if (_model.isMovementInverse == true) _dir.x = -Input.GetAxis("Horizontal");
+        else _dir.x = Input.GetAxis("Horizontal");
 
         _dir.z = Input.GetAxis("Vertical");
+        #endregion
 
         _model.valueScroll = Input.GetAxis("Mouse ScrollWheel");
 

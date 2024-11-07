@@ -96,9 +96,7 @@ public abstract class Characters : Entity, IDamageable
         _actualLife = _maxLife;
         _actualSpeed = _speed;
         _initialForceGravity = _forceGravity;
-
         
-
     }
 
     public virtual void Update()
@@ -262,15 +260,10 @@ public abstract class Characters : Entity, IDamageable
             {
                 force = _iceFriction;
             }
-            //else if (IsGrounded(_blueIceLayer))
-            //{
-            //    force = _blueIceFriction;
-            //}
             else
             {
                 force = _iceFriction / _maxSpeedJumpIce;
             }
-            //else force = _iceFriction / 5;
 
             _rbCharacter.AddForce(new Vector3(_myVelocityCharacter.x * force, 0, _myVelocityCharacter.z * force), ForceMode.VelocityChange);
         }

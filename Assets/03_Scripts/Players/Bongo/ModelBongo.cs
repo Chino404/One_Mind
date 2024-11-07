@@ -13,6 +13,14 @@ public class ModelBongo : Characters
     private ViewBongo _view;
 
     [Header("--- BONGO'S VALUES ---")]
+
+    [Space(15), Header("-> Plan")]
+    [SerializeField] private bool _isGetPenguin;
+    [SerializeField, Range(0.1f, 0.9f)] private float _gravityPlan = 0.2f;
+    [SerializeField, Range(0.1f, 0.9f) , Tooltip("Tiempo para planear")] private float _timeToPlane = 0.25f;
+    [SerializeField, Tooltip("Tiempo de tecla presionado")] private float _keyPressTime;
+
+    [Space(15),Header("-> Spell")]
     [SerializeField, Tooltip("Prefab del Spell")] private Bullet _spellPrefab;
     private Vector3 _dirSpells;
     public Vector3 DirSpells { set { _dirSpells = value; } }
@@ -73,11 +81,38 @@ public class ModelBongo : Characters
         _controller.ListenFixedKeys();
     }
 
+    public void Plan(bool isPressed)
+    {
+        if (!_isGetPenguin) return;
+
+        if (!isPressed)
+        {
+            _forceGravity = _initialForceGravity;
+            _keyPressTime = 0;
+        }
+
+        else
+        {
+            _keyPressTime += Time.deltaTime;
+
+            if (_keyPressTime >= _timeToPlane)
+            {
+                _forceGravity = _gravityPlan;
+
+                //Movement(transform.forward, transform.forward);
+
+                //_rbCharacter.velocity = _rbCharacter.transform.forward * _speed * Time.deltaTime;
+
+                if(!IsGrounded(_floorLayer))transform.position += transform.forward * _speed * Time.deltaTime;
+            }
+        }
+    }
+
     public override void Attack()
     {
         //base.Attack();
 
-        if (!_coolDown) StartCoroutine(Shoot());
+        //if (!_coolDown) StartCoroutine(Shoot());
 
     }
 
