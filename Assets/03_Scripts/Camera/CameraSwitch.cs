@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(BoxCollider))]
 public class CameraSwitch : MonoBehaviour
 {
     [Header("Componet")]
     private CameraTracker _tracker;
     public CharacterTarget myCharacterTarget;
     [Tooltip("Hacia donde se va a mover la cámara")]public Transform goTo;
-
     [SerializeField] private bool _backToPosition;
-    [SerializeField, Tooltip("Punto especifo a cual volver")] private Transform _pointBack;
+
+    [Space(15),SerializeField, Tooltip("(EN EL CASO QUE NO VUELVA) Punto especifo a cual volver")] private Transform _pointBack;
     private Transform _backTo;
 
     private void Start()

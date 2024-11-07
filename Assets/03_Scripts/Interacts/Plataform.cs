@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Plataform : Rewind
+public class Plataform : Rewind, IInteracteable
 {
 
-    [SerializeField] float _secondsWaiting = 1f;
-    [SerializeField] Transform[] _waypoints;
-    [SerializeField] private float _maxVelocity=7f;
+    [SerializeField, Tooltip("Segunso que va a esperar para moverse otra vez")] float _secondsWaiting = 1f;
+    [SerializeField, Tooltip("Puntos a los que va a ir")] Transform[] _waypoints;
+    [SerializeField, Tooltip("Velocidad")] private float _maxVelocity = 7f;
+
+    [Space(10), SerializeField] private bool _isActiveMove = true;
+    public bool IsActiveMove { set { _isActiveMove = value; } }
 
     private Animator _animator;
     //[SerializeField] Vector3[] _positions;
@@ -70,13 +73,14 @@ public class Plataform : Rewind
     //MATI GIL
     private void FixedUpdate()
     {
+        if (!_isActiveMove) return;
             
         if (Vector3.Distance(transform.position, _waypoints[_actualIndex].position) <= 1f)
         {
             StartCoroutine(WaitSeconds());
             _actualIndex++;
-            if (_actualIndex >= _waypoints.Length)
-                _actualIndex = 0;
+
+            if (_actualIndex >= _waypoints.Length) _actualIndex = 0;
         }
         _velocity = _waypoints[_actualIndex].position - _rb.position;
         _velocity.Normalize();
@@ -87,6 +91,16 @@ public class Plataform : Rewind
         //if (_characterInPlataform)
         //    CharacterAttached();
 
+    }
+
+    public void Active()
+    {
+        if(!_isActiveMove) _isActiveMove = true;
+    }
+
+    public void Deactive()
+    {
+        
     }
 
     //void CharacterAttached() //Todo lo que quiero que pase cuando el player esta en la plataforma
@@ -178,16 +192,20 @@ public class Plataform : Rewind
 
     public override void Save()
     {
-        _currentState.Rec(transform.position);
+        _currentState.Rec(transform.position, _isActiveMove, _maxVelocity);
     }
 
     public override void Load()
     {
         if (!_currentState.IsRemember()) return;
 
+        StopAllCoroutines();
         var col = _currentState.Remember();
         transform.position = (Vector3)col.parameters[0];
+        _isActiveMove = (bool)col.parameters[1];
+        _maxVelocity = (float)col.parameters[2];
         //banana = (Transform)col.parameters[1];
         //_isObjectAttached = (bool)col.parameters[2];
     }
+
 }
