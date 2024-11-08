@@ -14,8 +14,9 @@ public class ModelBongo : Characters
 
     [Header("--- BONGO'S VALUES ---")]
 
-    [Space(15), Header("-> Plan")]
+    [Space(15), Header("-> Glide")]
     [SerializeField] private bool _isGetPenguin;
+    public bool IsGetPenguin { set {  _isGetPenguin = value; } }
     [SerializeField, Range(0.1f, 0.9f)] private float _gravityPlan = 0.3f;
     [SerializeField, Range(0.1f, 0.9f) , Tooltip("Tiempo para planear")] private float _timeToPlane = 0.25f;
     [SerializeField, Tooltip("Tiempo de tecla presionado")] private float _keyPressTime;

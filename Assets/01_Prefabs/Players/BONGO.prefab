@@ -2423,6 +2423,37 @@ Transform:
   - {fileID: 3194008188556248704}
   m_Father: {fileID: 7983050414527656350}
   m_LocalEulerAnglesHint: {x: 0.000000053629538, y: 0.00000006137246, z: -2.701259}
+--- !u!1 &5524506545689565137
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 31562772848383448}
+  m_Layer: 3
+  m_Name: PositionPenguin
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &31562772848383448
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5524506545689565137}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2283251149073497910}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5654894773852631454
 GameObject:
   m_ObjectHideFlags: 0
@@ -3983,7 +4014,6 @@ GameObject:
   - component: {fileID: 742990055536539797}
   - component: {fileID: 4252966178901963834}
   - component: {fileID: 4814007562702765276}
-  - component: {fileID: 1913994463334359694}
   m_Layer: 3
   m_Name: BONGO
   m_TagString: Player
@@ -4006,6 +4036,7 @@ Transform:
   m_Children:
   - {fileID: 19907060961225484}
   - {fileID: 1305748470027885730}
+  - {fileID: 31562772848383448}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8944003824769193199
@@ -4202,27 +4233,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &1913994463334359694
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8906201917774778276}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 20, y: 11, z: 20}
-  m_Center: {x: 0, y: 4.5, z: 0}
 --- !u!1001 &3253696228046274061
 PrefabInstance:
   m_ObjectHideFlags: 0
