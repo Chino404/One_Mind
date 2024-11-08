@@ -9,6 +9,8 @@ public class ControllerBongo
     private Vector3 _dirRaw = new Vector3();
     private Vector3 _dir = new Vector3();
 
+    private bool _isGlide;
+
     public ControllerBongo (ModelBongo model, ViewBongo viewBongo)
     {
         _model = model;
@@ -27,8 +29,8 @@ public class ControllerBongo
         #region Jump
         if (Input.GetButtonDown("Jump")) _model.Jump();
 
-        if (Input.GetButton("Jump")) _model.Plan(true);
-        else _model.Plan(false);
+        if (Input.GetButton("Jump")) _isGlide = true;
+        else _isGlide = false;
         #endregion
 
         #region Move
@@ -40,6 +42,7 @@ public class ControllerBongo
         else _dir.x = Input.GetAxis("Horizontal");
 
         _dir.z = Input.GetAxis("Vertical");
+
         #endregion
 
         _model.valueScroll = Input.GetAxis("Mouse ScrollWheel");
@@ -56,5 +59,7 @@ public class ControllerBongo
         else _viewBongo.Walking(false);
 
         _model.Movement(_dirRaw, _dir);
+
+        _model.Glide(_isGlide);
     }
 }

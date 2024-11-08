@@ -82,7 +82,11 @@ public class ModelBongo : Characters
         _controller.ListenFixedKeys();
     }
 
-    public void Plan(bool isPressed)
+    /// <summary>
+    /// Planeo
+    /// </summary>
+    /// <param name="isPressed"></param>
+    public void Glide(bool isPressed)
     {
         if (!_isGetPenguin) return;
 
@@ -99,12 +103,15 @@ public class ModelBongo : Characters
             if (_keyPressTime >= _timeToPlane)
             {
                 _forceGravity = _gravityPlan;
+                Vector3 dir = transform.forward;
 
-                //Movement(transform.forward, transform.forward);
+                Movement(dir, dir);
+
+                //_rbCharacter.velocity = transform.forward * _speed;
 
                 //_rbCharacter.velocity = _rbCharacter.transform.forward * _speed * Time.deltaTime;
 
-                if(!IsGrounded(_floorLayer)) transform.position += transform.forward * _speed * Time.deltaTime;
+                //if(!IsGrounded(_floorLayer)) transform.position += transform.forward * _speed * Time.deltaTime;
                 //if(!IsGrounded(_floorLayer)) _rbCharacter.velocity = transform.forward * _speed;
             }
         }

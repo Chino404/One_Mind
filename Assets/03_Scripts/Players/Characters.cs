@@ -18,7 +18,7 @@ public abstract class Characters : Entity, IDamageable
     public Vector3 _myVelocityCharacter;
     protected Animator _animPlayer;
 
-    public bool mostrar;
+    [Tooltip("Para mostar el velocity")]public bool mostrar;
 
     [Header("--- VALUE CHARACTERS ---")]
 
@@ -230,9 +230,9 @@ public abstract class Characters : Entity, IDamageable
 
     public void NormalMovement(Vector3 dirRaw, Vector3 dir)
     {
-        if (_isJumpGrabb) return;
+        //if (_isJumpGrabb) return;
 
-        if(actualStatePlayer != EstadoDePlayer.Normal) actualStatePlayer = EstadoDePlayer.Normal;
+        //if(actualStatePlayer != EstadoDePlayer.Normal) actualStatePlayer = EstadoDePlayer.Normal;
 
         _dirGrabb = default;
 
