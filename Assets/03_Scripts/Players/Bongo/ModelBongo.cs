@@ -104,7 +104,8 @@ public class ModelBongo : Characters
 
                 //_rbCharacter.velocity = _rbCharacter.transform.forward * _speed * Time.deltaTime;
 
-                if(!IsGrounded(_floorLayer))transform.position += transform.forward * _speed * Time.deltaTime;
+                if(!IsGrounded(_floorLayer)) transform.position += transform.forward * _speed * Time.deltaTime;
+                //if(!IsGrounded(_floorLayer)) _rbCharacter.velocity = transform.forward * _speed;
             }
         }
     }
