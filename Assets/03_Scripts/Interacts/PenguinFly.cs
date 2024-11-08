@@ -16,7 +16,7 @@ public class PenguinFly : MonoBehaviour, IInteracteable
 
         else if (_isDisable)
         {
-            GameManager.instance.bongo.Plan(false);
+            GameManager.instance.bongo.Glide(false);
             GameManager.instance.bongo.IsGetPenguin = false;
             gameObject.SetActive(false);
         }
