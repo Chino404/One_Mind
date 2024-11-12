@@ -8,12 +8,23 @@ public class ValueGeiser
     [Tooltip("Geiser que se va a modificar")]public Geiser refGeiser;
     [Tooltip("La escala en la que se va a modificar ahora")]public float scaleGeiser;
     [Tooltip("La velociad / distancia de las particulas")]public float speedParticle;
+    public float startScaleGeiser = 2f;
 }
 
 public class SuckingHole : MonoBehaviour
 {
     //[SerializeField, Tooltip("Geisers a los que va a afectar")] private Geiser[] _refGeisers;
     [Tooltip("Geisers a los que va a afectar")] public ValueGeiser[] geisers;
+
+
+
+    private void Start()
+    {
+        foreach (var item in geisers)
+        {
+            item.refGeiser.ModifyScaleYGeiser(item.startScaleGeiser, 0);
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {

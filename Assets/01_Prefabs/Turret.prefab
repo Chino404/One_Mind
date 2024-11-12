@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1753322524293603815}
   - component: {fileID: 4795716362605979555}
   m_Layer: 0
-  m_Name: Penguins
+  m_Name: Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -118,6 +118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7588b66eed2cde24b8bc2955b0430110, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _seconds: 0.4
+  _coolDown: 0.2
   _bulletQuantity: 10
   prefab: {fileID: 5641971994721885390, guid: 13eb0b03d29889342b40fce7ef06a305, type: 3}
+  isBurst: 0
+  timeShooting: 0
