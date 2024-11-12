@@ -5,9 +5,9 @@ using UnityEngine;
 [System.Serializable]
 public class ValueGeiser
 {
-    public Geiser refGeiser;
+    [Tooltip("Geiser que se va a modificar")]public Geiser refGeiser;
     [Tooltip("La escala en la que se va a modificar ahora")]public float scaleGeiser;
-    public float speedParticle;
+    [Tooltip("La velociad / distancia de las particulas")]public float speedParticle;
 }
 
 public class SuckingHole : MonoBehaviour

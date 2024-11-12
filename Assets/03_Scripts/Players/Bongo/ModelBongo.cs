@@ -14,14 +14,14 @@ public class ModelBongo : Characters
 
     [Header("--- BONGO'S VALUES ---")]
 
-    [Space(10), Header("-> Glide")]
+    [Space(5), Header("-> Fly")]
+    [SerializeField, Range(0.1f, 0.9f)] private float _gravityPlan = 0.3f;
+    [SerializeField, Range(0.1f, 0.9f) , Tooltip("Tiempo para planear")] private float _timeToPlane = 0.25f;
+    [SerializeField, Tooltip("Tiempo de tecla presionado")] private float _keyPressTime;
     private bool _isGetPenguin;
     public bool IsGetPenguin { set {  _isGetPenguin = value; } }
     private bool _isfly;
     public bool IsFly { get { return _isfly; } }
-    [SerializeField, Range(0.1f, 0.9f)] private float _gravityPlan = 0.3f;
-    [SerializeField, Range(0.1f, 0.9f) , Tooltip("Tiempo para planear")] private float _timeToPlane = 0.25f;
-    [SerializeField, Tooltip("Tiempo de tecla presionado")] private float _keyPressTime;
 
     [Space(15),Header("-> Spell")]
     [SerializeField, Tooltip("Prefab del Spell")] private Bullet _spellPrefab;
@@ -116,27 +116,27 @@ public class ModelBongo : Characters
         else _isfly = false;
     }
 
-    public override void Attack()
-    {
-        //base.Attack();
+    //public override void Attack()
+    //{
+    //    //base.Attack();
 
-        //if (!_coolDown) StartCoroutine(Shoot());
+    //    //if (!_coolDown) StartCoroutine(Shoot());
 
-    }
+    //}
 
-    IEnumerator Shoot()
-    {
-        _coolDown = true;
-        var bullet = _objectPool.Get(); //Pido un Spell al _objectPool
-        bullet.AddReference(_objectPool); //Le añado la referencia a mi prefab
-        bullet.transform.position = transform.position; //Le asigno el lugar por donde va a salir
+    //IEnumerator Shoot()
+    //{
+    //    _coolDown = true;
+    //    var bullet = _objectPool.Get(); //Pido un Spell al _objectPool
+    //    bullet.AddReference(_objectPool); //Le añado la referencia a mi prefab
+    //    bullet.transform.position = transform.position; //Le asigno el lugar por donde va a salir
 
-        if(_dirSpells != Vector3.zero) bullet.transform.forward = _dirSpells.normalized;
-        else bullet.transform.forward = transform.forward; //Asigno su dirección
+    //    if(_dirSpells != Vector3.zero) bullet.transform.forward = _dirSpells.normalized;
+    //    else bullet.transform.forward = transform.forward; //Asigno su dirección
 
-        yield return new WaitForSeconds(_seconds);
-        _coolDown = false;
+    //    yield return new WaitForSeconds(_seconds);
+    //    _coolDown = false;
 
-    }
+    //}
 
 }

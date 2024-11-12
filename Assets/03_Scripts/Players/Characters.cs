@@ -214,8 +214,6 @@ public abstract class Characters : Entity, IDamageable
     public void ApplyForce(float force, Vector3 dir)
     {
         _rbCharacter.velocity += (dir * force);
-
-        //_rbCharacter.velocity = new Vector3(0, force, 0);
     }
 
     public void InverseMovement(Vector3 dirRaw, Vector3 dir)
