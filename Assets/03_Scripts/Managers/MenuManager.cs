@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -8,21 +11,21 @@ public class MenuManager : MonoBehaviour
 {
     [SerializeField] private BookAnim _refBookAnim;
 
-    [Space(10), SerializeField]private int _asyncScene;
+    [Space(10), SerializeField] private int _asyncScene;
     [SerializeField] private Canvas _mainMenuCanvas;
     [SerializeField] private Canvas _levelSelectorCanvas;
 
-    [Space(10), SerializeField]private Image[] _colectablesLvl1; 
+    [Space(10), SerializeField] private Image[] _colectablesLvl1;
     [SerializeField] private Image[] _colectablesLvl2;
 
     [Tooltip("En este array se ponen todos los botones que empiezan desactivados. El primero del array no se desactiva")]
     public Button[] buttons;
 
-    
+
 
     private void Awake()
     {
-        
+
     }
 
     private void Start()
@@ -72,7 +75,7 @@ public class MenuManager : MonoBehaviour
                     if (elem.color.a != 1f)
                     {
                         Color newColor = elem.color;
-                        newColor.a = 1f; 
+                        newColor.a = 1f;
                         elem.color = newColor;
                         break;
                     }
@@ -118,6 +121,31 @@ public class MenuManager : MonoBehaviour
             Debug.Log("Se borro la data");
         }
 
+        var levelData = new LevelData() { isLevelComplete = true, _collectables = new Dictionary<string, bool>() };
+        levelData._collectables.Add("First", true);
+        levelData._collectables.Add("Second", false);
+
+        var serializedData = JsonUtility.ToJson(levelData);
+
+        PlayerPrefs.SetString("LevelData", serializedData);
+
+        //Esto crea en la carpeta de la build o proyecto
+        Directory.CreateDirectory(Application.dataPath);
+
+        //Con path
+
+        if (!Directory.Exists("C://Documentos/MonoSaves"))
+        {
+            Directory.CreateDirectory("C://Documentos/MonoSaves");
+        }
+
+        if (File.Exists("C://Documentos/MonoSaves/SaveData.txt"))
+        {
+            File.Delete("C://Documentos/MonoSaves/SaveData.txt");
+        }
+        var reader = File.CreateText("c/documentos");
+        reader.Write(serializedData);
+        reader.Close();
     }
 
     public void PlayGame(int sceneNumber)
@@ -151,12 +179,26 @@ public class MenuManager : MonoBehaviour
 
     public void BackToMainMenu()
     {
-        
+
         _mainMenuCanvas.gameObject.SetActive(true);
         _levelSelectorCanvas.gameObject.SetActive(false);
     }
-    
+
 
 }
 
-    
+[Serializable]
+public class LevelData
+{
+    public bool isLevelComplete;
+    public Dictionary<string, bool> _collectables;
+}
+
+[Serializable]
+public class CongifData
+{
+    public float sfxVolume;
+    public float musicVolume;
+
+}
+
