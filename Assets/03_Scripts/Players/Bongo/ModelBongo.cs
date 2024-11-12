@@ -14,9 +14,11 @@ public class ModelBongo : Characters
 
     [Header("--- BONGO'S VALUES ---")]
 
-    [Space(15), Header("-> Glide")]
-    [SerializeField] private bool _isGetPenguin;
+    [Space(10), Header("-> Glide")]
+    private bool _isGetPenguin;
     public bool IsGetPenguin { set {  _isGetPenguin = value; } }
+    private bool _isfly;
+    public bool IsFly { get { return _isfly; } }
     [SerializeField, Range(0.1f, 0.9f)] private float _gravityPlan = 0.3f;
     [SerializeField, Range(0.1f, 0.9f) , Tooltip("Tiempo para planear")] private float _timeToPlane = 0.25f;
     [SerializeField, Tooltip("Tiempo de tecla presionado")] private float _keyPressTime;
@@ -86,7 +88,7 @@ public class ModelBongo : Characters
     /// Planeo
     /// </summary>
     /// <param name="isPressed"></param>
-    public void Glide(bool isPressed)
+    public void FlyPenguin(bool isPressed)
     {
         if (!_isGetPenguin) return;
 
@@ -94,27 +96,24 @@ public class ModelBongo : Characters
         {
             _forceGravity = _initialForceGravity;
             _keyPressTime = 0;
+            _isfly = false;
         }
 
-        else
+        else if(!IsGrounded(_floorLayer))
         {
             _keyPressTime += Time.deltaTime;
 
             if (_keyPressTime >= _timeToPlane)
             {
                 _forceGravity = _gravityPlan;
+                _isfly = true;
                 Vector3 dir = transform.forward;
 
                 Movement(dir, dir);
-
-                //_rbCharacter.velocity = transform.forward * _speed;
-
-                //_rbCharacter.velocity = _rbCharacter.transform.forward * _speed * Time.deltaTime;
-
-                //if(!IsGrounded(_floorLayer)) transform.position += transform.forward * _speed * Time.deltaTime;
-                //if(!IsGrounded(_floorLayer)) _rbCharacter.velocity = transform.forward * _speed;
             }
         }
+
+        else _isfly = false;
     }
 
     public override void Attack()

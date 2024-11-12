@@ -60,6 +60,6 @@ public class ControllerBongo
 
         _model.Movement(_dirRaw, _dir);
 
-        _model.Glide(_isGlide);
+        _model.FlyPenguin(_isGlide);
     }
 }

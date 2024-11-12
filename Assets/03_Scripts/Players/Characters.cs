@@ -7,9 +7,7 @@ using UnityEngine;
 public enum EstadoDePlayer
 {
     Normal,
-    Escalando
-    
-    
+    Escalando    
 }
 
 public abstract class Characters : Entity, IDamageable
@@ -36,16 +34,14 @@ public abstract class Characters : Entity, IDamageable
     [SerializeField, Range(0, 0.4f), Tooltip("Tiempo para saltar cuando dejo de tocar el suelo")] protected float _coyoteTime = 0.15f;
     protected float _coyoteTimeCounter;
     [Space(10), SerializeField, Range(0, 0.1f), Tooltip("Cuanto mas alto el valor, mas se resbala")] private float _iceFriction = 0.65f;
-    //[SerializeField, Range(0, 20f), Tooltip("Cuanto mas alto el valor, mas se resbala")] private float _blueIceFriction = 0.65f;
     [SerializeField,Range(0, 15f),Tooltip("Velocidad máxima cuando se salta en el hielo")] private float _maxSpeedJumpIce;
-    [SerializeField]private bool _isInIce;
+    private bool _isInIce;
     public bool IsInIce { get { return _isInIce; } }
     //[SerializeField, Tooltip("Daño de golpe")] protected int _normalDamage = 1;
 
     [Header("--> CLIMB")]
     [SerializeField, Range(1, 40), Tooltip("Fuerza de salto en el eje X")] protected float _jumpForceAxiX = 20;
     [SerializeField, Range(1, 40), Tooltip("Fuerza de salto en el eje Y")] protected float _jumpForceAxiY = 15;
-    //[SerializeField, Range(1, 40), Tooltip("Fuerza de salto en el eje Z, dirección opuesta a la enredadera")] protected float _jumpForceAxiZ = 10;
     protected bool _isJumpGrabb;
     protected bool _isWaitRay;
 
@@ -53,7 +49,6 @@ public abstract class Characters : Entity, IDamageable
     [SerializeField, Range(0.1f, 3f) , Tooltip("Rango del raycast para el coyote time")] protected float _groundRange = 2;
     [SerializeField, Tooltip("Layer de objeto en donde pueda saltar")] protected LayerMask _floorLayer;
     [Space(10),SerializeField] private LayerMask _iceLayer;
-    [SerializeField] private LayerMask _blueIceLayer;
     [Space(10),SerializeField, Range(0.1f, 2f) , Tooltip("Rango del raycast para las colisiones")] protected float _forwardRange = 0.75f; //Rango para el Raycast para evitar q el PJ se pegue a la pared
     [SerializeField, Tooltip("Que Layer no quiero que se acerque")] protected LayerMask _moveMask; //Para indicar q layer quierO q no se acerque mucho
     [Space(10),SerializeField, Tooltip("Layer de Enredaderas u objeto a trepar")] protected LayerMask _handleMask;
@@ -128,7 +123,7 @@ public abstract class Characters : Entity, IDamageable
 
     void CoyoteTime()
     {
-        if (IsGrounded(_iceLayer) || IsGrounded(_blueIceLayer))
+        if (IsGrounded(_iceLayer))
         {
             if(_rbCharacter.drag != 0)_rbCharacter.drag = 0;
 
