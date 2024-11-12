@@ -24,7 +24,12 @@ public class DualPressurePlate : Rewind, IInteracteable
     [SerializeField] private ParticleSystem[] _particleButton;
     
     private Renderer _renderer;
-    private Animator _animator;
+    //private Animator _animator;
+
+    [SerializeField] private GameObject _button;
+    [SerializeField] private float _endAnimation;
+    [SerializeField] private float _speed;
+
 
     public override void Awake()
     {
@@ -32,7 +37,7 @@ public class DualPressurePlate : Rewind, IInteracteable
         if (_otherDualPressurePlate == null) Debug.LogWarning($"Falta referencia de la otra placa de presión en: {gameObject.name}");
         if (_objectToInteract == null) Debug.LogWarning($"Falta objeto para interactuar en: {gameObject.name}");
 
-        _animator = GetComponent<Animator>();
+        //_animator = GetComponent<Animator>();
 
         for (int i = 0; i < _indicators.Length; i++)
         {
@@ -52,13 +57,32 @@ public class DualPressurePlate : Rewind, IInteracteable
         _renderer.sharedMaterial = _materials[0];
     }
 
+    void Update()
+    {
+        if (_activePressurePlate)
+        {
+            if (_button.transform.localPosition.y > 0)
+            {
+                _button.transform.localPosition -= new Vector3(0, 1, 0);
+                Debug.Log("aprete el boton");
+            }
+        }
+
+        if (!_activePressurePlate)
+        {
+
+            if (_button.transform.localPosition.y < _endAnimation)
+                _button.transform.localPosition += new Vector3(0, 1, 0);
+        }
+    }
+
     public void Active()
     {
         if (_actionCompleted) return;
 
         _activePressurePlate = true;
 
-        _animator?.SetTrigger("Pressed");
+        //_animator?.SetTrigger("Pressed");
 
         if(_player == CharacterTarget.Bongo)
         {
@@ -107,7 +131,7 @@ public class DualPressurePlate : Rewind, IInteracteable
 
         _activePressurePlate = false;
         
-        _animator?.SetTrigger("Normal");
+        //_animator?.SetTrigger("Normal");
         _renderer.sharedMaterial = _materials[0];
         
 
