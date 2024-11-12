@@ -103,7 +103,15 @@ public class ModelBongo : Characters
         {
             _keyPressTime += Time.deltaTime;
 
-            if (_keyPressTime >= _timeToPlane)
+            if(_coyoteTimeCounter <= 0)
+            {
+                _forceGravity = _gravityPlan;
+                _isfly = true;
+                Vector3 dir = transform.forward;
+
+                Movement(dir, dir);
+            }
+            else if (_keyPressTime >= _timeToPlane)
             {
                 _forceGravity = _gravityPlan;
                 _isfly = true;
