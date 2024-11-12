@@ -2,21 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class ValueGeiser
+{
+    public Geiser refGeiser;
+    [Tooltip("La escala en la que se va a modificar ahora")]public float scaleGeiser;
+    public float speedParticle;
+}
+
 public class SuckingHole : MonoBehaviour
 {
-    [SerializeField, Tooltip("Geisers a los que va a afectar")] private Geiser[] _refGeisers;
-    [SerializeField, Tooltip("Capas que van a interactuar")] private LayerMask _layersAffect;
-
-    [Space(10), SerializeField] private float _newScaleGeiser;
-    [SerializeField] private float _newSpeedParticle;
+    //[SerializeField, Tooltip("Geisers a los que va a afectar")] private Geiser[] _refGeisers;
+    [Tooltip("Geisers a los que va a afectar")] public ValueGeiser[] geisers;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer != 3)
         {
-            for (int i = 0; i < _refGeisers.Length; i++)
+            foreach (var item in geisers)
             {
-                _refGeisers[i].ModifyScaleYGeiser(_newScaleGeiser, _newSpeedParticle);
+                item.refGeiser.ModifyScaleYGeiser(item.scaleGeiser, item.speedParticle);
             }
         }
     }
@@ -25,9 +30,10 @@ public class SuckingHole : MonoBehaviour
     {
         if(other.gameObject.layer != 3)
         {
-            for (int i = 0; i < _refGeisers.Length; i++)
+
+            foreach (var item in geisers)
             {
-                _refGeisers[i].RevertChange();
+                item.refGeiser.RevertChange();
             }
         }
     }

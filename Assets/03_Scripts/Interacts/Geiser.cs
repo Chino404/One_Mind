@@ -39,6 +39,8 @@ public class Geiser : MonoBehaviour
         var main = _myParticle.main; //Para poder llegar a sus variables
         _actualSpeedParticle = newSpeedParticle;
         main.startSpeed = _actualSpeedParticle;
+
+        //var porcentaje = newScaleY / (_iniScaleCollider.y * 1.5f);
     }
 
     public void RevertChange()
