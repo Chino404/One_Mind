@@ -106,7 +106,8 @@ public class ModelBongo : Characters
 
             if(_coyoteTimeCounter <= 0) //Si presiono en el aire
             {
-                if(!_isfly)_rbCharacter.velocity = Vector3.zero;
+                if(_rbCharacter.velocity.y <= 0 && !_isfly) _rbCharacter.velocity = Vector3.zero;
+
                 _isfly = true;
 
                 _forceGravity = _gravityPlan;
@@ -115,10 +116,13 @@ public class ModelBongo : Characters
                 Movement(dir, dir);
             }
 
-            else if (_keyPressTime >= _timeToPlane) 
+            else if (_keyPressTime >= _timeToPlane)
             {
                 _forceGravity = _gravityPlan;
+
+                if (_rbCharacter.velocity.y >= 25 && !_isfly) _rbCharacter.velocity = Vector3.zero;
                 _isfly = true;
+
                 Vector3 dir = transform.forward;
 
                 Movement(dir, dir);
