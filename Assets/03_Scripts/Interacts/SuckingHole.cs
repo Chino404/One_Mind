@@ -6,9 +6,14 @@ using UnityEngine;
 public class ValueGeiser
 {
     [Tooltip("Geiser que se va a modificar")]public Geiser refGeiser;
-    [Tooltip("La escala en la que se va a modificar ahora")]public float scaleGeiser;
+
+    [Space(5),Header("Como comienza el Geiser")]
+    [Tooltip("Escala con la q va a iniciar el geiser")]public float startScaleGeiser = 2f;
+    [Tooltip("Velocidad / distancia en la que comienza las particulas")] public float startSpeedParticle;
+
+    [Space(5),Header("Como se va a actualizar")]
+    [Tooltip("La escala en la que se va a modificar ahora")]public float newScaleGeiser;
     [Tooltip("La velociad / distancia de las particulas")]public float speedParticle;
-    public float startScaleGeiser = 2f;
 }
 
 public class SuckingHole : MonoBehaviour
@@ -22,7 +27,7 @@ public class SuckingHole : MonoBehaviour
     {
         foreach (var item in geisers)
         {
-            item.refGeiser.ModifyScaleYGeiser(item.startScaleGeiser, 0);
+            item.refGeiser.ModifyScaleYGeiser(item.startScaleGeiser, item.startSpeedParticle);
         }
     }
 
@@ -32,7 +37,7 @@ public class SuckingHole : MonoBehaviour
         {
             foreach (var item in geisers)
             {
-                item.refGeiser.ModifyScaleYGeiser(item.scaleGeiser, item.speedParticle);
+                item.refGeiser.ModifyScaleYGeiser(item.newScaleGeiser, item.speedParticle);
             }
         }
     }

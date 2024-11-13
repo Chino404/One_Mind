@@ -58,7 +58,7 @@ public class Geiser : MonoBehaviour
 
         if (rb != null)
         {
-            if (bongo != null && bongo.IsFly) _actualForceGeiser /= 2;
+            if (bongo != null && bongo.IsFly) _actualForceGeiser /= 1.5f;
             else _actualForceGeiser = _iniForceGeiser;
 
             rb.AddForce(transform.up * _actualForceGeiser, ForceMode.VelocityChange);

@@ -18,7 +18,7 @@ public class ModelBongo : Characters
     [SerializeField, Range(0.1f, 0.9f)] private float _gravityPlan = 0.3f;
     [SerializeField, Range(0.1f, 0.9f) , Tooltip("Tiempo para planear")] private float _timeToPlane = 0.25f;
     [SerializeField, Tooltip("Tiempo de tecla presionado")] private float _keyPressTime;
-    private bool _isGetPenguin;
+    [SerializeField] private bool _isGetPenguin;
     public bool IsGetPenguin { set {  _isGetPenguin = value; } }
     private bool _isfly;
     public bool IsFly { get { return _isfly; } }
@@ -92,26 +92,30 @@ public class ModelBongo : Characters
     {
         if (!_isGetPenguin) return;
 
-        if (!isPressed)
+        if (!isPressed || IsGrounded(_floorLayer)) //Si ya no estoy presionando o toque el suelo
         {
             _forceGravity = _initialForceGravity;
             _keyPressTime = 0;
             _isfly = false;
         }
 
-        else if(!IsGrounded(_floorLayer))
+        else if(!IsGrounded(_floorLayer)) //Si no estoy tocando el suelo
         {
             _keyPressTime += Time.deltaTime;
 
-            if(_coyoteTimeCounter <= 0)
+
+            if(_coyoteTimeCounter <= 0) //Si presiono en el aire
             {
-                _forceGravity = _gravityPlan;
+                if(!_isfly)_rbCharacter.velocity = Vector3.zero;
                 _isfly = true;
+
+                _forceGravity = _gravityPlan;
                 Vector3 dir = transform.forward;
 
                 Movement(dir, dir);
             }
-            else if (_keyPressTime >= _timeToPlane)
+
+            else if (_keyPressTime >= _timeToPlane) 
             {
                 _forceGravity = _gravityPlan;
                 _isfly = true;
@@ -120,8 +124,6 @@ public class ModelBongo : Characters
                 Movement(dir, dir);
             }
         }
-
-        else _isfly = false;
     }
 
     //public override void Attack()

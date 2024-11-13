@@ -456,7 +456,7 @@ public abstract class Characters : Entity, IDamageable
     public virtual void Attack()
     {
         //NormalPunch();
-        _animPlayer.SetTrigger("Attack");
+        //_animPlayer.SetTrigger("Attack");
 
     }
 
