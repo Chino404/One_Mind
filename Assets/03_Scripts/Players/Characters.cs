@@ -124,7 +124,7 @@ public abstract class Characters : Entity, IDamageable
 
     void CoyoteTime()
     {
-        if (IsGrounded(_iceLayer) && _rbCharacter.velocity.y == 0)
+        if (IsGrounded(_iceLayer) && Mathf.Abs(_rbCharacter.velocity.y) <= 0.01f)
         {
             if(_rbCharacter.drag != 0)_rbCharacter.drag = 0;
 
@@ -133,7 +133,7 @@ public abstract class Characters : Entity, IDamageable
             _animPlayer.SetBool("IsGrounded", true);
             _coyoteTimeCounter = _coyoteTime;
         }
-        else if (IsGrounded(_floorLayer) && _rbCharacter.velocity.y == 0)
+        else if (IsGrounded(_floorLayer) && Mathf.Abs(_rbCharacter.velocity.y) <= 0.01f)
         {
             if(_rbCharacter.drag != 1) _rbCharacter.drag = 1;
 
@@ -424,7 +424,7 @@ public abstract class Characters : Entity, IDamageable
             //}
         }
 
-        else if ( actualStatePlayer == EstadoDePlayer.Normal && _coyoteTimeCounter > 0)
+        else if ( actualStatePlayer == EstadoDePlayer.Normal && _coyoteTimeCounter > 0) //0.08f
         {
             isJumping = true;
 
