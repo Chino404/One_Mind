@@ -6627,7 +6627,7 @@ PrefabInstance:
     - target: {fileID: 1547301484270672481, guid: 2a4cdc79e164dbd48b6afacf9937d419,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.37
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 1547301484270672481, guid: 2a4cdc79e164dbd48b6afacf9937d419,
         type: 3}
@@ -6672,7 +6672,7 @@ PrefabInstance:
     - target: {fileID: 4795716362605979555, guid: 2a4cdc79e164dbd48b6afacf9937d419,
         type: 3}
       propertyPath: isBurst
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4795716362605979555, guid: 2a4cdc79e164dbd48b6afacf9937d419,
         type: 3}
@@ -6682,7 +6682,12 @@ PrefabInstance:
     - target: {fileID: 4795716362605979555, guid: 2a4cdc79e164dbd48b6afacf9937d419,
         type: 3}
       propertyPath: timeShooting
-      value: 10
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4795716362605979555, guid: 2a4cdc79e164dbd48b6afacf9937d419,
+        type: 3}
+      propertyPath: _burstCoolDown
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7268542943036641243, guid: 2a4cdc79e164dbd48b6afacf9937d419,
         type: 3}
@@ -6692,7 +6697,7 @@ PrefabInstance:
     - target: {fileID: 7268542943036641243, guid: 2a4cdc79e164dbd48b6afacf9937d419,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11204,7 +11209,7 @@ PrefabInstance:
     - target: {fileID: 1547301484270672481, guid: 2a4cdc79e164dbd48b6afacf9937d419,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.37
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 1547301484270672481, guid: 2a4cdc79e164dbd48b6afacf9937d419,
         type: 3}
@@ -11249,17 +11254,22 @@ PrefabInstance:
     - target: {fileID: 4795716362605979555, guid: 2a4cdc79e164dbd48b6afacf9937d419,
         type: 3}
       propertyPath: isBurst
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4795716362605979555, guid: 2a4cdc79e164dbd48b6afacf9937d419,
-        type: 3}
-      propertyPath: _coolDown
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4795716362605979555, guid: 2a4cdc79e164dbd48b6afacf9937d419,
         type: 3}
+      propertyPath: _coolDown
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4795716362605979555, guid: 2a4cdc79e164dbd48b6afacf9937d419,
+        type: 3}
       propertyPath: timeShooting
-      value: 5
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4795716362605979555, guid: 2a4cdc79e164dbd48b6afacf9937d419,
+        type: 3}
+      propertyPath: _burstCoolDown
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7268542943036641243, guid: 2a4cdc79e164dbd48b6afacf9937d419,
         type: 3}
@@ -11269,7 +11279,7 @@ PrefabInstance:
     - target: {fileID: 7268542943036641243, guid: 2a4cdc79e164dbd48b6afacf9937d419,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
