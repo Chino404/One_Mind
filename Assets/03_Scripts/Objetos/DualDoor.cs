@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DualDoor : MonoBehaviour, ITransparency
 {
-    private Animator _animator;
+    //private Animator _animator;
     private bool _isActiveTransparency;
 
     [SerializeField, Tooltip("El marco de la puerta")] private Renderer _objectTransparency;
@@ -13,16 +13,36 @@ public class DualDoor : MonoBehaviour, ITransparency
     [SerializeField, Range(0.5f, 2f), Tooltip("Fijarse en el valor de la opacidad del Shader")] private float _startValueAlpha = 2f;
     [SerializeField, Range(0, 0.9f), Tooltip("El valor final de la opacidad")]private float _endValueAlpha;
 
+    [Header("DOOR ANIMATIONS")]
+    [SerializeField] private GameObject[] _doors;
+    [SerializeField] private float _animDuration=2f;
+     private float _animTime=0f;
+    private bool _isOpen;
+
     private void Awake()
     {    
-        _animator = GetComponent<Animator>();
+        //_animator = GetComponent<Animator>();
     }
 
     public void OpenTheDoor()
     {
         //OldAudioManager.instance.PlaySFX(OldAudioManager.instance.doorOpen);
-        _animator.SetTrigger("Open");
+        //_animator.SetTrigger("Open");
         AudioManager.instance.Play(SoundId.OpenDoor);
+        _isOpen = true;
+
+    }
+
+    private void Update()
+    {
+        if (_isOpen && _animTime < _animDuration)
+        {
+            _animTime += Time.deltaTime;
+            float actualAngle = Mathf.Lerp(0, 90, _animTime / _animDuration);
+            float otherAngle = Mathf.Lerp(0, -90, _animTime / _animDuration);
+            _doors[0].transform.localRotation = Quaternion.Euler(0, actualAngle, 0);
+            _doors[1].transform.localRotation = Quaternion.Euler(0, otherAngle, 0);
+        }
 
     }
 
