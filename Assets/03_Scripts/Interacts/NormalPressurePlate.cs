@@ -86,7 +86,7 @@ public class NormalPressurePlate : Rewind, IInteracteable
 
     public override void Save()
     {
-        _currentState.Rec(_pressed);
+        _currentState.Rec(_pressed,_button.transform.localPosition);
             
          
     }
@@ -97,6 +97,7 @@ public class NormalPressurePlate : Rewind, IInteracteable
 
         var col = _currentState.Remember();
         _pressed = (bool)col.parameters[0];
+        _button.transform.localPosition = (Vector3)col.parameters[1];
         
         //if (_pressed == false)
         //    _animator?.SetTrigger("Normal");

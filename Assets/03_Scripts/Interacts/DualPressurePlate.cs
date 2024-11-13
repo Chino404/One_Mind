@@ -145,7 +145,7 @@ public class DualPressurePlate : Rewind, IInteracteable
 
     public override void Save()
     {
-        _currentState.Rec(_actionCompleted);
+        _currentState.Rec(_actionCompleted, _button.transform.localPosition);
     }
 
     public override void Load()
@@ -154,6 +154,8 @@ public class DualPressurePlate : Rewind, IInteracteable
 
         var col = _currentState.Remember();
         _actionCompleted = (bool)col.parameters[0];
-        
+        _button.transform.localPosition = (Vector3)col.parameters[1];
+
+
     }
 }
