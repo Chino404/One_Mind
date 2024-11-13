@@ -206,6 +206,7 @@ public abstract class Characters : Entity, IDamageable
             isStopMove = false;
         }
 
+        
 
         ActualMove(dirRaw, dir);
         
@@ -510,6 +511,21 @@ public abstract class Characters : Entity, IDamageable
         var interact = collision.gameObject.GetComponent<IInteracteable>();
 
         if(interact != null) interact.Active();
+        
+    }
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.layer == 14)
+        {
+            _animPlayer.SetBool("IsWallDetected", true);
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.layer == 14)
+        {
+            _animPlayer.SetBool("IsWallDetected", false);
+        }
     }
 
     #region DAMAGE / LIFE
