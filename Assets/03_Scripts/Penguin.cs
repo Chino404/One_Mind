@@ -12,9 +12,12 @@ public class Penguin : MonoBehaviour
     ObjectPool<Bullet> _objectPool;
 
     private bool _isInCoolDown;
+
+    [Header("BURST")]
     [Tooltip("si dispara en rafaga")]public bool isBurst;
-    public float timeShooting;
+    [Tooltip("no es exactamente cuantos segundos dispara, asi que ir probando")]public float timeShooting;
     private float _secondsShooting;
+    [SerializeField] private float _burstCoolDown;
 
     private void Start()
     {
@@ -29,11 +32,10 @@ public class Penguin : MonoBehaviour
         
         if (!_isInCoolDown)
         {
-            if (!isBurst)
+            
                 StartCoroutine(Shoot());
 
-            else
-                StartCoroutine(BurstShoot());
+           
             
                
             
@@ -52,24 +54,21 @@ public class Penguin : MonoBehaviour
         bullet.transform.forward = transform.forward;
         
         yield return new WaitForSeconds(_coolDown);
+        if (isBurst)
+        {
+            _secondsShooting--;
+            if (_secondsShooting <= 0)
+            {
+                yield return new WaitForSeconds(_burstCoolDown);
+                _secondsShooting = timeShooting;
+
+            }
+            
+        }
+
         _isInCoolDown = false;
         
     }
 
-    IEnumerator BurstShoot()
-    {
-        if (timeShooting <= 0)
-        {
-            yield return new WaitForSeconds(_secondsShooting);
-            timeShooting = _secondsShooting;
-        }
-
-        timeShooting-=Time.time;
-        var bullet = _objectPool.Get();
-        bullet.AddReference(_objectPool);
-        bullet.transform.position = transform.position;
-        bullet.transform.forward = transform.forward;
-        yield return new WaitForSeconds(_coolDown);
-        
-    }
+    
 }
