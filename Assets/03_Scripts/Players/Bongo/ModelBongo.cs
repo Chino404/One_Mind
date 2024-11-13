@@ -16,8 +16,6 @@ public class ModelBongo : Characters
 
     [Space(5), Header("-> Fly")]
     [SerializeField, Range(0.1f, 0.9f)] private float _gravityPlan = 0.3f;
-    [SerializeField, Range(0.1f, 0.9f) , Tooltip("Tiempo para planear")] private float _timeToPlane = 0.25f;
-    [SerializeField, Tooltip("Tiempo de tecla presionado")] private float _keyPressTime;
     [SerializeField] private bool _isGetPenguin;
     public bool IsGetPenguin { set {  _isGetPenguin = value; } }
     private bool _isfly;
@@ -74,7 +72,9 @@ public class ModelBongo : Characters
 
         _controller.ArtificialUpdate();
 
-        _targetLock.TargetLockA(valueScroll);
+        //_targetLock.TargetLockA(valueScroll);
+
+
     }
 
     public override void FixedUpdate()
@@ -95,38 +95,20 @@ public class ModelBongo : Characters
         if (!isPressed || IsGrounded(_floorLayer)) //Si ya no estoy presionando o toque el suelo
         {
             _forceGravity = _initialForceGravity;
-            _keyPressTime = 0;
             _isfly = false;
         }
 
-        else if(!IsGrounded(_floorLayer)) //Si no estoy tocando el suelo
+        else if(!IsGrounded(_floorLayer) && _rbCharacter.velocity.y <= 0) //Si no estoy tocando el suelo
         {
-            _keyPressTime += Time.deltaTime;
 
+            if (_rbCharacter.velocity.y <= 0 && !_isfly) _rbCharacter.velocity = Vector3.zero;
 
-            if(_coyoteTimeCounter <= 0) //Si presiono en el aire
-            {
-                if(_rbCharacter.velocity.y <= 0 && !_isfly) _rbCharacter.velocity = Vector3.zero;
+            _isfly = true;
 
-                _isfly = true;
+            _forceGravity = _gravityPlan;
+            Vector3 dir = transform.forward;
 
-                _forceGravity = _gravityPlan;
-                Vector3 dir = transform.forward;
-
-                Movement(dir, dir);
-            }
-
-            else if (_keyPressTime >= _timeToPlane)
-            {
-                _forceGravity = _gravityPlan;
-
-                if (_rbCharacter.velocity.y >= 25 && !_isfly) _rbCharacter.velocity = Vector3.zero;
-                _isfly = true;
-
-                Vector3 dir = transform.forward;
-
-                Movement(dir, dir);
-            }
+            Movement(dir, dir);
         }
     }
 

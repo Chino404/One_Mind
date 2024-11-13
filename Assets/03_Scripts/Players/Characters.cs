@@ -31,7 +31,7 @@ public abstract class Characters : Entity, IDamageable
     [SerializeField] protected float _forceGravity = 1.25f;
     protected float _initialForceGravity;
     [Space(10), SerializeField, Tooltip("Fuerza de salto normal")] protected float _jumpForce = 25f;
-    [HideInInspector]public bool isJumping;
+    public bool isJumping;
     [SerializeField, Range(0, 0.4f), Tooltip("Tiempo para saltar cuando dejo de tocar el suelo")] protected float _coyoteTime = 0.15f;
     protected float _coyoteTimeCounter;
     [Space(10), SerializeField, Range(0, 0.1f), Tooltip("Cuanto mas alto el valor, mas se resbala")] private float _iceFriction = 0.65f;
@@ -124,17 +124,16 @@ public abstract class Characters : Entity, IDamageable
 
     void CoyoteTime()
     {
-        if (IsGrounded(_iceLayer))
+        if (IsGrounded(_iceLayer) && _rbCharacter.velocity.y == 0)
         {
             if(_rbCharacter.drag != 0)_rbCharacter.drag = 0;
 
             _isInIce = true;
-            isJumping = false;
 
             _animPlayer.SetBool("IsGrounded", true);
             _coyoteTimeCounter = _coyoteTime;
         }
-        else if (IsGrounded(_floorLayer))
+        else if (IsGrounded(_floorLayer) && _rbCharacter.velocity.y == 0)
         {
             if(_rbCharacter.drag != 1) _rbCharacter.drag = 1;
 
@@ -425,9 +424,10 @@ public abstract class Characters : Entity, IDamageable
             //}
         }
 
-        else if ( actualStatePlayer == EstadoDePlayer.Normal && _coyoteTimeCounter >0.08f)
+        else if ( actualStatePlayer == EstadoDePlayer.Normal && _coyoteTimeCounter > 0)
         {
             isJumping = true;
+
             _coyoteTimeCounter = 0f;
             _animPlayer?.SetTrigger("Jump");
             _particleJump?.Play();
