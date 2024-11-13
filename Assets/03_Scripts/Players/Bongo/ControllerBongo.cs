@@ -9,7 +9,7 @@ public class ControllerBongo
     private Vector3 _dirRaw = new Vector3();
     private Vector3 _dir = new Vector3();
 
-    private bool _isGlide;
+    private bool _isFly;
 
     public ControllerBongo (ModelBongo model, ViewBongo viewBongo)
     {
@@ -29,8 +29,8 @@ public class ControllerBongo
         #region Jump
         if (Input.GetButtonDown("Jump")) _model.Jump();
 
-        if (Input.GetButton("Jump")) _isGlide = true;
-        else _isGlide = false;
+        if (Input.GetButton("Jump")) _isFly = true;
+        else _isFly = false;
         #endregion
 
         #region Move
@@ -60,6 +60,6 @@ public class ControllerBongo
 
         _model.Movement(_dirRaw, _dir);
 
-        _model.FlyPenguin(_isGlide);
+        _model.FlyPenguin(_isFly);
     }
 }
