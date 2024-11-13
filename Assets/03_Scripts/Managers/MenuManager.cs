@@ -22,15 +22,10 @@ public class MenuManager : MonoBehaviour
     public Button[] buttons;
 
 
-
-    private void Awake()
-    {
-
-    }
-
     private void Start()
     {
         Time.timeScale = 1;
+
         foreach (var item in ColectableManager.instance.collectablesCollectedLvl1)
         {
             if (item == true)
@@ -117,35 +112,36 @@ public class MenuManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F11))
         {
-            PlayerPrefs.DeleteAll();
-            Debug.Log("Se borro la data");
+            //PlayerPrefs.DeleteAll();
+
+            CallJson.instance.refJasonSave.DeleteJSON();
         }
 
-        var levelData = new LevelData() { isLevelComplete = true, _collectables = new Dictionary<string, bool>() };
-        levelData._collectables.Add("First", true);
-        levelData._collectables.Add("Second", false);
+        //var levelData = new LevelData() { isLevelComplete = true, _collectables = new Dictionary<string, bool>() };
+        //levelData._collectables.Add("First", true);
+        //levelData._collectables.Add("Second", false);
 
-        var serializedData = JsonUtility.ToJson(levelData);
+        //var serializedData = JsonUtility.ToJson(levelData);
 
-        PlayerPrefs.SetString("LevelData", serializedData);
+        //PlayerPrefs.SetString("LevelData", serializedData);
 
-        //Esto crea en la carpeta de la build o proyecto
-        Directory.CreateDirectory(Application.dataPath);
+        ////Esto crea en la carpeta de la build o proyecto
+        //Directory.CreateDirectory(Application.dataPath);
 
-        //Con path
+        ////Con path
 
-        if (!Directory.Exists("C://Documentos/MonoSaves"))
-        {
-            Directory.CreateDirectory("C://Documentos/MonoSaves");
-        }
+        //if (!Directory.Exists("C://Documentos/MonoSaves"))
+        //{
+        //    Directory.CreateDirectory("C://Documentos/MonoSaves");
+        //}
 
-        if (File.Exists("C://Documentos/MonoSaves/SaveData.txt"))
-        {
-            File.Delete("C://Documentos/MonoSaves/SaveData.txt");
-        }
-        var reader = File.CreateText("c/documentos");
-        reader.Write(serializedData);
-        reader.Close();
+        //if (File.Exists("C://Documentos/MonoSaves/SaveData.txt"))
+        //{
+        //    File.Delete("C://Documentos/MonoSaves/SaveData.txt");
+        //}
+        //var reader = File.CreateText("c/documentos");
+        //reader.Write(serializedData);
+        //reader.Close();
     }
 
     public void PlayGame(int sceneNumber)
@@ -162,19 +158,30 @@ public class MenuManager : MonoBehaviour
 
     public void LevelSelector()
     {
-        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
+        //int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
+
+        var level = CallJson.instance.refJasonSave.GetSaveData.levels;
+        level[0].isLevelCompleteJSON = true;
+
+        CallJson.instance.refJasonSave.GetSaveData.levelDataDictionary[level[0].indexLevelJSON] = true;
+
+        var dict = CallJson.instance.refJasonSave.GetSaveData.levelDataDictionary;
+
         for (int i = 0; i < buttons.Length; i++)
         {
-            buttons[i].interactable = false;
+            //buttons[i].interactable = isLevelAcces[i].isLevelCompleteJSON;
+
+            if (dict.ContainsKey(level[i].indexLevelJSON)) buttons[i].interactable = dict[level[i].indexLevelJSON];//Accedo al booleano del nivel
+
+            else Debug.Log($"Esta key {level[i].indexLevelJSON} no existe");
         }
 
 
-        for (int i = 0; i < unlockedLevel; i++)
-        {
-            buttons[i].interactable = true;
-        }
-        //_levelSelectorCanvas.gameObject.SetActive(true);
-        //_mainMenuCanvas.gameObject.SetActive(false);
+        //for (int i = 0; i < unlockedLevel; i++)
+        //{
+        //    buttons[i].interactable = true;
+        //}
+
     }
 
     public void BackToMainMenu()
@@ -187,18 +194,11 @@ public class MenuManager : MonoBehaviour
 
 }
 
-[Serializable]
-public class LevelData
-{
-    public bool isLevelComplete;
-    public Dictionary<string, bool> _collectables;
-}
+//[Serializable]
+//public class CongifData
+//{
+//    public float sfxVolume;
+//    public float musicVolume;
 
-[Serializable]
-public class CongifData
-{
-    public float sfxVolume;
-    public float musicVolume;
-
-}
+//}
 
