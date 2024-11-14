@@ -16,7 +16,8 @@ ModelImporter:
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
+    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tRequired
+      human bone 'LeftFoot' not found\n"
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
@@ -24,7 +25,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -82,7 +83,137 @@ ModelImporter:
   humanDescription:
     serializedVersion: 3
     human: []
-    skeleton: []
+    skeleton:
+    - name: Pinguino_Anim_Idle(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PinguinoLowPoly
+      parentName: Pinguino_Anim_Idle(Clone)
+      position: {x: -0, y: -768.81573, z: -212.21764}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.0035, y: 0.0035, z: 0.0035}
+    - name: locator1
+      parentName: Pinguino_Anim_Idle(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.01, y: 0.01, z: 0.01}
+    - name: Cuerpo
+      parentName: locator1
+      position: {x: -0, y: 92.76378, z: -10.130355}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 2.0931082, y: 1, z: 2.0931082}
+    - name: transform1
+      parentName: Cuerpo
+      position: {x: -0, y: -92.76378, z: 4.839862}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.4777584, y: 1, z: 0.4777584}
+    - name: joint1
+      parentName: transform1
+      position: {x: -0, y: 92.76378, z: -10.130355}
+      rotation: {x: 0.49042144, y: -0.50939846, z: -0.49042144, w: 0.5093985}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1}
+    - name: joint2
+      parentName: joint1
+      position: {x: -116.384346, y: -3.0814593, z: 0}
+      rotation: {x: -0.49042144, y: 0.50939846, z: 0.49042144, w: 0.5093985}
+      scale: {x: 1, y: 0.99999994, z: 0.99999994}
+    - name: joint3
+      parentName: joint2
+      position: {x: -0, y: 88.07114, z: -7.495715}
+      rotation: {x: -0, y: 0.000000029802319, z: -0.7071068, w: 0.70710677}
+      scale: {x: 1.0000002, y: 1.0000002, z: 0.99999994}
+    - name: joint4
+      parentName: joint3
+      position: {x: -87.01119, y: 0, z: -3.5102627e-15}
+      rotation: {x: 0.70689243, y: -0.017412825, z: 0.01741287, w: 0.70689243}
+      scale: {x: 1.0000004, y: 1.0000001, z: 0.99999994}
+    - name: joint5
+      parentName: joint4
+      position: {x: -133.2105, y: -1.7763568e-15, z: 0}
+      rotation: {x: -0.48753563, y: 0.5121611, z: 0.48753566, w: 0.51216114}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1.0000001}
+    - name: joint11
+      parentName: joint4
+      position: {x: -32.626804, y: 101.98529, z: 0}
+      rotation: {x: -0.68581283, y: 0.727778, z: 0.000000089406946, w: 0.000000025145704}
+      scale: {x: 1, y: 0.99999976, z: 1.0000001}
+    - name: joint12
+      parentName: joint11
+      position: {x: -92.764206, y: -4.5519144e-15, z: 0}
+      rotation: {x: -0.0035710032, y: -0.7070978, z: -0.0035711224, w: 0.7070978}
+      scale: {x: 1, y: 1, z: 0.9999996}
+    - name: Hombro_Izq
+      parentName: joint3
+      position: {x: -53.58395, y: -89.53621, z: 14.815177}
+      rotation: {x: 0.00000014306364, y: 0.00000020233948, z: 0.80476904, w: 0.5935881}
+      scale: {x: 1.0000001, y: 1, z: 1.0000001}
+    - name: Codo_Izq
+      parentName: Hombro_Izq
+      position: {x: -120.136215, y: 4.705574e-14, z: 6.5587506}
+      rotation: {x: 0.03320595, y: 0.09618879, z: -0.11893788, w: 0.9876735}
+      scale: {x: 0.9999999, y: 0.9999999, z: 0.99999976}
+    - name: Mano_Izq
+      parentName: Codo_Izq
+      position: {x: -175.37563, y: 2.322943e-14, z: -42.1634}
+      rotation: {x: 0.000000011772769, y: 0.00000000943547, z: -0.1815074, w: 0.9833896}
+      scale: {x: 1, y: 1, z: 0.9999999}
+    - name: Hombro_Der
+      parentName: joint3
+      position: {x: -53.5835, y: 89.5362, z: 14.815185}
+      rotation: {x: 0.804769, y: 0.5935882, z: 0.000000018931457, w: -0.000000036060435}
+      scale: {x: 1.0000001, y: 1.0000004, z: 1.0000006}
+    - name: Codo_Der
+      parentName: Hombro_Der
+      position: {x: 120.13655, y: -0.0000799064, z: -6.55874}
+      rotation: {x: 0.03320598, y: 0.09618896, z: -0.11893664, w: 0.9876736}
+      scale: {x: 0.99999994, y: 1.0000001, z: 0.99999964}
+    - name: Mano_Der
+      parentName: Codo_Der
+      position: {x: 175.37532, y: -0.00034419677, z: 42.16344}
+      rotation: {x: 0.000000014901163, y: 0.000000014901159, z: -0.18150733, w: 0.98338956}
+      scale: {x: 1, y: 0.9999999, z: 1.0000001}
+    - name: Pie_Izq
+      parentName: joint1
+      position: {x: 55.999596, y: -6.8147655, z: 73.56095}
+      rotation: {x: -0.08685305, y: 0.9914923, z: 0.08152326, w: -0.052475967}
+      scale: {x: 0.99999964, y: 0.9999998, z: 0.9999999}
+    - name: Dedo_Izq
+      parentName: Pie_Izq
+      position: {x: -101.07062, y: -8.303674e-15, z: -17.716719}
+      rotation: {x: -0.06583756, y: -0.7040351, z: -0.06583762, w: 0.70403516}
+      scale: {x: 0.9999999, y: 1, z: 0.9999999}
+    - name: Pie_Der
+      parentName: joint1
+      position: {x: 55.99961, y: -6.81479, z: -73.5609}
+      rotation: {x: 0.9914922, y: 0.086853206, z: 0.05247645, w: 0.08152337}
+      scale: {x: 0.99999964, y: 0.99999976, z: 0.9999999}
+    - name: Dedo_Der
+      parentName: Pie_Der
+      position: {x: 101.0706, y: 0.000016686707, z: 17.7168}
+      rotation: {x: -0.06583762, y: -0.70403516, z: -0.06583756, w: 0.7040351}
+      scale: {x: 0.9999999, y: 1, z: 0.9999998}
+    - name: nurbsCircle1
+      parentName: Pinguino_Anim_Idle(Clone)
+      position: {x: -2.4902942, y: 1.0880649, z: -0.4591125}
+      rotation: {x: 0.17371641, y: -0.04200242, z: -0.4610194, w: 0.86920625}
+      scale: {x: 0.006381225, y: 0.01, z: 0.008463383}
+    - name: ikHandle1
+      parentName: nurbsCircle1
+      position: {x: 0.0000019086149, y: 0.00000034815687, z: 0.0000006411407}
+      rotation: {x: -0.19917145, y: 0.044238847, z: 0.3634554, w: 0.90899605}
+      scale: {x: 1.2234548, y: 1.3079418, z: 1.1571126}
+    - name: nurbsCircle2
+      parentName: Pinguino_Anim_Idle(Clone)
+      position: {x: 2.7445328, y: 1.2653362, z: -0.459113}
+      rotation: {x: 0.17371641, y: 0.04200242, z: 0.4610194, w: 0.86920625}
+      scale: {x: 0.006381225, y: 0.01, z: 0.008463383}
+    - name: ikHandle2
+      parentName: nurbsCircle2
+      position: {x: -0.0000050640006, y: 0.0000093533745, z: -0.0000028349496}
+      rotation: {x: -0.19917145, y: -0.044238847, z: -0.3634554, w: 0.90899605}
+      scale: {x: 1.2234548, y: 1.3079418, z: 1.1571126}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
@@ -93,7 +224,7 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
