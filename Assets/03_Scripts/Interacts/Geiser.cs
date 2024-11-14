@@ -64,4 +64,6 @@ public class Geiser : MonoBehaviour
             rb.AddForce(transform.up * _actualForceGeiser, ForceMode.VelocityChange);
         }
     }
+
+    
 }
