@@ -20,7 +20,12 @@ public class SuckingHole : MonoBehaviour
 {
     //[SerializeField, Tooltip("Geisers a los que va a afectar")] private Geiser[] _refGeisers;
     [Tooltip("Geisers a los que va a afectar")] public ValueGeiser[] geisers;
+    [SerializeField] private ParticleSystem _myParticle;
 
+    private void Awake()
+    {
+        _myParticle = GetComponentInChildren<ParticleSystem>();
+    }
 
 
     private void Start()
@@ -38,6 +43,7 @@ public class SuckingHole : MonoBehaviour
             foreach (var item in geisers)
             {
                 item.refGeiser.ModifyScaleYGeiser(item.newScaleGeiser, item.speedParticle);
+                _myParticle.Stop();
             }
         }
     }
@@ -50,6 +56,8 @@ public class SuckingHole : MonoBehaviour
             foreach (var item in geisers)
             {
                 item.refGeiser.RevertChange();
+                _myParticle.Play();
+
             }
         }
     }
