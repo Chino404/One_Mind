@@ -98,7 +98,7 @@ public class ModelBongo : Characters
         {
             _forceGravity = _initialForceGravity;
             _isfly = false;
-            penguin.StopFlying();
+            penguin?.StopFlying();
         }
 
         else if(!IsGrounded(_floorLayer) && _rbCharacter.velocity.y <= 0) //Si no estoy tocando el suelo
@@ -107,7 +107,7 @@ public class ModelBongo : Characters
             if (_rbCharacter.velocity.y <= 0 && !_isfly) _rbCharacter.velocity = Vector3.zero;
 
             _isfly = true;
-            penguin.Fly();
+            penguin?.Fly();
 
             _forceGravity = _gravityPlan;
             Vector3 dir = transform.forward;

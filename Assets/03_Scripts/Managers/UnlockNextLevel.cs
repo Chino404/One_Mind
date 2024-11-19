@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class UnlockNextLevel : MonoBehaviour
 {
-    [Tooltip("poner numero de build index del nivel siguiente")]public int nextLevel;
+    [Tooltip("Poner numero de build index del nivel siguiente")]public int nextLevel;
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Characters>())
