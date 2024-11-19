@@ -98,7 +98,7 @@ public class JsonSaves : MonoBehaviour
 
             DictionaryCheck(levels);
 
-            SceneManager.LoadScene(1);
+            SceneManager.LoadSceneAsync(0);
         }
         else Debug.LogError("No existe el Path");
 

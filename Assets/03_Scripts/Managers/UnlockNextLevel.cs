@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class UnlockNextLevel : MonoBehaviour
 {
+    [Tooltip("poner numero de build index del nivel siguiente")]public int nextLevel;
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Characters>())
@@ -21,7 +22,7 @@ public class UnlockNextLevel : MonoBehaviour
 
         //}
 
-        var indexNextLevel = SceneManager.GetActiveScene().buildIndex + 1;
+        var indexNextLevel = nextLevel;
         Debug.Log(indexNextLevel);
 
         var levels = CallJson.instance.refJasonSave.GetSaveData.levels;
