@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Geiser : MonoBehaviour
 {
-    [SerializeField, Range(0,5f)] private float _actualForceGeiser = 2;
-    private float _iniForceGeiser;
+    [SerializeField, Range(0,50f)] private float _actualForceGeiser = 2;
+    [Tooltip("Fuerza del geiser original")]private float _iniForceGeiser;
+    [Tooltip("Fuerza del geiser cuando se está planeando")]private float _forceGeiserOnPenguin;
 
     [SerializeField]private Vector3 _scaleCollider;
     private Vector3 _iniScaleCollider;
@@ -29,6 +30,11 @@ public class Geiser : MonoBehaviour
         _iniScaleCollider = _myCollider.size;
         _iniSpeedParticle = main.startSpeed.constant;
         _iniForceGeiser = _actualForceGeiser;
+    }
+
+    private void Start()
+    {
+        _forceGeiserOnPenguin = _actualForceGeiser / 1.5f;
     }
 
     public void ModifyScaleYGeiser(float newScaleY, float newSpeedParticle)
@@ -58,10 +64,13 @@ public class Geiser : MonoBehaviour
 
         if (rb != null)
         {
-            if (bongo != null && bongo.IsFly) _actualForceGeiser /= 1.5f;
+            if (bongo != null && bongo.IsFly) _actualForceGeiser = _forceGeiserOnPenguin;
             else _actualForceGeiser = _iniForceGeiser;
 
-            rb.AddForce(transform.up * _actualForceGeiser, ForceMode.VelocityChange);
+
+            //rb.AddForce(transform.up * _actualForceGeiser, ForceMode.VelocityChange);
+
+            rb.velocity = new Vector3(rb.velocity.x, _actualForceGeiser, rb.velocity.z);
         }
     }
 
