@@ -22,16 +22,16 @@ public class BreakablePlatform : Rewind
     [SerializeField, Tooltip("Tiempo para la animacion de ROMPERSE"), Range(0,5f)] private float _timeToBreaking = 0.5f;
     [SerializeField, Tooltip("Tiempo que tarda para RECOMPONERSE"), Range(0,5f)] private float _timeToRecover = 2;
 
-    private Collider _myCollider;
+    //private Collider _myCollider;
     private Animator _myAnimator;
 
     //Provisorio hasta tener animaciones
-    [Space(10),SerializeField] private GameObject _ice;
+    //[Space(10),SerializeField] private GameObject _ice;
 
     public override void Awake()
     {
         base.Awake();
-        _myCollider = GetComponent<Collider>();
+        //_myCollider = GetComponent<Collider>();
         _myAnimator = GetComponentInChildren<Animator>();
     }
 
@@ -109,16 +109,15 @@ public class BreakablePlatform : Rewind
 
     public override void Save()
     {
-        _currentState.Rec(_myCollider.enabled, _ice.activeInHierarchy);
+        _currentState.Rec(_myState,_isBreaking);
     }
 
     public override void Load()
     {
         if (!_currentState.IsRemember()) return;
-        StopAllCoroutines();
         var col = _currentState.Remember();
-        _myCollider.enabled = (bool)col.parameters[0];
-        _ice.SetActive((bool)col.parameters[1]);
+        
+        StopAllCoroutines();
 
         //_myAnimator.SetTrigger("Idle");
         Idle();
