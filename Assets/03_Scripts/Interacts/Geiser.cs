@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR;
 
-public class Geiser : MonoBehaviour
+public class Geiser : MonoBehaviour, IImpulse
 {
     [SerializeField, Range(0,50f)] private float _actualForceGeiser = 2;
     [Tooltip("Fuerza del geiser original")]private float _iniForceGeiser;
@@ -65,25 +66,23 @@ public class Geiser : MonoBehaviour
         var rb = other.gameObject.GetComponent<Rigidbody>();
         var bongo = other.gameObject.GetComponent<ModelBongo>();
 
+        if (bongo != null && bongo.IsFly) _actualForceGeiser = _forceGeiserOnPenguin;
+        else _actualForceGeiser = _iniForceGeiser;
+
+        Action(rb);
+    }
+
+    public void Action(Rigidbody rb)
+    {
         if (rb != null)
         {
-            if (bongo != null && bongo.IsFly) _actualForceGeiser = _forceGeiserOnPenguin;
-            else _actualForceGeiser = _iniForceGeiser;
-
             //rb.velocity = new Vector3(rb.velocity.x, _actualForceGeiser, rb.velocity.z);
 
             // Aplica la fuerza en la dirección del transform.up del géiser
             Vector3 geiserForce = transform.up * _actualForceGeiser;
 
-            // Opciones según cómo quieras manejar la velocidad:
-            // 1. Sustituir completamente la velocidad (considera la dirección del géiser):
             rb.velocity = geiserForce;
-
-            // 2. Sumar la fuerza del géiser a la velocidad existente (más natural):
-            // rb.velocity += geiserForce;
 
         }
     }
-
-    
 }

@@ -32,6 +32,7 @@ public abstract class Characters : Entity, IDamageable
     protected float _initialForceGravity;
     [Space(10), SerializeField, Tooltip("Fuerza de salto normal")] protected float _jumpForce = 25f;
     public bool isJumping;
+    private bool _isImpulse;
     [SerializeField, Range(0, 0.4f), Tooltip("Tiempo para saltar cuando dejo de tocar el suelo")] protected float _coyoteTime = 0.15f;
     protected float _coyoteTimeCounter;
     [Space(10), SerializeField, Range(0, 0.1f), Tooltip("Cuanto mas alto el valor, mas se resbala")] private float _iceFriction = 0.65f;
@@ -61,9 +62,8 @@ public abstract class Characters : Entity, IDamageable
 
     [Header("--> PARTICLES")]
     [SerializeField] protected ParticleSystem _particleJump;
-    //[SerializeField] protected ParticleSystem _polvo;
 
-    public delegate void MyDelegate(Vector3 dirRaw, Vector3 dir);
+    public delegate void MyDelegate(Vector3 dirRaw);
     public event MyDelegate _actualMove;
     public MyDelegate ActualMove { get { return _actualMove; } set { _actualMove = value; } }
 
@@ -191,13 +191,13 @@ public abstract class Characters : Entity, IDamageable
     #endregion
 
     #region MOVEMENT
-    public virtual void Movement(Vector3 dirRaw, Vector3 dir)
+    public virtual void Movement(Vector3 dirRaw)
     {
-        if (IsTouch(dir.normalized, _moveMask))
+        if (IsTouch(dirRaw.normalized, _moveMask))
         {
             isStopMove = true;
             _animPlayer.SetBool("IsWallDetected", true);
-            transform.forward = dir;
+            transform.forward = dirRaw;
             return;
         }
         else
@@ -205,10 +205,9 @@ public abstract class Characters : Entity, IDamageable
             _animPlayer.SetBool("IsWallDetected", false);
             isStopMove = false;
         }
+  
 
-        
-
-        ActualMove(dirRaw, dir);
+        ActualMove(dirRaw);
         
     }
 
@@ -219,12 +218,12 @@ public abstract class Characters : Entity, IDamageable
         _rbCharacter.velocity += (dir * force);
     }
 
-    public void InverseMovement(Vector3 dirRaw, Vector3 dir)
+    public void InverseMovement(Vector3 dirRaw)
     {
-        NormalMovement(-dirRaw, dir);
+        NormalMovement(-dirRaw);
     }
 
-    public void NormalMovement(Vector3 dirRaw, Vector3 dir)
+    public void NormalMovement(Vector3 dirRaw)
     {
         //if (_isJumpGrabb) return;
 
@@ -238,13 +237,19 @@ public abstract class Characters : Entity, IDamageable
 
         _myVelocityCharacter = Vector3.zero;
 
-        if(dirRaw.sqrMagnitude != 0)
+        if (dirRaw.sqrMagnitude != 0)
         {
-            Vector3 mov= new Vector3(dir.normalized.x, 0, dir.normalized.z);
+            //Vector3 mov = new Vector3(dir.normalized.x, 0, dir.normalized.z);
+            Vector3 mov = new Vector3(dirRaw.normalized.x, 0, dirRaw.normalized.z);
             _myVelocityCharacter = mov * _actualSpeed;
 
-            Rotate(mov);
+            //Rotate(mov);
         }
+
+        //Vector3 mov = new Vector3(dir.normalized.x, 0, dir.normalized.z);
+        //_myVelocityCharacter = mov * _actualSpeed;
+
+        //Rotate(mov);
 
         _myVelocityCharacter.y = _rbCharacter.velocity.y;
 
@@ -265,7 +270,7 @@ public abstract class Characters : Entity, IDamageable
         }
         else
         {
-            _rbCharacter.velocity = _myVelocityCharacter;
+            if(!_isImpulse)_rbCharacter.velocity = _myVelocityCharacter;
         }
 
 
@@ -290,7 +295,7 @@ public abstract class Characters : Entity, IDamageable
         _rbCharacter.isKinematic = value;
     }
 
-    public void HandleMovement(Vector3 dirRaw, Vector3 dir)
+    public void HandleMovement(Vector3 dirRaw)
     {
         _animPlayer.SetBool("Walk", false);
 
@@ -308,7 +313,7 @@ public abstract class Characters : Entity, IDamageable
 
         if (dirRaw.sqrMagnitude != 0)
         {
-            Vector3 dirEscalando = new Vector3(dir.normalized.x, dir.normalized.z);
+            Vector3 dirEscalando = new Vector3(dirRaw.normalized.x, dirRaw.normalized.z);
             _dirGrabb = dirEscalando;
 
             Ray vistaEnredadera = new Ray(transform.position + dirEscalando, transform.forward);
@@ -494,16 +499,22 @@ public abstract class Characters : Entity, IDamageable
     private void OnTriggerEnter(Collider other)
     {
         var interact = other.GetComponent<IInteracteable>();
+        var impulse = other.GetComponent<IImpulse>();
 
         if (interact != null) interact.Active();
+
+        if (impulse != null) _isImpulse = true; 
 
     }
 
     private void OnTriggerExit(Collider other)
     {
         var interact = other.GetComponent<IInteracteable>();
+        var impulse = other.GetComponent<IImpulse>();
 
         if (interact != null) interact.Deactive();
+
+        if (impulse != null) _isImpulse = false;
     }
 
     private void OnCollisionEnter(Collision collision)
