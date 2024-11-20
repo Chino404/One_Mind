@@ -55,10 +55,18 @@ public class ControllerBongo
     public void ListenFixedKeys()
     {
 
-        if (_dirRaw.sqrMagnitude != 0) _viewBongo.Walking(true);
-        else _viewBongo.Walking(false);
+        if (_dirRaw.sqrMagnitude != 0)
+        {
+            _viewBongo.Walking(true);
+            //_model.Movement(_dirRaw);
+            _model.Rotate(_dir.normalized);
+        }
+        else
+        {
+            _viewBongo.Walking(false);
+        }
 
-        _model.Movement(_dirRaw, _dir);
+        _model.Movement(_dirRaw);
 
         _model.FlyPenguin(_isFly);
     }
