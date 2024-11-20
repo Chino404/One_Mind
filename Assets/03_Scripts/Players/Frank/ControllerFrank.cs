@@ -44,9 +44,14 @@ public class ControllerFrank
     public void ListenFixedKeys()
     {
 
-        if (_dirRaw.sqrMagnitude != 0) _viewFrank.Walking(true);
+        if (_dirRaw.sqrMagnitude != 0)
+        {
+            _viewFrank.Walking(true);
+            //_model.Movement(_dirRaw);
+            _model.Rotate(_dir.normalized);
+        }
         else _viewFrank.Walking(false);
 
-        _model.Movement(_dirRaw, _dir);
+        _model.Movement(_dirRaw);
     }
 }

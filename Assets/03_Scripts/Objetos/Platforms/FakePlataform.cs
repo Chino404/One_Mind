@@ -15,9 +15,7 @@ public class FakePlataform : Rewind
         base.Awake();
         _disolveMaterial = GetComponent<Renderer>();
         _valueDisolve = 0f;     
-    }
-
-    
+    } 
 
     private void OnEnable()
     {

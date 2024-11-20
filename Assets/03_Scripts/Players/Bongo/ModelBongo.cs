@@ -112,7 +112,7 @@ public class ModelBongo : Characters
             _forceGravity = _gravityPlan;
             Vector3 dir = transform.forward;
 
-            Movement(dir, dir);
+            Movement(dir);
         }
     }
 
