@@ -40,18 +40,21 @@ public class Geiser : MonoBehaviour
     public void ModifyScaleYGeiser(float newScaleY, float newSpeedParticle)
     {
         _scaleCollider.y = newScaleY;
-        _myCollider.size = _scaleCollider;
+       // _myCollider.size = _scaleCollider;
+        _myCollider.size += _scaleCollider;
 
         var main = _myParticle.main; //Para poder llegar a sus variables
         _actualSpeedParticle = newSpeedParticle;
         main.startSpeed = _actualSpeedParticle;
 
+        //Para automatizar las particulas
         //var porcentaje = newScaleY / (_iniScaleCollider.y * 1.5f);
     }
 
     public void RevertChange()
     {
-        _myCollider.size = _iniScaleCollider;
+        //_myCollider.size = _iniScaleCollider;
+        _myCollider.size -= _scaleCollider;
 
         var main = _myParticle.main; //Para poder llegar a sus variables
         main.startSpeed = _iniSpeedParticle;
@@ -67,10 +70,18 @@ public class Geiser : MonoBehaviour
             if (bongo != null && bongo.IsFly) _actualForceGeiser = _forceGeiserOnPenguin;
             else _actualForceGeiser = _iniForceGeiser;
 
+            //rb.velocity = new Vector3(rb.velocity.x, _actualForceGeiser, rb.velocity.z);
 
-            //rb.AddForce(transform.up * _actualForceGeiser, ForceMode.VelocityChange);
+            // Aplica la fuerza en la dirección del transform.up del géiser
+            Vector3 geiserForce = transform.up * _actualForceGeiser;
 
-            rb.velocity = new Vector3(rb.velocity.x, _actualForceGeiser, rb.velocity.z);
+            // Opciones según cómo quieras manejar la velocidad:
+            // 1. Sustituir completamente la velocidad (considera la dirección del géiser):
+            rb.velocity = geiserForce;
+
+            // 2. Sumar la fuerza del géiser a la velocidad existente (más natural):
+            // rb.velocity += geiserForce;
+
         }
     }
 

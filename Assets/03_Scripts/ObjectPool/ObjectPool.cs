@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class ObjectPool<T> : MonoBehaviour
+public class ObjectPool<T>
 {
     public delegate T FactoryMethod();//creamos un tipo de dato para guardar metodos void que no reciban parametros
     FactoryMethod _factory;
