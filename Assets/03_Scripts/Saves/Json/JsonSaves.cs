@@ -114,8 +114,25 @@ public class JsonSaves : MonoBehaviour
             {
                 CallJson.instance.refJasonSave.GetSaveData.levelDataDictionary.Add(levelsList[i].indexLevelJSON, levelsList[i].isLevelCompleteJSON);
                 Debug.Log($"IndexBuild: {levelsList[i].indexLevelJSON} | IsLevelComplete: {levelsList[i].isLevelCompleteJSON}");
+
+                //levelsList[i].collectablesJSON.Add();
             }
             else Debug.LogWarning($"YA EXISTE! Key: {levelsList[i].indexLevelJSON} | Value: {levelsList[i].isLevelCompleteJSON}");
+
+            if (!levelsList[i].collectablesJSON.ContainsKey("BongoTrinket"))
+            {
+                levelsList[i].collectablesJSON.Add("BongoTrinket", false);
+                Debug.Log("Lo cree!");
+            }
+            else Debug.Log($"Ya existe este diccionario de BONGO para {levelsList[i].indexLevelJSON}");
+
+
+            if (!levelsList[i].collectablesJSON.ContainsKey("FrankTrinket"))
+            {
+                levelsList[i].collectablesJSON.Add("FrankTrinket", false);
+            }
+            else Debug.LogWarning($"Ya existe este diccionario de FRANK para {levelsList[i].indexLevelJSON}");
+
 
         }
         Debug.LogWarning("Cargue el diccionario");

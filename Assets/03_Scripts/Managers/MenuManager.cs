@@ -21,59 +21,59 @@ public class MenuManager : MonoBehaviour
     {
         Time.timeScale = 1;
 
-        foreach (var item in ColectableManager.instance.collectablesCollectedLvl1)
-        {
-            if (item == true)
-            {
-                foreach (var elem in _colectablesLvl1)
-                {
-                    //if (elem.color != Color.green)
-                    //{
-                    //    elem.color = Color.green;
-                    //    break;
-                    //}
+        //foreach (var item in ColectableManager.instance.collectablesCollectedLvl1)
+        //{
+        //    if (item == true)
+        //    {
+        //        foreach (var elem in _colectablesLvl1)
+        //        {
+        //            //if (elem.color != Color.green)
+        //            //{
+        //            //    elem.color = Color.green;
+        //            //    break;
+        //            //}
 
-                    if (elem.color.a != 1f)
-                    {
-                        Color newColor = elem.color;
-                        newColor.a = 1f;
-                        elem.color = newColor;
-                        break;
-                    }
+        //            if (elem.color.a != 1f)
+        //            {
+        //                Color newColor = elem.color;
+        //                newColor.a = 1f;
+        //                elem.color = newColor;
+        //                break;
+        //            }
 
-                }
+        //        }
 
-            }
+        //    }
 
-            //else foreach (var elem in _colectablesLvl1)
-            //        if (elem.color != Color.green)
-            //            elem.color = Color.red;
-        }
+        //    //else foreach (var elem in _colectablesLvl1)
+        //    //        if (elem.color != Color.green)
+        //    //            elem.color = Color.red;
+        //}
 
-        foreach (var item in ColectableManager.instance.collectablesCollectedLvl2)
-        {
-            if (item == true)
-            {
-                foreach (var elem in _colectablesLvl2)
-                {
-                    //if (elem.color != Color.green)
-                    //{
-                    //    elem.color = Color.green;
-                    //    break;
-                    //}
+        //foreach (var item in ColectableManager.instance.collectablesCollectedLvl2)
+        //{
+        //    if (item == true)
+        //    {
+        //        foreach (var elem in _colectablesLvl2)
+        //        {
+        //            //if (elem.color != Color.green)
+        //            //{
+        //            //    elem.color = Color.green;
+        //            //    break;
+        //            //}
 
-                    if (elem.color.a != 1f)
-                    {
-                        Color newColor = elem.color;
-                        newColor.a = 1f;
-                        elem.color = newColor;
-                        break;
-                    }
+        //            if (elem.color.a != 1f)
+        //            {
+        //                Color newColor = elem.color;
+        //                newColor.a = 1f;
+        //                elem.color = newColor;
+        //                break;
+        //            }
 
-                }
+        //        }
 
-            }
-        }
+        //    }
+        //}
     }
 
     private void Update()
@@ -170,12 +170,6 @@ public class MenuManager : MonoBehaviour
 
             else Debug.Log($"Esta key {level[i].indexLevelJSON} no existe");
         }
-
-
-        //for (int i = 0; i < unlockedLevel; i++)
-        //{
-        //    buttons[i].interactable = true;
-        //}
 
     }
 
