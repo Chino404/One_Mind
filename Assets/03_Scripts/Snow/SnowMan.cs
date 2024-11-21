@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Penguin : MonoBehaviour
+public class SnowMan : MonoBehaviour
 {
     Factory<Bullet> _factory;
     ObjectPool<Bullet> _objectPool;
