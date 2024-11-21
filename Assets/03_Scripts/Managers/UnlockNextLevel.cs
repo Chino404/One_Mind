@@ -36,7 +36,6 @@ public class UnlockNextLevel : MonoBehaviour
                 break;
             }
         }
-        //CallJson.instance.refJasonSave.GetSaveData.levels[2].indexLevelJSON;
         CallJson.instance.refJasonSave.GetSaveData.levelDataDictionary[indexNextLevel] = true;
 
     }

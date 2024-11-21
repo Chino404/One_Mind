@@ -194,9 +194,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b73d8410a1ffc614896ec48e5b18f71c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _imageCollectable:
-  - {fileID: 8096787981509629903}
-  - {fileID: 4339917485121482858}
+  _collectables:
+  - playerCollectableName: Frank
+    trinketCharacter: 1
+    imageCollectable: {fileID: 8096787981509629903}
+    deactiveColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    activeColor: {r: 1, g: 1, b: 1, a: 1}
+    isTaken: 0
+  - playerCollectableName: Bongo
+    trinketCharacter: 0
+    imageCollectable: {fileID: 4339917485121482858}
+    deactiveColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    activeColor: {r: 1, g: 0.995283, b: 0.995283, a: 1}
+    isTaken: 0
 --- !u!95 &5251661631077980626
 Animator:
   serializedVersion: 5

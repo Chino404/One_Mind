@@ -6,7 +6,9 @@ using UnityEngine.UI;
 
 public class Colectionable : MonoBehaviour
 {
-    [SerializeField] private float _rotationSpeed;
+    [SerializeField] private CharacterTarget _trinketCharacter;
+
+    [Space(10),SerializeField] private float _rotationSpeed;
     [SerializeField] private float _imageDisplayDuration = 2f;
     private bool _isCollected;
     public Image imageColec;
@@ -24,8 +26,6 @@ public class Colectionable : MonoBehaviour
 
             _isCollected = true;
             gameObject.SetActive(false);
-            //imageColec.gameObject?.SetActive(true);
-            //StartCoroutine(ShowImageAndDisable());
         }
 
     }
@@ -59,31 +59,68 @@ public class Colectionable : MonoBehaviour
     private void OnDisable()
     {
         if (_isCollected == false) return;
-        Scene currentScene = SceneManager.GetActiveScene();
-        if (currentScene.buildIndex == 2)
+
+        Scene currentScene = SceneManager.GetActiveScene(); //GetActiveScene() es para averiguar en que escena estas
+        var level = ColectableManager.instance.collectablesLevels;
+
+        var json = CallJson.instance.refJasonSave.GetSaveData.levels;
+
+        foreach (var item in level)
         {
-            for (int i = 0; i < ColectableManager.instance.collectablesCollectedLvl1.Length; i++)
+            if(currentScene.buildIndex == item.indexLevel)
             {
-                if (ColectableManager.instance.collectablesCollectedLvl1[i] == false)
+                if (_trinketCharacter == CharacterTarget.Bongo)
                 {
-                    ColectableManager.instance.collectablesCollectedLvl1[i] = true;
-                    break;
+                    item.isBongoTaken = true;
+
+
+                    for (int i = 0; i < json.Length; i++)
+                    {
+                        if (currentScene.buildIndex == json[i].indexLevelJSON)
+                        {
+                            //if(!json[i].collectablesJSON.ContainsKey("BongoTrinket"))
+                            //{
+                            //    json[i].collectablesJSON.Add("BongoTrinket", true);
+                            //}
+                        }
+                    }
+                }
+
+                else
+                {
+                    item.isFrankTaken = true;
+
                 }
             }
         }
 
-        else if (currentScene.buildIndex == 3)
-        {
-            for (int i = 0; i < ColectableManager.instance.collectablesCollectedLvl2.Length; i++)
-            {
-                if (ColectableManager.instance.collectablesCollectedLvl2[i] == false)
-                {
-                    ColectableManager.instance.collectablesCollectedLvl2[i] = true;
-                    break;
-                }
-            }
 
-        }
+        //if (currentScene.buildIndex == 2)
+        //{
+        //    for (int i = 0; i < ColectableManager.instance.collectablesCollectedLvl1.Length; i++)
+        //    {
+        //        if (ColectableManager.instance.collectablesCollectedLvl1[i] == false)
+        //        {
+        //            ColectableManager.instance.collectablesCollectedLvl1[i] = true;
+        //            //if (CallJson.instance.refJasonSave.GetSaveData.levels[currentScene.buildIndex].collectablesJSON.ContainsKey(""))
+
+        //            break;
+        //        }
+        //    }
+        //}
+
+        //else if (currentScene.buildIndex == 3)
+        //{
+        //    for (int i = 0; i < ColectableManager.instance.collectablesCollectedLvl2.Length; i++)
+        //    {
+        //        if (ColectableManager.instance.collectablesCollectedLvl2[i] == false)
+        //        {
+        //            ColectableManager.instance.collectablesCollectedLvl2[i] = true;
+        //            break;
+        //        }
+        //    }
+
+        //}
             
     }
 }
