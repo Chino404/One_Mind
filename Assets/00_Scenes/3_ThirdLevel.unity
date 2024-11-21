@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.08048497, g: 0.09987871, b: 0.30127752, a: 1}
+  m_IndirectSpecularColor: {r: 0.08019628, g: 0.09958467, b: 0.30097735, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -484,6 +484,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8296373053238646907, guid: ba230a242ff14b842ac81da844a6561e,
         type: 3}
+      propertyPath: geisers.Array.data[0].addScaleY
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 8296373053238646907, guid: ba230a242ff14b842ac81da844a6561e,
+        type: 3}
       propertyPath: geisers.Array.data[0].refGeiser
       value: 
       objectReference: {fileID: 1117514135}
@@ -495,7 +500,7 @@ PrefabInstance:
     - target: {fileID: 8296373053238646907, guid: ba230a242ff14b842ac81da844a6561e,
         type: 3}
       propertyPath: geisers.Array.data[0].speedParticle
-      value: 13
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8296373053238646907, guid: ba230a242ff14b842ac81da844a6561e,
         type: 3}
@@ -505,7 +510,12 @@ PrefabInstance:
     - target: {fileID: 8296373053238646907, guid: ba230a242ff14b842ac81da844a6561e,
         type: 3}
       propertyPath: geisers.Array.data[0].startScaleGeiser
-      value: 5
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8296373053238646907, guid: ba230a242ff14b842ac81da844a6561e,
+        type: 3}
+      propertyPath: geisers.Array.data[0].startSpeedParticle
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6825,7 +6835,7 @@ PrefabInstance:
     - target: {fileID: 5796651440757187241, guid: a8e94aa0ca5a7ce4788f14f294de448e,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11731,7 +11741,7 @@ PrefabInstance:
     - target: {fileID: 1775755803438261576, guid: d0e4f5feb7386154ba161568888d4512,
         type: 3}
       propertyPath: m_Size.y
-      value: 28
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2213794364386912149, guid: d0e4f5feb7386154ba161568888d4512,
         type: 3}
@@ -15496,7 +15506,7 @@ PrefabInstance:
     - target: {fileID: 8906201917774778276, guid: 70990b3be4fdb2f4489d40c68ad0a193,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -24649,7 +24659,7 @@ PrefabInstance:
     - target: {fileID: 1775755803438261576, guid: d0e4f5feb7386154ba161568888d4512,
         type: 3}
       propertyPath: m_Size.y
-      value: 20
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1775755803438261576, guid: d0e4f5feb7386154ba161568888d4512,
         type: 3}
@@ -39712,7 +39722,7 @@ PrefabInstance:
     - target: {fileID: 5796651440757187241, guid: a8e94aa0ca5a7ce4788f14f294de448e,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -47204,6 +47214,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8296373053238646907, guid: ba230a242ff14b842ac81da844a6561e,
         type: 3}
+      propertyPath: geisers.Array.data[0].addScaleY
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8296373053238646907, guid: ba230a242ff14b842ac81da844a6561e,
+        type: 3}
       propertyPath: geisers.Array.data[0].refGeiser
       value: 
       objectReference: {fileID: 1038594356}
@@ -47240,7 +47255,7 @@ PrefabInstance:
     - target: {fileID: 8296373053238646907, guid: ba230a242ff14b842ac81da844a6561e,
         type: 3}
       propertyPath: geisers.Array.data[0].startScaleGeiser
-      value: 1.4
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8296373053238646907, guid: ba230a242ff14b842ac81da844a6561e,
         type: 3}
@@ -53090,12 +53105,12 @@ PrefabInstance:
     - target: {fileID: 6602385700352622251, guid: cde52286f4046e04e81fbc37f33433ba,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 3.998776
+      value: 3.3934011
       objectReference: {fileID: 0}
     - target: {fileID: 6602385700352622251, guid: cde52286f4046e04e81fbc37f33433ba,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 138.8
+      value: 139.05
       objectReference: {fileID: 0}
     - target: {fileID: 6602385700352622251, guid: cde52286f4046e04e81fbc37f33433ba,
         type: 3}
@@ -58589,7 +58604,7 @@ PrefabInstance:
     - target: {fileID: 8906201917774778276, guid: 70990b3be4fdb2f4489d40c68ad0a193,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

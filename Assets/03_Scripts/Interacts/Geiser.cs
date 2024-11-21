@@ -23,6 +23,7 @@ public class Geiser : MonoBehaviour, IImpulse
         _myParticle = GetComponentInChildren<ParticleSystem>();
         _myCollider = GetComponent<BoxCollider>();
 
+        //_scaleCollider.y = _myCollider.size.y;
         _scaleCollider = _myCollider.size;
 
         var main = _myParticle.main; //Para poder llegar a sus variables
@@ -38,27 +39,38 @@ public class Geiser : MonoBehaviour, IImpulse
         _forceGeiserOnPenguin = _actualForceGeiser / 1.5f;
     }
 
-    public void ModifyScaleYGeiser(float newScaleY, float newSpeedParticle)
+    public void StartScale(float startScaleY, float startSpeedParticle)
     {
-        _scaleCollider.y = newScaleY;
-       // _myCollider.size = _scaleCollider;
-        _myCollider.size += _scaleCollider;
+        _scaleCollider.y = startScaleY;
+        _myCollider.size = _scaleCollider;
 
-        var main = _myParticle.main; //Para poder llegar a sus variables
-        _actualSpeedParticle = newSpeedParticle;
-        main.startSpeed = _actualSpeedParticle;
+        ModifyParticle(startSpeedParticle);
+    }
+
+    public void ModifyScaleYGeiser(float addScaleY, float newSpeedParticle)
+    {
+        //_scaleCollider.y = newScaleY;
+        _myCollider.size += new Vector3(0, addScaleY, 0);
+
+        ModifyParticle(newSpeedParticle);
 
         //Para automatizar las particulas
         //var porcentaje = newScaleY / (_iniScaleCollider.y * 1.5f);
     }
 
-    public void RevertChange()
+    public void RevertChange(float subtractScaleY, float startSpeedParticle)
     {
         //_myCollider.size = _iniScaleCollider;
-        _myCollider.size -= _scaleCollider;
+        _myCollider.size -= new Vector3(0, subtractScaleY, 0);
 
+        ModifyParticle(startSpeedParticle);
+    }
+
+    private void ModifyParticle(float valueSpeed)
+    {
         var main = _myParticle.main; //Para poder llegar a sus variables
-        main.startSpeed = _iniSpeedParticle;
+        _actualSpeedParticle = valueSpeed;
+        main.startSpeed = _actualSpeedParticle;
     }
 
     private void OnTriggerStay(Collider other)
