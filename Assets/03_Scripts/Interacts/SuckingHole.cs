@@ -13,7 +13,9 @@ public class ValueGeiser
 
     [Space(5),Header("Como se va a actualizar")]
     [Tooltip("Lo que se le va a sumar a su escala en Y")]public float addScaleY;
-    [Tooltip("La velociad / distancia de las particulas")]public float speedParticle;
+    [Tooltip("Si en vez de SUMAR va a RESTAR")] public bool substract;
+
+    [Space(5),Tooltip("La velociad / distancia de las particulas")]public float speedParticle;
 }
 
 public class SuckingHole : MonoBehaviour
@@ -42,7 +44,8 @@ public class SuckingHole : MonoBehaviour
         {
             foreach (var item in geisers)
             {
-                item.refGeiser.ModifyScaleYGeiser(item.addScaleY, item.speedParticle);
+                if(item.substract) item.refGeiser.ModifyScaleYGeiser(- item.addScaleY, item.speedParticle);
+                else item.refGeiser.ModifyScaleYGeiser(item.addScaleY, item.speedParticle);
                 _myParticle.Stop();
             }
         }
@@ -55,7 +58,8 @@ public class SuckingHole : MonoBehaviour
 
             foreach (var item in geisers)
             {
-                item.refGeiser.RevertChange(item.addScaleY, item.startSpeedParticle);
+                if(item.substract) item.refGeiser.RevertChange(- item.addScaleY, item.startSpeedParticle);
+                else item.refGeiser.RevertChange(item.addScaleY, item.startSpeedParticle);
                 _myParticle.Play();
 
             }
