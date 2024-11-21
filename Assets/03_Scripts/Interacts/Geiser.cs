@@ -63,6 +63,8 @@ public class Geiser : MonoBehaviour, IImpulse
         //_myCollider.size = _iniScaleCollider;
         _myCollider.size -= new Vector3(0, subtractScaleY, 0);
 
+        if(_myCollider.size.y <= 0) _myCollider.size = new Vector3(_myCollider.size.x, 0, _myCollider.size.z);
+
         ModifyParticle(startSpeedParticle);
     }
 
