@@ -523,10 +523,11 @@ public abstract class Characters : Entity, IDamageable
 
         if(interact != null) interact.Active();
         
+
     }
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.layer == 14)
+        if (collision.gameObject.layer == 14&&_myVelocityCharacter!=Vector3.zero)
         {
             _animPlayer.SetBool("IsWallDetected", true);
         }

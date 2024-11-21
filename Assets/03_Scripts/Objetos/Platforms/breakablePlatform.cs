@@ -35,6 +35,12 @@ public class BreakablePlatform : Rewind
         _myAnimator = GetComponentInChildren<Animator>();
     }
 
+    //private void Start()
+    //{
+    //    _myAnimator.SetTrigger("Idle");
+
+    //}
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.GetComponent<Characters>())
@@ -109,13 +115,14 @@ public class BreakablePlatform : Rewind
 
     public override void Save()
     {
-        _currentState.Rec(_myState,_isBreaking);
+        _currentState.Rec( gameObject.activeInHierarchy);
     }
 
     public override void Load()
     {
         if (!_currentState.IsRemember()) return;
         var col = _currentState.Remember();
+        gameObject.SetActive((bool)col.parameters[0]);
         
         StopAllCoroutines();
 
