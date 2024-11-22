@@ -122,7 +122,7 @@ public class BreakablePlatform : Rewind
     {
         if (!_currentState.IsRemember()) return;
         var col = _currentState.Remember();
-        gameObject.SetActive((bool)col.parameters[0]);
+        //gameObject.SetActive((bool)col.parameters[0]);
         
         StopAllCoroutines();
 
