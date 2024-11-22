@@ -12,6 +12,8 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
     [SerializeField]private Color _colorFire;
     public Color ColorFire { get { return _colorFire; } }
     private int _IdFireColor = Shader.PropertyToID("_FireColor");
+    private float _dissolve; 
+    
     [SerializeField, Range(0,3f)] private float _rangeLight = 1.8f;
     [Tooltip("Valor actual del rango de la luz")]private float _actualRangeLight;
 
@@ -22,7 +24,7 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
     public ParticleSystem myParticleSystem;
 
     private bool _isActive;
-
+    public bool iceTorch;
 
     private void Awake()
     {
@@ -34,8 +36,14 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
 
         if (_light == null) Debug.LogWarning($"Poner una LIGHT en: {gameObject.name}");
         else _light.range = 0;
-    }
 
+        
+    }
+    void Start()
+    {
+        if(iceTorch)
+        myParticleSystem?.Play();
+    }
     public void ChangeColorFire(Color color)
     {
         _fireMaterial.material.SetColor(_IdFireColor, color);
@@ -45,12 +53,28 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
     public void Active()
     {
         _timer = 0;
+        
         myParticleSystem?.Play();
         StartCoroutine(SpawnFire());
     }
 
+    void Update()
+    {
+        if (iceTorch&&_isActive)
+        {
+            _dissolve += Time.deltaTime;
+            _dissolve = Mathf.Clamp01(_dissolve);
+            _fireMaterial.material.SetFloat("_dissolve", _dissolve);
+        }
+    }
+
     IEnumerator SpawnFire()
     {
+        if (iceTorch)
+        {
+            _fireMaterial.material.SetFloat("_freeze", 0);
+        }
+
         _isActive = true;
 
         var auxFire = _valueFireTreshold;
