@@ -32,7 +32,8 @@ public class UnlockNextLevel : MonoBehaviour
         {
             if (levels[i].indexLevelJSON == indexNextLevel)
             {
-                levels[i].isLevelCompleteJSON = true;
+                levels[i].isLevelCompleteJSON = true; //Pongo que el nivel se completo y se puede jugar al proximo
+
                 break;
             }
         }

@@ -9,5 +9,8 @@ public class LevelData
     public bool isLevelCompleteJSON;
 
     public Dictionary<string, bool> collectablesJSON = new();
+
+    public bool isBongoTakenTrinket;
+    public bool isFrankTakenTrinket;
     
 }

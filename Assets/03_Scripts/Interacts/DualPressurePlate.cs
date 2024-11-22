@@ -64,7 +64,7 @@ public class DualPressurePlate : Rewind, IInteracteable
             if (_button.transform.localPosition.y > 0)
             {
                 _button.transform.localPosition -= new Vector3(0, 1, 0);
-                Debug.Log("aprete el boton");
+                //Debug.Log("aprete el boton");
             }
         }
 

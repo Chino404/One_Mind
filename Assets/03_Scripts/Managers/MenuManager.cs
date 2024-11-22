@@ -2,6 +2,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class ButtonsLevelSelector
+{
+    public int indexlevel;
+    public Button button;
+
+}
+
 public class MenuManager : MonoBehaviour
 {
     [SerializeField] private BookAnim _refBookAnim;
@@ -14,7 +22,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Image[] _colectablesLvl2;
 
     [Tooltip("En este array se ponen todos los botones que empiezan desactivados. El primero del array no se desactiva")]
-    public Button[] buttons;
+    public ButtonsLevelSelector[] buttons;
 
 
     private void Start()
@@ -166,7 +174,7 @@ public class MenuManager : MonoBehaviour
         {
             //buttons[i].interactable = isLevelAcces[i].isLevelCompleteJSON;
 
-            if (dict.ContainsKey(level[i].indexLevelJSON)) buttons[i].interactable = dict[level[i].indexLevelJSON];//Accedo al booleano del nivel
+            if (dict.ContainsKey(level[i].indexLevelJSON)) buttons[i].button.interactable = dict[level[i].indexLevelJSON];//Accedo al booleano del nivel
 
             else Debug.Log($"Esta key {level[i].indexLevelJSON} no existe");
         }

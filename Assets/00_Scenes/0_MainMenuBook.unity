@@ -2561,9 +2561,6 @@ MonoBehaviour:
     indexLevel: 5
     isBongoTaken: 0
     isFrankTaken: 0
-  collectablesCollectedLvl1: 0000
-  collectablesCollectedLvl2: 0000
-  collectablesCollectedLvl3: 0000
 --- !u!4 &663450859
 Transform:
   m_ObjectHideFlags: 0
@@ -3157,10 +3154,16 @@ MonoBehaviour:
     levels:
     - indexLevelJSON: 2
       isLevelCompleteJSON: 0
+      isBongoTakenTrinket: 0
+      isFrankTakenTrinket: 0
     - indexLevelJSON: 3
       isLevelCompleteJSON: 0
+      isBongoTakenTrinket: 0
+      isFrankTakenTrinket: 0
     - indexLevelJSON: 4
       isLevelCompleteJSON: 0
+      isBongoTakenTrinket: 0
+      isFrankTakenTrinket: 0
     sfxVolume: 0
     musicVolume: 0
 --- !u!4 &936995357
@@ -10765,9 +10768,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   buttons:
-  - {fileID: 1922285286}
-  - {fileID: 257538301}
-  - {fileID: 1683219082}
+  - indexlevel: 2
+    button: {fileID: 1922285286}
+  - indexlevel: 3
+    button: {fileID: 257538301}
+  - indexlevel: 4
+    button: {fileID: 1683219082}
 --- !u!4 &1827031999
 Transform:
   m_ObjectHideFlags: 0
