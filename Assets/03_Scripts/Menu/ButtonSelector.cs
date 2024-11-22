@@ -29,6 +29,11 @@ public class ButtonSelector : MonoBehaviour
         _button = GetComponent<Button>();
     }
 
+    private void Start()
+    {
+
+    }
+
     public void PointEnterFunc()
     {
         if (!_button.interactable) return;
@@ -41,6 +46,27 @@ public class ButtonSelector : MonoBehaviour
         foreach (var collectable in _collectables)
         {
             collectable.imageCollectable.gameObject.SetActive(true);
+
+            //foreach (var lvl in CallJson.instance.refJasonSave.GetSaveData.levels)
+            //{
+            //    if (collectable.trinketCharacter == CharacterTarget.Bongo) collectable.isTaken = lvl.collectablesJSON["BongoTrinket"];
+            //    else collectable.isTaken = lvl.collectablesJSON["FrankTrinket"];
+            //}
+
+            foreach (var item in ColectableManager.instance.collectablesLevels)
+            {
+                if (collectable.trinketCharacter == CharacterTarget.Bongo)
+                {
+                    collectable.isTaken = item.isBongoTaken;
+                    Debug.Log($"Bongo {collectable.isTaken}");
+                }
+                else
+                {
+                    collectable.isTaken = item.isFrankTaken;
+                    Debug.Log($"Frank {collectable.isTaken}");
+
+                }
+            }
 
             if (collectable.isTaken) collectable.imageCollectable.color = collectable.activeColor;
             else collectable.imageCollectable.color = collectable.deactiveColor;

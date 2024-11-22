@@ -61,34 +61,50 @@ public class Colectionable : MonoBehaviour
         if (_isCollected == false) return;
 
         Scene currentScene = SceneManager.GetActiveScene(); //GetActiveScene() es para averiguar en que escena estas
-        var level = ColectableManager.instance.collectablesLevels;
+        var collectableLevels = ColectableManager.instance.collectablesLevels;
 
-        var json = CallJson.instance.refJasonSave.GetSaveData.levels;
+        var level = CallJson.instance.refJasonSave.GetSaveData.levels;
 
-        foreach (var item in level)
+        foreach (var col in collectableLevels)
         {
-            if(currentScene.buildIndex == item.indexLevel)
+            if(currentScene.buildIndex == col.indexLevel) //Si la escena en la que estoy concuerda con un indexLevel
             {
-                if (_trinketCharacter == CharacterTarget.Bongo)
+                if (_trinketCharacter == CharacterTarget.Bongo) //Si el que agarre es el de Bongo
                 {
-                    item.isBongoTaken = true;
+                    col.isBongoTaken = true;
 
-
-                    for (int i = 0; i < json.Length; i++)
+                    for (int i = 0; i < level.Length; i++)
                     {
-                        if (currentScene.buildIndex == json[i].indexLevelJSON)
+                        if (currentScene.buildIndex == level[i].indexLevelJSON)
                         {
-                            //if(!json[i].collectablesJSON.ContainsKey("BongoTrinket"))
-                            //{
-                            //    json[i].collectablesJSON.Add("BongoTrinket", true);
-                            //}
+                            level[i].isBongoTakenTrinket = col.isBongoTaken;
+
+                            level[i].collectablesJSON["BongoTrinket"] = col.isBongoTaken;
+
+                            Debug.Log($"{col.isBongoTaken}");
+
+                            break;
                         }
                     }
                 }
 
-                else
+                else //Si es de Frank
                 {
-                    item.isFrankTaken = true;
+                    col.isFrankTaken = true;
+
+                    for (int i = 0; i < level.Length; i++)
+                    {
+                        if (currentScene.buildIndex == level[i].indexLevelJSON)
+                        {
+                            level[i].isFrankTakenTrinket = col.isFrankTaken;
+
+                            level[i].collectablesJSON["FrankTrinket"] = col.isFrankTaken;
+
+                            Debug.Log($"{col.isFrankTaken}");
+
+                            break;
+                        }
+                    }
 
                 }
             }

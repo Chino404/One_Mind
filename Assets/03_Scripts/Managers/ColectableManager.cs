@@ -31,26 +31,4 @@ public class ColectableManager : MonoBehaviour
         }
         else Destroy(gameObject);
     }
-
-    //private void Start()
-    //{
-    //    var json = CallJson.instance.refJasonSave.GetSaveData.levels;
-
-    //    for (int i = 0; i < json.Length; i++)
-    //    {
-    //        if (!json[i].collectablesJSON.ContainsKey("BongoTrinket"))
-    //        {
-    //            json[i].collectablesJSON.Add("BongoTrinket", false);
-    //        }
-    //        else Debug.Log($"Ya existe este diccionario de BONGO para {json[i].indexLevelJSON}");
-
-    //        if(!json[i].collectablesJSON.ContainsKey("FrankTrinket"))
-    //        {
-    //            json[i].collectablesJSON.Add("FrankTrinket", false);
-    //        }
-    //        else Debug.Log($"Ya existe este diccionario de FRANK para {json[i].indexLevelJSON}");
-
-    //    }
-    //    Debug.Log("Holie");
-    //}
 }
