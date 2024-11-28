@@ -527,10 +527,10 @@ public abstract class Characters : Entity, IDamageable
     }
     private void OnCollisionStay(Collision collision)
     {
-        //if (collision.gameObject.layer == 14&&_myVelocityCharacter!=Vector3.zero)
-        //{
-        //    _animPlayer.SetBool("IsWallDetected", true);
-        //}
+        if (collision.gameObject.layer == 14 && _myVelocityCharacter != Vector3.zero)
+        {
+            _animPlayer.SetBool("IsWallDetected", true);
+        }
     }
     private void OnCollisionExit(Collision collision)
     {
