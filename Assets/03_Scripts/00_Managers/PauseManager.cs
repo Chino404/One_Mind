@@ -6,13 +6,16 @@ using UnityEngine.UI;
 
 public class PauseManager : MonoBehaviour
 {
+    public static PauseManager instance;
+    [Header("-> Canvas")]
     //public Canvas gameOverCanvas;
     public Canvas pauseMenu;
     public Canvas winCanvas;
+    public Canvas saveWarningCanvas;
     public Canvas gameOverCanvas;
-    public static PauseManager instance;
+
     private bool _isPaused;
-    [SerializeField] int _asyncScene;
+    [Space(10),SerializeField] int _asyncScene;
     [SerializeField] int _mainMenuScene;
 
 
@@ -102,12 +105,16 @@ public class PauseManager : MonoBehaviour
         _isPaused = true;
     }
 
+    public void SaveWarning() => saveWarningCanvas.gameObject.SetActive(true);
+    public void DeactiveSaveWarningCanvas() => saveWarningCanvas.gameObject.SetActive(false);
+
+
     public void ReturnMainMenu()
     {
-       GameManager.instance.rewinds.Clear();
+        GameManager.instance.rewinds.Clear();
         GameManager.instance.enemies.Clear();
         SceneManager.LoadScene(_mainMenuScene);
-        pauseMenu.gameObject.SetActive(false);
+        //pauseMenu.gameObject.SetActive(false);
     }
 
     public void ResumeGame()

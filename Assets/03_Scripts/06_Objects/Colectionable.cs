@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Colectionable : MonoBehaviour
 {
     [SerializeField] private CharacterTarget _trinketCharacter;
+    [SerializeField] private int _buildIndex;
 
     [Space(10),SerializeField] private float _rotationSpeed;
     [SerializeField] private float _imageDisplayDuration = 2f;
@@ -18,11 +19,13 @@ public class Colectionable : MonoBehaviour
 
         if (_trinketCharacter == CharacterTarget.Bongo)
         {
-            if (CallJson.instance.refJasonSave.GetValueCollectableDict(currentScene.buildIndex, "BongoTrinket")) gameObject.SetActive(false);
+            //if (CallJson.instance.refJasonSave.GetValueCollectableDict(currentScene.buildIndex, "BongoTrinket")) gameObject.SetActive(false);
+            if (CallJson.instance.refJasonSave.GetValueCollectableDict(_buildIndex, "BongoTrinket")) gameObject.SetActive(false);
         }
         else
         {
-            if (CallJson.instance.refJasonSave.GetValueCollectableDict(currentScene.buildIndex, "FrankTrinket")) gameObject.SetActive(false);
+            //if (CallJson.instance.refJasonSave.GetValueCollectableDict(currentScene.buildIndex, "FrankTrinket")) gameObject.SetActive(false);
+            if (CallJson.instance.refJasonSave.GetValueCollectableDict(_buildIndex, "FrankTrinket")) gameObject.SetActive(false);
         }
     }
 
