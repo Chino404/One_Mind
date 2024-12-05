@@ -147,7 +147,7 @@ public class JsonSaves : MonoBehaviour
     }
 
     /// <summary>
-    /// Para modificar el booleano del Coleccionable
+    /// Para modificar el booleano del coleccionable en el diccionario
     /// </summary>
     /// <param name="indexLevel"></param>
     /// <param name="key"></param>
@@ -175,7 +175,7 @@ public class JsonSaves : MonoBehaviour
     }
 
     /// <summary>
-    /// Para obtener el booleano del coleccionable
+    /// Para obtener el booleano del coleccionable en el diccioanrio
     /// </summary>
     /// <param name="indexLevel"></param>
     /// <param name="key"></param>

@@ -2,15 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollectibleFaced : MonoBehaviour
+public class CollectibleFacade : MonoBehaviour
 {
-    public int buildIndexLevel;
+    [Tooltip("Index que van a tener los coleccioanbles de este nivel")]public int buildIndexLevel;
 
-    [Space(5), Header("UI Coleccionables")]
-    public UICollectible bongoUI;
+    [Space(5), Header("UI Coleccionables (Se setea solo)")]
     public Collectible trincketBongo;
-
-    [Space(10)] public UICollectible frankUI;
     public Collectible trincketFrank;
 
     private void Awake()

@@ -14,7 +14,7 @@ public class UICollectible : MonoBehaviour
 
     private Image _image;
 
-    [SerializeField]private TextMeshProUGUI _txt;
+    [SerializeField] private TextMeshProUGUI _txt;
     private int _totalAmountCollectible = 1;
 
     private void Awake()
@@ -22,6 +22,7 @@ public class UICollectible : MonoBehaviour
         _image = GetComponent<Image>();
         _txt = GetComponentInChildren<TextMeshProUGUI>();
 
+        //Si no hay ninguna refrencia de la UI en el GameManager, me agrego yo
         if (_player == CharacterTarget.Bongo && !GameManager.instance.UIBongoTrincket)
         {
             GameManager.instance.UIBongoTrincket = this;
@@ -34,17 +35,27 @@ public class UICollectible : MonoBehaviour
             _key = "FrankTrinket";
         }
 
+        //Si ya hay, me destruyo
         else Destroy(gameObject);
     }
 
+    /// <summary>
+    /// Seteo el coleccionable respecto al nivel que pertenezca
+    /// </summary>
+    /// <param name="buildIndexLevel"></param>
     public void SetUIToLevel(int buildIndexLevel)
     {
+        //Si no se agarro el coleccionable en este nivel
         if (!CallJson.instance.refJasonSave.GetValueCollectableDict(buildIndexLevel, _key))
         {
+            //Desactivo el color en la UI
             _image.color = _deactiveColor;
+
+            //Actualizo el texto a 0
             UpdateCollectibleTxt(0);
         }
 
+        //Caso contrario
         else
         {
             _image.color = _activeColor;
@@ -52,12 +63,20 @@ public class UICollectible : MonoBehaviour
         }
     }
 
-    public void CollectibleTaken()
+    /// <summary>
+    /// Avisa a la UI que tome el coleccionable y lo seteo
+    /// </summary>
+    public void UICollectibleTaken()
     {
         _image.color = _activeColor;
+
         UpdateCollectibleTxt(1);
     }
 
+    /// <summary>
+    /// Actualizo el texto del coleccionable
+    /// </summary>
+    /// <param name="current"></param>
     private void UpdateCollectibleTxt(int current)
     {
         _txt.text = $"{current} / {_totalAmountCollectible}";

@@ -15,6 +15,9 @@ public class UnlockNextLevel : MonoBehaviour
         if (other.GetComponent<Characters>()) UnlockNewLvl();
     }
 
+    /// <summary>
+    /// Desbloque el nuevo nivel para jugar
+    /// </summary>
     void UnlockNewLvl()
     {
         //if (SceneManager.GetActiveScene().buildIndex >= PlayerPrefs.GetInt("ReachedIndex"))
@@ -22,12 +25,12 @@ public class UnlockNextLevel : MonoBehaviour
         //    PlayerPrefs.SetInt("ReachedIndex", + 1);
         //    PlayerPrefs.SetInt("UnlockedLevel", PlayerPrefs.GetInt("UnlockedLevel", 1) + 1);
         //    PlayerPrefs.Save();
-
         //}
 
         var indexNextLevel = nextLevel;
         //Debug.Log(indexNextLevel);
 
+        //Seteo el nuevo index al GameManager
         GameManager.instance.IndexLevel = indexNextLevel;
 
         var levels = CallJson.instance.refJasonSave.GetSaveData.levels;
@@ -37,7 +40,8 @@ public class UnlockNextLevel : MonoBehaviour
         {
             if (levels[i].indexLevelJSON == indexNextLevel)
             {
-                levels[i].isLevelCompleteJSON = true; //Pongo que el nivel se completo y se puede jugar al proximo
+                //Pongo que el nivel se completo y se puede jugar al proximo
+                levels[i].isLevelCompleteJSON = true; 
 
                 break;
             }
