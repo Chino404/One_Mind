@@ -39,14 +39,9 @@ public class ButtonSelector : MonoBehaviour
             collectable.imageCollectable.gameObject.SetActive(true);
 
 
-            if (collectable.trinketCharacter == CharacterTarget.Bongo)
-            {
-                collectable.isTaken = CallJson.instance.refJasonSave.GetValueCollectableDict(indexLevel, "BongoTrinket");
-            }
-            else
-            {
-                collectable.isTaken = CallJson.instance.refJasonSave.GetValueCollectableDict(indexLevel, "FrankTrinket");
-            }
+            if (collectable.trinketCharacter == CharacterTarget.Bongo) collectable.isTaken = CallJson.instance.refJasonSave.GetValueCollectableDict(indexLevel, "BongoTrinket");
+
+            else collectable.isTaken = CallJson.instance.refJasonSave.GetValueCollectableDict(indexLevel, "FrankTrinket");
 
             if (collectable.isTaken) collectable.imageCollectable.color = collectable.activeColor;
             else collectable.imageCollectable.color = collectable.deactiveColor;

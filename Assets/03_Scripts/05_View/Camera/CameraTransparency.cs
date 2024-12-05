@@ -45,26 +45,26 @@ public class CameraTransparency : MonoBehaviour
             _boxCastSize = new Vector3(_boxCastSize.x, _dist, _boxCastSize.z);
             _rotationBoxCast = Quaternion.Euler(-transform.rotation.eulerAngles.x - 23, transform.rotation.eulerAngles.y + _dir.y, transform.rotation.eulerAngles.z + _dir.z);
 
-            //if (Physics.Raycast(transform.position, (target.position - transform.position).normalized, out RaycastHit hit, _dist, _maskTransparent))
-            //{
-            //    if (hit.transform.GetComponent<ITransparency>() != null)
-            //    {
-            //        //_transMaterial = hit.transform.GetComponent<TransparencyMaterial>();
-            //        _transMaterial = hit.transform.GetComponent<ITransparency>();
-
-            //        _transMaterial.Fade(_durationFade);
-            //    }
-            //}
-
-            if (Physics.BoxCast(_centerBoxCast, _boxCastSize / 2, _dir, out RaycastHit hitBox, _rotationBoxCast, _dist, _maskTransparent))
+            if (Physics.Raycast(transform.position, (target.position - transform.position).normalized, out RaycastHit hit, _dist, _maskTransparent))
             {
-                if (hitBox.transform.GetComponent<ITransparency>() != null)
+                if (hit.transform.GetComponent<ITransparency>() != null)
                 {
-                    _transMaterial = hitBox.transform.GetComponent<ITransparency>();
+                    //_transMaterial = hit.transform.GetComponent<TransparencyMaterial>();
+                    _transMaterial = hit.transform.GetComponent<ITransparency>();
 
                     _transMaterial.Fade(_durationFade);
                 }
             }
+
+            //if (Physics.BoxCast(_centerBoxCast, _boxCastSize / 2, _dir, out RaycastHit hitBox, _rotationBoxCast, _dist, _maskTransparent))
+            //{
+            //    if (hitBox.transform.GetComponent<ITransparency>() != null)
+            //    {
+            //        _transMaterial = hitBox.transform.GetComponent<ITransparency>();
+
+            //        _transMaterial.Fade(_durationFade);
+            //    }
+            //}
 
             else if (_transMaterial != null)
             {
