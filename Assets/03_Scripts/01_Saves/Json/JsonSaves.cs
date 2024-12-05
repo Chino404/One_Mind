@@ -164,6 +164,7 @@ public class JsonSaves : MonoBehaviour
 
                 else
                 {
+                    //Si no existe creo el diccionario con el valor
                     levelList[i].collectablesJSON.Add(key, value);
                     Debug.Log("Cree la Key del coleccionable");
                 }

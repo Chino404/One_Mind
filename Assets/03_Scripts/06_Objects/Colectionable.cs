@@ -17,6 +17,8 @@ public class Colectionable : MonoBehaviour
     {
         Scene currentScene = SceneManager.GetActiveScene(); //GetActiveScene() es para averiguar en que escena estas
 
+        //_buildIndex = CollectibleManager.instance.buildIndexLevel;
+
         if (_trinketCharacter == CharacterTarget.Bongo)
         {
             //if (CallJson.instance.refJasonSave.GetValueCollectableDict(currentScene.buildIndex, "BongoTrinket")) gameObject.SetActive(false);
@@ -76,12 +78,14 @@ public class Colectionable : MonoBehaviour
         if (_trinketCharacter == CharacterTarget.Bongo)
         {
             CallJson.instance.refJasonSave.ModyfyValueCollectableDict(currentScene.buildIndex, "BongoTrinket", true);
+            CollectibleManager.instance.bongoUI.CollectibleTaken();
             //Debug.LogWarning("Coleccionable BONGO agarrado");
             gameObject.SetActive(false);
         }
         else
         {
             CallJson.instance.refJasonSave.ModyfyValueCollectableDict(currentScene.buildIndex, "FrankTrinket", true);
+            CollectibleManager.instance.frankUI.CollectibleTaken();
             //Debug.LogWarning("Coleccionable FRANK agarrado");
             gameObject.SetActive(false);
         }

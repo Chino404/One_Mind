@@ -5,7 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class UnlockNextLevel : MonoBehaviour
 {
-    [Tooltip("Poner numero de build index del nivel siguiente")]public int nextLevel;
+    [Tooltip("Poner numero de build index del nivel siguiente")] public int nextLevel;
+
+    //[Space(10), Header("Coleccioanbles de este nivel")]
+
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Characters>())
@@ -26,8 +30,8 @@ public class UnlockNextLevel : MonoBehaviour
         Debug.Log(indexNextLevel);
 
         var levels = CallJson.instance.refJasonSave.GetSaveData.levels;
-
         //Debug.Log($"El nivel del indice {CallJson.instance.refJasonSave.GetSaveData.levels[index + 1]} se desbloqueo");
+
         for (int i = 0; i < levels.Length; i++)
         {
             if (levels[i].indexLevelJSON == indexNextLevel)
@@ -37,6 +41,8 @@ public class UnlockNextLevel : MonoBehaviour
                 break;
             }
         }
+
+
         CallJson.instance.refJasonSave.GetSaveData.levelDataDictionary[indexNextLevel] = true;
 
     }

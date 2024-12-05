@@ -14,20 +14,17 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public List<Rewind> rewinds;
 
-    [Header("Characters")]
-    [HideInInspector]public ModelBongo bongo;
+    [Space(10), Header("-> Camera Config.")]
     public CameraTracker bongoCamera;
+    [HideInInspector]public ModelBongo bongo;
 
-    [HideInInspector]public ModelFrank frank;
     public CameraTracker frankCamera;
+    [HideInInspector]public ModelFrank frank;
 
     public List<PointsForTheCamera> points = new ();
 
-    private bool _controllerMonkey = true; //Si se puede usar al mono
-    public bool ContollerMonkey {  get { return _controllerMonkey; } }
 
-
-    public List<Enemy> enemies = new();
+    [Space(15)]public List<Enemy> enemies = new();
 
     [Range(0f, 4f)]
     public float weightSeparation, weightAlignment, weightSeek;
