@@ -25,12 +25,12 @@ public class GameManager : MonoBehaviour
         {
             _indexLevel = value;
 
-            SetUICollectible(_indexLevel);
+            UpdateUICollectible(_indexLevel);
         }
     }
 
     [Space(10), Header("-> Collecctibles")]
-    public List<CollectibleFaced> collectibles;
+    public List<CollectibleFacade> collectibles;
 
     public UICollectible UIBongoTrincket;
     public UICollectible UIFrankTrincket;
@@ -98,19 +98,28 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Seteo el coleccionable a su respectivo lugar en base a la lista de CollectibleFade
+    /// </summary>
+    /// <param name="collectible"></param>
+    /// <param name="targetPlayer"></param>
+    /// <returns></returns>
     public int SetCollectible(Collectible collectible, CharacterTarget targetPlayer)
     {
         int buildIndex = 0;
 
+        //Recorro cada CollectibleFaced 
         foreach (var faced in collectibles)
         {
-            //if (faced.isCollectiblesCompleted) continue;
-
             if(targetPlayer == CharacterTarget.Bongo)
             {
+                //Si la referencia del colecicoanble de Bongo esta vacía
                 if (!faced.trincketBongo)
                 {
+                    //Agrego la que me pasaron por parametro
                     faced.trincketBongo = collectible;
+
+                    //Y le seteo el index del CollectibleFaced
                     buildIndex = faced.buildIndexLevel;
                 }
             }
@@ -128,10 +137,10 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Seteo el nuevo levelIndex para las UI de los coleccionables
+    /// En base al nuevo levelIndex, actualizo la UI
     /// </summary>
     /// <param name="buildIndexLevel"></param>
-    public void SetUICollectible(int buildIndexLevel)
+    public void UpdateUICollectible(int buildIndexLevel)
     {
         if (!UIBongoTrincket)
         {
