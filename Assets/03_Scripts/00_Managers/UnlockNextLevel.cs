@@ -12,8 +12,7 @@ public class UnlockNextLevel : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Characters>())
-            UnlockNewLvl();
+        if (other.GetComponent<Characters>()) UnlockNewLvl();
     }
 
     void UnlockNewLvl()
@@ -27,7 +26,9 @@ public class UnlockNextLevel : MonoBehaviour
         //}
 
         var indexNextLevel = nextLevel;
-        Debug.Log(indexNextLevel);
+        //Debug.Log(indexNextLevel);
+
+        GameManager.instance.IndexLevel = indexNextLevel;
 
         var levels = CallJson.instance.refJasonSave.GetSaveData.levels;
         //Debug.Log($"El nivel del indice {CallJson.instance.refJasonSave.GetSaveData.levels[index + 1]} se desbloqueo");

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,30 +14,53 @@ public class UICollectible : MonoBehaviour
 
     private Image _image;
 
+    [SerializeField]private TextMeshProUGUI _txt;
+    private int _totalAmountCollectible = 1;
+
     private void Awake()
     {
-        _image = GetComponent<Image>();  
+        _image = GetComponent<Image>();
+        _txt = GetComponentInChildren<TextMeshProUGUI>();
+
+        if (_player == CharacterTarget.Bongo && !GameManager.instance.UIBongoTrincket)
+        {
+            GameManager.instance.UIBongoTrincket = this;
+            _key = "BongoTrinket";
+        }
+
+        else if (_player == CharacterTarget.Frank && !GameManager.instance.UIFrankTrincket)
+        {
+            GameManager.instance.UIFrankTrincket = this;
+            _key = "FrankTrinket";
+        }
+
+        else Destroy(gameObject);
     }
 
-    private void Start()
+    public void SetUIToLevel(int buildIndexLevel)
     {
-        if (_player == CharacterTarget.Bongo)
+        if (!CallJson.instance.refJasonSave.GetValueCollectableDict(buildIndexLevel, _key))
         {
-            _key = "BongoTrinket";
-            CollectibleManager.instance.bongoUI = this;
-        }
-        else
-        {
-            _key = "FrankTrinket";
-            CollectibleManager.instance.frankUI = this;
+            _image.color = _deactiveColor;
+            UpdateCollectibleTxt(0);
         }
 
-        if (!CallJson.instance.refJasonSave.GetValueCollectableDict(CollectibleManager.instance.buildIndexLevel, _key)) _image.color = _deactiveColor;
-        else _image.color = _activeColor;
+        else
+        {
+            _image.color = _activeColor;
+            UpdateCollectibleTxt(1);
+        }
     }
 
     public void CollectibleTaken()
     {
         _image.color = _activeColor;
+        UpdateCollectibleTxt(1);
     }
+
+    private void UpdateCollectibleTxt(int current)
+    {
+        _txt.text = $"{current} / {_totalAmountCollectible}";
+    }
+
 }
