@@ -2,22 +2,67 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollectibleFacade : MonoBehaviour
+public static class CollectibleFacade
 {
-    [Tooltip("Index que van a tener los coleccioanbles de este nivel")]public int buildIndexLevel;
-
-    [Space(5), Header("UI Coleccionables (Se setea solo)")]
-    public Collectible trincketBongo;
-    public Collectible trincketFrank;
-
-    private void Awake()
+    /// <summary>
+    /// Seteo el coleccionable a su respectivo lugar en base a la lista de CollectibleFade
+    /// </summary>
+    /// <param name="collectible"></param>
+    /// <param name="targetPlayer"></param>
+    /// <returns></returns>
+    public static int SetCollectible(Collectible collectible, List<CollectibleManager> collectiblesManagerList)
     {
-        GameManager.instance.collectibles.Add(this);
+        int buildIndex = 0;
+
+        //Recorro cada CollectibleFaced 
+        foreach (var item in collectiblesManagerList)
+        {
+            if (collectible.trinketCharacter == CharacterTarget.Bongo)
+            {
+                //Si la referencia del colecicoanble de Bongo esta vacía
+                if (!item.trincketBongo)
+                {
+                    //Agrego la que me pasaron por parametro
+                    item.trincketBongo = collectible;
+
+                    //Y le seteo el index del CollectibleFaced
+                    buildIndex = item.buildIndexLevel;
+                }
+            }
+
+            else
+            {
+                if (!item.trincketFrank)
+                {
+                    item.trincketFrank = collectible;
+                    buildIndex = item.buildIndexLevel;
+                }
+            }
+        }
+
+        return buildIndex;
     }
 
-    private void OnDestroy()
+    /// <summary>
+    /// En base al nuevo levelIndex, actualizo la UI
+    /// </summary>
+    /// <param name="buildIndexLevel"></param>
+    public static void UpdateUICollectible(int buildIndexLevel, UICollectible UIBongoTrincket, UICollectible UIFrankTrincket)
     {
-        GameManager.instance.collectibles.Remove(this);
+        if (!UIBongoTrincket)
+        {
+            Debug.LogError($"Falta la referencia de {UIBongoTrincket.name}");
+            return;
+        }
+
+        if (!UIFrankTrincket)
+        {
+            Debug.LogError($"Falta la referencia de {UIFrankTrincket.name}");
+            return;
+        }
+
+        UIBongoTrincket.SetUIToLevel(buildIndexLevel);
+        UIFrankTrincket.SetUIToLevel(buildIndexLevel);
     }
 
 }

@@ -26,11 +26,12 @@ public class GameManager : MonoBehaviour
             _indexLevel = value;
 
             UpdateUICollectible(_indexLevel);
+            //UpdateUICollectibleManager(_indexLevel);
         }
     }
 
     [Space(10), Header("-> Collecctibles")]
-    public List<CollectibleFacade> collectibles;
+    public List<CollectibleManager> collectiblesList;
 
     public UICollectible UIBongoTrincket;
     public UICollectible UIFrankTrincket;
@@ -98,65 +99,71 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Seteo el coleccionable a su respectivo lugar en base a la lista de CollectibleFade
-    /// </summary>
-    /// <param name="collectible"></param>
-    /// <param name="targetPlayer"></param>
-    /// <returns></returns>
-    public int SetCollectible(Collectible collectible, CharacterTarget targetPlayer)
-    {
-        int buildIndex = 0;
+    public int SetCollectibleManager(Collectible collectible) => CollectibleFacade.SetCollectible(collectible, collectiblesList);
 
-        //Recorro cada CollectibleFaced 
-        foreach (var faced in collectibles)
-        {
-            if(targetPlayer == CharacterTarget.Bongo)
-            {
-                //Si la referencia del colecicoanble de Bongo esta vacía
-                if (!faced.trincketBongo)
-                {
-                    //Agrego la que me pasaron por parametro
-                    faced.trincketBongo = collectible;
+    private void UpdateUICollectible(int buildIndexLevel) => CollectibleFacade.UpdateUICollectible(buildIndexLevel, UIBongoTrincket, UIFrankTrincket);
 
-                    //Y le seteo el index del CollectibleFaced
-                    buildIndex = faced.buildIndexLevel;
-                }
-            }
-            else
-            {
-                if (!faced.trincketFrank)
-                {
-                    faced.trincketFrank = collectible;
-                    buildIndex = faced.buildIndexLevel;
-                }
-            }
-        }
+    ///// <summary>
+    ///// Seteo el coleccionable a su respectivo lugar en base a la lista de CollectibleFade
+    ///// </summary>
+    ///// <param name="collectible"></param>
+    ///// <param name="targetPlayer"></param>
+    ///// <returns></returns>
+    //public int SetCollectible(Collectible collectible, CharacterTarget targetPlayer)
+    //{
+    //    int buildIndex = 0;
 
-        return buildIndex;
-    }
+    //    //Recorro cada CollectibleFaced 
+    //    foreach (var faced in collectiblesList)
+    //    {
+    //        if(targetPlayer == CharacterTarget.Bongo)
+    //        {
+    //            //Si la referencia del colecicoanble de Bongo esta vacía
+    //            if (!faced.trincketBongo)
+    //            {
+    //                //Agrego la que me pasaron por parametro
+    //                faced.trincketBongo = collectible;
 
-    /// <summary>
-    /// En base al nuevo levelIndex, actualizo la UI
-    /// </summary>
-    /// <param name="buildIndexLevel"></param>
-    public void UpdateUICollectible(int buildIndexLevel)
-    {
-        if (!UIBongoTrincket)
-        {
-            Debug.LogError($"Falta la referencia de {UIBongoTrincket.name}");
-            return;
-        }
+    //                //Y le seteo el index del CollectibleFaced
+    //                buildIndex = faced.buildIndexLevel;
+    //            }
+    //        }
+    //        else
+    //        {
+    //            if (!faced.trincketFrank)
+    //            {
+    //                faced.trincketFrank = collectible;
+    //                buildIndex = faced.buildIndexLevel;
+    //            }
+    //        }
+    //    }
 
-        if (!UIFrankTrincket)
-        {
-            Debug.LogError($"Falta la referencia de {UIFrankTrincket.name}");
-            return;
-        }
+    //    return buildIndex;
+    //}
 
-        UIBongoTrincket.SetUIToLevel(buildIndexLevel);
-        UIFrankTrincket.SetUIToLevel(buildIndexLevel);
-    }
+
+
+    ///// <summary>
+    ///// En base al nuevo levelIndex, actualizo la UI
+    ///// </summary>
+    ///// <param name="buildIndexLevel"></param>
+    //public void UpdateUICollectibleManager(int buildIndexLevel)
+    //{
+    //    if (!UIBongoTrincket)
+    //    {
+    //        Debug.LogError($"Falta la referencia de {UIBongoTrincket.name}");
+    //        return;
+    //    }
+
+    //    if (!UIFrankTrincket)
+    //    {
+    //        Debug.LogError($"Falta la referencia de {UIFrankTrincket.name}");
+    //        return;
+    //    }
+
+    //    UIBongoTrincket.SetUIToLevel(buildIndexLevel);
+    //    UIFrankTrincket.SetUIToLevel(buildIndexLevel);
+    //}
 
 }
 
