@@ -18,9 +18,6 @@ public class Collectible : MonoBehaviour
 
         //Pido el buildIndex y me paso como referencia
         _myBuildIndex = GameManager.instance.SetCollectibleManager(this);
-        //_myBuildIndex = GameManager.instance.SetCollectible(this, trinketCharacter);
-
-        //Debug.Log($"Mi Build Index es {_buildIndex}");
 
         if (trinketCharacter == CharacterTarget.Bongo)
         {
@@ -45,7 +42,6 @@ public class Collectible : MonoBehaviour
         {
             Take();
         }
-
     }
 
 
@@ -62,6 +58,7 @@ public class Collectible : MonoBehaviour
             CallJson.instance.refJasonSave.ModyfyValueCollectableDict(_myBuildIndex, "BongoTrinket", true);
 
             //Aviso a la UI que tome el coleccionable
+            GameManager.instance.UIBongoTrincket.ShowUI();
             GameManager.instance.UIBongoTrincket.UICollectibleTaken();
 
             //Debug.LogWarning("Coleccionable BONGO agarrado");
@@ -73,6 +70,7 @@ public class Collectible : MonoBehaviour
             CallJson.instance.refJasonSave.ModyfyValueCollectableDict(_myBuildIndex, "FrankTrinket", true);
 
             //Aviso a la UI que tome el coleccionable
+            GameManager.instance.UIFrankTrincket.ShowUI();
             GameManager.instance.UIFrankTrincket.UICollectibleTaken();
 
             //Debug.LogWarning("Coleccionable FRANK agarrado");

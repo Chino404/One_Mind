@@ -4,6 +4,7 @@ using UnityEngine;
 
 public static class CollectibleFacade
 {
+
     /// <summary>
     /// Seteo el coleccionable a su respectivo lugar en base a la lista de CollectibleFade
     /// </summary>
@@ -64,5 +65,4 @@ public static class CollectibleFacade
         UIBongoTrincket.SetUIToLevel(buildIndexLevel);
         UIFrankTrincket.SetUIToLevel(buildIndexLevel);
     }
-
 }

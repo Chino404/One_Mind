@@ -23,9 +23,15 @@ public class ControllerFrank
             _model.ActualMove = _model.NormalMovement;
         }
 
+        if (Input.GetKeyDown(KeyCode.Tab)) GameManager.instance.UIFrankTrincket.ShowUI();
+
+        #region Jump
+
         if (Input.GetButtonDown("Jump")) _model.Jump();
 
-        //if (Input.GetMouseButtonDown(1)) _model.Attack();
+        #endregion
+
+        #region Movimiento
 
         _dirRaw.x = Input.GetAxisRaw("Horizontal");
         _dirRaw.z = Input.GetAxisRaw("Vertical");
@@ -37,8 +43,9 @@ public class ControllerFrank
 
         _dir.z = Input.GetAxis("Vertical");
 
-        if (Input.GetMouseButton(1))
-            _model.Attack();
+        #endregion
+
+        if (Input.GetMouseButton(1)) _model.Attack();
     }
 
     public void ListenFixedKeys()
