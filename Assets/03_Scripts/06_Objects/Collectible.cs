@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Collectible : MonoBehaviour
 {
-    [SerializeField] private CharacterTarget _trinketCharacter;
+    public CharacterTarget trinketCharacter;
     private int _myBuildIndex;
 
     [Space(10),SerializeField] private float _rotationSpeed;
@@ -17,10 +17,12 @@ public class Collectible : MonoBehaviour
         Scene currentScene = SceneManager.GetActiveScene(); //GetActiveScene() es para averiguar en que escena estas
 
         //Pido el buildIndex y me paso como referencia
-        _myBuildIndex = GameManager.instance.SetCollectible(this, _trinketCharacter);
+        _myBuildIndex = GameManager.instance.SetCollectibleManager(this);
+        //_myBuildIndex = GameManager.instance.SetCollectible(this, trinketCharacter);
+
         //Debug.Log($"Mi Build Index es {_buildIndex}");
 
-        if (_trinketCharacter == CharacterTarget.Bongo)
+        if (trinketCharacter == CharacterTarget.Bongo)
         {
             //Si ya el coleccioanble esta agarrado, apago el objeto
             if (CallJson.instance.refJasonSave.GetValueCollectableDict(_myBuildIndex, "BongoTrinket")) gameObject.SetActive(false);
@@ -54,7 +56,7 @@ public class Collectible : MonoBehaviour
     {
         Scene currentScene = SceneManager.GetActiveScene(); //GetActiveScene() es para averiguar en que escena estas
 
-        if (_trinketCharacter == CharacterTarget.Bongo)
+        if (trinketCharacter == CharacterTarget.Bongo)
         {
             //Cambio el booleano del dicccionario por verdadero
             CallJson.instance.refJasonSave.ModyfyValueCollectableDict(_myBuildIndex, "BongoTrinket", true);
