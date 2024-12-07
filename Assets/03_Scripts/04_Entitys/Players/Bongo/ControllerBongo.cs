@@ -26,6 +26,9 @@ public class ControllerBongo
             _model.ActualMove = _model.NormalMovement;
         }
 
+        if (Input.GetKeyDown(KeyCode.Tab)) GameManager.instance.UIBongoTrincket.ShowUI();
+
+
         #region Jump
         if (Input.GetButtonDown("Jump")) _model.Jump();
 
@@ -45,7 +48,7 @@ public class ControllerBongo
 
         #endregion
 
-        _model.valueScroll = Input.GetAxis("Mouse ScrollWheel");
+        //_model.valueScroll = Input.GetAxis("Mouse ScrollWheel");
 
         if (Input.GetMouseButton(0))
             _model.Attack();

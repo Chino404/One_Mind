@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -79,16 +77,6 @@ public class GameManager : MonoBehaviour
             
         }
 
-        //foreach (var item in points)
-        //{
-        //    if (item == null) continue;
-
-        //    if (item.player == null)
-        //    {
-        //        if (item.characterTarget == CharacterTarget.Bongo) item.player = bongo.transform;
-        //        else if (item.characterTarget == CharacterTarget.Frank) item.player = frank.transform;
-        //    }
-        //}
     }
 
     public void RemoveAll()

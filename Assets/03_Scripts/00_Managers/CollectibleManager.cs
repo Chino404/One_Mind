@@ -15,6 +15,12 @@ public class CollectibleManager : MonoBehaviour
         GameManager.instance.collectiblesList.Add(this);
     }
 
+    private void Start()
+    {
+        GameManager.instance.UIBongoTrincket.ShowUI();
+        GameManager.instance.UIFrankTrincket.ShowUI();
+    }
+
     private void OnDestroy()
     {
         GameManager.instance.collectiblesList.Remove(this);
