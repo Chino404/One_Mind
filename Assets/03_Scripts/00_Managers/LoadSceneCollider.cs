@@ -5,29 +5,39 @@ using UnityEngine.SceneManagement;
 
 public class LoadSceneCollider : MonoBehaviour
 {
-    [SerializeField] private int _nextScene;
+    [SerializeField] private int _indexScene;
 
-    [SerializeField] private List<int> loadingQueue;
-    [SerializeField] private GameObject furnituresPrefab;
+    [Space(5), Header("Zonas de coleccionables")]
+    [SerializeField] private CharacterTarget _player;
+    [SerializeField, Tooltip("Activar o descativar escena")] private bool _active = true;
+
+    //[SerializeField] private List<int> loadingQueue;
+    //[SerializeField] private GameObject furnituresPrefab;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Characters>())
         {
-            SceneManager.LoadSceneAsync(_nextScene, LoadSceneMode.Additive);
-            
-            gameObject.SetActive(false);
+            if(CollZoneManager.instance)
+            {
+                CollZoneManager.instance.SwitchZone(_player, _active, _indexScene);
+            }
+
+            //SceneManager.LoadSceneAsync(_nextScene, LoadSceneMode.Additive);
+
+            //gameObject.SetActive(false);
         }
     }
 
-    IEnumerator LoadSceneCoroutine()
-    {
-        var mainLevelAsync = SceneManager.LoadSceneAsync(loadingQueue[0], LoadSceneMode.Additive);
+    //IEnumerator LoadSceneCoroutine()
+    //{
+    //    var mainLevelAsync = SceneManager.LoadSceneAsync(loadingQueue[0], LoadSceneMode.Additive);
 
-        yield return new WaitUntil(() => mainLevelAsync.isDone);
+    //    yield return new WaitUntil(() => mainLevelAsync.isDone);
 
-        mainLevelAsync = SceneManager.LoadSceneAsync(loadingQueue[1], LoadSceneMode.Additive);
-        yield return new WaitUntil(() => mainLevelAsync.isDone);
+    //    mainLevelAsync = SceneManager.LoadSceneAsync(loadingQueue[1], LoadSceneMode.Additive);
+    //    yield return new WaitUntil(() => mainLevelAsync.isDone);
 
-        Instantiate(furnituresPrefab);
-    }
+    //    Instantiate(furnituresPrefab);
+    //}
 }
