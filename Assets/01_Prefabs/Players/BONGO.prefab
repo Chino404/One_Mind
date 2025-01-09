@@ -4106,9 +4106,11 @@ MonoBehaviour:
   actualStatePlayer: 0
   isMovementInverse: 0
   _maxLife: 3
-  _speed: 10
+  _iniSpeed: 10
+  actualSpeed: 0
   _forceGravity: 1.25
   _jumpForce: 25
+  isJumping: 0
   _coyoteTime: 0.2
   _iceFriction: 0.06
   _maxSpeedJumpIce: 15
@@ -4117,7 +4119,8 @@ MonoBehaviour:
   _groundRange: 1.3
   _floorLayer:
     serializedVersion: 2
-    m_Bits: 24640
+    m_Bits: 286784
+  _typeFloor: 0
   _iceLayer:
     serializedVersion: 2
     m_Bits: 8192
@@ -4136,13 +4139,13 @@ MonoBehaviour:
   actualCheckpoint: {fileID: 0}
   currentPlatform: {fileID: 0}
   _gravityPlan: 0.2
-  _timeToPlane: 0.25
-  _keyPressTime: 0
+  _isGetPenguin: 0
   _spellPrefab: {fileID: 5641971994721885390, guid: 13eb0b03d29889342b40fce7ef06a305,
     type: 3}
   _bulletQuantity: 10
   _seconds: 2
   valueScroll: 0
+  penguin: {fileID: 0}
 --- !u!114 &6017900514401301626
 MonoBehaviour:
   m_ObjectHideFlags: 0
