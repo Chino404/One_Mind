@@ -10,6 +10,13 @@ public enum EstadoDePlayer
     Escalando    
 }
 
+public enum TypeFloor
+{
+    Normal,
+    Cinta,
+    Hielo
+}
+
 public abstract class Characters : Entity, IDamageable
 {
     protected Rigidbody _rbCharacter;
@@ -29,7 +36,6 @@ public abstract class Characters : Entity, IDamageable
     [SerializeField] protected float _iniSpeed = 10f;
     public float actualSpeed;
     private Vector3 _dir;
-    public Vector3 Dir { get { return _dir; } }
     [SerializeField] protected float _forceGravity = 1.25f;
     protected float _initialForceGravity;
     [Space(10), SerializeField, Tooltip("Fuerza de salto normal")] protected float _jumpForce = 25f;
@@ -52,6 +58,7 @@ public abstract class Characters : Entity, IDamageable
     [Header("--> RAYCASTS")]
     [SerializeField, Range(0.1f, 3f) , Tooltip("Rango del raycast para el coyote time")] protected float _groundRange = 2;
     [SerializeField, Tooltip("Layer de objeto en donde pueda saltar")] protected LayerMask _floorLayer;
+    [SerializeField, Tooltip("Tipo de piso")] public TypeFloor _typeFloor;
     [Space(10),SerializeField] private LayerMask _iceLayer;
     [Space(10),SerializeField, Range(0.1f, 2f) , Tooltip("Rango del raycast para las colisiones")] protected float _forwardRange = 0.75f; //Rango para el Raycast para evitar q el PJ se pegue a la pared
     [SerializeField, Tooltip("Que Layer no quiero que se acerque")] protected LayerMask _moveMask; //Para indicar q layer quierO q no se acerque mucho
@@ -70,7 +77,9 @@ public abstract class Characters : Entity, IDamageable
     //public MyDelegate ActualMove { get { return _actualMove; } set { _actualMove = value; } }
 
     public Action<Vector3> ActualMove;
-    public Action ActualJumping;
+
+    public delegate void MyDelegateEvent();
+    public event MyDelegateEvent ActualJump;
 
     [HideInInspector] public CheckPoint actualCheckpoint;
 
@@ -99,7 +108,7 @@ public abstract class Characters : Entity, IDamageable
         _initialForceGravity = _forceGravity;
 
         ActualMove = NormalMovement;
-        //ActualJumping = NormalJump;
+        ActualJump = NormalJump;
         
     }
 
@@ -187,11 +196,12 @@ public abstract class Characters : Entity, IDamageable
     /// Si estoy tocando algun objeto debajo mio, correspondiente a la layer
     /// </summary>
     /// <returns></returns>
-    public bool IsGrounded(LayerMask layer)
+    public bool IsGrounded(int layer = default)
     {
         Vector3 pos = transform.position;
         Vector3 dir = Vector3.down;
         RaycastHit hit;
+
 
         return Physics.Raycast(pos, dir, out hit, _groundRange, layer);
     }
@@ -199,10 +209,8 @@ public abstract class Characters : Entity, IDamageable
     #endregion
 
     #region MOVEMENT
-    public virtual void Movement(Vector3 dirRaw = default, float speed = default)
+    public virtual void Movement(Vector3 dirRaw = default)
     {
-        if (speed != 0) actualSpeed = speed;
-        else actualSpeed = _iniSpeed;
 
         if (IsTouch(dirRaw.normalized, _moveMask)) //Si estoy tocando una pared
         {
@@ -397,49 +405,56 @@ public abstract class Characters : Entity, IDamageable
     #region JUMP
     public void Jump()
     {
-        if (actualStatePlayer == EstadoDePlayer.Escalando && _dirGrabb.sqrMagnitude != 0 && _isStopGrabb) //Si estoy escalando
-        {
-            //StartCoroutine(WaitRayChange());
+        ActualJump();
 
-            //if (_dirGrabb.sqrMagnitude != 0)
-            //{
-            //    StartCoroutine(WaitRayChange());
-            //    ActualMove = NormalMovement;
+        #region No sirve por ahora
+        //if (actualStatePlayer == EstadoDePlayer.Escalando && _dirGrabb.sqrMagnitude != 0 && _isStopGrabb) //Si estoy escalando
+        //{
 
-            //    _jumpGrabb = true;
-            //    _rbCharacter.isKinematic = false;
-            //    _forceGravity = _initialForceGravity;
+        //    //CREO Q NO SIRVE ESTO
+        //    //StartCoroutine(WaitRayChange());
 
-            //    //Depende la direccion de donde quiera ir, va a saltar
-            //    if (_dirGrabb.y > 0) _rbCharacter.velocity = new Vector3(0, _dirGrabb.y * _jumpForceAxiY * 2);
-            //    else if (_dirGrabb.x != 0) _rbCharacter.velocity = new Vector3(_dirGrabb.x * _jumpForceAxiX, _jumpForceAxiY);
+        //    //if (_dirGrabb.sqrMagnitude != 0)
+        //    //{
+        //    //    StartCoroutine(WaitRayChange());
+        //    //    ActualMove = NormalMovement;
 
-            //    _dirGrabb = default;
-            //}
+        //    //    _jumpGrabb = true;
+        //    //    _rbCharacter.isKinematic = false;
+        //    //    _forceGravity = _initialForceGravity;
 
-            StartCoroutine(WaitRayChange());
-            ActualMove = NormalMovement;
+        //    //    //Depende la direccion de donde quiera ir, va a saltar
+        //    //    if (_dirGrabb.y > 0) _rbCharacter.velocity = new Vector3(0, _dirGrabb.y * _jumpForceAxiY * 2);
+        //    //    else if (_dirGrabb.x != 0) _rbCharacter.velocity = new Vector3(_dirGrabb.x * _jumpForceAxiX, _jumpForceAxiY);
 
-            _isJumpGrabb = true;
-            _rbCharacter.isKinematic = false;
+        //    //    _dirGrabb = default;
+        //    //}
 
-            //Depende la direccion de donde quiera ir, va a saltar
-            if (_dirGrabb.y > 0) _rbCharacter.velocity = new Vector3(0, _dirGrabb.y * _jumpForceAxiY * 2);
-            else if (_dirGrabb.x != 0) _rbCharacter.velocity = new Vector3(_dirGrabb.x * _jumpForceAxiX, _jumpForceAxiY);
+        //    //ESTO SI
+        //    StartCoroutine(WaitRayChange());
+        //    ActualMove = NormalMovement;
 
-            _dirGrabb = default;
+        //    _isJumpGrabb = true;
+        //    _rbCharacter.isKinematic = false;
 
-            //else if(_dirGrabb.sqrMagnitude == 0) //Si no, salta en direccion opuesta a la agarradera
-            //{
-            //    ActualMove = NormalMovement;
+        //    //Depende la direccion de donde quiera ir, va a saltar
+        //    if (_dirGrabb.y > 0) _rbCharacter.velocity = new Vector3(0, _dirGrabb.y * _jumpForceAxiY * 2);
+        //    else if (_dirGrabb.x != 0) _rbCharacter.velocity = new Vector3(_dirGrabb.x * _jumpForceAxiX, _jumpForceAxiY);
 
-            //    Vector3 oppDir = -transform.forward;
-            //    Vector3 jumpDir = new Vector3(oppDir.x, _jumpForceAxiY, oppDir.z * _jumpForceAxiZ);
-            //    _forceGravity = _initialForceGravity;
-            //    _rbCharacter.isKinematic = false;
-            //    _rbCharacter.velocity = jumpDir;
-            //}
-        }
+        //    _dirGrabb = default;
+
+        //    //ESTO NO SE
+        //    //else if(_dirGrabb.sqrMagnitude == 0) //Si no, salta en direccion opuesta a la agarradera
+        //    //{
+        //    //    ActualMove = NormalMovement;
+
+        //    //    Vector3 oppDir = -transform.forward;
+        //    //    Vector3 jumpDir = new Vector3(oppDir.x, _jumpForceAxiY, oppDir.z * _jumpForceAxiZ);
+        //    //    _forceGravity = _initialForceGravity;
+        //    //    _rbCharacter.isKinematic = false;
+        //    //    _rbCharacter.velocity = jumpDir;
+        //    //}
+        //}
 
         //else if ( actualStatePlayer != EstadoDePlayer.Escalando && _coyoteTimeCounter > 0) //0.08f
         //{
@@ -463,10 +478,35 @@ public abstract class Characters : Entity, IDamageable
 
         //    AudioManager.instance.Play(SoundId.Jump);
         //}
+        #endregion
     }
 
     private void NormalJump()
     {
+        if (_coyoteTimeCounter < 0) return;
+
+        isJumping = true;
+
+        _coyoteTimeCounter = 0f;
+        _animPlayer?.SetTrigger("Jump");
+        _particleJump?.Play();
+
+        _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _jumpForce, _rbCharacter.velocity.z);
+
+        AudioManager.instance.Play(SoundId.Jump);
+    }
+
+    private void TapeJump()
+    {
+        //if (_dir.magnitude == -_rbCharacter.velocity.magnitude) Debug.Log("Lado contrario");
+
+        Debug.Log($"Salto en cinta");
+    }
+
+    private void IceJump()
+    {
+        if (_coyoteTimeCounter < 0) return;
+
         isJumping = true;
 
         _coyoteTimeCounter = 0f;
@@ -484,8 +524,23 @@ public abstract class Characters : Entity, IDamageable
             horizontalVelocity = horizontalVelocity.normalized * _maxSpeedJumpIce;
             _rbCharacter.velocity = new Vector3(horizontalVelocity.x, _rbCharacter.velocity.y, horizontalVelocity.z);
         }
+    }
 
-        AudioManager.instance.Play(SoundId.Jump);
+    private void HandleJump()
+    {
+        if (_dirGrabb.sqrMagnitude == 0 && !_isStopGrabb) return;
+
+        StartCoroutine(WaitRayChange());
+        ActualMove = NormalMovement;
+
+        _isJumpGrabb = true;
+        _rbCharacter.isKinematic = false;
+
+        //Depende la direccion de donde quiera ir, va a saltar
+        if (_dirGrabb.y > 0) _rbCharacter.velocity = new Vector3(0, _dirGrabb.y * _jumpForceAxiY * 2);
+        else if (_dirGrabb.x != 0) _rbCharacter.velocity = new Vector3(_dirGrabb.x * _jumpForceAxiX, _jumpForceAxiY);
+
+        _dirGrabb = default;
     }
 
     IEnumerator WaitRayChange()
@@ -556,8 +611,27 @@ public abstract class Characters : Entity, IDamageable
         var interact = collision.gameObject.GetComponent<IInteracteable>();
 
         if(interact != null) interact.Active();
-        
 
+
+        switch (collision.gameObject.layer)
+        {
+            case 6:
+                {
+                    _typeFloor = TypeFloor.Normal;
+                    ActualJump = NormalJump;
+                }
+                break;
+
+            case 18:
+                {
+                    _typeFloor = TypeFloor.Cinta;
+                    ActualJump += TapeJump;
+                }
+                break;
+
+            case 13: _typeFloor = TypeFloor.Hielo;
+                break;
+        }
     }
     private void OnCollisionStay(Collision collision)
     {
