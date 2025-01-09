@@ -32,7 +32,8 @@ public class ModelFrank : Characters
     public override void Start()
     {
         base.Start();
-        ActualMove = NormalMovement;
+
+        //ActualMove = NormalMovement;
     }
 
     public override void Update()

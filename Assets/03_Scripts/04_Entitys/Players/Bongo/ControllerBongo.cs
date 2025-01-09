@@ -21,10 +21,10 @@ public class ControllerBongo
     {
         if (Time.timeScale == 0) return;
 
-        if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.LeftShift) && _model.actualStatePlayer == EstadoDePlayer.Escalando)
-        {
-            _model.ActualMove = _model.NormalMovement;
-        }
+        //if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.LeftShift) && _model.actualStatePlayer == EstadoDePlayer.Escalando)
+        //{
+        //    _model.ActualMove = _model.NormalMovement;
+        //}
 
         if (Input.GetKeyDown(KeyCode.Tab)) GameManager.instance.UIBongoTrincket.ShowUI();
 
