@@ -1,12 +1,12 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 
 public enum EstadoDePlayer
 {
     Normal,
+    Caminando,
     Escalando    
 }
 
@@ -26,8 +26,10 @@ public abstract class Characters : Entity, IDamageable
     [Header("--> GENERAL")]
     [SerializeField] protected float _maxLife = 1f;
     protected float _actualLife;
-    [SerializeField] protected float _speed = 10f;
-    protected float _actualSpeed;
+    [SerializeField] protected float _iniSpeed = 10f;
+    public float actualSpeed;
+    private Vector3 _dir;
+    public Vector3 Dir { get { return _dir; } }
     [SerializeField] protected float _forceGravity = 1.25f;
     protected float _initialForceGravity;
     [Space(10), SerializeField, Tooltip("Fuerza de salto normal")] protected float _jumpForce = 25f;
@@ -63,9 +65,12 @@ public abstract class Characters : Entity, IDamageable
     [Header("--> PARTICLES")]
     [SerializeField] protected ParticleSystem _particleJump;
 
-    public delegate void MyDelegate(Vector3 dirRaw);
-    public event MyDelegate _actualMove;
-    public MyDelegate ActualMove { get { return _actualMove; } set { _actualMove = value; } }
+    //public delegate void MyDelegate(Vector3 dirRaw);
+    //public event MyDelegate _actualMove;
+    //public MyDelegate ActualMove { get { return _actualMove; } set { _actualMove = value; } }
+
+    public Action<Vector3> ActualMove;
+    public Action ActualJumping;
 
     [HideInInspector] public CheckPoint actualCheckpoint;
 
@@ -90,8 +95,11 @@ public abstract class Characters : Entity, IDamageable
     public virtual void Start()
     {
         _actualLife = _maxLife;
-        _actualSpeed = _speed;
+        actualSpeed = _iniSpeed;
         _initialForceGravity = _forceGravity;
+
+        ActualMove = NormalMovement;
+        //ActualJumping = NormalJump;
         
     }
 
@@ -191,9 +199,12 @@ public abstract class Characters : Entity, IDamageable
     #endregion
 
     #region MOVEMENT
-    public virtual void Movement(Vector3 dirRaw)
+    public virtual void Movement(Vector3 dirRaw = default, float speed = default)
     {
-        if (IsTouch(dirRaw.normalized, _moveMask))
+        if (speed != 0) actualSpeed = speed;
+        else actualSpeed = _iniSpeed;
+
+        if (IsTouch(dirRaw.normalized, _moveMask)) //Si estoy tocando una pared
         {
             isStopMove = true;
             _animPlayer.SetBool("IsWallDetected", true);
@@ -223,13 +234,14 @@ public abstract class Characters : Entity, IDamageable
         NormalMovement(-dirRaw);
     }
 
-    public void NormalMovement(Vector3 dirRaw)
+    private void NormalMovement(Vector3 dirRaw)
     {
         //if (_isJumpGrabb) return;
 
         //if(actualStatePlayer != EstadoDePlayer.Normal) actualStatePlayer = EstadoDePlayer.Normal;
 
         _dirGrabb = default;
+        _dir = dirRaw;
 
         //Dejar por las dudas!!!
         //if(_rbCharacter.isKinematic) _rbCharacter.isKinematic = false;
@@ -239,12 +251,12 @@ public abstract class Characters : Entity, IDamageable
 
         if (dirRaw.sqrMagnitude != 0)
         {
-            //Vector3 mov = new Vector3(dir.normalized.x, 0, dir.normalized.z);
-            Vector3 mov = new Vector3(dirRaw.normalized.x, 0, dirRaw.normalized.z);
-            _myVelocityCharacter = mov * _actualSpeed;
+            actualStatePlayer = EstadoDePlayer.Caminando;
 
-            //Rotate(mov);
+            Vector3 mov = new Vector3(dirRaw.normalized.x, 0, dirRaw.normalized.z);
+            _myVelocityCharacter = mov * actualSpeed;
         }
+        else actualStatePlayer = EstadoDePlayer.Normal;
 
         //Vector3 mov = new Vector3(dir.normalized.x, 0, dir.normalized.z);
         //_myVelocityCharacter = mov * _actualSpeed;
@@ -270,7 +282,7 @@ public abstract class Characters : Entity, IDamageable
         }
         else
         {
-            if(!_isImpulse)_rbCharacter.velocity = _myVelocityCharacter;
+            if(!_isImpulse) _rbCharacter.velocity = _myVelocityCharacter;
         }
 
 
@@ -346,7 +358,7 @@ public abstract class Characters : Entity, IDamageable
             }
 
             _isStopGrabb = false;
-            _rbCharacter.MovePosition(transform.position + dirEscalando * _actualSpeed * Time.fixedDeltaTime);
+            _rbCharacter.MovePosition(transform.position + dirEscalando * actualSpeed * Time.fixedDeltaTime);
 
         }
         else
@@ -385,7 +397,6 @@ public abstract class Characters : Entity, IDamageable
     #region JUMP
     public void Jump()
     {
-
         if (actualStatePlayer == EstadoDePlayer.Escalando && _dirGrabb.sqrMagnitude != 0 && _isStopGrabb) //Si estoy escalando
         {
             //StartCoroutine(WaitRayChange());
@@ -430,28 +441,51 @@ public abstract class Characters : Entity, IDamageable
             //}
         }
 
-        else if ( actualStatePlayer == EstadoDePlayer.Normal && _coyoteTimeCounter > 0) //0.08f
+        //else if ( actualStatePlayer != EstadoDePlayer.Escalando && _coyoteTimeCounter > 0) //0.08f
+        //{
+        //    isJumping = true;
+
+        //    _coyoteTimeCounter = 0f;
+        //    _animPlayer?.SetTrigger("Jump");
+        //    _particleJump?.Play();
+
+        //    _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _jumpForce, _rbCharacter.velocity.z);
+
+        //    // Limitar la velocidad horizontal al saltar
+        //    Vector3 horizontalVelocity = new Vector3(_rbCharacter.velocity.x, 0, _rbCharacter.velocity.z);
+
+        //    if (horizontalVelocity.magnitude > _maxSpeedJumpIce)
+        //    {
+        //        // Limitar la velocidad horizontal a un máximo
+        //        horizontalVelocity = horizontalVelocity.normalized * _maxSpeedJumpIce;
+        //        _rbCharacter.velocity = new Vector3(horizontalVelocity.x, _rbCharacter.velocity.y, horizontalVelocity.z);
+        //    }
+
+        //    AudioManager.instance.Play(SoundId.Jump);
+        //}
+    }
+
+    private void NormalJump()
+    {
+        isJumping = true;
+
+        _coyoteTimeCounter = 0f;
+        _animPlayer?.SetTrigger("Jump");
+        _particleJump?.Play();
+
+        _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _jumpForce, _rbCharacter.velocity.z);
+
+        // Limitar la velocidad horizontal al saltar
+        Vector3 horizontalVelocity = new Vector3(_rbCharacter.velocity.x, 0, _rbCharacter.velocity.z);
+
+        if (horizontalVelocity.magnitude > _maxSpeedJumpIce)
         {
-            isJumping = true;
-
-            _coyoteTimeCounter = 0f;
-            _animPlayer?.SetTrigger("Jump");
-            _particleJump?.Play();
-
-            _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _jumpForce, _rbCharacter.velocity.z);
-
-            // Limitar la velocidad horizontal al saltar
-            Vector3 horizontalVelocity = new Vector3(_rbCharacter.velocity.x, 0, _rbCharacter.velocity.z);
-
-            if (horizontalVelocity.magnitude > _maxSpeedJumpIce)
-            {
-                // Limitar la velocidad horizontal a un máximo
-                horizontalVelocity = horizontalVelocity.normalized * _maxSpeedJumpIce;
-                _rbCharacter.velocity = new Vector3(horizontalVelocity.x, _rbCharacter.velocity.y, horizontalVelocity.z);
-            }
-
-            AudioManager.instance.Play(SoundId.Jump);
+            // Limitar la velocidad horizontal a un máximo
+            horizontalVelocity = horizontalVelocity.normalized * _maxSpeedJumpIce;
+            _rbCharacter.velocity = new Vector3(horizontalVelocity.x, _rbCharacter.velocity.y, horizontalVelocity.z);
         }
+
+        AudioManager.instance.Play(SoundId.Jump);
     }
 
     IEnumerator WaitRayChange()

@@ -19,8 +19,7 @@ public class PenguinFly : MonoBehaviour, IInteracteable
     private void Update()
     {
         if (_isInBongo && !_isDisable)
-        {
-            
+        {         
             transform.position = GameManager.instance.bongo.gameObject.transform.position + _positionInBongo;
             transform.forward = GameManager.instance.bongo.gameObject.transform.forward;
         }

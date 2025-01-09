@@ -65,7 +65,7 @@ public class ModelBongo : Characters
         _objectPool = new ObjectPool<Bullet>(_factory.GetObj, Bullet.TurnOff, Bullet.TurnOn, _bulletQuantity);
 
 
-        ActualMove = NormalMovement;
+        //ActualMove = NormalMovement;
     }
 
     public override void Update()
