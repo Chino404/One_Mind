@@ -5,16 +5,16 @@ using UnityEngine;
 public class ConveyorBelt : Mechanism
 {
     private Renderer _myRenderer; 
+    [SerializeField] private List<Rigidbody> _rbEntity;
 
     [SerializeField] private bool _isActive = true;
-    [SerializeField] private float _tapeSpeed;
+    [Space(10), SerializeField] private float _tapeSpeed;
+    public bool reversedSpeed;
 
-    [Space(10)] public bool reversedSpeed;
-    public Color activeColor;
+    [Space(10)]
     public Color normalColor;
     public Color reversedColor;
 
-    private Rigidbody _rbEntity;
     private Characters _character;
 
     private void Awake()
@@ -25,8 +25,33 @@ public class ConveyorBelt : Mechanism
     public override void ActiveMechanism()
     {
         _isActive = true;
+    }
 
-        _myRenderer.material.color = activeColor;
+    private void FixedUpdate()
+    {
+        if(!_isActive) return;
+
+        float speed = 0;
+
+        if (!reversedSpeed)
+        {
+            _myRenderer.material.color = normalColor;
+            speed = _tapeSpeed;
+        }
+        else
+        {
+            _myRenderer.material.color = reversedColor;
+            speed = _tapeSpeed * -1;
+        }
+
+
+        if (_rbEntity.Count > 0)
+        {
+            for (int i = 0; i < _rbEntity.Count; i++)
+            {
+                _rbEntity[i].velocity += transform.forward * speed;
+            }
+        }
     }
 
     private void MovimientoCinta(Vector3 dir)
@@ -35,16 +60,16 @@ public class ConveyorBelt : Mechanism
 
         dir = transform.forward;
 
-        if (_rbEntity)
+        if (_character)
         {
             if (!reversedSpeed)
             {
-                _rbEntity.velocity += dir * _tapeSpeed;
+                //_rbEntity.velocity += dir * _tapeSpeed;
                 _myRenderer.material.color = normalColor;
             }
             else
             {
-                _rbEntity.velocity -= dir * _tapeSpeed;
+                //_rbEntity.velocity -= dir * _tapeSpeed;
                 _myRenderer.material.color = reversedColor;
             }
 
@@ -54,13 +79,18 @@ public class ConveyorBelt : Mechanism
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<Rigidbody>()) _rbEntity = collision.gameObject.GetComponent<Rigidbody>();
+        if (collision.gameObject.GetComponent<Rigidbody>())
+        {
+            //_rbEntity = collision.gameObject.GetComponent<Rigidbody>();
+
+            _rbEntity.Add(collision.gameObject.GetComponent<Rigidbody>());
+        }
 
         if (collision.gameObject.GetComponent<Characters>())
         {
             _character = collision.gameObject.GetComponent<Characters>();
 
-            _character.ActualMove += MovimientoCinta;
+            //_character.ActualMove += MovimientoCinta;
         }
     }
 
@@ -68,9 +98,10 @@ public class ConveyorBelt : Mechanism
     {
         if (collision.gameObject.GetComponent<Rigidbody>())
         {
-            _rbEntity = null;
+            //_rbEntity = null;
+            _rbEntity.Remove(collision.gameObject.GetComponent<Rigidbody>());
 
-            _character.ActualMove -= MovimientoCinta;
+            //_character.ActualMove -= MovimientoCinta;
         }
 
         if (collision.gameObject.GetComponent<Characters>()) _character = null;
