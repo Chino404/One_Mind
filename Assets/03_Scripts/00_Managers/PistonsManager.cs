@@ -6,9 +6,9 @@ public class PistonsManager : Mechanism
 {
     [SerializeField] private float _timeToSwitch;
 
-    public GameObject[] pistonsA;
+    public Mechanism[] pistonsA;
 
-    public GameObject[] pistonsB;
+    public Mechanism[] pistonsB;
 
     public override void ActiveMechanism()
     {
@@ -21,24 +21,28 @@ public class PistonsManager : Mechanism
         {
             for (int i = 0; i < pistonsA.Length; i++)
             {
-                pistonsA[i].gameObject.SetActive(true);
+                //pistonsA[i].gameObject.SetActive(true);
+                pistonsA[i].ActiveMechanism();
             }
 
             for (int i = 0; i < pistonsB.Length; i++)
             {
-                pistonsB[i].gameObject.SetActive(false);
+                //pistonsB[i].gameObject.SetActive(false);
+                pistonsB[i].DeactiveMechanism();
             }
 
             yield return new WaitForSeconds(_timeToSwitch);
 
             for (int i = 0; i < pistonsA.Length; i++)
             {
-                pistonsA[i].gameObject.SetActive(false);
+                //pistonsA[i].gameObject.SetActive(false);
+                pistonsA[i].DeactiveMechanism();
             }
 
             for (int i = 0; i < pistonsB.Length; i++)
             {
-                pistonsB[i].gameObject.SetActive(true);
+                //pistonsB[i].gameObject.SetActive(true);
+                pistonsB[i].ActiveMechanism();
             }
 
             yield return new WaitForSeconds(_timeToSwitch);
