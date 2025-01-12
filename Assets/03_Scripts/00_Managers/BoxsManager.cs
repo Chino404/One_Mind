@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class BoxsManager : MonoBehaviour
 {
-    private Factory<GameObject> _factory;
+
 }
