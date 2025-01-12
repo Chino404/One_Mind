@@ -28,6 +28,7 @@ public class Piston : Mechanism
     public override void DeactiveMechanism()
     {
         StartCoroutine(ToMovePiston(false));
+        _deathZone.gameObject.SetActive(false);
     }
 
     IEnumerator ToMovePiston(bool isActive)
@@ -51,7 +52,6 @@ public class Piston : Mechanism
             var distance = Vector3.Distance(_rigidbody.position, _posEnd.position);
 
             if (_isTouchDead && isActive && distance <= 0.3) _deathZone.gameObject.SetActive(true);
-            else _deathZone.gameObject.SetActive(false);
 
             yield return null;
         }
