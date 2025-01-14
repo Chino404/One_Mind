@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -8,7 +6,7 @@ public class Bullet : MonoBehaviour
     [Tooltip("Contador de tiempo para instanciar una bala")] private float _counter;
     //public float damage;
 
-    ObjectPool<Bullet> _objectPool;
+    private ObjectPool<Bullet> _objectPool;
 
 
     void Update()
