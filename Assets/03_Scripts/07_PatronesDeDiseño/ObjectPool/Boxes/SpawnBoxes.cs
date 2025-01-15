@@ -8,6 +8,7 @@ public class SpawnBoxes : MonoBehaviour
     [Tooltip("Segundos de cooldown")][SerializeField] float _coolDown;
     [Tooltip("cantidad de cajas que instancio al principio")][SerializeField] int _boxesQuantity;
 
+    //private BoxesFactory _factory;
     private Factory<Box> _factory;
     private ObjectPool<Box> _objectPool;
     private int _indexBox;
@@ -16,8 +17,12 @@ public class SpawnBoxes : MonoBehaviour
     {
         _indexBox = Random.Range(0, _boxesModel.Length);
 
-        _factory = new BoxesFactory(_boxesModel[_indexBox]);
-        _objectPool = new ObjectPool<Box>(_factory.GetObj, Box.TurnOff, Box.TurnOn, _boxesQuantity);
+        foreach (var item in _boxesModel)
+        {
+            _factory = new BoxesFactory(item);
+
+            _objectPool = new ObjectPool<Box>(_factory.GetObj, Box.TurnOff, Box.TurnOn, _boxesQuantity);
+        }
 
         StartCoroutine(CreateBoxes());
     }
