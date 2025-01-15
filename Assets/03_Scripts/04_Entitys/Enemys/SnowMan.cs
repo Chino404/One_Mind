@@ -47,10 +47,10 @@ public class SnowMan : MonoBehaviour
 
         _myAnimator.SetBool("Attack", true);
 
-        var bullet = _objectPool.Get();
-        bullet.AddReference(_objectPool);
-        bullet.transform.position = transform.position;
-        bullet.transform.forward = transform.forward;
+        var bullet = _objectPool.Get(); //Pido una bullet al _objectPool
+        bullet.AddReference(_objectPool); //Le añado la referencia a mi prefab
+        bullet.transform.position = transform.position; //Le asigno el lugar por donde va a salir
+        bullet.transform.forward = transform.forward; //Asigno su dirección
 
         yield return new WaitForSeconds(_coolDown);
 

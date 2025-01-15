@@ -28,9 +28,11 @@ public class ObjectPool<T>
             _stock.Add(obj);
         }
     }
+
     public T Get()
     {
         T obj = default;
+
         if (_stock.Count > 0)
         {
             obj = _stock[0];
