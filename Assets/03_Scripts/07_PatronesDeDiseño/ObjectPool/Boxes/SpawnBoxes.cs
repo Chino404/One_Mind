@@ -4,36 +4,18 @@ using UnityEngine;
 
 public class SpawnBoxes : MonoBehaviour
 {
-    [SerializeField] private Box[] _boxesModel;
-    [Tooltip("Segundos de cooldown")][SerializeField] float _coolDown;
-    [Tooltip("cantidad de cajas que instancio al principio")][SerializeField] int _boxesQuantity;
+    public BoxType boxType;
+    [Tooltip("Cooldown para pedir el objeto en el objectpool")][SerializeField] float _coolDown;
 
-    //private BoxesFactory _factory;
-    private Factory<Box> _factory;
-    private ObjectPool<Box> _objectPool;
-    private int _indexBox;
-
-    private void Start()
+    private void Update()
     {
-        _indexBox = Random.Range(0, _boxesModel.Length);
-
-        foreach (var item in _boxesModel)
+        if(Input.GetKeyDown(KeyCode.P))
         {
-            _factory = new BoxesFactory(item);
-
-            _objectPool = new ObjectPool<Box>(_factory.GetObj, Box.TurnOff, Box.TurnOn, _boxesQuantity);
-        }
-
-        StartCoroutine(CreateBoxes());
-    }
-
-    IEnumerator CreateBoxes()
-    {
-        while (true)
-        {
-
-
-            yield return null;
+            var box = OP_Boxes.objectPool.GetByEnum(boxType);
+            //var box = OP_Boxes.objectPool.Get();
+            box.AddReference(OP_Boxes.objectPool);
+            box.transform.position = transform.position;
+            box.transform.forward = transform.forward;
         }
     }
 }

@@ -1,6 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Factory<T> where T : MonoBehaviour
+public abstract class Factory<T> where T : MonoBehaviour //Donde lo que sea <T> herede de Monobeheaviour
 {
     public T prefab;
 
