@@ -5509,6 +5509,7 @@ GameObject:
   - component: {fileID: 1634969683}
   - component: {fileID: 1634969682}
   - component: {fileID: 1634969681}
+  - component: {fileID: 1634969684}
   m_Layer: 5
   m_Name: PressToContinue
   m_TagString: Untagged
@@ -5599,6 +5600,20 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1634969684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1634969679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4daad00669e4e204094d42fb5d2a8bc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: IDBAbrirLibro
+  textUI: {fileID: 84779139}
 --- !u!1 &1657400811
 GameObject:
   m_ObjectHideFlags: 0
@@ -11211,6 +11226,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1942632675
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1942632677}
+  - component: {fileID: 1942632676}
+  m_Layer: 0
+  m_Name: Language
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1942632676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942632675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc6e74ce1b0decd4888837d041222b29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  language: 10
+  data:
+  - language: 10
+    data:
+    - {fileID: 4900000, guid: 38dd0a1c44f32a94c9c2e64cc333500d, type: 3}
+  - language: 33
+    data:
+    - {fileID: 4900000, guid: ca7fce71fb2384f4b95b90c1f00583fc, type: 3}
+--- !u!4 &1942632677
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942632675}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.1143775, y: 15.524963, z: 154.70695}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1952160659 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8408387116644931559, guid: f31226e11780aea40a8801e383078d6e,
@@ -36430,3 +36497,4 @@ SceneRoots:
   - {fileID: 1179391370}
   - {fileID: 484012830}
   - {fileID: 394976047}
+  - {fileID: 1942632677}
