@@ -15,7 +15,8 @@ public class ObjectPool<T>
 
     public ObjectPool(FactoryMethod factory, Action<T> turnOff, Action<T> turnOn, int initialCount = 5)
     {
-        _factory = factory;
+        _factory = factory; //Objeto a intanciar
+
         _turnOff = turnOff;
         _turnOn = turnOn;
 
