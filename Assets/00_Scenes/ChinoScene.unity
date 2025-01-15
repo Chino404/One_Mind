@@ -1671,6 +1671,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 356342186}
+  - component: {fileID: 356342188}
   - component: {fileID: 356342187}
   m_Layer: 0
   m_Name: '- Boxes -'
@@ -1688,7 +1689,7 @@ Transform:
   m_GameObject: {fileID: 356342185}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 248.6, y: 6.8, z: 43.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1706,12 +1707,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 523b16a875a64e347a8190820fb7b233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _boxesModel:
-  - {fileID: 6691178948342989326, guid: 871ea91776104524289c6ea1dd6eb29f, type: 3}
-  - {fileID: 3184787542935448903, guid: 6c9829d03b379084b8d49ce75f0d5019, type: 3}
-  - {fileID: 5819916377662967628, guid: 8eb44d00299a35e46ae943ebbe9a56fd, type: 3}
+  boxType: 1
   _coolDown: 0.5
-  _boxesQuantity: 2
+--- !u!114 &356342188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 356342185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a9070adf71acdc4f94c0dc7bd36b86c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _boxesModel:
+  - {fileID: 3184787542935448903, guid: 6c9829d03b379084b8d49ce75f0d5019, type: 3}
+  - {fileID: 6691178948342989326, guid: 871ea91776104524289c6ea1dd6eb29f, type: 3}
+  - {fileID: 5819916377662967628, guid: 8eb44d00299a35e46ae943ebbe9a56fd, type: 3}
+  _boxesQuantity: 1
 --- !u!1 &383892009
 GameObject:
   m_ObjectHideFlags: 0

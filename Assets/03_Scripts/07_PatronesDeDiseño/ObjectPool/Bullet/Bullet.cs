@@ -3,7 +3,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] float _speed;
-    [Tooltip("Contador de tiempo para instanciar una bala")] private float _counter;
+    [Tooltip("Contador de tiempo para apagarme y guardarme en el objectPool")] private float _counter;
     //public float damage;
 
     private ObjectPool<Bullet> _objectPool;
