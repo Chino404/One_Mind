@@ -51,15 +51,8 @@ public class ObjectPool<T>
     }
 
 
-    public void StockAdd(T obj, FactoryMethod factory = default)
+    public void StockAdd(T obj)
     {
-        if (factory != default)
-        {
-            _factory = factory;
-
-            obj = _factory();
-        }
-
         _turnOff(obj);
         _stock.Add(obj);
     }
