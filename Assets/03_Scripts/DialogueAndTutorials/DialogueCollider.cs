@@ -7,8 +7,16 @@ public class DialogueCollider : MonoBehaviour
 {
     //public Dialogue dialoguePanel;
     [SerializeField] private GameObject dialogueCanvas;
-    public string[] lines;
+    //public string[] lines;
+
     private bool isExecuting;
+    public TextMeshProUGUI dialogueText;
+    public float textSpeed = 2;
+    public string ID;
+
+
+    private int index;
+
 
     private void Start()
     {
@@ -23,38 +31,27 @@ public class DialogueCollider : MonoBehaviour
             dialogueText.text = string.Empty;
 
             dialogueCanvas.SetActive(true);
-            StartDialogue(lines);
+            //StartDialogue(lines);
         }
     }
 
-    public TextMeshProUGUI dialogueText;
-    public float textSpeed = 2;
-
-    private int index;
-
-
-
-
-    private void Update()
-    {
-        if (isExecuting)
-        {
-            if (dialogueText.text == lines[index])
-                StartCoroutine(NextLine(lines));
-        }
-
-    }
+    //private void Update()
+    //{
+    //    if (isExecuting)
+    //    {
+    //        if (dialogueText.text == lines[index])
+    //            StartCoroutine(NextLine(lines));
+    //    }
+    //}
 
     public void StartDialogue(string[] lines)
     {
         index = 0;
         StartCoroutine(WriteDialogue(lines));
-
     }
 
     IEnumerator NextLine(string[] lines)
     {
-
         if (index < lines.Length - 1)
         {
             index++;
@@ -70,20 +67,14 @@ public class DialogueCollider : MonoBehaviour
             dialogueCanvas.SetActive(false);
             gameObject.SetActive(false);
         }
-
     }
 
     IEnumerator WriteDialogue(string[] lines)
     {
-
         foreach (char letter in lines[index].ToCharArray())
         {
             dialogueText.text += letter;
             yield return new WaitForSeconds(textSpeed);
-
         }
-
-
     }
-
 }

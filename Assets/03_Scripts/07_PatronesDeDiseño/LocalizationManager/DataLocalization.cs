@@ -6,5 +6,5 @@ using UnityEngine;
 public struct DataLocalization 
 {
     public SystemLanguage language;
-    public TextAsset[] data;
+    public TextAsset[] data;//text asset es para pedir por parametro un bloc de notas
 }
