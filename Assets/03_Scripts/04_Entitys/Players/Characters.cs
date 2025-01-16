@@ -500,7 +500,7 @@ public abstract class Characters : Entity, IDamageable
     {
         //if (_dir.magnitude == -_rbCharacter.velocity.magnitude) Debug.Log("Lado contrario");
 
-        Debug.Log($"Salto en cinta");
+        //Debug.Log($"Salto en cinta");
     }
 
     private void IceJump()

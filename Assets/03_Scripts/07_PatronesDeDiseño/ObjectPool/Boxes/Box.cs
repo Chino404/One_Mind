@@ -22,19 +22,22 @@ public class Box : MonoBehaviour
     [SerializeField,Tooltip("Tiempo de vida")] private float _timeToLife;
     [Tooltip("Contador de tiempo para apagarme y guardarme en el objectPool")] private float _counter;
 
+    [SerializeField] private Transform _destiny;
+
     private ObjectPool<Box> _objectPool;
+
 
     private void Update()
     {
         _counter += Time.deltaTime;
 
-        if (_counter >= _timeToLife)
-        {
-            _objectPool.StockAdd(this);
-        }
+        var dist = Vector3.Distance(transform.position, _destiny.position);
+
+        if (dist <= 0.5f) Debug.Log("LLEGO A LA META");
+
+        if(_counter >= _timeToLife) _objectPool.StockAdd(this);
     }
 
-    public void AddReference(ObjectPool<Box> objPool) => _objectPool = objPool;
 
     public void ChangeBox(BoxType type)
     {
@@ -47,6 +50,16 @@ public class Box : MonoBehaviour
             }
         }
     }
+
+    public void SetPos(Transform posIni, Transform posEnd)
+    {
+        transform.position = posIni.position;
+        transform.forward = posIni.forward;
+
+        _destiny = posEnd;
+    }
+
+    public void AddReference(ObjectPool<Box> objPool) => _objectPool = objPool;
 
     //Son estaticos para que no necesite pasar la referencia del script directamente!
     public static void TurnOff(Box box)
