@@ -47,49 +47,6 @@ public class ObjectPool<T>
             obj = _factory();//instancio por si me quedo sin objeto para pedir
         }
 
-        Debug.Log(obj);
-
-        return obj;
-    }
-
-    /// <summary>
-    /// Obtiene un objeto del stock basado en un valor de Enum.
-    /// </summary>
-    /// <typeparam name="E">El tipo del Enum.</typeparam>
-    /// <param name="enumValue">El valor del Enum a buscar.</param>
-    /// <returns>Un objeto del stock cuyo Enum coincida.</returns>
-    public T GetByEnum<E>(E enumValue) where E : Enum //Donde "E" es un Enum
-    {
-        T obj = default;
-
-        if (_stock.Count > 0)
-        {
-            foreach (var objType in _stock)
-            {            
-                // Verificar que el objeto implementa la interfaz
-                if (objType is IEnumType<E> enumObject)
-                {                
-                    if (enumObject.Type.Equals(enumValue))
-                    {
-                        _turnOn(objType); // Activamos el objeto
-                        _stock.Remove(objType); // Lo removemos del stock
-
-                        obj = objType;
-
-                        break;
-                    }         
-                }
-                
-            }
-        }
-        else
-        {
-            Debug.Log("Creo el objeto");
-            obj = _factory();
-        }
-
-        Debug.Log(obj);
-
         return obj;
     }
 
