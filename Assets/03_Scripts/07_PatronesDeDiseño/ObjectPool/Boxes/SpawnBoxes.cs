@@ -10,8 +10,8 @@ public enum WayOfSpawning //Modo de spawn
 public class SpawnBoxes : MonoBehaviour
 {
     [Space(5), Tooltip("Modo en el que se van a spawnear")] public WayOfSpawning way;
-    [Tooltip("Colocar el nombre del enum que deseas")]public string[] selectBoxes;
-    private int _indexString;
+    [Tooltip("Colocar la caja que queres que salga")]public BoxType[] selectBoxesToSpawn;
+    private int _indexBoxesToSpawn;
 
     [Space(5), SerializeField] private Transform _iniPos;
     [SerializeField] private Transform _endPos;
@@ -103,19 +103,12 @@ public class SpawnBoxes : MonoBehaviour
 
             case WayOfSpawning.Seleccionados:
                 {
-                    if (System.Enum.TryParse(selectBoxes[_indexString], out BoxType type))
-                    {
-                        _myBoxType = type;
+                    _myBoxType = selectBoxesToSpawn[_indexBoxesToSpawn];
 
-                        box.ChangeBox(_myBoxType);
+                    box.ChangeBox(_myBoxType);
 
-                        _indexString++;
-                        if (_indexString >= selectBoxes.Length) _indexString = 0;
-                    }
-                    else
-                    {
-                        Debug.Log($"El string {selectBoxes[_indexString]} no corresponde a ningún valor del enum.");
-                    }
+                    _indexBoxesToSpawn++;
+                    if (_indexBoxesToSpawn >= selectBoxesToSpawn.Length) _indexBoxesToSpawn = 0;
                 }
                 break;
 
