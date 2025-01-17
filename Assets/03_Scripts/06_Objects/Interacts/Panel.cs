@@ -38,7 +38,11 @@ public class Panel : MonoBehaviour, IInteracteable
             mechanism[i].ActiveMechanism();
 
             if(_feedBackLight) _feedBackLight.color = _activeColor;
-            if(_lamp) _lamp.GetComponent<MeshRenderer>().material.color = _activeColor;
+            if (_lamp)
+            {
+                _feedBackLight.gameObject.SetActive(true);
+                _lamp.GetComponent<MeshRenderer>().material.color = _activeColor;
+            }
         }
     }
 

@@ -78,8 +78,6 @@ public class ConveyorBelt : Mechanism
                 //_rbEntity.velocity -= dir * _tapeSpeed;
                 _myRenderer.material.color = reversedColor;
             }
-
-            //_rb.MovePosition(_rb.position + dir * (_tapeSpeed * 0.01f));
         }
     }
 
@@ -90,6 +88,7 @@ public class ConveyorBelt : Mechanism
         if (collision.gameObject.GetComponentInParent<Box>())
         {
             var rbBox = collision.gameObject.GetComponentInParent<Box>().GetComponent<Rigidbody>();
+            rbBox.drag = 20;
 
                                         //|= Esa concatenacion ase que se AGREGUE y no se pise
             if (_axisX) rbBox.constraints |= RigidbodyConstraints.FreezePositionX;
@@ -114,7 +113,8 @@ public class ConveyorBelt : Mechanism
             //_character.ActualMove -= MovimientoCinta;
         }
 
-        if(collision.gameObject.GetComponentInParent<Box>()) _rbEntities.Remove(collision.gameObject.GetComponent<Box>().GetComponent<Rigidbody>());
+        if (collision.gameObject.GetComponentInParent<Box>()) _rbEntities.Remove(collision.gameObject.GetComponent<Box>().GetComponent<Rigidbody>());
+
 
         if (collision.gameObject.GetComponent<Characters>()) _character = null;
     }
