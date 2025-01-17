@@ -89,7 +89,6 @@ public class ConveyorBelt : Mechanism
 
         if (collision.gameObject.GetComponentInParent<Box>())
         {
-
             var rbBox = collision.gameObject.GetComponentInParent<Box>().GetComponent<Rigidbody>();
 
                                         //|= Esa concatenacion ase que se AGREGUE y no se pise
@@ -115,7 +114,7 @@ public class ConveyorBelt : Mechanism
             //_character.ActualMove -= MovimientoCinta;
         }
 
-        if(collision.gameObject.GetComponentInParent<Box>()) _rbEntities.Remove(collision.gameObject.GetComponent<Rigidbody>());
+        if(collision.gameObject.GetComponentInParent<Box>()) _rbEntities.Remove(collision.gameObject.GetComponent<Box>().GetComponent<Rigidbody>());
 
         if (collision.gameObject.GetComponent<Characters>()) _character = null;
     }
