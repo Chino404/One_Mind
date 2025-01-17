@@ -26,6 +26,17 @@ public class Box : MonoBehaviour
 
     private ObjectPool<Box> _objectPool;
 
+    private Rigidbody _rb;
+
+    public Vector3 myVelocity;
+
+    private void Awake()
+    {
+        _rb = GetComponent<Rigidbody>();
+        _rb.velocity = Vector3.zero;
+
+        _rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+    }
 
     private void Update()
     {
@@ -33,10 +44,13 @@ public class Box : MonoBehaviour
 
         var dist = Vector3.Distance(transform.position, _destiny.position);
 
-        if (dist <= 0.5f) Debug.Log("LLEGO A LA META");
+        //if (dist <= 0.5f) Debug.Log("LLEGO A LA META");
 
-        if(_counter >= _timeToLife) _objectPool.StockAdd(this);
+        if(dist <= 0.5f  || _counter >= _timeToLife) _objectPool.StockAdd(this);
+
+        myVelocity = _rb.velocity;
     }
+
 
 
     public void ChangeBox(BoxType type)
@@ -69,6 +83,7 @@ public class Box : MonoBehaviour
             item.prefab.SetActive(false);
         }      
 
+        box._rb.velocity = Vector3.zero;
         box.gameObject.SetActive(false);
     }
 

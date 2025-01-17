@@ -633,8 +633,10 @@ public abstract class Characters : Entity, IDamageable
                 break;
         }
     }
+
     private void OnCollisionStay(Collision collision)
     {
+                                    //ICEBLOCK
         if (collision.gameObject.layer == 14 && _myVelocityCharacter != Vector3.zero)
         {
             _animPlayer.SetBool("IsWallDetected", true);

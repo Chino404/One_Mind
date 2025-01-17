@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class ConveyorBelt : Mechanism
 {
-    private Renderer _myRenderer; 
-    [SerializeField] private List<Rigidbody> _rbEntity;
+    private Renderer _myRenderer;
+    [SerializeField] private List<Rigidbody> _rbEntities;
 
-    [SerializeField] private bool _isActive = true;
+    [Header("-> Freeze Position Box")]
+    [SerializeField] private bool _axisX;
+    [SerializeField] private bool _axisY;
+    [SerializeField] private bool _axisZ;
+
+    [Space(10), SerializeField] private bool _isActive = true;
     [Space(10), SerializeField] private float _tapeSpeed;
     public bool reversedSpeed;
 
@@ -45,13 +50,14 @@ public class ConveyorBelt : Mechanism
         }
 
 
-        if (_rbEntity.Count > 0)
+        if (_rbEntities.Count > 0)
         {
-            for (int i = 0; i < _rbEntity.Count; i++)
+            for (int i = 0; i < _rbEntities.Count; i++)
             {
-                _rbEntity[i].velocity += transform.forward * speed;
-            }
-        }
+                if (_rbEntities[i].gameObject.activeInHierarchy) _rbEntities[i].velocity += transform.forward * speed;
+                else _rbEntities.Remove(_rbEntities[i]);
+            }   
+        } 
     }
 
     private void MovimientoCinta(Vector3 dir)
@@ -79,17 +85,23 @@ public class ConveyorBelt : Mechanism
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<Rigidbody>())
-        {
-            //_rbEntity = collision.gameObject.GetComponent<Rigidbody>();
+        if (collision.gameObject.GetComponent<Rigidbody>()) _rbEntities.Add(collision.gameObject.GetComponent<Rigidbody>());
 
-            _rbEntity.Add(collision.gameObject.GetComponent<Rigidbody>());
+        if (collision.gameObject.GetComponentInParent<Box>())
+        {
+
+            var rbBox = collision.gameObject.GetComponentInParent<Box>().GetComponent<Rigidbody>();
+
+                                        //|= Esa concatenacion ase que se AGREGUE y no se pise
+            if (_axisX) rbBox.constraints |= RigidbodyConstraints.FreezePositionX;
+            if (_axisY) rbBox.constraints |= RigidbodyConstraints.FreezePositionY;
+            if (_axisZ) rbBox.constraints |= RigidbodyConstraints.FreezePositionZ;
+
         }
 
         if (collision.gameObject.GetComponent<Characters>())
         {
             _character = collision.gameObject.GetComponent<Characters>();
-
             //_character.ActualMove += MovimientoCinta;
         }
     }
@@ -98,11 +110,12 @@ public class ConveyorBelt : Mechanism
     {
         if (collision.gameObject.GetComponent<Rigidbody>())
         {
-            //_rbEntity = null;
-            _rbEntity.Remove(collision.gameObject.GetComponent<Rigidbody>());
+            _rbEntities.Remove(collision.gameObject.GetComponent<Rigidbody>());
 
             //_character.ActualMove -= MovimientoCinta;
         }
+
+        if(collision.gameObject.GetComponentInParent<Box>()) _rbEntities.Remove(collision.gameObject.GetComponent<Rigidbody>());
 
         if (collision.gameObject.GetComponent<Characters>()) _character = null;
     }
