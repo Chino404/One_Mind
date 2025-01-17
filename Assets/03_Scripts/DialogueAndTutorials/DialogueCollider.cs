@@ -31,7 +31,23 @@ public class DialogueCollider : MonoBehaviour
             dialogueText.text = string.Empty;
 
             dialogueCanvas.SetActive(true);
-            //StartDialogue(lines);
+            StartDialogue();
+        }
+    }
+
+
+    void StartDialogue()
+    {
+        //dialogueText.text = LocalizationManager.instance.GetTranslate(ID);
+        StartCoroutine(WriteDialogue());
+    }
+
+    IEnumerator WriteDialogue()
+    {
+        foreach (char letter in LocalizationManager.instance.GetTranslate(ID).ToCharArray())
+        {
+            dialogueText.text += letter;
+            yield return new WaitForSeconds(textSpeed);
         }
     }
 
@@ -43,38 +59,39 @@ public class DialogueCollider : MonoBehaviour
     //            StartCoroutine(NextLine(lines));
     //    }
     //}
+    #region DialogoSinLocalizationManager
+    //public void StartDialogue(string[] lines)
+    //{
+    //    index = 0;
+    //    StartCoroutine(WriteDialogue(lines));
+    //}
 
-    public void StartDialogue(string[] lines)
-    {
-        index = 0;
-        StartCoroutine(WriteDialogue(lines));
-    }
+    //IEnumerator NextLine(string[] lines)
+    //{
+    //    if (index < lines.Length - 1)
+    //    {
+    //        index++;
+    //        yield return new WaitForSeconds(1f);
+    //        dialogueText.text = string.Empty;
+    //        StartCoroutine(WriteDialogue(lines));
+    //    }
 
-    IEnumerator NextLine(string[] lines)
-    {
-        if (index < lines.Length - 1)
-        {
-            index++;
-            yield return new WaitForSeconds(1f);
-            dialogueText.text = string.Empty;
-            StartCoroutine(WriteDialogue(lines));
-        }
+    //    else
+    //    {
+    //        yield return new WaitForSeconds(1f);
+    //        isExecuting = false;
+    //        dialogueCanvas.SetActive(false);
+    //        gameObject.SetActive(false);
+    //    }
+    //}
 
-        else
-        {
-            yield return new WaitForSeconds(1f);
-            isExecuting = false;
-            dialogueCanvas.SetActive(false);
-            gameObject.SetActive(false);
-        }
-    }
-
-    IEnumerator WriteDialogue(string[] lines)
-    {
-        foreach (char letter in lines[index].ToCharArray())
-        {
-            dialogueText.text += letter;
-            yield return new WaitForSeconds(textSpeed);
-        }
-    }
+    //IEnumerator WriteDialogue(string[] lines)
+    //{
+    //    foreach (char letter in lines[index].ToCharArray())
+    //    {
+    //        dialogueText.text += letter;
+    //        yield return new WaitForSeconds(textSpeed);
+    //    }
+    //}
+    #endregion
 }
