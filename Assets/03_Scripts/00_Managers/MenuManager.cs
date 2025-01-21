@@ -29,59 +29,6 @@ public class MenuManager : MonoBehaviour
     {
         Time.timeScale = 1;
 
-        //foreach (var item in ColectableManager.instance.collectablesCollectedLvl1)
-        //{
-        //    if (item == true)
-        //    {
-        //        foreach (var elem in _colectablesLvl1)
-        //        {
-        //            //if (elem.color != Color.green)
-        //            //{
-        //            //    elem.color = Color.green;
-        //            //    break;
-        //            //}
-
-        //            if (elem.color.a != 1f)
-        //            {
-        //                Color newColor = elem.color;
-        //                newColor.a = 1f;
-        //                elem.color = newColor;
-        //                break;
-        //            }
-
-        //        }
-
-        //    }
-
-        //    //else foreach (var elem in _colectablesLvl1)
-        //    //        if (elem.color != Color.green)
-        //    //            elem.color = Color.red;
-        //}
-
-        //foreach (var item in ColectableManager.instance.collectablesCollectedLvl2)
-        //{
-        //    if (item == true)
-        //    {
-        //        foreach (var elem in _colectablesLvl2)
-        //        {
-        //            //if (elem.color != Color.green)
-        //            //{
-        //            //    elem.color = Color.green;
-        //            //    break;
-        //            //}
-
-        //            if (elem.color.a != 1f)
-        //            {
-        //                Color newColor = elem.color;
-        //                newColor.a = 1f;
-        //                elem.color = newColor;
-        //                break;
-        //            }
-
-        //        }
-
-        //    }
-        //}
     }
 
     private void Update()
@@ -152,6 +99,13 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadSceneAsync(_asyncScene);
         AsyncLoad.sceneNumber = sceneNumber;
         Time.timeScale = 1;
+    }
+
+    public void PlayWithChronometer(int scene)
+    {
+        CallJson.instance.refJasonSave.GetSaveData.playWithTimer = true;
+        CallJson.instance.refJasonSave.SaveJSON();
+        PlayGame(scene);
     }
 
     public void QuitGame()
