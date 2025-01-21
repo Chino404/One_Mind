@@ -6,6 +6,7 @@ using UnityEngine;
 public class SaveData
 {
     public LevelData[] levels;
+    public bool playWithTimer;
 
     [Tooltip("Diccionario de los niveles")]public Dictionary<int, bool> levelDataDictionary = new();
 
