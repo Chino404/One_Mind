@@ -17,7 +17,7 @@ public enum BoxType
     Ancha
 }
 
-public class Box : MonoBehaviour
+public class Box : Platform
 {
     [Tooltip("Los distintos modelos de cajas")]public BoxData[] prefabsBoxes;
 
@@ -29,37 +29,40 @@ public class Box : MonoBehaviour
 
     private ObjectPool<Box> _objectPool;
 
-    private Rigidbody _rb;
+    private Rigidbody _myRb;
 
     private void Awake()
     {
-        _rb = GetComponent<Rigidbody>();
-        _rb.velocity = Vector3.zero;
+        _myRb = GetComponent<Rigidbody>();
+        _myRb.velocity = Vector3.zero;
 
-        _rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+        _myRb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+
+        _isTrigger = true;
     }
 
-    private void Update()
+    public override void Update()
     {
+        base.Update();
+
         _counter += Time.deltaTime;
 
         var dist = Vector3.Distance(transform.position, _destiny.position);
 
-        if(dist <= 0.5f  || _counter >= _timeToLife) _objectPool.StockAdd(this);
+        if (dist <= 0.5f || _counter >= _timeToLife) _objectPool.StockAdd(this);
     }
-
 
 
     public void ChangeBox(BoxType type)
     {
-        foreach (BoxData item in prefabsBoxes)
+        foreach (BoxData currentBox in prefabsBoxes)
         {
-            if (item.boxType == type)
+            if (currentBox.boxType == type)
             {
-                _posPrefabIni = item.prefab.gameObject.GetComponentInChildren<Component>().transform; //Obtengo el transform del prefab
+                _posPrefabIni = currentBox.prefab.gameObject.GetComponentInChildren<Component>().transform; //Obtengo el transform del prefab
                 _posPrefabIni.position = transform.position; //Lo igualo a la posicion del objeto
 
-                item.prefab.gameObject.SetActive(true); //Lo enciendo
+                currentBox.prefab.gameObject.SetActive(true); //Lo enciendo
 
                 break;
             }
@@ -80,13 +83,16 @@ public class Box : MonoBehaviour
     //Son estaticos para que no necesite pasar la referencia del script directamente!
     public static void TurnOff(Box box)
     {
-        foreach (var item in box.prefabsBoxes) //Recorro cada uno por las dudas
+        foreach (var currentBox in box.prefabsBoxes) //Recorro cada uno por las dudas
         {
-            box._rb.drag = 0;
-            item.prefab.SetActive(false);
+            currentBox.prefab.SetActive(false);
         }      
+        
+        box._rbCharacter = null;
 
-        box._rb.velocity = Vector3.zero;
+        box._myRb.drag = 0;
+        box._myRb.velocity = Vector3.zero;
+
         box.gameObject.SetActive(false);
     }
 

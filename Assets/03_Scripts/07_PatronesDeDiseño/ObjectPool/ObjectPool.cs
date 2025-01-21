@@ -5,6 +5,7 @@ using UnityEngine;
 public class ObjectPool<T>
 {
     public delegate T FactoryMethod();//creamos un tipo de dato para guardar metodos void que no reciban parametros
+    //[Tooltip("METODO que instancia el objeto")] FactoryMethod _arrayFactory;
     [Tooltip("METODO que instancia el objeto")] FactoryMethod _factory;
 
     [Tooltip("Funcion donde se apaga")] Action<T> _turnOff;
@@ -30,6 +31,11 @@ public class ObjectPool<T>
         }
     }
 
+    public void AgregarLista(FactoryMethod factory)
+    {
+        //_factory
+    }
+
     public T Get()
     {
         T obj = default;
@@ -49,7 +55,6 @@ public class ObjectPool<T>
 
         return obj;
     }
-
 
     public void StockAdd(T obj)
     {
