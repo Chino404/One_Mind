@@ -83,9 +83,6 @@ public abstract class Characters : Entity, IDamageable
 
     [HideInInspector] public CheckPoint actualCheckpoint;
 
-    [HideInInspector] public PlatformController currentPlatform;
-
-
     public override void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked; //Me bloque el mouse al centro de la pantalla
@@ -116,22 +113,7 @@ public abstract class Characters : Entity, IDamageable
     {
         CoyoteTime();
 
-        if (currentPlatform != null)
-        {
-            // Añado el movimiento de la plataforma a la posición del jugador
-            _rbCharacter.MovePosition(_rbCharacter.position + currentPlatform.GetPlatformMovement());
-
-            // Primero, ajusto la posición del jugador en función de la rotación de la plataforma
-            Vector3 relativePos = _rbCharacter.position - currentPlatform.transform.position;
-            relativePos = currentPlatform.GetPlatformRotation() * relativePos;
-            _rbCharacter.MovePosition(currentPlatform.transform.position + relativePos);
-
-            // Después, roto al jugador con la plataforma (si se desea que el jugador rote)
-            _rbCharacter.MoveRotation(currentPlatform.GetPlatformRotation() * _rbCharacter.rotation);
-        }
-
         if(mostrar) Debug.Log(_rbCharacter.velocity);
-
     }
 
     public virtual void FixedUpdate()
@@ -150,6 +132,8 @@ public abstract class Characters : Entity, IDamageable
             _animPlayer.SetBool("IsGrounded", true);
             _coyoteTimeCounter = _coyoteTime;
         }
+
+        //Si toco el suelo
         else if (IsGrounded(_floorLayer) && Mathf.Abs(_rbCharacter.velocity.y) <= 0.01f)
         {
             if(_rbCharacter.drag != 1) _rbCharacter.drag = 1;
@@ -162,10 +146,12 @@ public abstract class Characters : Entity, IDamageable
             _coyoteTimeCounter = _coyoteTime;
 
         }
+
         else
         {
             //if(_rbCharacter.velocity.x == 0 && _rbCharacter.velocity.z == 0) _isInIce = false;
             if(_rbCharacter.velocity.x <= 5 && _rbCharacter.velocity.x >= -5  &&  _rbCharacter.velocity.z <= 5 && _rbCharacter.velocity.z >= -5) _isInIce = false;
+
             _animPlayer.SetBool("IsGrounded", false);
             _coyoteTimeCounter -= Time.deltaTime;
         }
@@ -496,13 +482,6 @@ public abstract class Characters : Entity, IDamageable
         AudioManager.instance.Play(SoundId.Jump);
     }
 
-    private void TapeJump()
-    {
-        //if (_dir.magnitude == -_rbCharacter.velocity.magnitude) Debug.Log("Lado contrario");
-
-        //Debug.Log($"Salto en cinta");
-    }
-
     private void IceJump()
     {
         if (_coyoteTimeCounter < 0) return;
@@ -619,13 +598,6 @@ public abstract class Characters : Entity, IDamageable
                 {
                     _typeFloor = TypeFloor.Normal;
                     ActualJump = NormalJump;
-                }
-                break;
-
-            case 18:
-                {
-                    _typeFloor = TypeFloor.Cinta;
-                    ActualJump += TapeJump;
                 }
                 break;
 

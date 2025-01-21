@@ -55,6 +55,7 @@ public class ConveyorBelt : Mechanism
             for (int i = 0; i < _rbEntities.Count; i++)
             {
                 if (_rbEntities[i].gameObject.activeInHierarchy) _rbEntities[i].velocity += transform.forward * speed;
+
                 else _rbEntities.Remove(_rbEntities[i]);
             }   
         } 

@@ -40,9 +40,9 @@ public class SpawnBoxes : MonoBehaviour
             return;
         }
 
-        var box = OP_Boxes.objectPool.Get();
+        var box = OPS_Boxes.objectPool.Get();
         ChangeBoxAndEnum(box);
-        box.AddReference(OP_Boxes.objectPool);
+        box.AddReference(OPS_Boxes.objectPool);
         box.SetPos(_iniPos, _endPos);
 
         //box.transform.position = transform.position;
@@ -65,9 +65,9 @@ public class SpawnBoxes : MonoBehaviour
                 return;
             }
 
-            var box = OP_Boxes.objectPool.Get();
+            var box = OPS_Boxes.objectPool.Get();
             ChangeBoxAndEnum(box);
-            box.AddReference(OP_Boxes.objectPool);
+            box.AddReference(OPS_Boxes.objectPool);
             box.SetPos(_iniPos, _endPos);
             
             //box.transform.position = transform.position;
