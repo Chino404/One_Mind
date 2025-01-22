@@ -12,12 +12,12 @@ public class Chronometer : MonoBehaviour
     private void Awake()
     {
         bool playWithTimer = CallJson.instance.refJasonSave.GetSaveData.playWithTimer;
+
         gameObject.SetActive(playWithTimer);
     }
 
     private void Start()
     {
-        
         secondsInGame.gameObject.SetActive(true);
         CallJson.instance.refJasonSave.GetSaveData.playWithTimer = false;
         CallJson.instance.refJasonSave.SaveJSON();
