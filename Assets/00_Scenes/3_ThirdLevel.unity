@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.084305726, g: 0.044028513, b: 0.1363, a: 1}
+  m_IndirectSpecularColor: {r: 0.08440499, g: 0.044126634, b: 0.13639706, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -12785,6 +12785,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d7b67d4a8c4a1146bfee5689ed563b3, type: 3}
+--- !u!114 &436271069 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 540044142903217554, guid: 9d7b67d4a8c4a1146bfee5689ed563b3,
+    type: 3}
+  m_PrefabInstance: {fileID: 436271068}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &438172790
 GameObject:
   m_ObjectHideFlags: 0
@@ -24199,6 +24211,51 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 733258016}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &736321494
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 736321496}
+  - component: {fileID: 736321495}
+  m_Layer: 0
+  m_Name: Chronometer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &736321495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 736321494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2342684ad739e564f8327f832118ebbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  secondsInGame: {fileID: 436271069}
+--- !u!4 &736321496
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 736321494}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1230.1147, y: -1015.7133, z: 1131.5977}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &736496506
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38519,6 +38576,7 @@ MonoBehaviour:
       isLevelCompleteJSON: 0
       isBongoTakenTrinket: 0
       isFrankTakenTrinket: 0
+    playWithTimer: 0
     sfxVolume: 0
     musicVolume: 0
 --- !u!4 &1241836579
@@ -72376,3 +72434,4 @@ SceneRoots:
   - {fileID: 1470927543}
   - {fileID: 1836557770}
   - {fileID: 1199348171}
+  - {fileID: 736321496}

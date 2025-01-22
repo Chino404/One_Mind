@@ -22,6 +22,7 @@ public class ButtonSelector : MonoBehaviour
 
     [Tooltip("Index del nivel")] public int indexLevel;
     public CollectableMenu[] _collectables = new CollectableMenu[2];
+    public Button playWithChronometer;
 
     private void Awake()
     {
@@ -33,6 +34,7 @@ public class ButtonSelector : MonoBehaviour
     {
         if (!_button.interactable) return;
 
+        playWithChronometer.gameObject.SetActive(true);
 
         foreach (var collectable in _collectables)
         {
@@ -51,6 +53,8 @@ public class ButtonSelector : MonoBehaviour
     public void PointExitFunc()
     {
         if (!_button.interactable) return;
+
+        playWithChronometer.gameObject.SetActive(false);
 
         _myAnimator.SetTrigger("PointExit");
 

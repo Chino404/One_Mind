@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.08439878, g: 0.044121273, b: 0.13639887, a: 1}
+  m_IndirectSpecularColor: {r: 0.08435658, g: 0.044072237, b: 0.13635483, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -22987,6 +22987,7 @@ MonoBehaviour:
       isLevelCompleteJSON: 0
       isBongoTakenTrinket: 0
       isFrankTakenTrinket: 0
+    playWithTimer: 0
     sfxVolume: 0
     musicVolume: 0
 --- !u!4 &534757886
@@ -23703,6 +23704,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d7b67d4a8c4a1146bfee5689ed563b3, type: 3}
+--- !u!114 &552435138 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 540044142903217554, guid: 9d7b67d4a8c4a1146bfee5689ed563b3,
+    type: 3}
+  m_PrefabInstance: {fileID: 552435137}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &553541234
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30406,6 +30419,51 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 710271945}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &715715407
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 715715409}
+  - component: {fileID: 715715408}
+  m_Layer: 0
+  m_Name: Chronometer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &715715408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715715407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2342684ad739e564f8327f832118ebbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  secondsInGame: {fileID: 552435138}
+--- !u!4 &715715409
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715715407}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1230.1147, y: -1015.7133, z: 1131.5977}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &715941609
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -69780,7 +69838,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rewinds: []
   _indexLevel: 0
-  collectibles: []
+  collectiblesList: []
   UIBongoTrincket: {fileID: 0}
   UIFrankTrincket: {fileID: 0}
   bongoCamera: {fileID: 0}
@@ -79545,9 +79603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildIndexLevel: 5
-  bongoUI: {fileID: 0}
   trincketBongo: {fileID: 0}
-  frankUI: {fileID: 0}
   trincketFrank: {fileID: 0}
 --- !u!4 &2001441015
 Transform:
@@ -91059,3 +91115,4 @@ SceneRoots:
   - {fileID: 477704818}
   - {fileID: 1721747941}
   - {fileID: 189516673}
+  - {fileID: 715715409}
