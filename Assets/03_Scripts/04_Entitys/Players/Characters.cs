@@ -601,7 +601,11 @@ public abstract class Characters : Entity, IDamageable
                 }
                 break;
 
-            case 13: _typeFloor = TypeFloor.Hielo;
+            case 13:
+                {
+                    _typeFloor = TypeFloor.Hielo;
+                    ActualJump = IceJump;
+                }
                 break;
         }
     }

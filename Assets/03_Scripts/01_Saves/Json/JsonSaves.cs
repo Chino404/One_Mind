@@ -179,6 +179,30 @@ public class JsonSaves : MonoBehaviour
     }
 
     /// <summary>
+    /// Obtengo el nivel actual
+    /// </summary>
+    /// <param name="indexManager"></param>
+    /// <returns></returns>
+    public LevelData GetCurrentLevel(int indexManager)
+    {
+        var levelList = CallJson.instance.refJasonSave.GetSaveData.levels; //Los niveles de LevelData
+        LevelData indexValue = default;
+
+        foreach (var level in levelList)
+        {
+            if (indexManager == level.indexLevelJSON)
+            {
+                indexValue = level;
+                break;
+            }
+        }
+
+        if(indexValue == default) Debug.LogError($"El index '{indexManager}' no existe.");
+
+        return indexValue;
+    }
+
+    /// <summary>
     /// Para obtener el booleano del coleccionable en el diccioanrio
     /// </summary>
     /// <param name="indexLevel"></param>
