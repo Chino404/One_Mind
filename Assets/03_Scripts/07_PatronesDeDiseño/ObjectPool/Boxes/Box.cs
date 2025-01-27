@@ -2,12 +2,6 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[Serializable]
-public class BoxData
-{
-    public BoxType boxType;
-    public GameObject prefab;
-}
 
 public enum BoxType
 {
@@ -19,16 +13,15 @@ public enum BoxType
 
 public class Box : Platform
 {
-    [Tooltip("Los distintos modelos de cajas")]public BoxData[] prefabsBoxes;
+    public BoxType type;
 
     [SerializeField,Tooltip("Tiempo de vida")] private float _timeToLife;
     [Tooltip("Contador de tiempo para apagarme y guardarme en el objectPool")] private float _counter;
 
     [Tooltip("")] private Transform _destiny;
-    [SerializeField, Tooltip("La posicion del prefab")] private Transform _posPrefabIni;
+    [Tooltip("La posicion del prefab")] private Transform _posPrefabIni;
 
     private ObjectPool<Box> _objectPool;
-
     private Rigidbody _myRb;
 
     private void Awake()
@@ -39,6 +32,8 @@ public class Box : Platform
         _myRb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
 
         _isTrigger = true;
+
+        //_posPrefabIni = gameObject.GetComponentInChildren<Component>().transform; //Obtengo el transform del prefab
     }
 
     public override void Update()
@@ -52,23 +47,11 @@ public class Box : Platform
         if (dist <= 0.5f || _counter >= _timeToLife) _objectPool.StockAdd(this);
     }
 
-
-    public void ChangeBox(BoxType type)
-    {
-        foreach (BoxData currentBox in prefabsBoxes)
-        {
-            if (currentBox.boxType == type)
-            {
-                _posPrefabIni = currentBox.prefab.gameObject.GetComponentInChildren<Component>().transform; //Obtengo el transform del prefab
-                _posPrefabIni.position = transform.position; //Lo igualo a la posicion del objeto
-
-                currentBox.prefab.gameObject.SetActive(true); //Lo enciendo
-
-                break;
-            }
-        }
-    }
-
+    /// <summary>
+    /// Sete la posicion en donde va a spawnear y en donde va a desaparecer la box
+    /// </summary>
+    /// <param name="posIni"></param>
+    /// <param name="posEnd"></param>
     public void SetPos(Transform posIni, Transform posEnd)
     {
         transform.position = posIni.position;
@@ -80,14 +63,12 @@ public class Box : Platform
 
     public void AddReference(ObjectPool<Box> objPool) => _objectPool = objPool;
 
-    //Son estaticos para que no necesite pasar la referencia del script directamente!
+    /// <summary>
+    /// Cuando se apaga
+    /// </summary>
+    /// <param name="box"></param>
     public static void TurnOff(Box box)
     {
-        foreach (var currentBox in box.prefabsBoxes) //Recorro cada uno por las dudas
-        {
-            currentBox.prefab.SetActive(false);
-        }      
-        
         box._rbCharacter = null;
 
         box._myRb.drag = 0;
@@ -96,6 +77,10 @@ public class Box : Platform
         box.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Cuando se prenda
+    /// </summary>
+    /// <param name="box"></param>
     public static void TurnOn(Box box)
     {
         box._counter = 0;

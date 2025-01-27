@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public enum WayOfSpawning //Modo de spawn
 {
@@ -16,14 +17,13 @@ public class SpawnBoxes : MonoBehaviour
     [Space(5), SerializeField] private Transform _iniPos;
     [SerializeField] private Transform _endPos;
 
-    /*[Space(5), SerializeField]*/ private BoxType _myBoxType;
+    private BoxType _myBoxType;
 
     [Space(10), Tooltip("Cooldown para pedir el objeto en el objectpool")][SerializeField] float _coolDown = 1.7f;
 
     private void Start()
     {
-        InvokeRepeating("SpawnBox", 0f, _coolDown);
-       
+        InvokeRepeating("SpawnBox", 0f, _coolDown);     
     }
 
     private void SpawnBox()
@@ -40,50 +40,23 @@ public class SpawnBoxes : MonoBehaviour
             return;
         }
 
-        var box = OPS_Boxes.objectPool.Get();
-        ChangeBoxAndEnum(box);
-        box.AddReference(OPS_Boxes.objectPool);
-        box.SetPos(_iniPos, _endPos);
+        //var box = OPSBoxesManager.objectPool.Get();
+        //ChangeBoxAndEnum(box);
+        //box.AddReference(OPSBoxesManager.objectPool);
+        //box.SetPos(_iniPos, _endPos);
 
-        //box.transform.position = transform.position;
-        //box.transform.forward = transform.forward;
-    }
-
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            if (!_iniPos)
-            {
-                Debug.LogError($"Falta la posicion en la que se va a instanciar la caja en : {gameObject.name}");
-                return;
-            }
-
-            if(!_endPos)
-            {
-                Debug.LogError($"Falta la posicion en la que se va a desactivar la caja en : {gameObject.name}");
-                return;
-            }
-
-            var box = OPS_Boxes.objectPool.Get();
-            ChangeBoxAndEnum(box);
-            box.AddReference(OPS_Boxes.objectPool);
-            box.SetPos(_iniPos, _endPos);
-            
-            //box.transform.position = transform.position;
-            //box.transform.forward = transform.forward;
-       
-        }
+        ChangeWay(way);
 
     }
 
-    private void ChangeBoxAndEnum(Box box)
+    private void ChangeWay(WayOfSpawning type)
     {
-        switch (way)
+        switch (type)
         {
             case WayOfSpawning.Seguidos:
                 {
-                    box.ChangeBox(_myBoxType);
+                    var box = OPSBoxesManager.instance.GetBox(_myBoxType);
+                    box.SetPos(_iniPos, _endPos);
 
                     // Convierte el estado actual a entero, avanza al siguiente valor
                     int estadoSiguiente = ((int)_myBoxType + 1) % System.Enum.GetValues(typeof(BoxType)).Length;
@@ -93,7 +66,8 @@ public class SpawnBoxes : MonoBehaviour
 
             case WayOfSpawning.Random:
                 {
-                    box.ChangeBox(_myBoxType);
+                    var box = OPSBoxesManager.instance.GetBox(_myBoxType);
+                    box.SetPos(_iniPos, _endPos);
 
                     // Obtén todos los valores del enum y selecciona uno aleatorio
                     System.Array valores = System.Enum.GetValues(typeof(BoxType));
@@ -105,10 +79,12 @@ public class SpawnBoxes : MonoBehaviour
                 {
                     _myBoxType = selectBoxesToSpawn[_indexBoxesToSpawn];
 
-                    box.ChangeBox(_myBoxType);
+                    var box = OPSBoxesManager.instance.GetBox(_myBoxType);
+                    box.SetPos(_iniPos, _endPos);
 
                     _indexBoxesToSpawn++;
                     if (_indexBoxesToSpawn >= selectBoxesToSpawn.Length) _indexBoxesToSpawn = 0;
+
                 }
                 break;
 
@@ -116,4 +92,5 @@ public class SpawnBoxes : MonoBehaviour
                 break;
         }
     }
+
 }
