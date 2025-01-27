@@ -12,7 +12,7 @@ public class MovePlataform : Rewind, IInteracteable
     [Space(10), SerializeField] private bool _isActiveMove = true;
     public bool IsActiveMove { set { _isActiveMove = value; } }
 
-    private Animator _animator;
+    //private Animator _animator;
     //[SerializeField] Vector3[] _positions;
     //[SerializeField]private float _speed;
     //private int _actualPosition;
@@ -37,14 +37,11 @@ public class MovePlataform : Rewind, IInteracteable
 
     public override void Awake()
     {
-        _rb = GetComponent<Rigidbody>();
+        _rb = GetComponentInChildren<Rigidbody>();
         base.Awake();
     }
 
-    private void Start()
-    {
-        _animator = GetComponent<Animator>();
-    }
+    
 
     //private void Update()
     //{
@@ -75,7 +72,7 @@ public class MovePlataform : Rewind, IInteracteable
     {
         if (!_isActiveMove) return;
             
-        if (Vector3.Distance(transform.position, _waypoints[_actualIndex].position) <= 1f)
+        if (Vector3.Distance(_rb.position, _waypoints[_actualIndex].position) <= 1)
         {
             StartCoroutine(WaitSeconds());
             _actualIndex++;
@@ -113,6 +110,7 @@ public class MovePlataform : Rewind, IInteracteable
 
     IEnumerator WaitSeconds()
     {
+        Debug.Log("freno");
         var velocity = _maxVelocity;
         _maxVelocity = 0;
 

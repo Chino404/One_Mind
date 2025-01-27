@@ -15,9 +15,20 @@ public class Piston : Mechanism
 
     private Rigidbody _rigidbody;
 
+    public bool _canActivate;
+
     private void Awake()
     {
         _rigidbody = GetComponentInChildren<Rigidbody>();
+    }
+
+    private void Update()
+    {
+        if (_canActivate)
+        {
+            _canActivate = false;
+            ActiveMechanism();
+        }
     }
 
     public override void ActiveMechanism()
