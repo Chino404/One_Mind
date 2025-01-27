@@ -95,9 +95,13 @@ public class JsonSaves : MonoBehaviour
             {
                 levelList[i].isLevelCompleteJSON = false;
 
+                //Coins
+                levelList[i].totalCoin = 0;
+                levelList[i].coinsJSON.Clear();
+
+                //Coleccionables
                 levelList[i].isBongoTakenTrinket = false;
                 levelList[i].isFrankTakenTrinket = false;
-
                 levelList[i].collectablesJSON.Clear();
             }
 
