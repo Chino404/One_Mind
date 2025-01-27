@@ -31,11 +31,6 @@ public class ObjectPool<T>
         }
     }
 
-    public void AgregarLista(FactoryMethod factory)
-    {
-        //_factory
-    }
-
     public T Get()
     {
         T obj = default;
