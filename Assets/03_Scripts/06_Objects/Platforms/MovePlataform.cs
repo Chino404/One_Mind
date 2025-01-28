@@ -12,6 +12,7 @@ public class MovePlataform : Rewind, IInteracteable
     [Space(10), SerializeField] private bool _isActiveMove = true;
     public bool IsActiveMove { set { _isActiveMove = value; } }
 
+
     //private Animator _animator;
     //[SerializeField] Vector3[] _positions;
     //[SerializeField]private float _speed;
@@ -88,6 +89,12 @@ public class MovePlataform : Rewind, IInteracteable
         //if (_characterInPlataform)
         //    CharacterAttached();
 
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<Characters>())
+            Active();
     }
 
     public void Active()
