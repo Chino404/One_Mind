@@ -131,6 +131,7 @@ public class MenuManager : MonoBehaviour
                 buttons[i].button.interactable = dict[level[i].indexLevelJSON];//Accedo al booleano del nivel para saber si se completo
                 ButtonSelector mainButton = buttons[i].button.GetComponent<ButtonSelector>();
                 mainButton.playWithChronometer.interactable = dict[level[i].indexLevelJSON + 1];
+                
             }
 
             else Debug.Log($"Esta key {level[i].indexLevelJSON} no existe");
