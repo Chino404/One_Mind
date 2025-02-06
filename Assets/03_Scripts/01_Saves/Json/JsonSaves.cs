@@ -83,7 +83,7 @@ public class JsonSaves : MonoBehaviour
 
             Debug.LogWarningFormat("Se borro el save data");
 
-            CallJson.instance.refJasonSave.GetSaveData.levelDataDictionary.Clear();
+            //CallJson.instance.refJasonSave.GetSaveData.UnlocklevelDataDictionary.Clear();
 
             //CallJson.instance.save.GetSaveData.tutorialCompletedJSON = false;
             //CallJson.instance.save.GetSaveData.moneyJSON = 0;
@@ -91,18 +91,20 @@ public class JsonSaves : MonoBehaviour
             var levelList = CallJson.instance.refJasonSave.GetSaveData.levels;
             //levels[0].isLevelCompleteJSON = true;
 
-            for (int i = 0; i < levelList.Length; i++)
+            foreach (var currentLevel in levelList)
             {
-                levelList[i].isLevelCompleteJSON = false;
+                currentLevel.DefalutValues();
 
-                //Coins
-                levelList[i].totalCoin = 0;
-                levelList[i].coinsJSON.Clear();
+                //currentLevel.isLevelCompleteJSON = false;
 
-                //Coleccionables
-                levelList[i].isBongoTakenTrinket = false;
-                levelList[i].isFrankTakenTrinket = false;
-                levelList[i].collectablesJSON.Clear();
+                ////Coins
+                //levelList[i].totalCoin = 0;
+                //levelList[i].coinsJSON.Clear();
+
+                ////Coleccionables
+                //levelList[i].isBongoTakenTrinket = false;
+                //levelList[i].isFrankTakenTrinket = false;
+                //levelList[i].collectablesJSON.Clear();
             }
 
             DictionaryCheck(levelList);
@@ -119,11 +121,11 @@ public class JsonSaves : MonoBehaviour
     {
         for (int i = 0; i < levelList.Length; i++)
         {
-            if (!CallJson.instance.refJasonSave.GetSaveData.levelDataDictionary.ContainsKey(levelList[i].indexLevelJSON))//Si no existe el nivel en el diccionario lo creo con su respectivo booleano
-            {
-                CallJson.instance.refJasonSave.GetSaveData.levelDataDictionary.Add(levelList[i].indexLevelJSON, levelList[i].isLevelCompleteJSON);
-                //Debug.Log($"IndexBuild: {levelList[i].indexLevelJSON} | IsLevelComplete: {levelList[i].isLevelCompleteJSON}");
-            }
+            //if (!CallJson.instance.refJasonSave.GetSaveData.UnlocklevelDataDictionary.ContainsKey(levelList[i].indexLevelJSON))//Si no existe el nivel en el diccionario lo creo con su respectivo booleano
+            //{
+            //    CallJson.instance.refJasonSave.GetSaveData.UnlocklevelDataDictionary.Add(levelList[i].indexLevelJSON, levelList[i].isUnlockLevelJSON);
+            //    //Debug.Log($"IndexBuild: {levelList[i].indexLevelJSON} | IsLevelComplete: {levelList[i].isLevelCompleteJSON}");
+            //}
             //else Debug.LogWarning($"YA EXISTE! Key: {levelList[i].indexLevelJSON} | Value: {levelList[i].isLevelCompleteJSON}");
 
             if (!levelList[i].collectablesJSON.ContainsKey("BongoTrinket")) levelList[i].collectablesJSON.Add("BongoTrinket", levelList[i].isBongoTakenTrinket);
