@@ -7,9 +7,6 @@ public class UnlockNextLevel : MonoBehaviour
 {
     [Tooltip("Poner numero de build index del nivel siguiente")] public int nextLevel;
 
-    //[Space(10), Header("Coleccioanbles de este nivel")]
-
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Characters>()) UnlockNewLvl();
@@ -20,35 +17,22 @@ public class UnlockNextLevel : MonoBehaviour
     /// </summary>
     void UnlockNewLvl()
     {
-        //if (SceneManager.GetActiveScene().buildIndex >= PlayerPrefs.GetInt("ReachedIndex"))
-        //{
-        //    PlayerPrefs.SetInt("ReachedIndex", + 1);
-        //    PlayerPrefs.SetInt("UnlockedLevel", PlayerPrefs.GetInt("UnlockedLevel", 1) + 1);
-        //    PlayerPrefs.Save();
-        //}
-
-        var indexNextLevel = nextLevel;
-        //Debug.Log(indexNextLevel);
-
-        //Seteo el nuevo index al GameManager
-        GameManager.instance.IndexLevel = indexNextLevel;
-
-        var levels = CallJson.instance.refJasonSave.GetSaveData.levels;
+        var levelsList = CallJson.instance.refJasonSave.GetSaveData.levels;
         //Debug.Log($"El nivel del indice {CallJson.instance.refJasonSave.GetSaveData.levels[index + 1]} se desbloqueo");
 
-        for (int i = 0; i < levels.Length; i++)
+        //Recorro cada nivel hasta encontrar el que coincida con el index del nextlevel.
+        foreach (var currentLevel in levelsList)
         {
-            if (levels[i].indexLevelJSON == indexNextLevel)
+            //Cuando lo encunetro lo pongo como desbloqueado.
+            if(currentLevel.indexLevelJSON == nextLevel)
             {
-                //Pongo que el nivel se completo y se puede jugar al proximo
-                levels[i].isLevelCompleteJSON = true; 
-
+                currentLevel.isUnlockLevelJSON = true;
                 break;
             }
         }
 
-
-        CallJson.instance.refJasonSave.GetSaveData.levelDataDictionary[indexNextLevel] = true;
+        //Desbloque el proximo nivel. Accedo al diccionario y le cambio su booleano.
+        //CallJson.instance.refJasonSave.GetSaveData.UnlocklevelDataDictionary[nextLevel] = true;
 
     }
 }

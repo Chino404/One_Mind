@@ -124,19 +124,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8408387116644931559}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: PlayGame
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &5164494083774690639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,6 +170,22 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8996976648597941356}
+          m_TargetAssemblyTypeName: ButtonSelector, Assembly-CSharp
+          m_MethodName: PointClickFunc
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &8996976648597941356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,6 +198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b73d8410a1ffc614896ec48e5b18f71c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  indexLevel: 0
   _collectables:
   - trinketCharacter: 1
     imageCollectable: {fileID: 8096787981509629903}
@@ -205,6 +210,7 @@ MonoBehaviour:
     deactiveColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 0.627451}
     activeColor: {r: 1, g: 0.995283, b: 0.995283, a: 1}
     isTaken: 0
+  playWithChronometer: {fileID: 0}
 --- !u!95 &5251661631077980626
 Animator:
   serializedVersion: 5
