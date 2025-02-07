@@ -12,7 +12,7 @@ public class CoinsUI : MonoBehaviour
     {
         textMesh = GetComponent<TextMeshProUGUI>();
 
-        AddPoints(GameManager.instance.currentLevel.totalCoin);
+        AddPoints(GameManager.instance.currentLevel.currentCoins);
     }
     
     public void AddPoints(int newPoints)

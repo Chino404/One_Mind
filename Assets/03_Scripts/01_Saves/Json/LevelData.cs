@@ -11,8 +11,9 @@ public class LevelData
 
     public bool isLevelCompleteJSON;
     public bool isLevelCompleteWithChronometerJSON;
+    public bool isTakeAllCoinsThisLevel;
 
-    [UnityEngine.Space(7)]public int totalCoin;
+    [UnityEngine.Space(7)]public int currentCoins;
     public Dictionary<string, bool> dictCoinsJSON= new ();
     public string txtCoinsJSON;
 
@@ -35,10 +36,11 @@ public class LevelData
 
         isUnlockLevelJSON = false;
         isLevelCompleteWithChronometerJSON = false;
+        isTakeAllCoinsThisLevel = false;
 
         txtCoinsJSON = string.Empty;
 
-        totalCoin = 0;
+        currentCoins = 0;
         dictCoinsJSON.Clear();
 
         isBongoTakenTrinket = false;
