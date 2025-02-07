@@ -82,6 +82,8 @@ public class ButtonSelector : MonoBehaviour
 
         if (_currentLevel.isLevelCompleteJSON) starImage[0].color = _activeColor;
 
+        if(_currentLevel.isTakeAllCoinsThisLevel) starImage[1].color = _activeColor;
+
         if(_currentLevel.isLevelCompleteWithChronometerJSON) starImage[2].color = _activeColor;
     }
 

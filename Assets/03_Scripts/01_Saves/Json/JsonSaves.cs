@@ -128,9 +128,11 @@ public class JsonSaves : MonoBehaviour
                 //Debug.LogWarning($"Ya existe este diccionario de FRANK para {levelList[i].indexLevelJSON}");
             }
 
-            //levelList[i].dictCoinsJSON = JsonConvert.DeserializeObject<Dictionary<string, bool>>(levelList[i].txtCoinsJSON);
-            Debug.Log(levelList[i].txtCoinsJSON);
+            //Si el txt contiene información, lo guardo en el diccionario
+            if (levelList[i].txtCoinsJSON != string.Empty) levelList[i].dictCoinsJSON = new (JsonConvert.DeserializeObject<Dictionary<string, bool>>(levelList[i].txtCoinsJSON));
+
         }
+
         Debug.LogWarning("Cargue el diccionario");
     }
 

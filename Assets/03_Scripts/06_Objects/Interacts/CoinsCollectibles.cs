@@ -28,11 +28,9 @@ public class CoinsCollectibles : MonoBehaviour
             Debug.Log("agarre coleccionable");
             points.AddPoints(1);
 
-            //myCurrentLevel.dictCoinsJSON[gameObject.name] = true;
-
             myCurrentLevel.MondeAgarrada(gameObject.name);
 
-            myCurrentLevel.totalCoin ++;
+            myCurrentLevel.currentCoins ++;
 
             Destroy(gameObject);
         }
