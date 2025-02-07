@@ -13,11 +13,11 @@ public class CoinsCollectibles : MonoBehaviour
 
         myCurrentLevel = GameManager.instance.currentLevel;
 
-        if (!myCurrentLevel.coinsJSON.ContainsKey(gameObject.name)) myCurrentLevel.coinsJSON.Add(gameObject.name, false); //Me agrego al diccionario
+        if (!myCurrentLevel.dictCoinsJSON.ContainsKey(gameObject.name)) myCurrentLevel.dictCoinsJSON.Add(gameObject.name, false); //Me agrego al diccionario
         else
         {
             //Si ya agarre esta moneda, la apago
-            if (myCurrentLevel.coinsJSON[gameObject.name]) gameObject.SetActive(false);
+            if (myCurrentLevel.dictCoinsJSON[gameObject.name]) gameObject.SetActive(false);
         }
     }
 
@@ -28,7 +28,9 @@ public class CoinsCollectibles : MonoBehaviour
             Debug.Log("agarre coleccionable");
             points.AddPoints(1);
 
-            myCurrentLevel.coinsJSON[gameObject.name] = true;
+            //myCurrentLevel.dictCoinsJSON[gameObject.name] = true;
+
+            myCurrentLevel.MondeAgarrada(gameObject.name);
 
             myCurrentLevel.totalCoin ++;
 

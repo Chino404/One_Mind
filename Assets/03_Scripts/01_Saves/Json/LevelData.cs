@@ -1,4 +1,5 @@
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -12,7 +13,8 @@ public class LevelData
     public bool isLevelCompleteWithChronometerJSON;
 
     [UnityEngine.Space(7)]public int totalCoin;
-    public Dictionary<string, bool> coinsJSON= new ();
+    public Dictionary<string, bool> dictCoinsJSON= new ();
+    public string txtCoinsJSON;
 
     [UnityEngine.Space(7)]
     public bool isBongoTakenTrinket;
@@ -20,6 +22,12 @@ public class LevelData
 
     public Dictionary<string, bool> collectablesJSON = new();
 
+    public void MondeAgarrada(string name)
+    {
+        dictCoinsJSON[name] = true;
+
+        txtCoinsJSON = JsonConvert.SerializeObject(dictCoinsJSON, Formatting.Indented);
+    }
 
     public void DefalutValues()
     {
@@ -28,8 +36,10 @@ public class LevelData
         isUnlockLevelJSON = false;
         isLevelCompleteWithChronometerJSON = false;
 
+        txtCoinsJSON = string.Empty;
+
         totalCoin = 0;
-        coinsJSON.Clear();
+        dictCoinsJSON.Clear();
 
         isBongoTakenTrinket = false;
         isFrankTakenTrinket = false;
