@@ -7,7 +7,9 @@ public class LevelData
 {
     public int indexLevelJSON;
     public bool isUnlockLevelJSON;
+
     public bool isLevelCompleteJSON;
+    public bool isLevelCompleteWithChronometerJSON;
 
     [UnityEngine.Space(7)]public int totalCoin;
     public Dictionary<string, bool> coinsJSON= new ();
@@ -22,7 +24,9 @@ public class LevelData
     public void DefalutValues()
     {
         isLevelCompleteJSON = false;
+
         isUnlockLevelJSON = false;
+        isLevelCompleteWithChronometerJSON = false;
 
         totalCoin = 0;
         coinsJSON.Clear();

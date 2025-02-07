@@ -112,7 +112,9 @@ public class PauseManager : MonoBehaviour
     public void ReturnMainMenu()
     {
         GameManager.instance.rewinds.Clear();
-        GameManager.instance.enemies.Clear();
+
+        //GameManager.instance.enemies.Clear();
+
         SceneManager.LoadScene(_mainMenuScene);
         //pauseMenu.gameObject.SetActive(false);
     }

@@ -14,7 +14,10 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public List<Rewind> rewinds;
 
-    [SerializeField]private int _indexLevel;
+    [SerializeField] private int _indexLevel;
+    [HideInInspector, Tooltip("Nivel actual")] public LevelData currentLevel;
+    [Space(5)] public bool chronometerActive; 
+
     public int IndexLevel
     {
         get { return _indexLevel; }
@@ -28,11 +31,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
     [Space(10), Header("-> Collecctibles")]
     public List<CollectibleManager> collectiblesList;
 
     public UICollectible UIBongoTrincket;
     public UICollectible UIFrankTrincket;
+
+    [Space(5)] public int totalCoinsInLevel; 
 
     [Space(10), Header("-> Camera Config.")]
     public CameraTracker bongoCamera;
@@ -40,14 +46,13 @@ public class GameManager : MonoBehaviour
 
     public CameraTracker frankCamera;
     [HideInInspector]public ModelFrank frank;
-
     public List<PointsForTheCamera> points = new ();
 
 
-    [Space(15)]public List<Enemy> enemies = new();
+    //[Space(15)] public List<Enemy> enemies = new();
 
-    [Range(0f, 4f)]
-    public float weightSeparation, weightAlignment, weightSeek;
+    //[Range(0f, 4f)]
+    //public float weightSeparation, weightAlignment, weightSeek;
 
 
     private void Awake()
@@ -58,6 +63,18 @@ public class GameManager : MonoBehaviour
             //DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
+
+        foreach (var level in CallJson.instance.refJasonSave.GetSaveData.levels)
+        {
+            //Si su IndexLevel es el mismo que el del boton, lo guardo en el currentLevel
+            if (level.indexLevelJSON == _indexLevel)
+            {
+                currentLevel = level;
+                break;
+            }
+        }
+
+        chronometerActive = CallJson.instance.refJasonSave.GetSaveData.playWithTimer;
 
         Debug.Log("AWAKE GAMEMANAGER");
     }
@@ -71,12 +88,7 @@ public class GameManager : MonoBehaviour
         if (!frank) Debug.LogError("Falta la referencia de FRANK");
         
 
-        foreach (var item in rewinds)
-        {
-            item.Save();
-            
-        }
-
+        foreach (var item in rewinds) item.Save();
     }
 
     public void RemoveAll()

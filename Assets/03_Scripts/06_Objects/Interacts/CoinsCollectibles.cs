@@ -5,17 +5,19 @@ using UnityEngine;
 public class CoinsCollectibles : MonoBehaviour
 {
     [SerializeField] private CoinsUI points;
-    private LevelData currentLevel;
+    private LevelData myCurrentLevel;
 
     private void Awake()
     {
-        currentLevel = CallJson.instance.refJasonSave.GetCurrentLevel(GameManager.instance.IndexLevel);
+        GameManager.instance.totalCoinsInLevel++;
 
-        if (!currentLevel.coinsJSON.ContainsKey(gameObject.name)) currentLevel.coinsJSON.Add(gameObject.name, false); //Me agrego al diccionario
+        myCurrentLevel = GameManager.instance.currentLevel;
+
+        if (!myCurrentLevel.coinsJSON.ContainsKey(gameObject.name)) myCurrentLevel.coinsJSON.Add(gameObject.name, false); //Me agrego al diccionario
         else
         {
             //Si ya agarre esta moneda, la apago
-            if (currentLevel.coinsJSON[gameObject.name]) gameObject.SetActive(false);
+            if (myCurrentLevel.coinsJSON[gameObject.name]) gameObject.SetActive(false);
         }
     }
 
@@ -26,9 +28,9 @@ public class CoinsCollectibles : MonoBehaviour
             Debug.Log("agarre coleccionable");
             points.AddPoints(1);
 
-            currentLevel.coinsJSON[gameObject.name] = true;
+            myCurrentLevel.coinsJSON[gameObject.name] = true;
 
-            currentLevel.totalCoin ++;
+            myCurrentLevel.totalCoin ++;
 
             Destroy(gameObject);
         }

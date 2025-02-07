@@ -12,14 +12,14 @@ public class CoinsUI : MonoBehaviour
     {
         textMesh = GetComponent<TextMeshProUGUI>();
 
-        var level = CallJson.instance.refJasonSave.GetSaveData.levels;
-
-        AddPoints(level[0].totalCoin);
+        AddPoints(GameManager.instance.currentLevel.totalCoin);
     }
     
     public void AddPoints(int newPoints)
     {       
         points += newPoints;
+
         textMesh.text = points.ToString();
+        textMesh.text = $"{points} / {GameManager.instance.totalCoinsInLevel}";
     }
 }

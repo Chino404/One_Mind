@@ -10,15 +10,9 @@ public class WinCollider : MonoBehaviour
         {
             Time.timeScale = 0;
 
-            //Recorro cada nivel hasta encontrar el que coincida con el index actual
-            foreach (var currentLevel in CallJson.instance.refJasonSave.GetSaveData.levels)
-            {
-                if (currentLevel.indexLevelJSON == GameManager.instance.IndexLevel)
-                {
-                    currentLevel.isLevelCompleteJSON = true; //Y lo marco como completado
-                    break;
-                }
-            }
+            GameManager.instance.currentLevel.isLevelCompleteJSON = true;
+
+            if (GameManager.instance.chronometerActive) GameManager.instance.currentLevel.isLevelCompleteWithChronometerJSON = true;
             
             PauseManager.instance.winCanvas.gameObject.SetActive(true);
 

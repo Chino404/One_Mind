@@ -22,7 +22,13 @@ public class ButtonSelector : MonoBehaviour
 
     [Tooltip("Index del nivel")] public int indexLevel;
     private LevelData _currentLevel;
-    public CollectableMenu[] _collectables = new CollectableMenu[2];
+
+    [Space(7)] public CollectableMenu[] _collectables = new CollectableMenu[2];
+
+    [Space(7)] public Image[] starImage = new Image[3];
+
+    [SerializeField] private Color _deactiveColor;
+    [SerializeField] private Color _activeColor;
 
     //public Button playWithChronometer;
 
@@ -68,6 +74,15 @@ public class ButtonSelector : MonoBehaviour
             if (collectable.isTaken) collectable.imageCollectable.color = collectable.activeColor;
             else collectable.imageCollectable.color = collectable.deactiveColor;
         }
+
+        foreach (var image in starImage)
+        {
+            image.gameObject.SetActive(true);
+        }
+
+        if (_currentLevel.isLevelCompleteJSON) starImage[0].color = _activeColor;
+
+        if(_currentLevel.isLevelCompleteWithChronometerJSON) starImage[2].color = _activeColor;
     }
 
     /// <summary>
@@ -94,6 +109,11 @@ public class ButtonSelector : MonoBehaviour
         foreach (var collectable in _collectables)
         {
             collectable.imageCollectable.gameObject.SetActive(false);
+        }
+
+        foreach (var image in starImage)
+        {
+            image.gameObject.SetActive(false);
         }
 
     }
