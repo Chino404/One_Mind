@@ -83,36 +83,15 @@ public class JsonSaves : MonoBehaviour
 
             Debug.LogWarningFormat("Se borro el save data");
 
-            //CallJson.instance.refJasonSave.GetSaveData.UnlocklevelDataDictionary.Clear();
-
-            //CallJson.instance.save.GetSaveData.tutorialCompletedJSON = false;
-            //CallJson.instance.save.GetSaveData.moneyJSON = 0;
-
             var levelList = CallJson.instance.refJasonSave.GetSaveData.levels;
-            //levels[0].isLevelCompleteJSON = true;
 
-            foreach (var currentLevel in levelList)
-            {
-                currentLevel.DefalutValues();
-
-                //currentLevel.isLevelCompleteJSON = false;
-
-                ////Coins
-                //levelList[i].totalCoin = 0;
-                //levelList[i].coinsJSON.Clear();
-
-                ////Coleccionables
-                //levelList[i].isBongoTakenTrinket = false;
-                //levelList[i].isFrankTakenTrinket = false;
-                //levelList[i].collectablesJSON.Clear();
-            }
+            foreach (var currentLevel in levelList) currentLevel.DefalutValues();
 
             DictionaryCheck(levelList);
 
             SceneManager.LoadSceneAsync(0);
         }
         else Debug.LogError("No existe el Path");
-
 
         //saveData = new SaveData();//Si quiero resetear los datos
     }
