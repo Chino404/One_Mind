@@ -1,4 +1,6 @@
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -126,7 +128,8 @@ public class JsonSaves : MonoBehaviour
                 //Debug.LogWarning($"Ya existe este diccionario de FRANK para {levelList[i].indexLevelJSON}");
             }
 
-
+            //levelList[i].dictCoinsJSON = JsonConvert.DeserializeObject<Dictionary<string, bool>>(levelList[i].txtCoinsJSON);
+            Debug.Log(levelList[i].txtCoinsJSON);
         }
         Debug.LogWarning("Cargue el diccionario");
     }
