@@ -2,10 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActiveFire : MonoBehaviour
+public class ActiveFire : Rewind
 {
     public GameObject turnOnFire;
     public GameObject turnOffFire;
+    public override void Save()
+    {
+        _currentState.Rec(turnOffFire.activeInHierarchy, turnOnFire.activeInHierarchy);
+
+    }
+    public override void Load()
+    {
+        if (!_currentState.IsRemember()) return;
+
+        var col = _currentState.Remember();
+        turnOffFire.SetActive((bool)col.parameters[0]);
+        turnOnFire.SetActive((bool)col.parameters[1]);
+    }
+
+    
 
     private void OnCollisionEnter(Collision collision)
     {
