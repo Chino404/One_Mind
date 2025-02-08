@@ -7,7 +7,7 @@ public class SpinButton : MonoBehaviour, IInteracteable
     [Header("-> PRESSED")]
     [SerializeField] private GameObject[] _floors;
 
-    [SerializeField] private Transform _pivotPlatforms;
+    public Transform _pivotPlatforms;
     [SerializeField, Range(-360f, 360f) , Tooltip("Grados a rotar")] private float _degrees = 90f;
     [SerializeField] private float _rotationTime = 0.5f;
 
