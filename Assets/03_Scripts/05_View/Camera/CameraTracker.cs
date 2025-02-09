@@ -7,14 +7,14 @@ public class CameraTracker : MonoBehaviour
     public static CameraTracker Instance;
 
     [SerializeField]private CharacterTarget _myCharacterTarget;
-    public CharacterTarget MyCharacterTarget { get { return _myCharacterTarget; } }
+    public CharacterTarget MyCharacterTarget { get { return _myCharacterTarget; }set { _myCharacterTarget = value; } }
 
     [Header("Components")]
     [SerializeField] private Transform _point;
     public Transform Point {  get { return _point; } }
 
     [SerializeField] private Transform _target;
-    public Transform Target { get { return _target; } }
+    public Transform Target { get { return _target; } set { _target = value; } }
 
     [Header("Smoothing Values")]
     [Range(0.01f, 0.125f)] [SerializeField] float _smoothSpeedPosition = 0.075f;
