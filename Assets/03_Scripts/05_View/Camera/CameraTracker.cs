@@ -18,11 +18,13 @@ public class CameraTracker : MonoBehaviour
 
     [Header("Smoothing Values")]
     [Range(0.01f, 0.125f)] [SerializeField] float _smoothSpeedPosition = 0.075f;
+    
     [Range(0.01f, 0.125f)] [SerializeField] float _smoothSpeedRotation = 0.075f;
 
     Vector3 _desiredPos, _smoothPos;
     Quaternion _smoothRot;
 
+    public bool isTeleporting;
 
     private void Awake()
     {
@@ -98,19 +100,28 @@ public class CameraTracker : MonoBehaviour
     {
         if (_target == null || _point == null) return;
 
+        
         SetPositionAndRotationTarget();
     }
 
     private void SetPositionAndRotationTarget()
     {
-        // Calcular la posición deseada relativa al punto
-        _desiredPos = _target.position + (_point.position - _target.position);
+        if (isTeleporting)
+        {
+            transform.SetPositionAndRotation(_point.position, _point.rotation);
+        }
+        else
+        {
+            // Calcular la posición deseada relativa al punto
+            _desiredPos = _target.position + (_point.position - _target.position);
 
-        // Suavizado en base a Time.deltaTime para asegurar suavidad continua
-        _smoothPos = Vector3.Lerp(transform.position, _desiredPos, _smoothSpeedPosition * Time.deltaTime * 60); //Multiplicando por 60 asegura que las velocidades del Lerp sean proporcionales y consistentes
-        _smoothRot = Quaternion.Lerp(transform.rotation, _point.rotation, _smoothSpeedRotation * Time.deltaTime * 60);
+            // Suavizado en base a Time.deltaTime para asegurar suavidad continua
+            _smoothPos = Vector3.Lerp(transform.position, _desiredPos, _smoothSpeedPosition * Time.deltaTime * 60); //Multiplicando por 60 asegura que las velocidades del Lerp sean proporcionales y consistentes
+            _smoothRot = Quaternion.Lerp(transform.rotation, _point.rotation, _smoothSpeedRotation * Time.deltaTime * 60);
 
-        transform.SetPositionAndRotation(_smoothPos, _smoothRot);
+            transform.SetPositionAndRotation(_smoothPos, _smoothRot);
+        }
+        
     }
 
     public void TransicionPoint(Transform newPoint)
