@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,10 +15,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public List<Rewind> rewinds;
 
-    [SerializeField] private int _indexLevel;
     [HideInInspector, Tooltip("Nivel actual")] public LevelData currentLevel;
-    [Space(5)] public bool chronometerActive; 
-
+    [SerializeField] private int _indexLevel;
     public int IndexLevel
     {
         get { return _indexLevel; }
@@ -30,6 +29,14 @@ public class GameManager : MonoBehaviour
             //UpdateUICollectibleManager(_indexLevel);
         }
     }
+
+
+    [Space(10), Header("-> Chronometer")] public bool chronometerActive; 
+    public TimeChronometer timeInLevel;
+    [SerializeField] private TimeChronometer[] _myBestTimesInLevel = new TimeChronometer[2];
+    [Tooltip("El canvas en donde van a aparecer los mejores tiempos records")]public RecordBestTimesView viewBestTimesInlevel;
+
+
 
 
     [Space(10), Header("-> Collecctibles")]
@@ -87,8 +94,17 @@ public class GameManager : MonoBehaviour
         if (!bongo) Debug.LogError("Falta la referencia de BONGO");
         if (!frank) Debug.LogError("Falta la referencia de FRANK");
         
-
+        //Guardar en el memento
         foreach (var item in rewinds) item.Save();
+
+        for (int i = 0; i < currentLevel.bestTimes.Length; i++)
+        {
+            if (!currentLevel.bestTimes[0].isBusy) currentLevel.SaveBestTime(i, _myBestTimesInLevel[i]);
+
+            if (!currentLevel.bestTimes[1].isBusy) currentLevel.SaveBestTime(i, _myBestTimesInLevel[i]);
+
+            if (!currentLevel.bestTimes[2].isBusy) currentLevel.SaveBestTime(i, _myBestTimesInLevel[i]);
+        }
     }
 
     public void RemoveAll()

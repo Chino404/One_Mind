@@ -3616,7 +3616,7 @@ RectTransform:
   m_GameObject: {fileID: 775776180}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.50328404, y: 0.37173712, z: 2.3215103}
+  m_LocalScale: {x: 0.50328404, y: 0.44314784, z: 2.3215103}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1751788498}
@@ -3857,7 +3857,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4, y: -131}
+  m_AnchoredPosition: {x: 4, y: -158}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &868948748
@@ -4084,7 +4084,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -344.25}
+  m_AnchoredPosition: {x: 0, y: -313}
   m_SizeDelta: {x: 850.7, y: 202.9}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &915336744
@@ -4135,12 +4135,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 54.2
+  m_fontSize: 58.5
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 54.2
+  m_fontSizeMax: 58.5
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -4171,7 +4171,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -50.994324, y: 0, z: -58.375977, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -4220,27 +4220,91 @@ MonoBehaviour:
     - indexLevelJSON: 2
       isUnlockLevelJSON: 0
       isLevelCompleteJSON: 0
-      totalCoin: 0
+      isTakeAllCoinsThisLevel: 0
+      currentCoins: 0
+      txtCoinsJSON: 
       isBongoTakenTrinket: 0
       isFrankTakenTrinket: 0
+      isLevelCompleteWithChronometerJSON: 0
+      bestTimes:
+      - isBusy: 0
+        name: 
+        time: 0
+        timeInMinutesTxt: 
+      - isBusy: 0
+        name: 
+        time: 0
+        timeInMinutesTxt: 
+      - isBusy: 0
+        name: 
+        time: 0
+        timeInMinutesTxt: 
     - indexLevelJSON: 3
       isUnlockLevelJSON: 0
       isLevelCompleteJSON: 0
-      totalCoin: 0
+      isTakeAllCoinsThisLevel: 0
+      currentCoins: 0
+      txtCoinsJSON: 
       isBongoTakenTrinket: 0
       isFrankTakenTrinket: 0
+      isLevelCompleteWithChronometerJSON: 0
+      bestTimes:
+      - isBusy: 0
+        name: 
+        time: 0
+        timeInMinutesTxt: 
+      - isBusy: 0
+        name: 
+        time: 0
+        timeInMinutesTxt: 
+      - isBusy: 0
+        name: 
+        time: 0
+        timeInMinutesTxt: 
     - indexLevelJSON: 4
       isUnlockLevelJSON: 0
       isLevelCompleteJSON: 0
-      totalCoin: 0
+      isTakeAllCoinsThisLevel: 0
+      currentCoins: 0
+      txtCoinsJSON: 
       isBongoTakenTrinket: 0
       isFrankTakenTrinket: 0
+      isLevelCompleteWithChronometerJSON: 0
+      bestTimes:
+      - isBusy: 0
+        name: 
+        time: 0
+        timeInMinutesTxt: 
+      - isBusy: 0
+        name: 
+        time: 0
+        timeInMinutesTxt: 
+      - isBusy: 0
+        name: 
+        time: 0
+        timeInMinutesTxt: 
     - indexLevelJSON: 5
       isUnlockLevelJSON: 0
       isLevelCompleteJSON: 0
-      totalCoin: 0
+      isTakeAllCoinsThisLevel: 0
+      currentCoins: 0
+      txtCoinsJSON: 
       isBongoTakenTrinket: 0
       isFrankTakenTrinket: 0
+      isLevelCompleteWithChronometerJSON: 0
+      bestTimes:
+      - isBusy: 0
+        name: 
+        time: 0
+        timeInMinutesTxt: 
+      - isBusy: 0
+        name: 
+        time: 0
+        timeInMinutesTxt: 
+      - isBusy: 0
+        name: 
+        time: 0
+        timeInMinutesTxt: 
     playWithTimer: 0
     sfxVolume: 0
     musicVolume: 0
@@ -17474,7 +17538,7 @@ GameObject:
   - component: {fileID: 1751788496}
   - component: {fileID: 1751788495}
   m_Layer: 0
-  m_Name: StopwatchCanvas
+  m_Name: ChronometerCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17559,8 +17623,8 @@ RectTransform:
   - {fileID: 2079968128}
   - {fileID: 915336743}
   - {fileID: 1866489973}
-  - {fileID: 868948747}
   - {fileID: 2018249976}
+  - {fileID: 868948747}
   m_Father: {fileID: 98664482}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -17698,7 +17762,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -235.25, y: -33}
+  m_AnchoredPosition: {x: -235.25, y: -6}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1866489974
@@ -18444,7 +18508,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 250.75, y: -33}
+  m_AnchoredPosition: {x: 250.75, y: -6}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2018249977

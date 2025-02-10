@@ -17,12 +17,23 @@ public class WinCollider : MonoBehaviour
             if (GameManager.instance.currentLevel.currentCoins == GameManager.instance.totalCoinsInLevel) GameManager.instance.currentLevel.isTakeAllCoinsThisLevel = true;
 
             //Si se paso en modo cronómetro
-            if (GameManager.instance.chronometerActive) GameManager.instance.currentLevel.isLevelCompleteWithChronometerJSON = true;
-            
-            PauseManager.instance.winCanvas.gameObject.SetActive(true);
+            if (GameManager.instance.chronometerActive)
+            {
+                GameManager.instance.currentLevel.isLevelCompleteWithChronometerJSON = true;
 
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+
+                GameManager.instance.viewBestTimesInlevel.Show();
+            }
+            else
+            {
+                PauseManager.instance.winCanvas.gameObject.SetActive(true);
+
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            
         }
 
     }
