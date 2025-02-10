@@ -9,7 +9,7 @@ public struct TimeChronometer
 {
     [HideInInspector ,Tooltip("Si ya esta usado este espacio")]public bool isBusy;
     public string name;
-    public float time;
+    public float timeInSeconds;
     [HideInInspector] public string timeInMinutesTxt;
 }
 
@@ -37,7 +37,7 @@ public class LevelData
     //Cronómetro
     [Space(10), Header("-> CHRONOMETER")]
     public bool isLevelCompleteWithChronometerJSON;
-    public TimeChronometer[] bestTimes = new TimeChronometer[3];
+    [Tooltip("Mejores Tiempos")]public TimeChronometer[] bestTimesJSON = new TimeChronometer[3];
 
     /// <summary>
     /// Obtengo la moneda
@@ -57,18 +57,18 @@ public class LevelData
     /// <param name="timeRecord"></param>
     public void SaveBestTime(int index, TimeChronometer timeRecord)
     {
-        bestTimes[index] = timeRecord;
+        bestTimesJSON[index] = timeRecord;
 
-        var time = bestTimes[index].time;
+        var time = bestTimesJSON[index].timeInSeconds;
 
         int minutes = Mathf.FloorToInt(time / 60);
         int seconds = Mathf.FloorToInt(time % 60);
         float fractionalSeconds = time % 1;
         int decimals = Mathf.FloorToInt(fractionalSeconds * 100);
 
-        bestTimes[index].timeInMinutesTxt = string.Format("{0:00}:{1:00}:{2:00}", minutes, seconds, decimals);
+        bestTimesJSON[index].timeInMinutesTxt = string.Format("{0:00}:{1:00}:{2:00}", minutes, seconds, decimals);
 
-        bestTimes[index].isBusy = true;
+        bestTimesJSON[index].isBusy = true;
     }
 
     public void DefalutValues()
@@ -90,7 +90,7 @@ public class LevelData
 
         //Cronómetro
         isLevelCompleteWithChronometerJSON = false;
-        bestTimes = new TimeChronometer[3];
+        bestTimesJSON = new TimeChronometer[3];
 
     }
 }

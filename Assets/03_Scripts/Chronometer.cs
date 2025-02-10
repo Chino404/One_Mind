@@ -28,7 +28,7 @@ public class Chronometer : MonoBehaviour
     {
         _time += Time.deltaTime;
 
-        GameManager.instance.timeInLevel.time = _time;
+        GameManager.instance.timeInLevel.timeInSeconds = _time;
 
         int minutes = Mathf.FloorToInt(_time / 60);
         int seconds = Mathf.FloorToInt(_time % 60);
