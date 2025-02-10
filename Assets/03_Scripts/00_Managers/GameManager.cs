@@ -97,13 +97,13 @@ public class GameManager : MonoBehaviour
         //Guardar en el memento
         foreach (var item in rewinds) item.Save();
 
-        for (int i = 0; i < currentLevel.bestTimes.Length; i++)
+        for (int i = 0; i < currentLevel.bestTimesJSON.Length; i++)
         {
-            if (!currentLevel.bestTimes[0].isBusy) currentLevel.SaveBestTime(i, _myBestTimesInLevel[i]);
+            if (!currentLevel.bestTimesJSON[0].isBusy) currentLevel.SaveBestTime(i, _myBestTimesInLevel[i]);
 
-            if (!currentLevel.bestTimes[1].isBusy) currentLevel.SaveBestTime(i, _myBestTimesInLevel[i]);
+            if (!currentLevel.bestTimesJSON[1].isBusy) currentLevel.SaveBestTime(i, _myBestTimesInLevel[i]);
 
-            if (!currentLevel.bestTimes[2].isBusy) currentLevel.SaveBestTime(i, _myBestTimesInLevel[i]);
+            if (!currentLevel.bestTimesJSON[2].isBusy) currentLevel.SaveBestTime(i, _myBestTimesInLevel[i]);
         }
     }
 
