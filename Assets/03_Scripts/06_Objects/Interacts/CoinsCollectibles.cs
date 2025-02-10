@@ -28,7 +28,7 @@ public class CoinsCollectibles : MonoBehaviour
             Debug.Log("agarre coleccionable");
             points.AddPoints(1);
 
-            myCurrentLevel.MondeAgarrada(gameObject.name);
+            myCurrentLevel.TakeMoney(gameObject.name);
 
             myCurrentLevel.currentCoins ++;
 
