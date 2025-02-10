@@ -7,8 +7,8 @@ public class Portals : MonoBehaviour
     public Portals otherPortal;
     public CameraTracker cameraBongo;
     public CameraTracker cameraFrank;
-    public PointsForTheCamera pointsBongo;
-    public PointsForTheCamera pointsFrank;
+    //public PointsForTheCamera pointsBongo;
+    //public PointsForTheCamera pointsFrank;
     public bool isEnabled;
     [SerializeField] private int _coolDown=10;
     
@@ -52,20 +52,51 @@ public class Portals : MonoBehaviour
 
         if (player.GetComponent<ModelBongo>())
         {
-            pointsBongo.characterTarget = CharacterTarget.Frank;
-            cameraBongo.MyCharacterTarget = CharacterTarget.Frank;
-            cameraBongo.Target= GameManager.instance.frank.transform;
+            //Debug.Log("es bongo");
+            //pointsBongo.characterTarget = CharacterTarget.Frank;
+            //cameraBongo.MyCharacterTarget = CharacterTarget.Frank;
+            //cameraBongo.Target = GameManager.instance.frank.transform;
+
+            
+
+            Rect currentRect = cameraBongo.GetComponent<Camera>().rect;
+            if (currentRect.x > 0)
+                cameraBongo.GetComponent<Camera>().rect = new Rect(-0.5f, currentRect.y, currentRect.width, currentRect.height);
+            else if (currentRect.x < 0)
+                cameraBongo.GetComponent<Camera>().rect = new Rect(0.5f, currentRect.y, currentRect.width, currentRect.height);
+
+
         }
 
         if (player.GetComponent<ModelFrank>())
         {
-            pointsFrank.characterTarget = CharacterTarget.Bongo;
-            cameraFrank.MyCharacterTarget = CharacterTarget.Bongo;
-            cameraFrank.Target = GameManager.instance.bongo.transform;
+            //Debug.Log("es frank");
+            //pointsFrank.characterTarget = CharacterTarget.Bongo;
+            //cameraFrank.MyCharacterTarget = CharacterTarget.Bongo;
+            //cameraFrank.Target = GameManager.instance.bongo.transform;
 
+            
+
+            Rect currentRect = cameraFrank.GetComponent<Camera>().rect;
+            if (currentRect.x > 0)
+                cameraFrank.GetComponent<Camera>().rect = new Rect(-0.5f, currentRect.y, currentRect.width, currentRect.height);
+            else if (currentRect.x < 0)
+                cameraFrank.GetComponent<Camera>().rect = new Rect(0.5f, currentRect.y, currentRect.width, currentRect.height);
         }
 
-        _isInCoolDown = true;
+        StartCoroutine(TeleportCoolDown());
         
+    }
+
+    IEnumerator TeleportCoolDown()
+    {
+        _isInCoolDown = true;
+        cameraFrank.isTeleporting = true;
+        cameraBongo.isTeleporting = true;
+        yield return new WaitForSeconds(0.05f);
+        cameraFrank.isTeleporting = false;
+        cameraBongo.isTeleporting = false;
+        yield return new WaitForSeconds(_coolDown);
+        _isInCoolDown = false;
     }
 }
