@@ -26,9 +26,15 @@ public class Chronometer : MonoBehaviour
 
     private void Update()
     {
+        if(Time.timeScale == 0)
+        {
+            secondsInGame.gameObject.SetActive(false);
+            return;
+        }
+
         _time += Time.deltaTime;
 
-        GameManager.instance.timeInLevel.timeInSeconds = _time;
+        GameManager.instance.timeInLevel.TimeInSeconds = _time;
 
         int minutes = Mathf.FloorToInt(_time / 60);
         int seconds = Mathf.FloorToInt(_time % 60);

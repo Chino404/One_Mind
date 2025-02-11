@@ -24,7 +24,7 @@ public class WinCollider : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
 
-                GameManager.instance.viewBestTimesInlevel.Show();
+                GameManager.instance.UIBestTimesInlevel.Show();
             }
             else
             {
