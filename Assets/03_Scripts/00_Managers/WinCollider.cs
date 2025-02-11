@@ -19,7 +19,7 @@ public class WinCollider : MonoBehaviour
             //Si se paso en modo cronómetro
             if (GameManager.instance.chronometerActive)
             {
-                GameManager.instance.currentLevel.isLevelCompleteWithChronometerJSON = true;
+                //GameManager.instance.currentLevel.isLevelCompleteWithChronometerJSON = true;
 
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;

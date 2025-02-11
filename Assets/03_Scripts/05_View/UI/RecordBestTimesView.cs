@@ -27,12 +27,13 @@ public class RecordBestTimesView : MonoBehaviour
 
         if(!GameManager.instance.UIBestTimesInlevel) GameManager.instance.UIBestTimesInlevel = this;
 
+        //Desactivo todo lo que este activado por error
         if(_buttonBackToMenu.gameObject.activeInHierarchy) _buttonBackToMenu.gameObject.SetActive(false);
         if(_myTimeInLevel.gameObject.activeInHierarchy) _myTimeInLevel.gameObject.SetActive(false);
 
         foreach (var txt in bestTimesView) if (txt.nameRecord.gameObject.activeInHierarchy) txt.nameRecord.gameObject.SetActive(false);
 
-        if(_refInputName.gameObject.activeInHierarchy) _refInputName.inputField.gameObject.SetActive(false);
+        if(_refInputName.inputField.gameObject.activeInHierarchy) _refInputName.inputField.gameObject.SetActive(false);
 
         UpdateRecordsTxt();
     }
@@ -42,8 +43,10 @@ public class RecordBestTimesView : MonoBehaviour
     /// </summary>
     public void Show()
     {
+        //Si hayun nuevo record, llamo al método para poner mi nombre
         if (GameManager.instance.currentLevel.CheckNewTimeWithTheBestTimes(GameManager.instance.timeInLevel, false)) NewRecord();
 
+        //Sino solo muestro un msj y la tabla de puntuación
         else
         {
             _TMPGoodLuckNextTime.gameObject.SetActive(true);
@@ -63,8 +66,11 @@ public class RecordBestTimesView : MonoBehaviour
 
     public void ShowBestTimesRecords()
     {
+        if(_refInputName.inputField.gameObject.activeInHierarchy)_refInputName.inputField.gameObject.SetActive(false);
+
         GameManager.instance.currentLevel.CheckNewTimeWithTheBestTimes(GameManager.instance.timeInLevel);
-        _refInputName.inputField.gameObject.SetActive(false);
+
+        if(GameManager.instance.timeInLevel.TimeInSeconds == GameManager.instance.currentLevel.bestTimesJSON[0].TimeInSeconds) GameManager.instance.currentLevel.isLevelCompleteWithChronometerJSON = true;
 
         _buttonBackToMenu.gameObject.SetActive(true);
 
@@ -82,9 +88,6 @@ public class RecordBestTimesView : MonoBehaviour
             //Seteo cada texto con el nombre del json y su tiempo en formato de texto.
             bestTimesView[i].nameRecord.text = GameManager.instance.currentLevel.bestTimesJSON[i].name;
             bestTimesView[i].timeRecord.text = GameManager.instance.currentLevel.bestTimesJSON[i].txtTimeInMinutes;
-
-            //Si esta encendido en jerarquia, lo apago
-            //if (bestTimesView[i].nameRecord.gameObject.activeInHierarchy) bestTimesView[i].nameRecord.gameObject.SetActive(false);
         }
 
     }
