@@ -7,10 +7,29 @@ using UnityEngine;
 [Serializable]
 public struct TimeChronometer
 {
-    [HideInInspector ,Tooltip("Si ya esta usado este espacio")]public bool isBusy;
+    [HideInInspector ,Tooltip("Si ya esta usado este espacio")] public bool isBusy;
     public string name;
-    public float timeInSeconds;
-    [HideInInspector] public string timeInMinutesTxt;
+
+    [SerializeField]private float _timeInSeconds;
+
+    public float TimeInSeconds
+    {
+        get { return _timeInSeconds; }
+
+        set
+        {
+            _timeInSeconds = value;
+
+            int minutes = Mathf.FloorToInt(_timeInSeconds / 60);
+            int seconds = Mathf.FloorToInt(_timeInSeconds % 60);
+            float fractionalSeconds = _timeInSeconds % 1;
+            int decimals = Mathf.FloorToInt(fractionalSeconds * 100);
+
+            txtTimeInMinutes = string.Format("{0:00}:{1:00}:{2:00}", minutes, seconds, decimals);
+        }
+    }
+
+    public string txtTimeInMinutes;
 }
 
 [Serializable]
@@ -59,16 +78,48 @@ public class LevelData
     {
         bestTimesJSON[index] = timeRecord;
 
-        var time = bestTimesJSON[index].timeInSeconds;
+        var time = bestTimesJSON[index].TimeInSeconds;
 
         int minutes = Mathf.FloorToInt(time / 60);
         int seconds = Mathf.FloorToInt(time % 60);
         float fractionalSeconds = time % 1;
         int decimals = Mathf.FloorToInt(fractionalSeconds * 100);
 
-        bestTimesJSON[index].timeInMinutesTxt = string.Format("{0:00}:{1:00}:{2:00}", minutes, seconds, decimals);
+        bestTimesJSON[index].txtTimeInMinutes = string.Format("{0:00}:{1:00}:{2:00}", minutes, seconds, decimals);
 
         bestTimesJSON[index].isBusy = true;
+    }
+
+    /// <summary>
+    /// Chequeo el nuevo tiempo con los que hay guardados.
+    /// </summary>
+    /// <param name="newTimeChronometer"></param>
+    public bool CheckNewTimeWithTheBestTimes(TimeChronometer newTimeChronometer, bool saveNow = true)
+    {
+        TimeChronometer currentTimeChronometer = newTimeChronometer;
+
+        bool checkNewRecord = false;
+
+        //Recorro el próximo index que me mandaron por parámetro
+        for (int i = 0; i < bestTimesJSON.Length; i++)
+        {
+            TimeChronometer aux = default;
+            //Si la referencia vieja es menor tiempo que el próximo index
+            if (currentTimeChronometer.TimeInSeconds < bestTimesJSON[i].TimeInSeconds)
+            {
+                if(!checkNewRecord) checkNewRecord = true;
+
+                aux = bestTimesJSON[i];
+
+                if(saveNow) SaveBestTime(i, currentTimeChronometer); //Lo guardo en su lugar
+
+                currentTimeChronometer = aux;
+
+            }
+
+        }
+
+        return checkNewRecord;
     }
 
     public void DefalutValues()

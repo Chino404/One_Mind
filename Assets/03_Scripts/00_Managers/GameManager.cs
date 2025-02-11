@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     [Space(10), Header("-> Chronometer")] public bool chronometerActive; 
     public TimeChronometer timeInLevel;
     [SerializeField] private TimeChronometer[] _myBestTimesInLevel = new TimeChronometer[2];
-    [Tooltip("El canvas en donde van a aparecer los mejores tiempos records")]public RecordBestTimesView viewBestTimesInlevel;
+    [Tooltip("El canvas en donde van a aparecer los mejores tiempos records")]public RecordBestTimesView UIBestTimesInlevel;
 
 
 
