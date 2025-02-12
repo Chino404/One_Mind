@@ -8,6 +8,7 @@ using UnityEngine;
 public struct TimeChronometer
 {
     [HideInInspector ,Tooltip("Si ya esta usado este espacio")] public bool isBusy;
+
     public string name;
 
     [SerializeField]private float _timeInSeconds;
@@ -69,12 +70,42 @@ public class LevelData
         txtCoinsJSON = JsonConvert.SerializeObject(dictCoinsJSON, Formatting.Indented);
     }
 
+    public void SaveTimeInOrder(TimeChronometer newTime)
+    {
+        TimeChronometer currentTimeChronometer = newTime;
+
+        for (int i = 0; i < bestTimesJSON.Length; i++)
+        {
+            //Si son lo mismo, entonces corto con el for para que no se guarde en los siguientes indices
+            if (newTime.name == bestTimesJSON[i].name && newTime.TimeInSeconds == bestTimesJSON[i].TimeInSeconds) return;
+
+            //Si no hay nada en este indice, lo guardo acá
+            else if (!bestTimesJSON[i].isBusy)
+            {
+                SaveBestTime(i, currentTimeChronometer);
+
+                return;
+            }
+
+            //Sino pregunto si su tiempo es menor que el que esta guardado, si es así lo sobrescribo y me guardo la otra referencia
+            else if (currentTimeChronometer.TimeInSeconds < bestTimesJSON[i].TimeInSeconds)
+            {
+                //Me guardo el actual
+                TimeChronometer aux = bestTimesJSON[i];
+
+                SaveBestTime(i, currentTimeChronometer);
+
+                currentTimeChronometer = aux;
+            }
+        }
+    }
+
     /// <summary>
     /// Guardo el record del tiempo
     /// </summary>
     /// <param name="index"></param>
     /// <param name="timeRecord"></param>
-    public void SaveBestTime(int index, TimeChronometer timeRecord)
+    private void SaveBestTime(int index, TimeChronometer timeRecord)
     {
         bestTimesJSON[index] = timeRecord;
 
@@ -94,32 +125,28 @@ public class LevelData
     /// Chequeo el nuevo tiempo con los que hay guardados.
     /// </summary>
     /// <param name="newTimeChronometer"></param>
-    public bool CheckNewTimeWithTheBestTimes(TimeChronometer newTimeChronometer, bool saveNow = true)
+    public (bool,int) CheckNewTimeWithTheBestTimes(TimeChronometer newTimeChronometer) //Devuelve una Tupla
     {
         TimeChronometer currentTimeChronometer = newTimeChronometer;
 
         bool checkNewRecord = false;
+        int index = 0;
 
         //Recorro el próximo index que me mandaron por parámetro
         for (int i = 0; i < bestTimesJSON.Length; i++)
         {
-            TimeChronometer aux = default;
             //Si la referencia vieja es menor tiempo que el próximo index
             if (currentTimeChronometer.TimeInSeconds < bestTimesJSON[i].TimeInSeconds)
             {
-                if(!checkNewRecord) checkNewRecord = true;
+                checkNewRecord = true;
 
-                aux = bestTimesJSON[i];
-
-                if(saveNow) SaveBestTime(i, currentTimeChronometer); //Lo guardo en su lugar
-
-                currentTimeChronometer = aux;
-
+                index = i;
+                
+                break;
             }
-
         }
 
-        return checkNewRecord;
+        return (checkNewRecord, index);
     }
 
     public void DefalutValues()
