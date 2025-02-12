@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections;
 
 [Serializable]
 public struct ViewRecord
@@ -12,14 +13,21 @@ public struct ViewRecord
 
 public class RecordBestTimesView : MonoBehaviour
 {
+    [Header("-> Components")]
     [SerializeField]private Button _buttonBackToMenu;
     [SerializeField, Tooltip("Mi tiempo en este nivel")] private TextMeshProUGUI _myTimeInLevel;
-    public ViewRecord[] bestTimesView;
+    [Tooltip("El texto que va a aparecer en pantalla (UI)")]public ViewRecord[] bestTimesView;
+    [Tooltip("Color para marcar que record se va a areemplazar"),SerializeField] private Color _colorToRepleaceRecord;
+    [Tooltip("Color inicial del texto (UI)")]private Color _defaultColor;
 
-    [Space(10)]
-    [SerializeField] private TextMeshProUGUI _TMPGoodLuckNextTime;
+    [Space(10), Header("-> Not Record")]
+    [SerializeField, Tooltip("Texto (UI) cuando no se consiga un record")] private TextMeshProUGUI _TMPGoodLuckNextTime;
 
     private InputYourName _refInputName;
+
+    //Para Tupla
+    [Tooltip("Si hay un nuevo record")]private bool _isNewRecord;
+    [Tooltip("Indice a reeplazar")]private int _indexToReplace;
 
     private void Awake()
     {
@@ -43,8 +51,10 @@ public class RecordBestTimesView : MonoBehaviour
     /// </summary>
     public void Show()
     {
-        //Si hayun nuevo record, llamo al método para poner mi nombre
-        if (GameManager.instance.currentLevel.CheckNewTimeWithTheBestTimes(GameManager.instance.timeInLevel, false)) NewRecord();
+        (_isNewRecord, _indexToReplace) = GameManager.instance.currentLevel.CheckNewTimeWithTheBestTimes(GameManager.instance.timeInLevel);
+
+        //Si hay un nuevo record, llamo al método para poner mi nombre
+        if (_isNewRecord) NewRecord(_indexToReplace);
 
         //Sino solo muestro un msj y la tabla de puntuación
         else
@@ -61,14 +71,36 @@ public class RecordBestTimesView : MonoBehaviour
    
     }
 
-    public void NewRecord() => _refInputName.inputField.gameObject.SetActive(true);
+    private void NewRecord(int index)
+    {
+        _refInputName.inputField.gameObject.SetActive(true);
+
+        for (int i = 0; i < bestTimesView.Length; i++)
+        {
+            if(i == _indexToReplace)
+            {
+                bestTimesView[i].nameRecord.color = _colorToRepleaceRecord;
+                bestTimesView[i].timeRecord.color = _colorToRepleaceRecord;
+
+                break;
+            }
+        }
+    }
+
+    IEnumerator SwitchColor()
+    {
+        while (true)
+        {
+
+        }
+    }
 
 
     public void ShowBestTimesRecords()
     {
         if(_refInputName.inputField.gameObject.activeInHierarchy)_refInputName.inputField.gameObject.SetActive(false);
 
-        GameManager.instance.currentLevel.CheckNewTimeWithTheBestTimes(GameManager.instance.timeInLevel);
+        GameManager.instance.currentLevel.SaveTimeInOrder(GameManager.instance.timeInLevel);
 
         if(GameManager.instance.timeInLevel.TimeInSeconds == GameManager.instance.currentLevel.bestTimesJSON[0].TimeInSeconds) GameManager.instance.currentLevel.isLevelCompleteWithChronometerJSON = true;
 

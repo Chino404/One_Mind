@@ -99,11 +99,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < currentLevel.bestTimesJSON.Length; i++)
         {
-            if (!currentLevel.bestTimesJSON[0].isBusy) currentLevel.SaveBestTime(i, _myBestTimesInLevel[i]);
-
-            if (!currentLevel.bestTimesJSON[1].isBusy) currentLevel.SaveBestTime(i, _myBestTimesInLevel[i]);
-
-            if (!currentLevel.bestTimesJSON[2].isBusy) currentLevel.SaveBestTime(i, _myBestTimesInLevel[i]);
+            currentLevel.SaveTimeInOrder(_myBestTimesInLevel[i]);
         }
     }
 
