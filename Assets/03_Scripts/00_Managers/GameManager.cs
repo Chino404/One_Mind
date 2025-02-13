@@ -31,10 +31,10 @@ public class GameManager : MonoBehaviour
     }
 
 
-    [Space(10), Header("-> Chronometer")] public bool chronometerActive; 
+    [Space(10), Header("-> Chronometer")] public bool isChronometerActive; 
     public TimeChronometer timeInLevel;
     [SerializeField] private TimeChronometer[] _myBestTimesInLevel = new TimeChronometer[2];
-    [Tooltip("El canvas en donde van a aparecer los mejores tiempos records")]public RecordBestTimesView UIBestTimesInlevel;
+    [HideInInspector,Tooltip("El canvas en donde van a aparecer los mejores tiempos records")]public RecordBestTimesView UIBestTimesInlevel;
 
 
 
@@ -42,10 +42,15 @@ public class GameManager : MonoBehaviour
     [Space(10), Header("-> Collecctibles")]
     public List<CollectibleManager> collectiblesList;
 
-    public UICollectible UIBongoTrincket;
-    public UICollectible UIFrankTrincket;
+    [HideInInspector]public UICollectible UIBongoTrincket;
+    [HideInInspector] public UICollectible UIFrankTrincket;
 
-    [Space(5)] public int totalCoinsInLevel; 
+    [Space(10), Header("-> Coins")]
+    public int totalCoinsInLevel;
+    [HideInInspector]public UICoins uiCoinBongo;
+    public int totalCoinsBongoSide;
+    [HideInInspector]public UICoins uiCoinFrank;
+    public int totalCoinsFrankSide;
 
     [Space(10), Header("-> Camera Config.")]
     public CameraTracker bongoCamera;
@@ -67,13 +72,12 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            //DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
 
         foreach (var level in CallJson.instance.refJasonSave.GetSaveData.levels)
         {
-            //Si su IndexLevel es el mismo que el del boton, lo guardo en el currentLevel
+            //Si su IndexLevel es el mismo que el del GameManager, lo guardo en el currentLevel
             if (level.indexLevelJSON == _indexLevel)
             {
                 currentLevel = level;
@@ -81,7 +85,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        chronometerActive = CallJson.instance.refJasonSave.GetSaveData.playWithTimer;
+        isChronometerActive = CallJson.instance.refJasonSave.GetSaveData.playWithTimer;
 
         Debug.Log("AWAKE GAMEMANAGER");
     }
