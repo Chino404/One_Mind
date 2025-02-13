@@ -7,9 +7,9 @@ using UnityEngine;
 [Serializable]
 public struct TimeChronometer
 {
-    [HideInInspector ,Tooltip("Si ya esta usado este espacio")] public bool isBusy;
-
     public string name;
+
+    [HideInInspector ,Tooltip("Si ya esta usado este espacio")] public bool isBusy;
 
     [SerializeField]private float _timeInSeconds;
 
@@ -30,7 +30,7 @@ public struct TimeChronometer
         }
     }
 
-    public string txtTimeInMinutes;
+    [HideInInspector]public string txtTimeInMinutes;
 }
 
 [Serializable]
@@ -44,7 +44,8 @@ public class LevelData
     //Monedas
     [Space(10), Header("-> COINS")]
     public bool isTakeAllCoinsThisLevel;
-    public int currentCoins;
+    [Tooltip("Monedas que tengo ya obtenidas del lado de Bongo")] public int currentCoinsBongoSide = 0;
+    [Tooltip("Monedas que tengo ya obtenidas del lado de Bongo")] public int currentCoinsFrankSide = 0;
     public Dictionary<string, bool> dictCoinsJSON= new ();
     public string txtCoinsJSON;
 
@@ -63,7 +64,7 @@ public class LevelData
     /// Obtengo la moneda
     /// </summary>
     /// <param name="name"></param>
-    public void TakeMoney(string name)
+    public void TakeMoneyLevelData(string name)
     {
         dictCoinsJSON[name] = true;
 
@@ -158,7 +159,8 @@ public class LevelData
         //Monedas
         isTakeAllCoinsThisLevel = false;
         txtCoinsJSON = string.Empty;
-        currentCoins = 0;
+        currentCoinsBongoSide = 0;
+        currentCoinsFrankSide = 0;
         dictCoinsJSON.Clear();
 
         //Coleccionables

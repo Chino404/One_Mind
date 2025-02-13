@@ -14,10 +14,12 @@ public class WinCollider : MonoBehaviour
             GameManager.instance.currentLevel.isLevelCompleteJSON = true;
 
             //Si se agarraron todas las monedas
-            if (GameManager.instance.currentLevel.currentCoins == GameManager.instance.totalCoinsInLevel) GameManager.instance.currentLevel.isTakeAllCoinsThisLevel = true;
+            var totalCoins = GameManager.instance.currentLevel.currentCoinsBongoSide + GameManager.instance.currentLevel.currentCoinsFrankSide;
+
+            if (totalCoins == GameManager.instance.totalCoinsInLevel) GameManager.instance.currentLevel.isTakeAllCoinsThisLevel = true;
 
             //Si se paso en modo cronómetro
-            if (GameManager.instance.chronometerActive)
+            if (GameManager.instance.isChronometerActive)
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
