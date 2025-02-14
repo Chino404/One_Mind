@@ -9,7 +9,7 @@ public struct TimeChronometer
 {
     public string name;
 
-    [HideInInspector ,Tooltip("Si ya esta usado este espacio")] public bool isBusy;
+    [HideInInspector, Tooltip("Si ya esta usado este espacio")] public bool isBusy;
 
     [SerializeField]private float _timeInSeconds;
 
@@ -58,6 +58,7 @@ public class LevelData
     //Cronómetro
     [Space(10), Header("-> CHRONOMETER")]
     public bool isLevelCompleteWithChronometerJSON;
+    public TimeChronometer myBestTimeRecord;
     [Tooltip("Mejores Tiempos")]public TimeChronometer[] bestTimesJSON = new TimeChronometer[3];
 
     /// <summary>
@@ -71,9 +72,24 @@ public class LevelData
         txtCoinsJSON = JsonConvert.SerializeObject(dictCoinsJSON, Formatting.Indented);
     }
 
-    public void SaveTimeInOrder(TimeChronometer newTime)
+    public void SaveTimeInOrder(TimeChronometer newTime, bool isMyTime = false)
     {
         TimeChronometer currentTimeChronometer = newTime;
+
+        if (!myBestTimeRecord.isBusy && isMyTime)
+        {
+            myBestTimeRecord = currentTimeChronometer;
+            myBestTimeRecord.isBusy = true;
+            Debug.Log("No habia anda y guarde");
+        }
+        else if (currentTimeChronometer.TimeInSeconds < myBestTimeRecord.TimeInSeconds && isMyTime)
+        {
+            Debug.Log($"{currentTimeChronometer.name} el tiempo es mejor que {myBestTimeRecord.name}");
+
+            myBestTimeRecord = currentTimeChronometer;
+            myBestTimeRecord.isBusy = true;
+
+        }
 
         for (int i = 0; i < bestTimesJSON.Length; i++)
         {
@@ -81,7 +97,7 @@ public class LevelData
             if (newTime.name == bestTimesJSON[i].name && newTime.TimeInSeconds == bestTimesJSON[i].TimeInSeconds) return;
 
             //Si no hay nada en este indice, lo guardo acá
-            else if (!bestTimesJSON[i].isBusy)
+            if (!bestTimesJSON[i].isBusy)
             {
                 SaveBestTime(i, currentTimeChronometer);
 
@@ -98,6 +114,7 @@ public class LevelData
 
                 currentTimeChronometer = aux;
             }
+
         }
     }
 
@@ -169,6 +186,7 @@ public class LevelData
         collectablesJSON.Clear();
 
         //Cronómetro
+        myBestTimeRecord = default;
         isLevelCompleteWithChronometerJSON = false;
         bestTimesJSON = new TimeChronometer[3];
 
