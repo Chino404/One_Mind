@@ -132,7 +132,7 @@ public class RecordBestTimesView : MonoBehaviour
         if (_refInputName.inputField.gameObject.activeInHierarchy) _refInputName.inputField.gameObject.SetActive(false);
 
 
-        GameManager.instance.currentLevel.SaveTimeInOrder(GameManager.instance.timeInLevel);
+        GameManager.instance.currentLevel.SaveTimeInOrder(GameManager.instance.timeInLevel, true);
 
         if (GameManager.instance.timeInLevel.TimeInSeconds == GameManager.instance.currentLevel.bestTimesJSON[0].TimeInSeconds) GameManager.instance.currentLevel.isLevelCompleteWithChronometerJSON = true;
 
