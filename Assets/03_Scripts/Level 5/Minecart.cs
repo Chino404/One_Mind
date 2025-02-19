@@ -5,15 +5,16 @@ using UnityEngine;
 public class Minecart : MonoBehaviour
 {
     [SerializeField] private float _speed=5f;
-    [SerializeField] private float _railDistance=2f;
     [SerializeField] private float _changeRailSpeed = 10f;
+    //[SerializeField] private float _railDistance=2f;
+    [SerializeField] private Transform[] _rails;
+    private int _currentRailIndex = 1;
+    
     [SerializeField] private Minecart _otherMinecart;
-    private int _currentRail = 1;
     [HideInInspector]public bool isWithCharacter;
     
-    //private bool _canMove=true;
-    bool _isMoving;
-    bool _inputLocked;
+    private bool _isMoving;
+    
 
     private void Update()
     {
@@ -21,47 +22,34 @@ public class Minecart : MonoBehaviour
 
         float moveInput = Input.GetAxisRaw("Horizontal");
 
-        
-        
-        if (moveInput < 0 && _currentRail >0)
+        if (!_isMoving && moveInput != 0)
         {
-            if (!_isMoving)
+            if (moveInput < 0 && _currentRailIndex > 0) // Mover a la izquierda
             {
-                _isMoving = true;
                 ChangeRail(-1);
             }
-                
-        }
-
-        if (moveInput > 0 && _currentRail < 2)
-        {
-            if (!_isMoving)
+            else if (moveInput > 0 && _currentRailIndex < _rails.Length - 1) // Mover a la derecha
             {
-                _isMoving = true;
                 ChangeRail(1);
-
             }
-        }
-        Debug.Log(_currentRail);
-        Debug.Log("move input " + moveInput);
-        
+        }   
     }
 
     void ChangeRail(int direction)
     {
+
+        _isMoving = true;
+        _currentRailIndex += direction;
+        Transform targetRail = _rails[_currentRailIndex];
+
         
-
-        _currentRail += direction;
-        float targetX = (_currentRail - 1) * _railDistance;
-
-        StopAllCoroutines();
-        StartCoroutine(MoveToPosition(targetX));
+        StartCoroutine(MoveToPosition(targetRail));
 
         //_canMove = false;
         //Invoke("EnableMovement", 0.2f);
     }
 
-    IEnumerator MoveToPosition(float targetX)
+    IEnumerator MoveToPosition(Transform targetRail)
     {
         //while (Vector3.Distance(transform.position, targetPos) > 0f)
         //{
@@ -69,20 +57,19 @@ public class Minecart : MonoBehaviour
         //    yield return null;
         //}
         Vector3 startPos = transform.position;
-        float targetPos = targetX;
-        float startX = startPos.x;
+        Vector3 targetPos = new Vector3(targetRail.position.x, startPos.y, startPos.z);
+        
         float elapsedTime = 0f;
-        float duration = 0.2f; // Duración del cambio de riel
+        float duration = 0.2f;
 
         while (elapsedTime < duration)
         {
-            // Mover en el eje X de manera proporcional
-            float newX = Mathf.Lerp(startX, targetPos, elapsedTime / duration);
-            transform.position = new Vector3(newX, startPos.y, startPos.z);
+            
+            transform.position = Vector3.Lerp(startPos, targetPos, elapsedTime/duration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        transform.position = new Vector3(targetPos,startPos.y,startPos.z);
+        transform.position = targetPos;
         _isMoving = false;
     }
 
