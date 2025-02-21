@@ -18,6 +18,7 @@ public class Minecart : MonoBehaviour
 
     private void Update()
     {
+        if(!isWithCharacter&&!_otherMinecart.isWithCharacter) return;
         transform.Translate(Vector3.forward * _speed * Time.deltaTime);
 
         float moveInput = Input.GetAxisRaw("Horizontal");
@@ -71,6 +72,15 @@ public class Minecart : MonoBehaviour
         }
         transform.position = targetPos;
         _isMoving = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<Characters>())
+        {
+            isWithCharacter = true;
+            other.transform.SetParent(transform);
+        }
     }
 
     //void EnableMovement()
