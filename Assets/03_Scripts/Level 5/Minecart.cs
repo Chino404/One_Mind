@@ -74,14 +74,7 @@ public class Minecart : MonoBehaviour
         _isMoving = false;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.GetComponent<Characters>())
-        {
-            isWithCharacter = true;
-            other.transform.SetParent(transform);
-        }
-    }
+    
 
     //void EnableMovement()
     //{
