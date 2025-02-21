@@ -10,15 +10,34 @@ public class Minecart : MonoBehaviour
     [SerializeField] private Transform[] _rails;
     private int _currentRailIndex = 1;
     
-    [SerializeField] private Minecart _otherMinecart;
+    public Minecart otherMinecart;
     [HideInInspector]public bool isWithCharacter;
     
     private bool _isMoving;
-    
+
+    private MinecartCollider _triggerCollider;
+    [HideInInspector]public Characters player;
+
+    private void Start()
+    {
+        _triggerCollider = GetComponentInChildren<MinecartCollider>();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 18)//si colisiona con el collider del fin del riel
+        {
+            Debug.Log("llego al final del riel");
+            StartCoroutine(StopMoving());
+            this.enabled = false;
+
+
+        }
+    }
 
     private void Update()
     {
-        if(!isWithCharacter&&!_otherMinecart.isWithCharacter) return;
+        if(!isWithCharacter||!otherMinecart.isWithCharacter) return;
         transform.Translate(Vector3.forward * _speed * Time.deltaTime);
 
         float moveInput = Input.GetAxisRaw("Horizontal");
@@ -74,7 +93,19 @@ public class Minecart : MonoBehaviour
         _isMoving = false;
     }
 
-    
+    IEnumerator StopMoving()
+    {
+        
+        isWithCharacter = false;
+        //otherMinecart.isWithCharacter = false;
+        _triggerCollider.enabled = false;
+        yield return null;
+        
+        
+        //player.GetComponent<Characters>().enabled = true;
+        //otherMinecart.player.GetComponent<Characters>().enabled = true;
+        
+    }
 
     //void EnableMovement()
     //{
