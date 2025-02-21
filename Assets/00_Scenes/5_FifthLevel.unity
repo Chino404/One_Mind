@@ -447,7 +447,8 @@ GameObject:
   - component: {fileID: 421872292}
   - component: {fileID: 421872291}
   - component: {fileID: 421872290}
-  - component: {fileID: 421872289}
+  - component: {fileID: 421872294}
+  - component: {fileID: 421872293}
   - component: {fileID: 421872288}
   m_Layer: 0
   m_Name: Minecart
@@ -474,29 +475,8 @@ MonoBehaviour:
   - {fileID: 211800079}
   - {fileID: 1851666464}
   - {fileID: 1862890535}
-  _otherMinecart: {fileID: 0}
+  _otherMinecart: {fileID: 1647736093}
   isWithCharacter: 0
---- !u!65 &421872289
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 421872287}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &421872290
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -562,6 +542,48 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2015892681}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &421872293
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421872287}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.9999999, y: 0.86820865, z: 0.9999999}
+  m_Center: {x: 0, y: 0.930836, z: 0}
+--- !u!65 &421872294
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421872287}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &432041906
 GameObject:
   m_ObjectHideFlags: 0
@@ -2446,7 +2468,7 @@ Transform:
   m_GameObject: {fileID: 1488439401}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.53, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2620,6 +2642,7 @@ GameObject:
   - component: {fileID: 1647736092}
   - component: {fileID: 1647736096}
   - component: {fileID: 1647736095}
+  - component: {fileID: 1647736097}
   - component: {fileID: 1647736094}
   - component: {fileID: 1647736093}
   m_Layer: 0
@@ -2662,7 +2685,7 @@ MonoBehaviour:
   - {fileID: 330069700}
   - {fileID: 1756954832}
   - {fileID: 1240365759}
-  _otherMinecart: {fileID: 0}
+  _otherMinecart: {fileID: 421872288}
   isWithCharacter: 0
 --- !u!65 &1647736094
 BoxCollider:
@@ -2681,10 +2704,10 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.9999999, y: 0, z: 0.9999999}
+  m_Center: {x: 0, y: 0.49999955, z: 0}
 --- !u!23 &1647736095
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2735,6 +2758,27 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1647736091}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &1647736097
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1647736091}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.9999999, y: 1.9063176, z: 0.9999999}
+  m_Center: {x: 0.000006327165, y: 0.4531596, z: 0}
 --- !u!1 &1733701591
 GameObject:
   m_ObjectHideFlags: 0
@@ -3658,7 +3702,7 @@ Transform:
   m_GameObject: {fileID: 2015892680}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.53, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
