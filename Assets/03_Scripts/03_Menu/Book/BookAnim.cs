@@ -10,7 +10,7 @@ public class BookAnim : MonoBehaviour
     [SerializeField] private MenuManager _refMenuManager;
     private Animator _anim;
 
-
+    public CameraControllerMenu cam;
     [Space(10), SerializeField] private Canvas _pressClickCanvas;
     [SerializeField] private Canvas[] canvas;
 
@@ -31,6 +31,7 @@ public class BookAnim : MonoBehaviour
             OpenBookAnim();
             _pressClickCanvas.gameObject.SetActive(false);
             onFirstClick = true;
+            cam.SetTargetPosition(1);
         }
     }
     private void OpenBookAnim() => _anim.SetTrigger("OpenBook");
