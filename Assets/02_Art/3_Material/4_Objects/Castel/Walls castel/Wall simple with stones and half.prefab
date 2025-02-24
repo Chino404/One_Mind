@@ -9,7 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1203535892982062010}
-  m_Layer: 0
+  - component: {fileID: 9209387974720364357}
+  - component: {fileID: 7516969829813560975}
+  m_Layer: 8
   m_Name: Wall simple with stones and half
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,6 +34,42 @@ Transform:
   - {fileID: 1925502648393724740}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &9209387974720364357
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6619635641784345046}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7516969829813560975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6619635641784345046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b2e23b28a4bed34090ab6d2a0759de6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isThisShader: 0
+  _gruopObjetTransparency: []
+  _valueAlpha: 0.1
 --- !u!1001 &2103879256754459823
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -94,6 +132,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Wall simple mitad rocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 90b68ce51bc4940b499eeb19ecd72826,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
