@@ -8,7 +8,10 @@ public class ActiveFire : Rewind
     public GameObject turnOffFire;
     public override void Save()
     {
-        _currentState.Rec(turnOffFire.activeInHierarchy, turnOnFire.activeInHierarchy);
+        if (turnOnFire != null)
+            _currentState.Rec(turnOffFire.activeInHierarchy, turnOnFire.activeInHierarchy);
+        else _currentState.Rec(turnOffFire.activeInHierarchy);
+
 
     }
     public override void Load()
@@ -17,7 +20,8 @@ public class ActiveFire : Rewind
 
         var col = _currentState.Remember();
         turnOffFire.SetActive((bool)col.parameters[0]);
-        turnOnFire.SetActive((bool)col.parameters[1]);
+        if (turnOnFire != null)
+            turnOnFire.SetActive((bool)col.parameters[1]);
     }
 
     
@@ -27,7 +31,8 @@ public class ActiveFire : Rewind
         if (collision.gameObject.GetComponent<Characters>())
         {
             turnOffFire.SetActive(false);
-            turnOnFire.SetActive(true);
+            if (turnOnFire != null)
+                turnOnFire.SetActive(true);
         }
     }
 }
