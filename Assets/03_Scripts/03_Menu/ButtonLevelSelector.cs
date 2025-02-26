@@ -14,7 +14,9 @@ public class ButtonLevelSelector : MonoBehaviour
     [Tooltip("Index del nivel")] public int indexLevel;
     [SerializeField] private int _totalCoins = 0;
 
-    [Space(5),SerializeField] private GameObject _ui;
+    [Space(10)]
+    [SerializeField] private Image _lockedImage;
+    [SerializeField] private GameObject _ui;
     [SerializeField, Tooltip("Tiempo de transición de escala"),Range(0.1f, 1f)] private float _timeLerpScale;
     private Vector3 _iniScale = new Vector3(0,0,0);
     private Vector3 _endScale = new Vector3(1.5f, 1.5f, 1.5f);
@@ -35,8 +37,10 @@ public class ButtonLevelSelector : MonoBehaviour
 
         _currentLevel = CallJson.instance.refJasonSave.GetCurrentLevel(indexLevel);
 
+        //Si tengo algo escrito en el nombre del nivel
         if (_levelName != string.Empty && _txmpLvelName != null) _txmpLvelName.text = _levelName;
 
+        //El total de las orbes
         if (_txmpTotalCoins != null) _txmpTotalCoins.text = $"{_currentLevel.currentCoinsBongoSide + _currentLevel.currentCoinsFrankSide} / {_totalCoins}";
 
         if (_txmpMyBestTime != null && _currentLevel.myBestTimeRecord.isBusy && _currentLevel.isLevelCompleteJSON)
@@ -47,6 +51,13 @@ public class ButtonLevelSelector : MonoBehaviour
         else _txmpMyBestTime.gameObject.SetActive(false);
 
         _ui.gameObject.SetActive(false);
+
+        if (!_currentLevel.isUnlockLevelJSON) _button.interactable = false;
+        else
+        {
+            _button.interactable = true;
+            _lockedImage.gameObject.SetActive(false);
+        }
     }
 
     /// <summary>
