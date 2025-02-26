@@ -4,6 +4,19 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class CollectableMenu
+{
+    //[Tooltip("Nombre del personaje al que pertenece el coleccionable")]public string playerCollectableName;
+    [Tooltip("A quien pertenece este coleccionable")] public CharacterTarget trinketCharacter;
+    [Tooltip("Imagen del coleccionble")] public Image imageCollectable;
+
+    [Space(10), Tooltip("Color DESACTIVADO")] public Color deactiveColor;
+    [Tooltip("Color ACTIVO")] public Color activeColor;
+
+    [Space(10), Tooltip("Si fue agarrado")] public bool isTaken;
+}
+
 public class ButtonLevelSelector : MonoBehaviour
 {
     private Button _button;
@@ -20,6 +33,9 @@ public class ButtonLevelSelector : MonoBehaviour
     [SerializeField, Tooltip("Tiempo de transición de escala"),Range(0.1f, 1f)] private float _timeLerpScale;
     private Vector3 _iniScale = new Vector3(0,0,0);
     private Vector3 _endScale = new Vector3(1.5f, 1.5f, 1.5f);
+
+    [Space(7),Header("-> Config. Collec. Image")]
+    public CollectableMenu[] _collectables = new CollectableMenu[2];
 
     [Space(7), Header("-> Config. Star Image")]
     public Image[] starImage = new Image[3];
@@ -66,6 +82,21 @@ public class ButtonLevelSelector : MonoBehaviour
     public void PointEnterFUnc()
     {
         if (!_button.interactable) return;
+
+        foreach (var collectable in _collectables)
+        {
+            //if (_currentLevel.isLevelCompleteJSON) 
+            collectable.imageCollectable.gameObject.SetActive(true);
+
+            //Si el coleccionable es de Bongo, obtengo su booleano
+            if (collectable.trinketCharacter == CharacterTarget.Bongo) collectable.isTaken = CallJson.instance.refJasonSave.GetValueCollectableDict(indexLevel, "BongoTrinket");
+
+            //Si es de Frank lo mismo
+            else collectable.isTaken = CallJson.instance.refJasonSave.GetValueCollectableDict(indexLevel, "FrankTrinket");
+
+            if (collectable.isTaken) collectable.imageCollectable.color = collectable.activeColor;
+            else collectable.imageCollectable.color = collectable.deactiveColor;
+        }
 
         _ui.gameObject.SetActive(true);
 
