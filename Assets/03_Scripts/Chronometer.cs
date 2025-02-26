@@ -26,11 +26,11 @@ public class Chronometer : MonoBehaviour
 
     private void Update()
     {
-        if(Time.timeScale == 0)
-        {
-            secondsInGame.gameObject.SetActive(false);
-            return;
-        }
+        //if(Time.timeScale == 0)
+        //{
+        //    secondsInGame.gameObject.SetActive(false);
+        //    return;
+        //}
 
         _time += Time.deltaTime;
 
