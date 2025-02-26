@@ -2,18 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-[System.Serializable]
-public class CollectableMenu
-{
-    //[Tooltip("Nombre del personaje al que pertenece el coleccionable")]public string playerCollectableName;
-    [Tooltip("A quien pertenece este coleccionable")]public CharacterTarget trinketCharacter;
-    [Tooltip("Imagen del coleccionble")] public Image imageCollectable;
 
-    [Space(10),Tooltip("Color DESACTIVADO")] public Color deactiveColor;
-    [Tooltip("Color ACTIVO")] public Color activeColor;
-
-    [Space(10), Tooltip("Si fue agarrado")] public bool isTaken;
-}
 
 public class OldButtonSelector : MonoBehaviour
 {
@@ -60,20 +49,20 @@ public class OldButtonSelector : MonoBehaviour
         //MenuManager.Instance.IndexLevelToPlay = indexLevel;
         //playWithChronometer.gameObject.SetActive(true);
 
-        foreach (var collectable in _collectables)
-        {
-            //if (_currentLevel.isLevelCompleteJSON) 
-            collectable.imageCollectable.gameObject.SetActive(true);
+        //foreach (var collectable in _collectables)
+        //{
+        //    //if (_currentLevel.isLevelCompleteJSON) 
+        //    collectable.imageCollectable.gameObject.SetActive(true);
 
-            //Si el coleccionable es de Bongo, obtengo su booleano
-            if (collectable.trinketCharacter == CharacterTarget.Bongo) collectable.isTaken = CallJson.instance.refJasonSave.GetValueCollectableDict(indexLevel, "BongoTrinket");
+        //    //Si el coleccionable es de Bongo, obtengo su booleano
+        //    if (collectable.trinketCharacter == CharacterTarget.Bongo) collectable.isTaken = CallJson.instance.refJasonSave.GetValueCollectableDict(indexLevel, "BongoTrinket");
 
-            //Si es de Frank lo mismo
-            else collectable.isTaken = CallJson.instance.refJasonSave.GetValueCollectableDict(indexLevel, "FrankTrinket");
+        //    //Si es de Frank lo mismo
+        //    else collectable.isTaken = CallJson.instance.refJasonSave.GetValueCollectableDict(indexLevel, "FrankTrinket");
 
-            if (collectable.isTaken) collectable.imageCollectable.color = collectable.activeColor;
-            else collectable.imageCollectable.color = collectable.deactiveColor;
-        }
+        //    if (collectable.isTaken) collectable.imageCollectable.color = collectable.activeColor;
+        //    else collectable.imageCollectable.color = collectable.deactiveColor;
+        //}
 
         foreach (var image in starImage)
         {
