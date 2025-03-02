@@ -20,6 +20,7 @@ public class LoadSceneCollider : MonoBehaviour
         {
             if(CollZoneManager.instance)
             {
+                Debug.Log("cargo zona coleccionable");
                 CollZoneManager.instance.SwitchZone(_player, _active, _indexScene);
             }
 

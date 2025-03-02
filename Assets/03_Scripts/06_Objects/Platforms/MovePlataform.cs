@@ -95,7 +95,10 @@ public class MovePlataform : Rewind, IInteracteable
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Characters>())
+        {
             Active();
+            Debug.Log("estoy arriba de la plataforma");
+        }
     }
 
     public void Active()
@@ -157,9 +160,9 @@ public class MovePlataform : Rewind, IInteracteable
     //{
     //    if (collision.gameObject.GetComponent<Characters>())
     //    {
-    //        //collision.transform.SetParent(transform);
-    //        character = collision.gameObject.GetComponent<Characters>();
-    //        _characterInPlataform = true;
+    //        collision.transform.SetParent(transform);
+           
+            
     //    }
 
     //}
@@ -175,24 +178,24 @@ public class MovePlataform : Rewind, IInteracteable
     //    }
     //}
 
-        //public void LeftClickAction()
-        //{
+    //public void LeftClickAction()
+    //{
 
-        //}
+    //}
 
-        //public void RightClickAction(Transform parent)
-        //{        
-        //    if (!_isObjectAttached)
-        //    {
-        //        //transform.SetParent(parent);
-        //        banana = parent;
-        //        _isObjectAttached = true;
-        //    }
-        //    else if (_isObjectAttached)
-        //    {
-        //        ReleaseObject();
-        //    }
-        //}
+    //public void RightClickAction(Transform parent)
+    //{        
+    //    if (!_isObjectAttached)
+    //    {
+    //        //transform.SetParent(parent);
+    //        banana = parent;
+    //        _isObjectAttached = true;
+    //    }
+    //    else if (_isObjectAttached)
+    //    {
+    //        ReleaseObject();
+    //    }
+    //}
 
 
 
