@@ -123,6 +123,7 @@ public abstract class Characters : Entity, IDamageable
 
     void CoyoteTime()
     {
+        
         if (IsGrounded(_iceLayer) && Mathf.Abs(_rbCharacter.velocity.y) <= 0.01f)
         {
             if(_rbCharacter.drag != 0)_rbCharacter.drag = 0;
@@ -134,7 +135,7 @@ public abstract class Characters : Entity, IDamageable
         }
 
         //Si toco el suelo
-        else if (IsGrounded(_floorLayer) && Mathf.Abs(_rbCharacter.velocity.y) <= 0.01f)
+        else if (IsGrounded(_floorLayer) && Mathf.Abs(_rbCharacter.velocity.y) <= 10f)
         {
             if(_rbCharacter.drag != 1) _rbCharacter.drag = 1;
 
