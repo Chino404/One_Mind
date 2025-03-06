@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [System.Serializable]
@@ -121,7 +124,6 @@ public class ButtonLevelSelector : MonoBehaviour
         while (currentTime < _timeLerpScale)
         {
             currentTime += Time.deltaTime;
-
             float progress = currentTime / _timeLerpScale;
 
             _ui.transform.localScale = Vector3.Lerp(_iniScale, _endScale, progress);

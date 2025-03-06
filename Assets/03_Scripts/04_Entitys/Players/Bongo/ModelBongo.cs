@@ -110,9 +110,9 @@ public class ModelBongo : Characters
             penguin?.Fly();
 
             _forceGravity = _gravityPlan;
-            Vector3 dir = transform.forward;
 
-            Movement(dir);
+            //Vector3 dir = transform.forward;
+            //Movement(dir);
         }
     }
 

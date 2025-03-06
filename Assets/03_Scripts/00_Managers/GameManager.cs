@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector, Tooltip("Nivel actual")] public LevelData currentLevel;
     [SerializeField] private int _indexLevel;
+    [SerializeField] private bool _scenePractice;
     public int IndexLevel
     {
         get { return _indexLevel; }
@@ -54,9 +55,11 @@ public class GameManager : MonoBehaviour
 
     [Space(10), Header("-> Camera Config.")]
     public CameraTracker bongoCamera;
+    public CameraRails bongoRails;
     [HideInInspector]public ModelBongo bongo;
 
     public CameraTracker frankCamera;
+    public CameraRails frankRails;
     [HideInInspector]public ModelFrank frank;
     public List<PointsForTheCamera> points = new ();
 
@@ -75,17 +78,20 @@ public class GameManager : MonoBehaviour
         }
         else Destroy(gameObject);
 
-        foreach (var level in CallJson.instance.refJasonSave.GetSaveData.levels)
+        if(!_scenePractice)
         {
-            //Si su IndexLevel es el mismo que el del GameManager, lo guardo en el currentLevel
-            if (level.indexLevelJSON == _indexLevel)
+            foreach (var level in CallJson.instance.refJasonSave.GetSaveData.levels)
             {
-                currentLevel = level;
-                break;
+                //Si su IndexLevel es el mismo que el del GameManager, lo guardo en el currentLevel
+                if (level.indexLevelJSON == _indexLevel)
+                {
+                    currentLevel = level;
+                    break;
+                }
             }
-        }
 
-        isChronometerActive = CallJson.instance.refJasonSave.GetSaveData.playWithTimer;
+            isChronometerActive = CallJson.instance.refJasonSave.GetSaveData.playWithTimer;
+        }
 
         Debug.Log("AWAKE GAMEMANAGER");
     }
