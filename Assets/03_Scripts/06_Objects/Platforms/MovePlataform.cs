@@ -9,6 +9,7 @@ public class MovePlataform : Rewind, IInteracteable
     [SerializeField, Tooltip("Segunso que va a esperar para moverse otra vez")] float _secondsWaiting = 1f;
     [SerializeField, Tooltip("Puntos a los que va a ir")] Transform[] _waypoints;
     [SerializeField, Tooltip("Velocidad")] private float _maxVelocity = 7f;
+    private float _currentVelocity = 7f;
 
     [Space(10), SerializeField] private bool _isActiveMove = true;
     public bool IsActiveMove { set { _isActiveMove = value; } }
@@ -43,7 +44,10 @@ public class MovePlataform : Rewind, IInteracteable
         base.Awake();
     }
 
-    
+    private void Start()
+    {
+        _currentVelocity = _maxVelocity;
+    }
 
     //private void Update()
     //{
@@ -85,7 +89,7 @@ public class MovePlataform : Rewind, IInteracteable
         _velocity.Normalize();
 
         //transform.position += _velocity*_maxVelocity * Time.deltaTime;
-        _rb.MovePosition(_rb.position + _velocity * _maxVelocity * Time.fixedDeltaTime);
+        _rb.MovePosition(_rb.position + _velocity * _currentVelocity * Time.fixedDeltaTime);
 
         //if (_characterInPlataform)
         //    CharacterAttached();
@@ -122,11 +126,11 @@ public class MovePlataform : Rewind, IInteracteable
     IEnumerator WaitSeconds()
     {
         Debug.Log("freno");
-        var velocity = _maxVelocity;
-        _maxVelocity = 0;
+        
+        _currentVelocity = 0;
 
         yield return new WaitForSeconds(_secondsWaiting);
-        _maxVelocity = velocity;
+        _currentVelocity = _maxVelocity;
 
 
         //_velocity = Vector3.ClampMagnitude(_velocity, _maxVelocity);
@@ -137,7 +141,7 @@ public class MovePlataform : Rewind, IInteracteable
     {
         var desired = target - transform.position;
         desired.Normalize();
-        desired *= _maxVelocity;
+        desired *= _currentVelocity;
         return desired;
     }
 
@@ -145,7 +149,7 @@ public class MovePlataform : Rewind, IInteracteable
     {
         _velocity += dir;
 
-        _velocity = Vector3.ClampMagnitude(_velocity, _maxVelocity);
+        _velocity = Vector3.ClampMagnitude(_velocity, _currentVelocity);
     }
 
     //private bool IsBlocked(Vector3 dir)
@@ -201,7 +205,7 @@ public class MovePlataform : Rewind, IInteracteable
 
     public override void Save()
     {
-        _currentState.Rec(transform.position, _isActiveMove, _maxVelocity);
+        _currentState.Rec(transform.position, _isActiveMove, _currentVelocity);
     }
 
     public override void Load()
@@ -212,7 +216,7 @@ public class MovePlataform : Rewind, IInteracteable
         var col = _currentState.Remember();
         transform.position = (Vector3)col.parameters[0];
         _isActiveMove = (bool)col.parameters[1];
-        _maxVelocity = (float)col.parameters[2];
+        _currentVelocity = (float)col.parameters[2];
         //banana = (Transform)col.parameters[1];
         //_isObjectAttached = (bool)col.parameters[2];
     }
