@@ -208,7 +208,7 @@ public class MovePlataform : Rewind, IInteracteable
     {
         if (!_currentState.IsRemember()) return;
 
-        StopAllCoroutines();
+        //StopAllCoroutines();
         var col = _currentState.Remember();
         transform.position = (Vector3)col.parameters[0];
         _isActiveMove = (bool)col.parameters[1];

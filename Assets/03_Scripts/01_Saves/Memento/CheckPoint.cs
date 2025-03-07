@@ -13,6 +13,7 @@ public class CheckPoint : MonoBehaviour
 
     private bool _inPosition;
     public bool InPosition { get { return _inPosition; } }
+    private bool _isSave;
     
     private void Awake()
     {
@@ -29,10 +30,11 @@ public class CheckPoint : MonoBehaviour
 
             _inPosition = true;
 
-            if(_refOtherCheckPoint.InPosition)
+            if(_refOtherCheckPoint.InPosition&&!_isSave)
             {
                 SaveCheckpoint();
                 _refOtherCheckPoint.SaveCheckpoint();
+                _isSave = true;
             }
 
             //other.GetComponent<Characters>().actualCheckpoint = this;
