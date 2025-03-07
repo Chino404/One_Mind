@@ -20,16 +20,16 @@ public class PenguinFly : MonoBehaviour, IInteracteable
     {
         if (_isInBongo && !_isDisable)
         {         
-            transform.position = GameManager.instance.bongo.gameObject.transform.position + _positionInBongo;
-            transform.forward = GameManager.instance.bongo.gameObject.transform.forward;
+            transform.position = GameManager.instance.modelBongo.gameObject.transform.position + _positionInBongo;
+            transform.forward = GameManager.instance.modelBongo.gameObject.transform.forward;
         }
 
         else if (_isDisable)
         {
-            GameManager.instance.bongo.FlyPenguin(false);
-            GameManager.instance.bongo.IsGetPenguin = false;
+            GameManager.instance.modelBongo.FlyPenguin(false);
+            GameManager.instance.modelBongo.IsGetPenguin = false;
             gameObject.SetActive(false);
-            GameManager.instance.bongo.penguin = null;
+            GameManager.instance.modelBongo.penguin = null;
         }
     }
 
@@ -38,8 +38,8 @@ public class PenguinFly : MonoBehaviour, IInteracteable
         if (_isDisable) return;
 
         _isInBongo = true;
-        GameManager.instance.bongo.penguin = this;
-        GameManager.instance.bongo.IsGetPenguin = true;
+        GameManager.instance.modelBongo.penguin = this;
+        GameManager.instance.modelBongo.IsGetPenguin = true;
     }
 
     public void Deactive()

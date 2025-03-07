@@ -19,7 +19,7 @@ public class ModelFrank : Characters
             Destroy(gameObject);
             return;
         }
-        GameManager.instance.frank = instance;
+        GameManager.instance.modelFrank = instance;
         base.Awake();
 
 
