@@ -56,11 +56,11 @@ public class GameManager : MonoBehaviour
     [Space(10), Header("-> Camera Config.")]
     public CameraTracker bongoCamera;
     public CameraRails bongoRails;
-    [HideInInspector]public ModelBongo bongo;
+    [HideInInspector]public ModelBongo modelBongo;
 
     public CameraTracker frankCamera;
     public CameraRails frankRails;
-    [HideInInspector]public ModelFrank frank;
+    [HideInInspector]public ModelFrank modelFrank;
     public List<PointsForTheCamera> points = new ();
 
 
@@ -101,8 +101,8 @@ public class GameManager : MonoBehaviour
         UnityEngine.SceneManagement.Scene currentScene = SceneManager.GetActiveScene(); //GetActiveScene() es para averiguar en que escena estas
         IndexLevel = currentScene.buildIndex;
 
-        if (!bongo) Debug.LogError("Falta la referencia de BONGO");
-        if (!frank) Debug.LogError("Falta la referencia de FRANK");
+        if (!modelBongo) Debug.LogError("Falta la referencia de BONGO");
+        if (!modelFrank) Debug.LogError("Falta la referencia de FRANK");
         
         //Guardar en el memento
         foreach (var item in rewinds) item.Save();

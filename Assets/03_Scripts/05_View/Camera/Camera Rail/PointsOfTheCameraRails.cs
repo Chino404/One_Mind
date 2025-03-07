@@ -4,29 +4,30 @@ using UnityEngine;
 
 public class PointsOfTheCameraRails : MonoBehaviour
 {
-    [Space(7), Tooltip("Puntos anteriores")] public PointsOfTheCameraRails[] previousPoints;
+    public CharacterTarget player;
 
-    [Space(7), Tooltip("Puntos siguientes")] public PointsOfTheCameraRails[] nextPoints;
+    [Space(7), Tooltip("Puntos anteriores")] public PointsOfTheCameraRails[] previousNodes;
 
+    [Space(7), Tooltip("Puntos siguientes")] public PointsOfTheCameraRails[] nextNodes;
 
     private void OnDrawGizmosSelected()
     {
-        if(nextPoints.Length != 0)
+        if(nextNodes.Length != 0)
         {
             Color gizmoColorNextPoint = Color.green;
 
-            foreach (var point in nextPoints)
+            foreach (var point in nextNodes)
             {
                 Gizmos.color = gizmoColorNextPoint;
                 Gizmos.DrawLine(transform.position, point.transform.position);
             }
         }
 
-        if (previousPoints.Length != 0)
+        if (previousNodes.Length != 0)
         {
             Color gizmoColorpreviousPoint = Color.yellow;
 
-            foreach (var point in previousPoints)
+            foreach (var point in previousNodes)
             {
                 Gizmos.color = gizmoColorpreviousPoint;
                 Gizmos.DrawLine(transform.position, point.transform.position);

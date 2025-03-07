@@ -14,8 +14,8 @@ public class PointsForTheCamera : MonoBehaviour
 
     private void Start()
     {
-        if (characterTarget == CharacterTarget.Bongo) player = GameManager.instance.bongo.transform;
-        else if (characterTarget == CharacterTarget.Frank) player = GameManager.instance.frank.transform;
+        if (characterTarget == CharacterTarget.Bongo) player = GameManager.instance.modelBongo.transform;
+        else if (characterTarget == CharacterTarget.Frank) player = GameManager.instance.modelFrank.transform;
     }
 
     private void FixedUpdate()

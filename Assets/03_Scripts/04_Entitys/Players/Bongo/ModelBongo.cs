@@ -47,7 +47,7 @@ public class ModelBongo : Characters
             return;
         }
 
-        GameManager.instance.bongo = instance;
+        GameManager.instance.modelBongo = instance;
         base.Awake();
 
         _view = new ViewBongo(this, _animPlayer);

@@ -6,8 +6,8 @@ public class CameraRails : MonoBehaviour
 {
     public static CameraRails Instance;
 
-    [SerializeField] private CharacterTarget _myCharacterTarget;
-    public CharacterTarget MyCharacterTarget { get { return _myCharacterTarget; } set { _myCharacterTarget = value; } }
+    public CharacterTarget myCharacterTarget;
+    [SerializeField] private Rail _myRail;
 
     [Header("Components")]
     [SerializeField] private PointsOfTheCameraRails _currentPoint;
@@ -35,24 +35,24 @@ public class CameraRails : MonoBehaviour
         {
             transform.position = _currentPoint.transform.position;
 
-            if(_currentPoint.nextPoints.Length != 0) nextPoint = _currentPoint.nextPoints[0];
+            if(_currentPoint.nextNodes.Length != 0) nextPoint = _currentPoint.nextNodes[0];
         }
         else Debug.LogError($"Asignar punto en la cámara: {gameObject.name}");
 
-        if (_myCharacterTarget == CharacterTarget.Bongo)
+        if (myCharacterTarget == CharacterTarget.Bongo)
         {
             if (GameManager.instance.bongoRails) Destroy(gameObject);
             else GameManager.instance.bongoRails = this;
 
-            if (!_target) _target = GameManager.instance.bongo.transform;
+            if (!_target) _target = GameManager.instance.modelBongo.transform;
         }
 
-        else if (_myCharacterTarget == CharacterTarget.Frank)
+        else if (myCharacterTarget == CharacterTarget.Frank)
         {
             if (GameManager.instance.frankRails) Destroy(gameObject);
             else GameManager.instance.frankRails = this;
 
-            if (!_target) _target = GameManager.instance.frank.transform;
+            if (!_target) _target = GameManager.instance.modelFrank.transform;
         }
 
         if (_target == null) Debug.LogError($"Falta target en: {gameObject.name}");
@@ -86,7 +86,7 @@ public class CameraRails : MonoBehaviour
         {
             _currentPoint = nextPoint;
 
-            nextPoint = _currentPoint.nextPoints[0];
+            nextPoint = _currentPoint.nextNodes[0];
         }
 
     }

@@ -38,7 +38,7 @@ public class CameraTracker : MonoBehaviour
             if (GameManager.instance.bongoCamera) Destroy(gameObject);
             else GameManager.instance.bongoCamera = this;
 
-            if(!_target) _target = GameManager.instance.bongo.transform;
+            if(!_target) _target = GameManager.instance.modelBongo.transform;
         }
 
         else if (_myCharacterTarget == CharacterTarget.Frank)
@@ -46,7 +46,7 @@ public class CameraTracker : MonoBehaviour
             if (GameManager.instance.frankCamera) Destroy(gameObject);
             else GameManager.instance.frankCamera = this;
 
-            if(!_target)_target = GameManager.instance.frank.transform;      
+            if(!_target)_target = GameManager.instance.modelFrank.transform;      
         }
 
         if (_target == null) Debug.LogError($"Falta target en: {gameObject.name}");
@@ -72,14 +72,14 @@ public class CameraTracker : MonoBehaviour
 
         if (MyCharacterTarget == CharacterTarget.Bongo)
         {
-            _target = GameManager.instance.bongo.transform;
+            _target = GameManager.instance.modelBongo.transform;
 
             GameManager.instance.bongoCamera = this;
         }
 
         else if (MyCharacterTarget == CharacterTarget.Frank)
         {
-            _target = GameManager.instance.frank.transform;
+            _target = GameManager.instance.modelFrank.transform;
 
             GameManager.instance.frankCamera = this;
         }

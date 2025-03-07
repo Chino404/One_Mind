@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 3860879}
   - component: {fileID: 3860880}
   m_Layer: 0
-  m_Name: Point C
+  m_Name: Node C
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -167,9 +167,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2f51d0dfe1ce1c41996a7722cd062e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previousPoints:
+  player: 1
+  previousNodes:
   - {fileID: 1867774717}
-  nextPoints: []
+  nextNodes: []
 --- !u!1 &17315494
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,7 +392,7 @@ GameObject:
   - component: {fileID: 20966879}
   - component: {fileID: 20966880}
   m_Layer: 0
-  m_Name: Point C
+  m_Name: Node C
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -424,9 +425,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2f51d0dfe1ce1c41996a7722cd062e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previousPoints:
+  player: 0
+  previousNodes:
   - {fileID: 1053218049}
-  nextPoints: []
+  nextNodes: []
 --- !u!1 &24709007
 GameObject:
   m_ObjectHideFlags: 0
@@ -2234,7 +2236,7 @@ GameObject:
   - component: {fileID: 445067668}
   - component: {fileID: 445067669}
   m_Layer: 0
-  m_Name: Point A
+  m_Name: Node A
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -2267,8 +2269,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2f51d0dfe1ce1c41996a7722cd062e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previousPoints: []
-  nextPoints:
+  player: 1
+  previousNodes: []
+  nextNodes:
   - {fileID: 1867774717}
 --- !u!1001 &455944578
 PrefabInstance:
@@ -2959,8 +2962,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 628224296}
+  - component: {fileID: 628224297}
   m_Layer: 0
-  m_Name: -> Points MC2
+  m_Name: -> Rail MC2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2984,6 +2988,20 @@ Transform:
   - {fileID: 3860879}
   m_Father: {fileID: 8815225865141102567}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &628224297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 628224295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09337abb8e93bd0458bd4e1ac8087b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: 1
+  _nodeCount: 0
 --- !u!1 &630895671
 GameObject:
   m_ObjectHideFlags: 0
@@ -4039,7 +4057,7 @@ GameObject:
   - component: {fileID: 1053218048}
   - component: {fileID: 1053218049}
   m_Layer: 0
-  m_Name: Point B
+  m_Name: Node B
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -4072,9 +4090,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2f51d0dfe1ce1c41996a7722cd062e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previousPoints:
+  player: 0
+  previousNodes:
   - {fileID: 1994848445}
-  nextPoints:
+  nextNodes:
   - {fileID: 20966880}
 --- !u!1 &1067402222
 GameObject:
@@ -4773,10 +4792,10 @@ MonoBehaviour:
   totalCoinsFrankSide: 0
   bongoCamera: {fileID: 0}
   bongoRails: {fileID: 0}
-  bongo: {fileID: 0}
+  modelBongo: {fileID: 0}
   frankCamera: {fileID: 0}
   frankRails: {fileID: 0}
-  frank: {fileID: 0}
+  modelFrank: {fileID: 0}
   points: []
 --- !u!114 &1272675873
 MonoBehaviour:
@@ -5099,7 +5118,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1459616943
 Transform:
   m_ObjectHideFlags: 0
@@ -7080,8 +7099,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1708987101}
+  - component: {fileID: 1708987102}
   m_Layer: 0
-  m_Name: -> Points MC1
+  m_Name: -> Rail MC1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7105,6 +7125,20 @@ Transform:
   - {fileID: 20966879}
   m_Father: {fileID: 2670450784659103018}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1708987102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1708987100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09337abb8e93bd0458bd4e1ac8087b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: 0
+  _nodeCount: 0
 --- !u!1 &1723023147
 GameObject:
   m_ObjectHideFlags: 0
@@ -8891,7 +8925,7 @@ GameObject:
   - component: {fileID: 1867774716}
   - component: {fileID: 1867774717}
   m_Layer: 0
-  m_Name: Point B
+  m_Name: Node B
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -8924,9 +8958,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2f51d0dfe1ce1c41996a7722cd062e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previousPoints:
+  player: 1
+  previousNodes:
   - {fileID: 445067669}
-  nextPoints:
+  nextNodes:
   - {fileID: 3860880}
 --- !u!1 &1875404073
 GameObject:
@@ -9253,7 +9288,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2373ff32ad03807468861a458a0f0447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _myCharacterTarget: 1
+  myCharacterTarget: 1
+  _myRail: {fileID: 628224297}
   _currentPoint: {fileID: 445067669}
   nextPoint: {fileID: 0}
   _target: {fileID: 0}
@@ -9348,7 +9384,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2373ff32ad03807468861a458a0f0447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _myCharacterTarget: 0
+  myCharacterTarget: 0
+  _myRail: {fileID: 1708987102}
   _currentPoint: {fileID: 1994848445}
   nextPoint: {fileID: 0}
   _target: {fileID: 0}
@@ -9444,7 +9481,7 @@ GameObject:
   - component: {fileID: 1994848444}
   - component: {fileID: 1994848445}
   m_Layer: 0
-  m_Name: Point A
+  m_Name: Node A
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -9477,8 +9514,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2f51d0dfe1ce1c41996a7722cd062e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previousPoints: []
-  nextPoints:
+  player: 0
+  previousNodes: []
+  nextNodes:
   - {fileID: 1053218049}
 --- !u!1 &2018387059
 GameObject:
@@ -10474,7 +10512,7 @@ Transform:
   m_GameObject: {fileID: 4297076340088337248}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 235.3, y: 5.92, z: -13.3}
+  m_LocalPosition: {x: 225.57, y: 5.92, z: -9.48}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
