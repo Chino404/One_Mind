@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Playables;
 
 
 public enum EstadoDePlayer
@@ -83,6 +84,8 @@ public abstract class Characters : Entity, IDamageable
 
     [HideInInspector] public CheckPoint actualCheckpoint;
 
+    public PlayableDirector[] cinematics;
+
     public override void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked; //Me bloque el mouse al centro de la pantalla
@@ -111,6 +114,7 @@ public abstract class Characters : Entity, IDamageable
 
     public virtual void Update()
     {
+        
         CoyoteTime();
 
         if(mostrar) Debug.Log(_rbCharacter.velocity);
@@ -118,6 +122,7 @@ public abstract class Characters : Entity, IDamageable
 
     public virtual void FixedUpdate()
     {
+        
         _rbCharacter.AddForce(Vector3.down * _forceGravity, ForceMode.VelocityChange);
     }
 
