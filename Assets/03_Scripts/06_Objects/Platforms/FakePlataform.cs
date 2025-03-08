@@ -22,25 +22,7 @@ public class FakePlataform : Rewind
         StartCoroutine(ShaderDisolve(false));
     }
 
-    public override void Save()
-    {
-        _currentState.Rec(gameObject.activeInHierarchy, _valueDisolve);
-        Debug.Log($"{gameObject.name} guardo plataforma");
-
-    }
-
-    public override void Load()
-    {
-        if (!_currentState.IsRemember()) return;
-
-        var col = _currentState.Remember();
-
-        gameObject.SetActive((bool)col.parameters[0]);
-        _valueDisolve = (float)col.parameters[1];
-        StopAllCoroutines();
-        Debug.Log($"{gameObject.name} cargue plataforma");
-
-    }
+    
 
     private void Update()
     {
@@ -86,5 +68,25 @@ public class FakePlataform : Rewind
             _disolveMaterial.material.SetFloat(_IdDisolve, _valueDisolve);
             yield return null;
         }
+    }
+
+    public override void Save()
+    {
+        _currentState.Rec(gameObject.activeInHierarchy, _valueDisolve);
+        Debug.Log($"{gameObject.name} guardo plataforma");
+
+    }
+
+    public override void Load()
+    {
+        if (!_currentState.IsRemember()) return;
+
+        var col = _currentState.Remember();
+
+        gameObject.SetActive((bool)col.parameters[0]);
+        _valueDisolve = (float)col.parameters[1];
+        StopAllCoroutines();
+        Debug.Log($"{gameObject.name} cargue plataforma");
+
     }
 }
