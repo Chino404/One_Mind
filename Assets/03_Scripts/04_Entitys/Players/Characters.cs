@@ -682,6 +682,8 @@ public abstract class Characters : Entity, IDamageable
         {
             transform.position = actualCheckpoint.SpawnPoint.position;
             transform.rotation = actualCheckpoint.SpawnPoint.rotation;
+            Debug.Log("se carga la posicion del checkpoint");
+
         }
         else
         {
