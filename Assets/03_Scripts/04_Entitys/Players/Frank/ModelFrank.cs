@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 [DefaultExecutionOrder(-1)]
 [RequireComponent(typeof(Rigidbody))]
@@ -38,6 +39,10 @@ public class ModelFrank : Characters
 
     public override void Update()
     {
+        foreach (var item in cinematics)
+        {
+            if (item.state == PlayState.Playing) return;
+        }
         base.Update();
 
         //if (GameManager.instance.bongo.stopMove) return;

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Playables;
 
 [DefaultExecutionOrder(-1)]
 [RequireComponent(typeof(Rigidbody))]
@@ -70,6 +71,10 @@ public class ModelBongo : Characters
 
     public override void Update()
     {
+        foreach (var item in cinematics)
+        {
+            if (item.state == PlayState.Playing) return;
+        }
         base.Update();
 
         _controller.ArtificialUpdate();
