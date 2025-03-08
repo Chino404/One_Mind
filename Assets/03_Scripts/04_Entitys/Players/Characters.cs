@@ -695,6 +695,7 @@ public abstract class Characters : Entity, IDamageable
 
         _actualLife = (float)col.parameters[2];
         actualStatePlayer = (EstadoDePlayer)col.parameters[3];
+        
         _rbCharacter.isKinematic = false;
 
         //EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);

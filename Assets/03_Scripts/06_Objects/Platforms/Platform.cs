@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Platform : MonoBehaviour
+public class Platform : Rewind
 {
     protected Vector3 _lastPosition;   // Última posición registrada de la plataforma
     protected Quaternion _lastRotation; // Última rotación registrada de la plataforma
@@ -92,5 +92,18 @@ public class Platform : MonoBehaviour
         {
             _rbCharacter = null;
         }
+    }
+
+    public override void Save()
+    {
+        _currentState.Rec(_rbCharacter);
+    }
+
+    public override void Load()
+    {
+        if (!_currentState.IsRemember()) return;
+
+        var col = _currentState.Remember();
+        _rbCharacter = (Rigidbody)col.parameters[0];
     }
 }

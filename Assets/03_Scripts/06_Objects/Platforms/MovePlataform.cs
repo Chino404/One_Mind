@@ -77,7 +77,7 @@ public class MovePlataform : Rewind, IInteracteable
     private void FixedUpdate()
     {
         if (!_isActiveMove) return;
-            
+
         if (Vector3.Distance(_rb.position, _waypoints[_actualIndex].position) <= 1)
         {
             StartCoroutine(WaitSeconds());
@@ -85,6 +85,7 @@ public class MovePlataform : Rewind, IInteracteable
 
             if (_actualIndex >= _waypoints.Length) _actualIndex = 0;
         }
+        
         _velocity = _waypoints[_actualIndex].position - _rb.position;
         _velocity.Normalize();
 
@@ -212,11 +213,13 @@ public class MovePlataform : Rewind, IInteracteable
     {
         if (!_currentState.IsRemember()) return;
 
-        //StopAllCoroutines();
+        
         var col = _currentState.Remember();
-        transform.position = (Vector3)col.parameters[0];
+        transform.position = _waypoints[_actualIndex].position;
         _isActiveMove = (bool)col.parameters[1];
         _currentVelocity = (float)col.parameters[2];
+        StartCoroutine(WaitSeconds());
+
         //banana = (Transform)col.parameters[1];
         //_isObjectAttached = (bool)col.parameters[2];
     }
