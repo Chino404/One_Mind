@@ -32,7 +32,7 @@ public class FixativeObjectUI : MonoBehaviour
 
     private void Start()
     {
-        _refCamera = GameManager.instance.bongoCamera.GetComponent<Camera>();
+        _refCamera = GameManager.instance.bongoNormalCamera.GetComponent<Camera>();
         _currentIndexList = 0;
     }
 
