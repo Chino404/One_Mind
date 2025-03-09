@@ -39,14 +39,21 @@ public class CameraSwitch : MonoBehaviour
 
         if(other.gameObject.GetComponent<Characters>())
         {
-            _rail.isNormalCamera = true;
+            if(_rail) _rail.isNormalCamera = true;
 
-            //if(_backToPosition && !_pointBack) _backTo = _tracker.Point;
+            if (_backToPosition && !_pointBack && _tracker)
+            {
+                _backTo = _tracker.Point;
+                _tracker.TransicionPoint(goTo);
+            }
 
-            if(_backToPosition && !_pointBack) _backTo = _rail.point;
+            else if (_backToPosition && !_pointBack)
+            {
+                _backTo = _rail.point;
+                _rail.TransicionPoint(goTo);
 
-            //_tracker.TransicionPoint(goTo);
-            _rail.TransicionPoint(goTo);
+            }
+
         }
     }
 
@@ -56,18 +63,20 @@ public class CameraSwitch : MonoBehaviour
         if (other.gameObject.GetComponent<Characters>() && _backToPosition)
         {
 
-            _rail.isNormalCamera = false;
+            if(_rail) _rail.isNormalCamera = false;
 
             if(_pointBack)
             {
-                //_tracker.TransicionPoint(_pointBack);
+                if(_tracker) _tracker.TransicionPoint(_pointBack);
 
-                _rail.TransicionPoint(_pointBack);
+                else _rail.TransicionPoint(_pointBack);
+
                 return;
             }
 
-            //_tracker.TransicionPoint(_backTo);
-            _rail.TransicionPoint(_pointBack);
+            if(_tracker) _tracker.TransicionPoint(_backTo);
+            else _rail.TransicionPoint(_pointBack);
+
             _backTo = null;
         }
     }
