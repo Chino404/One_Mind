@@ -12,6 +12,8 @@ public class CameraRails : MonoBehaviour
     public Transform Target { get { return _target; } set => _target = value; }
     [SerializeField] private Rail _myRail;
 
+    [SerializeField] public Transform point { get; private set; }
+
     [Space(6), Header("Smoothing Values")]
     public float moveSpeed = 5f;
     [SerializeField] private bool _smoothMove = true;
@@ -21,19 +23,22 @@ public class CameraRails : MonoBehaviour
 
     [Range(0.01f, 10f)][SerializeField] float _smoothSpeedRotation = 0.075f;
 
+    Vector3 _desiredPos, _smoothPos;
+    Quaternion _smoothRot;
+
+    public bool isTeleporting;
+    public bool isNormalCamera;
+
+
     [Header("Camera Offset")]
     [Tooltip("Ajusta la posición de la cámara detrás del personaje.")] public Vector3 cameraOffset = new Vector3(0f, 0f, -9f);
 
     [Space(5)]
     [SerializeField, Range(0, -50f)] private float minXRotation = -20f; // Límite inferior del eje X
     [SerializeField, Range(0, 50f)] private float maxXRotation = 35f;  // Límite superior del eje X
-    [SerializeField, Range(0, -50f)] private float minYRotation = -10f; // Límite izquierdo del eje Y
-    [SerializeField, Range(0, 50f)] private float maxYRotation = 10f;  // Límite derecho del eje Y
+    [SerializeField, Range(0, -20f)] private float minYRotation = -10f; // Límite izquierdo del eje Y
+    [SerializeField, Range(0, 20f)] private float maxYRotation = 10f;  // Límite derecho del eje Y
 
-    #region Puede servir
-    //[Tooltip("Distancia detrás del personaje"),SerializeField] private float _distanceBehind = 3f;
-    //[Tooltip("Altura adicional"),SerializeField] private float _heightOffset = 1f;
-    #endregion
 
     private void Awake()
     {
@@ -41,15 +46,15 @@ public class CameraRails : MonoBehaviour
 
         if (myCharacterTarget == CharacterTarget.Bongo)
         {
-            if (GameManager.instance.bongoRails) Destroy(gameObject);
-            else GameManager.instance.bongoRails = this;
+            if (GameManager.instance.bongoRailsCamera) Destroy(gameObject);
+            else GameManager.instance.bongoRailsCamera = this;
 
             if (!_target) _target = GameManager.instance.modelBongo.transform;
         }
         else if (myCharacterTarget == CharacterTarget.Frank)
         {
-            if (GameManager.instance.frankRails) Destroy(gameObject);
-            else GameManager.instance.frankRails = this;
+            if (GameManager.instance.frankRailsCamera) Destroy(gameObject);
+            else GameManager.instance.frankRailsCamera = this;
 
             if (!_target) _target = GameManager.instance.modelFrank.transform;
         }
@@ -68,14 +73,11 @@ public class CameraRails : MonoBehaviour
     {
         if (_target == null) return;
 
-        #region Puede servir
-        //// Obtener la posición proyectada en el riel
-        //Vector3 projectedPosition = _myRail.ProjectPositionOnRail(_target.position);
-
-        //// Agregar un desplazamiento detrás del personaje
-        //Vector3 offset = -_target.forward * _distanceBehind + Vector3.up * _heightOffset;
-        //Vector3 targetPosition = projectedPosition + offset;
-        #endregion
+        if(isNormalCamera)
+        {
+            SetPositionAndRotationTarget();
+            return;
+        }
 
         // Calcular la posición deseada detrás del personaje, con el desplazamiento.
         Vector3 targetPosition = _myRail.ProjectPositionOnRail(_target.position) + cameraOffset;
@@ -123,6 +125,31 @@ public class CameraRails : MonoBehaviour
         // Aplicar la rotación con suavizado
         Quaternion finalRotation = Quaternion.Euler(eulerRotation);
         transform.rotation = Quaternion.Lerp(transform.rotation, finalRotation, _smoothSpeedRotation * Time.deltaTime);
+    }
+
+    private void SetPositionAndRotationTarget()
+    {
+        if (isTeleporting)
+        {
+            transform.SetPositionAndRotation(point.position, point.rotation);
+        }
+        else
+        {
+            // Calcular la posición deseada relativa al punto
+            _desiredPos = _target.position + (point.position - _target.position);
+
+            // Suavizado en base a Time.deltaTime para asegurar suavidad continua
+            _smoothPos = Vector3.Lerp(transform.position, _desiredPos, _smoothSpeedPosition * Time.deltaTime * 60); //Multiplicando por 60 asegura que las velocidades del Lerp sean proporcionales y consistentes
+            _smoothRot = Quaternion.Lerp(transform.rotation, point.rotation, _smoothSpeedRotation * Time.deltaTime * 60);
+
+            transform.SetPositionAndRotation(_smoothPos, _smoothRot);
+        }
+
+    }
+
+    public void TransicionPoint(Transform newPoint)
+    {
+        point = newPoint;
     }
 }
 

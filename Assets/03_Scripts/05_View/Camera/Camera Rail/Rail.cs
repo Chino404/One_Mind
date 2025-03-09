@@ -8,18 +8,24 @@ public class Rail : MonoBehaviour
     [SerializeField] private Transform _target;
     public Transform RailTarget { set =>  _target = value; }
 
-    public Transform[] nodes { get; private set; }
+    //public Transform[] nodes { get; private set; }
+    public List<Transform> nodes;
 
-    [SerializeField]private int _nodeCount;
+    private int _nodeCount;
 
     private void Awake()
     {
         _nodeCount = transform.childCount;
-        nodes = new Transform[_nodeCount];
+        //nodes = new Transform[_nodeCount];
 
         for (int i = 0; i < _nodeCount; i++)
         {
-            nodes[i] = transform.GetChild(i);
+            if (transform.GetChild(i).gameObject.GetComponent<NodesOfTheRail>())
+            {
+                //nodes[i] = transform.GetChild(i);
+                nodes.Add(transform.GetChild(i));
+            }
+
         }
     }
 
@@ -39,9 +45,9 @@ public class Rail : MonoBehaviour
             return ProjectOnSegment(nodes[0].position, nodes[1].position, _target.position);
         }
 
-        if (closestNodeIndex == nodes.Length - 1) //Último nodo
+        if (closestNodeIndex == nodes.Count - 1) //Último nodo
         {
-            return ProjectOnSegment(nodes[nodes.Length - 1].position, nodes[nodes.Length - 2].position, _target.position);
+            return ProjectOnSegment(nodes[nodes.Count - 1].position, nodes[nodes.Count - 2].position, _target.position);
         }
 
         Vector3 leftSeg = ProjectOnSegment(nodes[closestNodeIndex - 1].position, nodes[closestNodeIndex].position, player);
@@ -64,7 +70,7 @@ public class Rail : MonoBehaviour
 
         float shortestDistance = Mathf.Infinity; //Distancia más corta
 
-        for (int i = 0; i < nodes.Length; i++) //Recorro cada nodo.
+        for (int i = 0; i < nodes.Count; i++) //Recorro cada nodo.
         {
             //Calculo la distancia entre el nodo actual y el parámetro.
             float newDistance = (nodes[i].position - player).sqrMagnitude;

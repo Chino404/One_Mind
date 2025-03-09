@@ -35,22 +35,24 @@ public class CameraTracker : MonoBehaviour
 
         if (_myCharacterTarget == CharacterTarget.Bongo)
         {
-            if (GameManager.instance.bongoCamera) Destroy(gameObject);
-            else GameManager.instance.bongoCamera = this;
+            if (GameManager.instance.bongoNormalCamera) Destroy(gameObject);
+            else GameManager.instance.bongoNormalCamera = this;
 
             if(!_target) _target = GameManager.instance.modelBongo.transform;
         }
 
         else if (_myCharacterTarget == CharacterTarget.Frank)
         {
-            if (GameManager.instance.frankCamera) Destroy(gameObject);
-            else GameManager.instance.frankCamera = this;
+            if (GameManager.instance.frankNormalCamera) Destroy(gameObject);
+            else GameManager.instance.frankNormalCamera = this;
 
             if(!_target)_target = GameManager.instance.modelFrank.transform;      
         }
 
         if (_target == null) Debug.LogError($"Falta target en: {gameObject.name}");
         else gameObject.GetComponent<CameraTransparency>().target = _target;
+
+        //gameObject.SetActive(false);
     }
 
     private void Start()
@@ -74,14 +76,14 @@ public class CameraTracker : MonoBehaviour
         {
             _target = GameManager.instance.modelBongo.transform;
 
-            GameManager.instance.bongoCamera = this;
+            GameManager.instance.bongoNormalCamera = this;
         }
 
         else if (MyCharacterTarget == CharacterTarget.Frank)
         {
             _target = GameManager.instance.modelFrank.transform;
 
-            GameManager.instance.frankCamera = this;
+            GameManager.instance.frankNormalCamera = this;
         }
 
         if (_target == null) Debug.LogError("FALTA TARGET");
