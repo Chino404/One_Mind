@@ -6,9 +6,8 @@ using UnityEngine;
 public class Rail : MonoBehaviour
 {
     [SerializeField] private Transform _target;
-    public Transform RailTarget { set =>  _target = value; }
+    public Transform RailTarget { get => _target; set => _target = value; }
 
-    //public Transform[] nodes { get; private set; }
     public List<Transform> nodes;
 
     private int _nodeCount;

@@ -25,18 +25,26 @@ public class CameraSwitchEditor : Editor
         switch (script.myTransitiontype)
         {
             case CameraSwitch.TransitionType.Goto:
-                script.goTo = (Transform)EditorGUILayout.ObjectField("Go to Node", script.goTo, typeof(Transform), true);
+                script.goToNode = (Transform)EditorGUILayout.ObjectField("Go to Node", script.goToNode, typeof(Transform), true);
                 break;
             case CameraSwitch.TransitionType.BackTo:
-                script.backToPosition = EditorGUILayout.Toggle("back to position", script.backToPosition);
+                script.isBackToNewNode = EditorGUILayout.Toggle("Back to new node", script.isBackToNewNode);
+                if (script.isBackToNewNode) script.newToNode = (Transform)EditorGUILayout.ObjectField("New node", script.newToNode, typeof(Transform), true);
+
                 break;
             case CameraSwitch.TransitionType.Both:
-                script.goTo = (Transform)EditorGUILayout.ObjectField("Go to Node", script.goTo, typeof(Transform), true);
-                script.backToPosition = EditorGUILayout.Toggle("back to position", script.backToPosition);
+                script.goToNode = (Transform)EditorGUILayout.ObjectField("Go to Node", script.goToNode, typeof(Transform), true);
+
+                GUILayout.Space(5);
+
+                script.isBackToNewNode = EditorGUILayout.Toggle("Back to new position", script.isBackToNewNode);
+                if (script.isBackToNewNode) script.newToNode = (Transform)EditorGUILayout.ObjectField("New node", script.newToNode, typeof(Transform), true);
+
                 break;
             default:
                 break;
         }
+
 
         // Guarda los cambios
         if (GUI.changed)
