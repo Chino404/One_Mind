@@ -54,12 +54,12 @@ public class GameManager : MonoBehaviour
     public int totalCoinsFrankSide;
 
     [Space(10), Header("-> Camera Config.")]
-    public CameraTracker bongoCamera;
-    public CameraRails bongoRails;
+    public CameraTracker bongoNormalCamera;
+    public CameraRails bongoRailsCamera;
     [HideInInspector]public ModelBongo modelBongo;
 
-    public CameraTracker frankCamera;
-    public CameraRails frankRails;
+    public CameraTracker frankNormalCamera;
+    public CameraRails frankRailsCamera;
     [HideInInspector]public ModelFrank modelFrank;
     public List<PointsForTheCamera> points = new ();
 

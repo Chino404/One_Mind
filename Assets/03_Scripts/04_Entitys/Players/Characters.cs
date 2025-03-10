@@ -678,6 +678,7 @@ public abstract class Characters : Entity, IDamageable
         if (!_currentState.IsRemember()) return;
 
         var col = _currentState.Remember();
+        
         if (actualCheckpoint != null)
         {
             transform.position = actualCheckpoint.SpawnPoint.position;
@@ -694,9 +695,10 @@ public abstract class Characters : Entity, IDamageable
 
         _actualLife = (float)col.parameters[2];
         actualStatePlayer = (EstadoDePlayer)col.parameters[3];
+        
         _rbCharacter.isKinematic = false;
 
-        EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
+        //EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
 
         //Debug.Log("cargue mono");
     }

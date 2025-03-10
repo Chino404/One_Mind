@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpinButton : MonoBehaviour, IInteracteable
 {
     [Header("-> PRESSED")]
-    [SerializeField] private GameObject[] _floors;
+    //[SerializeField] private GameObject[] _floors;
 
     public Transform _pivotPlatforms;
     [SerializeField, Range(-360f, 360f) , Tooltip("Grados a rotar")] private float _degrees = 90f;
