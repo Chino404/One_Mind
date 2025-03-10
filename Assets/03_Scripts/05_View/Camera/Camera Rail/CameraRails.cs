@@ -5,29 +5,31 @@ using UnityEngine;
 public class CameraRails : MonoBehaviour
 {
     public static CameraRails Instance;
+    [SerializeField] private Rail _myRail;
+
+    public bool isTeleporting;
+    private bool _isFixedCamera;
 
     [Header("Components")]
     public CharacterTarget myCharacterTarget;
     private Transform _target;
     public Transform Target { get { return _target; } set => _target = value; }
-    [SerializeField] private Rail _myRail;
 
-    [SerializeField] public Transform point { get; private set; }
+    [SerializeField, Tooltip("Nodo fijo que setea la pos. y la rot. de la cámara")] public Transform fixedNode { get; private set; }
 
     [Space(6), Header("Smoothing Values")]
     public float moveSpeed = 5f;
-    [SerializeField] private bool _smoothMove = true;
 
+    [Space(10), SerializeField] private bool _smoothMove = true;
     [Range(0.01f, 10f)][SerializeField] float _smoothSpeedPosition = 5f;
     private Vector3 _lastPosition;
+    private Quaternion _lastRotation;
 
     [Range(0.01f, 10f)][SerializeField] float _smoothSpeedRotation = 0.075f;
 
     Vector3 _desiredPos, _smoothPos;
     Quaternion _smoothRot;
 
-    public bool isTeleporting;
-    public bool isNormalCamera;
 
 
     [Header("Camera Offset")]
@@ -73,7 +75,7 @@ public class CameraRails : MonoBehaviour
     {
         if (_target == null) return;
 
-        if(isNormalCamera)
+        if(_isFixedCamera)
         {
             SetPositionAndRotationTarget();
             return;
@@ -131,25 +133,42 @@ public class CameraRails : MonoBehaviour
     {
         if (isTeleporting)
         {
-            transform.SetPositionAndRotation(point.position, point.rotation);
+            transform.SetPositionAndRotation(fixedNode.position, fixedNode.rotation);
         }
         else
         {
             // Calcular la posición deseada relativa al punto
-            _desiredPos = _target.position + (point.position - _target.position);
+            _desiredPos = _target.position + (fixedNode.position - _target.position);
 
             // Suavizado en base a Time.deltaTime para asegurar suavidad continua
             _smoothPos = Vector3.Lerp(transform.position, _desiredPos, _smoothSpeedPosition * Time.deltaTime * 60); //Multiplicando por 60 asegura que las velocidades del Lerp sean proporcionales y consistentes
-            _smoothRot = Quaternion.Lerp(transform.rotation, point.rotation, _smoothSpeedRotation * Time.deltaTime * 60);
+            _smoothRot = Quaternion.Lerp(transform.rotation, fixedNode.rotation, _smoothSpeedRotation * Time.deltaTime * 60);
 
             transform.SetPositionAndRotation(_smoothPos, _smoothRot);
         }
 
     }
 
-    public void TransicionPoint(Transform newPoint)
+    public void TransitionToAFixedNode(Transform newNode)
     {
-        point = newPoint;
+        //if (_isFixedCamera) return;
+
+        if(!_isFixedCamera) _isFixedCamera = true;
+
+        _lastPosition = transform.position;
+        _lastRotation = transform.rotation;
+
+        fixedNode = newNode;
+    }
+
+    public void TransitionToRail()
+    {
+        if (!_isFixedCamera) return;
+
+        _isFixedCamera = false;
+
+        transform.position = _lastPosition;
+        transform.rotation = _lastRotation;
     }
 }
 
