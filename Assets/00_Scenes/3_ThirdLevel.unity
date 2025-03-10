@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.08440556, g: 0.044125337, b: 0.13639508, a: 1}
+  m_IndirectSpecularColor: {r: 0.08440499, g: 0.044126634, b: 0.13639706, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2543,7 +2543,7 @@ PrefabInstance:
     - target: {fileID: 2678891598425442453, guid: 3cbaf1fcf358e9e49aebcd9ee5e90f97,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 111.74
+      value: 112.19
       objectReference: {fileID: 0}
     - target: {fileID: 2678891598425442453, guid: 3cbaf1fcf358e9e49aebcd9ee5e90f97,
         type: 3}
@@ -20101,12 +20101,12 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1574172044548893711, guid: cde52286f4046e04e81fbc37f33433ba,
         type: 3}
-      insertIndex: 2
-      addedObject: {fileID: 681765702}
+      insertIndex: -1
+      addedObject: {fileID: 681765707}
     - targetCorrespondingSourceObject: {fileID: 1574172044548893711, guid: cde52286f4046e04e81fbc37f33433ba,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 681765707}
+      addedObject: {fileID: 681765708}
   m_SourcePrefab: {fileID: 100100000, guid: cde52286f4046e04e81fbc37f33433ba, type: 3}
 --- !u!1001 &635229426
 PrefabInstance:
@@ -22011,24 +22011,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 634102736}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &681765702
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 681765700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 900870b0b2408de40815bd5e73e4dc57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _secondsWaiting: 1
-  _waypoints:
-  - {fileID: 1836557770}
-  - {fileID: 1199348171}
-  _maxVelocity: 7
-  _isActiveMove: 0
 --- !u!65 &681765707
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22050,6 +22032,24 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.4504619, y: 1.7104355, z: 2.7277787}
   m_Center: {x: 0.000000051205074, y: 0.35521775, z: -0.8638903}
+--- !u!114 &681765708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681765700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6868a3035c103d245a14f594a8a05ed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _secondsWaiting: 1
+  _waypoints:
+  - {fileID: 1836557770}
+  - {fileID: 1199348171}
+  _maxVelocity: 7
+  _isActiveMove: 0
 --- !u!1001 &685529201
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39757,7 +39757,7 @@ PrefabInstance:
     - target: {fileID: 2678891598425442453, guid: 3cbaf1fcf358e9e49aebcd9ee5e90f97,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 106.02
+      value: 106.49
       objectReference: {fileID: 0}
     - target: {fileID: 2678891598425442453, guid: 3cbaf1fcf358e9e49aebcd9ee5e90f97,
         type: 3}
@@ -63877,6 +63877,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5609756198744758493, guid: 87dcfed9808c59e4181dc2888f1cbf90,
+        type: 3}
+      propertyPath: _platformMove
+      value: 
+      objectReference: {fileID: 681765708}
     - target: {fileID: 6979716103347064827, guid: 87dcfed9808c59e4181dc2888f1cbf90,
         type: 3}
       propertyPath: m_Name
@@ -72142,7 +72147,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _platformMove
       value: 
-      objectReference: {fileID: 681765702}
+      objectReference: {fileID: 681765708}
     - target: {fileID: 5609756198744758493, guid: 87dcfed9808c59e4181dc2888f1cbf90,
         type: 3}
       propertyPath: endAngleRotate

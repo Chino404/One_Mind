@@ -215,6 +215,7 @@ public class MovePlataform : Rewind, IInteracteable
 
         
         var col = _currentState.Remember();
+
         transform.position = _waypoints[_actualIndex].position;
         _isActiveMove = (bool)col.parameters[1];
         _currentVelocity = (float)col.parameters[2];

@@ -16,7 +16,7 @@ public class Morse : Rewind
     // Variable para verificar si ya está rotando
     private bool isRotating = false;
 
-    [Space(10), SerializeField] private MovePlataform _platformMove;
+    [Space(10), SerializeField] private IceCubeMovement _platformMove;
 
     private Animator _myAnimator;
 
