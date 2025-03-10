@@ -5,15 +5,16 @@ using UnityEngine;
 public class CameraRails : MonoBehaviour
 {
     public static CameraRails Instance;
-    [SerializeField] private Rail _myRail;
+
+    [SerializeField]private Rail _myRail;
 
     public bool isTeleporting;
     private bool _isFixedCamera;
 
     [Header("Components")]
     public CharacterTarget myCharacterTarget;
-    private Transform _target;
-    public Transform Target { get { return _target; } set => _target = value; }
+    [SerializeField]private Transform _target;
+    //public Transform Target { get { return _target; } set => _target = value; }
 
     [SerializeField, Tooltip("Nodo fijo que setea la pos. y la rot. de la cámara")] public Transform fixedNode { get; private set; }
 
@@ -67,8 +68,21 @@ public class CameraRails : MonoBehaviour
             return;
         }
 
-        _myRail.RailTarget = _target;
+        if(_myRail) _myRail.RailTarget = _target;
         _lastPosition = transform.position;
+    }
+
+    /// <summary>
+    /// Cambia de Rail.
+    /// </summary>
+    /// <param name="newRail"></param>
+    public void ChangeToRail(Rail newRail)
+    {
+        if (newRail == _myRail) return;
+
+        _myRail = newRail;
+
+        if(_myRail.RailTarget == null) _myRail.RailTarget = _target;
     }
 
     private void LateUpdate()
@@ -144,11 +158,17 @@ public class CameraRails : MonoBehaviour
             _smoothPos = Vector3.Lerp(transform.position, _desiredPos, _smoothSpeedPosition * Time.deltaTime * 60); //Multiplicando por 60 asegura que las velocidades del Lerp sean proporcionales y consistentes
             _smoothRot = Quaternion.Lerp(transform.rotation, fixedNode.rotation, _smoothSpeedRotation * Time.deltaTime * 60);
 
-            transform.SetPositionAndRotation(_smoothPos, _smoothRot);
+            //transform.SetPositionAndRotation(_smoothPos, _smoothRot);
+
+            transform.SetPositionAndRotation(fixedNode.position, fixedNode.rotation);
         }
 
     }
 
+    /// <summary>
+    /// Transicionar a un nodo fijo.
+    /// </summary>
+    /// <param name="newNode"></param>
     public void TransitionToAFixedNode(Transform newNode)
     {
         //if (_isFixedCamera) return;
@@ -161,11 +181,20 @@ public class CameraRails : MonoBehaviour
         fixedNode = newNode;
     }
 
-    public void TransitionToRail()
+    /// <summary>
+    /// Transicionar al Rail.
+    /// </summary>
+    public void TransitionToRail(Transform newNode = default)
     {
         if (!_isFixedCamera) return;
 
         _isFixedCamera = false;
+        
+        if(newNode != default)
+        {
+            _lastPosition = newNode.position;
+            _lastRotation = newNode.rotation;
+        }
 
         transform.position = _lastPosition;
         transform.rotation = _lastRotation;

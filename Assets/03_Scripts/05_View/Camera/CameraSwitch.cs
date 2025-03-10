@@ -13,8 +13,10 @@ public class CameraSwitch : MonoBehaviour
     public enum TransitionType {Goto, BackTo, Both }
     [HideInInspector] public TransitionType myTransitiontype;
 
-    [HideInInspector, Tooltip("Hacia donde se va a mover la cámara")] public Transform goTo;
-    [HideInInspector] public bool backToPosition = true;
+    [HideInInspector, Tooltip("Hacia donde se va a mover la cámara")] public Transform goToNode;
+
+    [HideInInspector] public bool isBackToNewNode = false;
+    [HideInInspector] public Transform newToNode;
 
 
     private void Start()
@@ -27,24 +29,29 @@ public class CameraSwitch : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!goTo)
+        if (!goToNode && myTransitiontype != TransitionType.BackTo)
         {
             Debug.LogError($"Poner un 'point' para la cámara en: {gameObject.name}");
 
             return;
         }
 
-        if (other.gameObject.GetComponent<Characters>() && myTransitiontype == TransitionType.Goto)
+        if (other.gameObject.GetComponent<Characters>() && myTransitiontype != TransitionType.BackTo)
         {
-            _myRail.TransitionToAFixedNode(goTo);
+            _myRail.TransitionToAFixedNode(goToNode);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
 
-        if (other.gameObject.GetComponent<Characters>() && backToPosition && myTransitiontype == TransitionType.BackTo || myTransitiontype == TransitionType.Both)
+        if (other.gameObject.GetComponent<Characters>() && myTransitiontype != TransitionType.Goto)
         {
+            if (isBackToNewNode && newToNode != null)
+            {
+                _myRail.TransitionToRail(newToNode);
+                return;
+            }
 
             _myRail.TransitionToRail();
 
