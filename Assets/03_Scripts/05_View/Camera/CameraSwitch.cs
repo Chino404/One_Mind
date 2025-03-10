@@ -2,83 +2,52 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider))]
 public class CameraSwitch : MonoBehaviour
 {
     [Header("Componet")]
-    private CameraTracker _tracker;
-    private CameraRails _rail;
-    public CharacterTarget myCharacterTarget;
-    [Tooltip("Hacia donde se va a mover la cámara")]public Transform goTo;
-    [SerializeField] private bool _backToPosition;
+    private CameraRails _myRail;
 
-    [/*Space(15),SerializeField, */Tooltip("(EN EL CASO QUE NO VUELVA) Punto especifo a cual volver")] private Transform _pointBack;
-    private Transform _backTo;
+    [Space(10)]
+    public CharacterTarget myCharacterTarget;
+
+    public enum TransitionType {Goto, BackTo, Both }
+    [HideInInspector] public TransitionType myTransitiontype;
+
+    [HideInInspector, Tooltip("Hacia donde se va a mover la cámara")] public Transform goTo;
+    [HideInInspector] public bool backToPosition = true;
+
 
     private void Start()
     {
-        if (myCharacterTarget == CharacterTarget.Bongo) _tracker = GameManager.instance.bongoNormalCamera;
-        else if (myCharacterTarget == CharacterTarget.Frank) _tracker = GameManager.instance.frankNormalCamera;
+        if (myCharacterTarget == CharacterTarget.Bongo) _myRail = GameManager.instance.bongoRailsCamera;
+        else if (myCharacterTarget == CharacterTarget.Frank) _myRail = GameManager.instance.frankRailsCamera;
 
-        //if (!_tracker)Debug.LogError($"No se asigno ninguna cámara en: {gameObject.name}");
-
-        if (myCharacterTarget == CharacterTarget.Bongo) _rail = GameManager.instance.bongoRailsCamera;
-        else if (myCharacterTarget == CharacterTarget.Frank) _rail = GameManager.instance.frankRailsCamera;
-
-        if (!_rail)Debug.LogError($"No se asigno ninguna cámara en: {gameObject.name}");
+        if (!_myRail) Debug.LogError($"No se asigno ninguna cámara en: {gameObject.name}");
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(!goTo)
+        if (!goTo)
         {
             Debug.LogError($"Poner un 'point' para la cámara en: {gameObject.name}");
 
             return;
         }
 
-        if(other.gameObject.GetComponent<Characters>())
+        if (other.gameObject.GetComponent<Characters>() && myTransitiontype == TransitionType.Goto)
         {
-            if(_rail) _rail.isNormalCamera = true;
-
-            if (_backToPosition && !_pointBack && _tracker)
-            {
-                _backTo = _tracker.Point;
-                _tracker.TransicionPoint(goTo);
-            }
-
-            else if (_backToPosition && !_pointBack)
-            {
-                _backTo = _rail.point;
-                _rail.TransicionPoint(goTo);
-
-            }
-
+            _myRail.TransitionToAFixedNode(goTo);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
 
-        if (other.gameObject.GetComponent<Characters>() && _backToPosition)
+        if (other.gameObject.GetComponent<Characters>() && backToPosition && myTransitiontype == TransitionType.BackTo || myTransitiontype == TransitionType.Both)
         {
 
-            if(_rail) _rail.isNormalCamera = false;
+            _myRail.TransitionToRail();
 
-            if(_pointBack)
-            {
-                if(_tracker) _tracker.TransicionPoint(_pointBack);
-
-                else _rail.TransicionPoint(_pointBack);
-
-                return;
-            }
-
-            if(_tracker) _tracker.TransicionPoint(_backTo);
-            else _rail.TransicionPoint(_pointBack);
-
-            _backTo = null;
         }
     }
-
 }
