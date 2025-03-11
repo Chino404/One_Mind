@@ -6,15 +6,16 @@ public class CameraRails : MonoBehaviour
 {
     public static CameraRails Instance;
 
-    [SerializeField]private Rail _myRail;
+    [SerializeField] private Rail _myRail;
+    public Camera myCamera { get; private set;}
+    [SerializeField, Range(1,5)] private int numberCamera;
 
-    public bool isTeleporting;
+    [HideInInspector]public bool isTeleporting;
     private bool _isFixedCamera;
 
     [Header("Components")]
     public CharacterTarget myCharacterTarget;
-    [SerializeField]private Transform _target;
-    //public Transform Target { get { return _target; } set => _target = value; }
+    public Transform target;
 
     [SerializeField, Tooltip("Nodo fijo que setea la pos. y la rot. de la cámara")] public Transform fixedNode { get; private set; }
 
@@ -47,28 +48,38 @@ public class CameraRails : MonoBehaviour
     {
         Instance = this;
 
+        myCamera = gameObject.GetComponent<Camera>();
+
+        if (numberCamera > 1)
+        {
+            Debug.Log($"Apago cámara: {gameObject.name}");
+
+            gameObject.SetActive(false);
+
+            return;
+        }
+
         if (myCharacterTarget == CharacterTarget.Bongo)
         {
-            if (GameManager.instance.bongoRailsCamera) Destroy(gameObject);
-            else GameManager.instance.bongoRailsCamera = this;
+            GameManager.instance.bongoRailsCamera = this;
 
-            if (!_target) _target = GameManager.instance.modelBongo.transform;
+            if (!target) target = GameManager.instance.modelBongo.transform;
         }
+
         else if (myCharacterTarget == CharacterTarget.Frank)
         {
-            if (GameManager.instance.frankRailsCamera) Destroy(gameObject);
-            else GameManager.instance.frankRailsCamera = this;
+            GameManager.instance.frankRailsCamera = this;
 
-            if (!_target) _target = GameManager.instance.modelFrank.transform;
+            if (!target) target = GameManager.instance.modelFrank.transform;
         }
 
-        if (_target == null)
+        if (target == null)
         {
             Debug.LogError($"Falta target en: {gameObject.name}");
             return;
         }
 
-        if(_myRail) _myRail.RailTarget = _target;
+        if(_myRail) _myRail.RailTarget = target;
         _lastPosition = transform.position;
     }
 
@@ -78,16 +89,18 @@ public class CameraRails : MonoBehaviour
     /// <param name="newRail"></param>
     public void ChangeToRail(Rail newRail)
     {
-        if (newRail == _myRail) return;
+        //if (newRail == _myRail) return;
 
         _myRail = newRail;
 
-        if(_myRail.RailTarget == null) _myRail.RailTarget = _target;
+        if(_myRail.RailTarget == null) _myRail.RailTarget = target;
+
+        _isFixedCamera = false;
     }
 
     private void LateUpdate()
     {
-        if (_target == null) return;
+        if (target == null) return;
 
         if(_isFixedCamera)
         {
@@ -96,7 +109,7 @@ public class CameraRails : MonoBehaviour
         }
 
         // Calcular la posición deseada detrás del personaje, con el desplazamiento.
-        Vector3 targetPosition = _myRail.ProjectPositionOnRail(_target.position) + cameraOffset;
+        Vector3 targetPosition = _myRail.ProjectPositionOnRail(target.position) + cameraOffset;
 
         // Movimiento suave
         if (_smoothMove)
@@ -122,7 +135,7 @@ public class CameraRails : MonoBehaviour
     private void AdjustCameraRotation()
     {
         // Dirección hacia el personaje
-        Vector3 direction = _target.position - transform.position;
+        Vector3 direction = target.position - transform.position;
 
         // Obtener la rotación necesaria para mirar al personaje
         Quaternion targetRotation = Quaternion.LookRotation(direction);
@@ -152,7 +165,7 @@ public class CameraRails : MonoBehaviour
         else
         {
             // Calcular la posición deseada relativa al punto
-            _desiredPos = _target.position + (fixedNode.position - _target.position);
+            _desiredPos = target.position + (fixedNode.position - target.position);
 
             // Suavizado en base a Time.deltaTime para asegurar suavidad continua
             _smoothPos = Vector3.Lerp(transform.position, _desiredPos, _smoothSpeedPosition * Time.deltaTime * 60); //Multiplicando por 60 asegura que las velocidades del Lerp sean proporcionales y consistentes

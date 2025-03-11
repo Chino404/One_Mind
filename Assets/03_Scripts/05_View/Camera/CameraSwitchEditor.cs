@@ -14,12 +14,16 @@ public class CameraSwitchEditor : Editor
         CameraSwitch script = (CameraSwitch)target;
 
         //Que haya un espacio
+        GUILayout.Space(5);
+        script.isChangeNewCamera = EditorGUILayout.Toggle("Change new Camera", script.isChangeNewCamera);
+        if (script.isChangeNewCamera) script.newCamera = (CameraRails)EditorGUILayout.ObjectField("New Camera", script.newCamera, typeof(CameraRails), true);
+
         GUILayout.Space(15);
 
         // Muestra el enum
         script.myTransitiontype = (CameraSwitch.TransitionType)EditorGUILayout.EnumPopup("Transition type", script.myTransitiontype);
 
-        GUILayout.Space(5);
+        GUILayout.Space(3);
 
         // Dependiendo del valor del enum, muestra variables específicas
         switch (script.myTransitiontype)
