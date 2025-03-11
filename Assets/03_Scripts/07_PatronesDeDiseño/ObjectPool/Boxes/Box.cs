@@ -1,5 +1,3 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -24,8 +22,10 @@ public class Box : Platform
     private ObjectPool<Box> _objectPool;
     private Rigidbody _myRb;
 
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
+
         _myRb = GetComponent<Rigidbody>();
         _myRb.velocity = Vector3.zero;
 
