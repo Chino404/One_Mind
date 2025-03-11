@@ -128,6 +128,7 @@ public class CameraTracker : MonoBehaviour
 
     public void TransicionPoint(Transform newPoint)
     {
+        Debug.LogWarning("Nuevo punto");
         _point = newPoint;
     }
 
