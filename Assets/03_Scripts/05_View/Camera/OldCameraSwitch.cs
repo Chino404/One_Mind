@@ -61,6 +61,7 @@ public class OldCameraSwitch : MonoBehaviour
                 if (_backToPosition && !_pointBack)
                 {
                     _backTo = _tracker.Point;
+
                     _tracker.TransicionPoint(goTo);
                 }
             }
