@@ -206,7 +206,7 @@ public class MovePlataform : Rewind, IInteracteable
 
     public override void Save()
     {
-        _currentState.Rec(transform.position, _isActiveMove, _currentVelocity);
+        _currentState.Rec(transform.position, _isActiveMove /*_currentVelocity*/);
     }
 
     public override void Load()
@@ -217,9 +217,9 @@ public class MovePlataform : Rewind, IInteracteable
         var col = _currentState.Remember();
 
         transform.position = _waypoints[_actualIndex].position;
-        _isActiveMove = (bool)col.parameters[1];
-        _currentVelocity = (float)col.parameters[2];
         StartCoroutine(WaitSeconds());
+        _isActiveMove = (bool)col.parameters[1];
+        //_currentVelocity = (float)col.parameters[2];
 
         //banana = (Transform)col.parameters[1];
         //_isObjectAttached = (bool)col.parameters[2];
