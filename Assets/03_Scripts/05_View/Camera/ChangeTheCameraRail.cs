@@ -9,6 +9,7 @@ public class ChangeTheCameraRail : MonoBehaviour, IInteracteable
 
     public void Active()
     {
+        Debug.LogWarning("Entre!!");
         if (playerTarget == CharacterTarget.Bongo) GameManager.instance.bongoRailsCamera.ChangeToRail(newRail);
 
         else GameManager.instance.frankRailsCamera.ChangeToRail(newRail);
