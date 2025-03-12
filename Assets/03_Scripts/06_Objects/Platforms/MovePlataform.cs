@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class MovePlataform : Rewind, IInteracteable
+public class MovePlataform : Rewind
 {
 
     [SerializeField, Tooltip("Puntos a los que va a ir")] Transform[] _waypoints;
@@ -15,19 +15,21 @@ public class MovePlataform : Rewind, IInteracteable
     public bool IsActiveMove { set { _isActiveMove = value; } }
 
 
+    private int _actualIndex;
+    private Vector3 _velocity;
+    private Rigidbody _rb;
+
+
     //private Animator _animator;
     //[SerializeField] Vector3[] _positions;
     //[SerializeField]private float _speed;
     //private int _actualPosition;
 
 
-    private int _actualIndex;
-    private Vector3 _velocity;
 
     //public Characters character;
 
     //private bool _characterInPlataform;
-    private Rigidbody _rb;
 
     //private bool _isObjectAttached;
 
@@ -97,31 +99,28 @@ public class MovePlataform : Rewind, IInteracteable
 
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.GetComponent<Characters>())
-        {
-            Active();
-            Debug.Log("estoy arriba de la plataforma");
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.GetComponent<Characters>())
+    //    {
+    //        Active();
+    //        Debug.Log("estoy arriba de la plataforma");
+    //    }
+    //}
 
-    public void Active()
-    {
-        if(!_isActiveMove) _isActiveMove = true;
-    }
+    //public void Active()
+    //{
+    //    if(!_isActiveMove) _isActiveMove = true;
+    //}
 
-    public void Deactive()
-    {
+    //public void Deactive()
+    //{
         
-    }
+    //}
 
     //void CharacterAttached() //Todo lo que quiero que pase cuando el player esta en la plataforma
     //{
-
     //    character.GetComponent<Rigidbody>().MovePosition(character.GetComponent<Rigidbody>().position + _velocity*0.01f );
-
-
     //}
 
     IEnumerator WaitSeconds()
