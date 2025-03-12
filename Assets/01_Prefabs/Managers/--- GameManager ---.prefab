@@ -217,10 +217,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 8783258756401744703}
+  - {fileID: 7049644488455515379}
+  - {fileID: 8070082355569038303}
   - {fileID: 8811111371055801128}
   - {fileID: 2954593298156731556}
-  - {fileID: 8070082355569038303}
-  - {fileID: 7049644488455515379}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &447065970622228486
@@ -266,6 +267,7 @@ MonoBehaviour:
       _timeInSeconds: 0
       txtTimeInMinutes: 
   _indexLevel: 0
+  _scenePractice: 0
   isChronometerActive: 0
   timeInLevel:
     name: Bongo&Frank
@@ -294,10 +296,14 @@ MonoBehaviour:
   totalCoinsBongoSide: 0
   uiCoinFrank: {fileID: 0}
   totalCoinsFrankSide: 0
-  bongoCamera: {fileID: 0}
-  bongo: {fileID: 0}
-  frankCamera: {fileID: 0}
-  frank: {fileID: 0}
+  bongoNormalCamera: {fileID: 0}
+  bongoRailsCamera: {fileID: 0}
+  listBongosRailsCamera: []
+  modelBongo: {fileID: 0}
+  frankNormalCamera: {fileID: 0}
+  frankRailsCamera: {fileID: 0}
+  listFranksRailsCamera: []
+  modelFrank: {fileID: 0}
   points: []
 --- !u!114 &5890082164332192451
 MonoBehaviour:
@@ -408,3 +414,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   secondsInGame: {fileID: 0}
+--- !u!1 &8050960286581121751
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8783258756401744703}
+  - component: {fileID: 3650815923327965342}
+  m_Layer: 0
+  m_Name: CamerasManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8783258756401744703
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8050960286581121751}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8944405046387045373}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3650815923327965342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8050960286581121751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6caf862eee92504491a101fc5316763, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

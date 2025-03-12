@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class CameraRails : MonoBehaviour
 {
-    public static CameraRails Instance;
-
     [SerializeField] private Rail _myRail;
     public Camera myCamera { get; private set;}
-    [SerializeField, Range(1,5)] private int numberCamera;
+    [SerializeField, Range(1,5)] private int _myNumberCamera;
+    public int NumberCamera {  get { return _myNumberCamera; } }
 
-    [HideInInspector]public bool isTeleporting;
-    private bool _isFixedCamera;
+    [HideInInspector] public bool isTeleporting;
+    [SerializeField] private bool _isFixedCamera;
 
     [Header("Components")]
     public CharacterTarget myCharacterTarget;
@@ -46,31 +45,39 @@ public class CameraRails : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-
         myCamera = gameObject.GetComponent<Camera>();
 
-        if (numberCamera > 1)
-        {
-            Debug.Log($"Apago cámara: {gameObject.name}");
-
-            gameObject.SetActive(false);
-
-            return;
-        }
+        _lastPosition = transform.position;
 
         if (myCharacterTarget == CharacterTarget.Bongo)
         {
-            GameManager.instance.bongoRailsCamera = this;
+
+            CamerasManager.instance.listBongosRailsCamera.Add(this);
 
             if (!target) target = GameManager.instance.modelBongo.transform;
+
+            if(_myNumberCamera > 1)
+            {
+                Debug.Log($"Apago cámara: {gameObject.name}");
+
+                gameObject.SetActive(false);
+            }
+            else CamerasManager.instance.currentBongoCamera = this;
         }
 
         else if (myCharacterTarget == CharacterTarget.Frank)
         {
-            GameManager.instance.frankRailsCamera = this;
+            CamerasManager.instance.listFranksRailsCamera.Add(this);
 
             if (!target) target = GameManager.instance.modelFrank.transform;
+
+            if (_myNumberCamera > 1)
+            {
+                Debug.Log($"Apago cámara: {gameObject.name}");
+
+                gameObject.SetActive(false);
+            }
+            else CamerasManager.instance.currentFrankCamera = this;
         }
 
         if (target == null)
@@ -79,8 +86,7 @@ public class CameraRails : MonoBehaviour
             return;
         }
 
-        if(_myRail) _myRail.RailTarget = target;
-        _lastPosition = transform.position;
+        if(_myRail) _myRail.RailTarget = target;  
     }
 
     /// <summary>
