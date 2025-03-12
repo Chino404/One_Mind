@@ -6,9 +6,9 @@ using UnityEngine;
 public class MovePlataform : Rewind, IInteracteable
 {
 
-    [SerializeField, Tooltip("Segunso que va a esperar para moverse otra vez")] float _secondsWaiting = 1f;
     [SerializeField, Tooltip("Puntos a los que va a ir")] Transform[] _waypoints;
     [SerializeField, Tooltip("Velocidad")] private float _maxVelocity = 7f;
+    [SerializeField, Tooltip("Segunso que va a esperar para moverse otra vez")] float _secondsWaiting = 1f;
     private float _currentVelocity = 7f;
 
     [Space(10), SerializeField] private bool _isActiveMove = true;

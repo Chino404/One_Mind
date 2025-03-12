@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraSwitch : MonoBehaviour
 {
     [Header("Componet")]
-    private CameraRails _myRefCamera;
+    [SerializeField] private CameraRails _myRefCamera;
 
     [Space(10)]
     public CharacterTarget myCharacterTarget;
@@ -22,68 +22,30 @@ public class CameraSwitch : MonoBehaviour
     [HideInInspector] public Transform newToNode;
 
 
-    private void Start()
-    {
-        if (newCamera) _myRefCamera = newCamera;
-    }
+    //private void Start() => CamerasManager.instance.getCamera += SetMyRefCamera;
+    //private void SetMyRefCamera(CameraRails newCamera) => _myRefCamera = newCamera;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (isChangeNewCamera && newCamera != null)
+
+        if(other.gameObject.GetComponent<Characters>())
         {
-            CameraRails currentCamera = default;
-
-            //Averiguo que cámara me guardo.
-            if (myCharacterTarget == CharacterTarget.Bongo)
+            if (!goToNode && myTransitiontype != TransitionType.BackTo)
             {
-                currentCamera = GameManager.instance.bongoRailsCamera;
+                Debug.LogError($"Poner un 'point' para la cámara en: {gameObject.name}");
 
-                GameManager.instance.bongoRailsCamera = newCamera;
-            }
-            else
-            {
-                currentCamera = GameManager.instance.frankRailsCamera;
-
-                GameManager.instance.frankRailsCamera = newCamera;
-            }
-
-            Transform auxTarget = currentCamera.target;
-
-            //Apago la cámara que está activa.
-            if (currentCamera.myCamera.gameObject.activeInHierarchy) currentCamera.myCamera.gameObject.SetActive(false);
-
-            _myRefCamera.target = auxTarget;
-
-            //Activo la que quiero usar ahora.
-            if (!_myRefCamera.myCamera.gameObject.activeInHierarchy) _myRefCamera.myCamera.gameObject.SetActive(true);
-        }
-
-        else
-        {
-            if (myCharacterTarget == CharacterTarget.Bongo) _myRefCamera = GameManager.instance.bongoRailsCamera;
-
-            else _myRefCamera = GameManager.instance.frankRailsCamera;
-
-            if (!_myRefCamera)
-            {
-                Debug.LogError($"No se asigno ninguna cámara en: {gameObject.name}");
                 return;
             }
-        }
 
+            if (isChangeNewCamera && newCamera != null) CamerasManager.instance.ActiveCamera(newCamera, myCharacterTarget);
 
-        if (!goToNode && myTransitiontype != TransitionType.BackTo)
-        {
-            Debug.LogError($"Poner un 'point' para la cámara en: {gameObject.name}");
+            _myRefCamera = CamerasManager.instance.GetCurrentCamera(myCharacterTarget);
 
-            return;
-        }
-
-       
-
-        if (other.gameObject.GetComponent<Characters>() && myTransitiontype != TransitionType.BackTo)
-        {
-            _myRefCamera.TransitionToAFixedNode(goToNode);
+            //Si es un Goto o Both, lo mado a un nodo fijo
+            if (myTransitiontype != TransitionType.BackTo)
+            {
+                _myRefCamera.TransitionToAFixedNode(goToNode);
+            }
         }
     }
 
@@ -92,6 +54,7 @@ public class CameraSwitch : MonoBehaviour
 
         if (other.gameObject.GetComponent<Characters>() && myTransitiontype != TransitionType.Goto)
         {
+            //Si tengo un punto especifico a cuál mandarlo, le asigno ese nodo.
             if (isBackToNewNode && newToNode != null)
             {
                 _myRefCamera.TransitionToRail(newToNode);
