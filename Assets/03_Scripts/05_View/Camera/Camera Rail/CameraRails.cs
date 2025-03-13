@@ -101,7 +101,6 @@ public class CameraRails : MonoBehaviour
 
         if(_myRail.RailTarget == null) _myRail.RailTarget = target;
 
-        _isFixedCamera = false;
     }
 
     private void LateUpdate()
