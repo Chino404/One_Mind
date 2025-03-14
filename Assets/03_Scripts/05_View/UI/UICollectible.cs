@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UICollectible : MonoBehaviour
@@ -9,20 +10,28 @@ public class UICollectible : MonoBehaviour
     [SerializeField] private CharacterTarget _player;
     private string _key;
 
+    public enum ShowType { InGame, InCanvasWin }
+    [HideInInspector] public ShowType myShowType;
+
     [Space(10), Header("-> Positions")]
-    [Tooltip("La posicion que va a estar cuando se MUESTRE"), SerializeField] private Vector2 _showPos;
-    [Tooltip("La posicion que va a estar cuando se ESCONDA"), SerializeField] private Vector2 _hidePos;
-    [Range(0f, 3f), Tooltip("Tiempo que va a estar mostrandose"),SerializeField] private float _timeShow = 1.75f;
-    [Range(0f, 1f), Tooltip("Velocidad de transición"),SerializeField] private float _speed = 0.5f;
+    [Tooltip("La posicion que va a estar cuando se MUESTRE"), HideInInspector] public Vector2 showPos;
+
+    [Tooltip("La posicion que va a estar cuando se ESCONDA"), HideInInspector] public Vector2 hidePos;
+
+
+    [Range(0f, 3f), Tooltip("Tiempo que va a estar mostrandose"),HideInInspector] public float timeShow = 1.75f;
+
+    [Range(0f, 1f), Tooltip("Velocidad de transición"),HideInInspector] public float speed = 0.5f;
 
     [Tooltip("Si se está mostrando")] private bool _show = false;
-    [Tooltip("Es para la posicion en el canvas")]private RectTransform _rectTransform;
+    [Tooltip("Es para la posicion en el canvas")] private RectTransform _rectTransform;
 
     [Space(10), Header("-> Color")]
-    [SerializeField] private Color _deactiveColor;
-    [SerializeField] private Color _activeColor;
+    [HideInInspector] public Color deactiveColor;
 
-    private Image _image;
+    [HideInInspector] public Color activeColor;
+
+    [SerializeField] private Image _image;
     private TextMeshProUGUI _txt;
 
     private int _totalAmountCollectible = 1;
@@ -33,27 +42,39 @@ public class UICollectible : MonoBehaviour
         _txt = GetComponentInChildren<TextMeshProUGUI>();
         _rectTransform = GetComponent<RectTransform>();
 
+
         //Si no hay ninguna refrencia de la UI en el GameManager, me agrego yo
-        if (_player == CharacterTarget.Bongo && !GameManager.instance.UIBongoTrincket)
+        if (_player == CharacterTarget.Bongo)
         {
-            GameManager.instance.UIBongoTrincket = this;
+            if (myShowType == ShowType.InGame && !GameManager.instance.UIBongoTrincket) GameManager.instance.UIBongoTrincket = this;
             _key = "BongoTrinket";
         }
 
-        else if (_player == CharacterTarget.Frank && !GameManager.instance.UIFrankTrincket)
+        else if (_player == CharacterTarget.Frank)
         {
-            GameManager.instance.UIFrankTrincket = this;
+            if(myShowType == ShowType.InGame && !GameManager.instance.UIFrankTrincket) GameManager.instance.UIFrankTrincket = this;
+
             _key = "FrankTrinket";
         }
 
-        //Si ya hay, me destruyo
-        else
+        if (myShowType == ShowType.InCanvasWin)
         {
-            Destroy(gameObject);
+            UnityEngine.SceneManagement.Scene currentScene = SceneManager.GetActiveScene();
+            SetUIToLevel(currentScene.buildIndex);
+
             return;
         }
 
-        _rectTransform.anchoredPosition = _hidePos;
+        //Si ya hay, me destruyo
+        //else
+        //{
+        //    Destroy(gameObject);
+        //    return;
+        //}
+
+
+        _rectTransform.anchoredPosition = hidePos;
+
     }
 
     /// <summary>
@@ -65,18 +86,21 @@ public class UICollectible : MonoBehaviour
         //Si no se agarro el coleccionable en este nivel
         if (!CallJson.instance.refJasonSave.GetValueCollectableDict(buildIndexLevel, _key))
         {
+            Debug.LogWarning($"No se agarro el: {gameObject.name}");
+
             //Desactivo el color en la UI
-            _image.color = _deactiveColor;
+            _image.color = deactiveColor;
 
             //Actualizo el texto a 0
-            UpdateCollectibleTxt(0);
+            if(myShowType == ShowType.InGame) UpdateCollectibleTxt(0);
         }
 
         //Caso contrario
         else
         {
-            _image.color = _activeColor;
-            UpdateCollectibleTxt(1);
+            Debug.LogWarning($"Se agarro el: {gameObject.name}!!!");
+            _image.color = activeColor;
+            if (myShowType == ShowType.InGame) UpdateCollectibleTxt(1);
         }
     }
 
@@ -85,7 +109,7 @@ public class UICollectible : MonoBehaviour
     /// </summary>
     public void UICollectibleTaken()
     {
-        _image.color = _activeColor;
+        _image.color = activeColor;
 
         UpdateCollectibleTxt(1);
     }
@@ -115,22 +139,22 @@ public class UICollectible : MonoBehaviour
 
         var actualPos = _rectTransform.anchoredPosition;
 
-        while (elpasedTime < _speed)
+        while (elpasedTime < speed)
         {
             elpasedTime += Time.deltaTime;
 
-            float t = elpasedTime / _speed;
+            float t = elpasedTime / speed;
 
-            if(active) _rectTransform.anchoredPosition = Vector2.Lerp(actualPos, _showPos, t);
+            if(active) _rectTransform.anchoredPosition = Vector2.Lerp(actualPos, showPos, t);
 
-            else _rectTransform.anchoredPosition = Vector2.Lerp(actualPos, _hidePos, t);
+            else _rectTransform.anchoredPosition = Vector2.Lerp(actualPos, hidePos, t);
 
             yield return null;
         }
 
         if(active)
         {
-            yield return new WaitForSeconds(_timeShow);
+            yield return new WaitForSeconds(timeShow);
 
             StartCoroutine(Show(false));
         }
