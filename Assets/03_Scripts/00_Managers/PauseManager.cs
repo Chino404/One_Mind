@@ -15,7 +15,7 @@ public class PauseManager : MonoBehaviour
     public Canvas gameOverCanvas;
 
     private bool _isPaused;
-    [Space(10),SerializeField] int _asyncScene;
+    [Space(10), SerializeField, Tooltip("Escena de carga asincrónica.")] private int _asyncScene = 1;
     [SerializeField] int _mainMenuScene;
 
 
@@ -29,7 +29,6 @@ public class PauseManager : MonoBehaviour
         }
         else
             Destroy(gameObject);
-
     }
     private void Update()
     {
@@ -47,11 +46,11 @@ public class PauseManager : MonoBehaviour
 
             }
         }
-        if(Time.timeScale==1)
-        {
-            //gameOverCanvas.gameObject.SetActive(false);
-            winCanvas.gameObject.SetActive(false);
-        }
+        //if(Time.timeScale==1)
+        //{
+        //    //gameOverCanvas.gameObject.SetActive(false);
+        //    winCanvas.gameObject.SetActive(false);
+        //}
 
         
 
@@ -89,9 +88,12 @@ public class PauseManager : MonoBehaviour
 
     public void NextLvL(int scene)
     {
-        AsyncLoad.sceneNumber = scene;
+        //UnityEngine.SceneManagement.Scene currentScene = SceneManager.GetActiveScene(); //GetActiveScene() es para averiguar en que escena estas
+        //Debug.Log($"Mi Index es: {currentScene.buildIndex}");
+
         SceneManager.LoadSceneAsync(_asyncScene);
-        pauseMenu.gameObject.SetActive(false);
+        AsyncLoad.sceneNumber = scene;
+        //pauseMenu.gameObject.SetActive(false);
         Time.timeScale = 1;
     }
 
@@ -112,7 +114,6 @@ public class PauseManager : MonoBehaviour
     public void ReturnMainMenu()
     {
         GameManager.instance.rewinds.Clear();
-
         //GameManager.instance.enemies.Clear();
 
         SceneManager.LoadScene(_mainMenuScene);
@@ -128,20 +129,14 @@ public class PauseManager : MonoBehaviour
         _isPaused = false;
     }
 
-    public void RestartGame(int sceneNumber)
+    public void RestartGame()
     {
 
-        //Time.timeScale = 1;
-        //pauseMenu.gameObject.SetActive(false);
-        ////gameOverCanvas.gameObject.SetActive(false);
-        //foreach (var item in GameManager.instance.rewinds)
-        //{
-        //    item.Load();
-        //}
-        
-        AsyncLoad.sceneNumber = sceneNumber;
-        pauseMenu.gameObject.SetActive(false);
+        UnityEngine.SceneManagement.Scene currentScene = SceneManager.GetActiveScene(); //GetActiveScene() es para averiguar en que escena estas
+
+        AsyncLoad.sceneNumber = currentScene.buildIndex;
         SceneManager.LoadSceneAsync(_asyncScene);
+        //pauseMenu.gameObject.SetActive(false);
         Time.timeScale = 1;
 
 

@@ -15,7 +15,7 @@ public class MenuManager : MonoBehaviour
     public static MenuManager Instance;
 
     [Header("-> Config.")]
-    [SerializeField, Tooltip("Escena a cargar")] private int _asyncScene; //Escena a cargar
+    [Tooltip("Escena de carga asincrónica.")] private int _asyncScene = 1; //Escena a cargar
     [SerializeField] private BookAnim _refBookAnim; //Referencia del Modelo del libro
 
 
