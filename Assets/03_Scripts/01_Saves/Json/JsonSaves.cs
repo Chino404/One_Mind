@@ -196,13 +196,18 @@ public class JsonSaves : MonoBehaviour
     /// <returns></returns>
     public bool GetValueCollectableDict(int indexLevel, string key)
     {
+
         var levelList = CallJson.instance.refJasonSave.GetSaveData.levels; //Los niveles de LevelData
         var valueKey = false;
+
+        //if(currentLevel.collectablesJSON.ContainsKey(key)) valueKey = currentLevel.collectablesJSON[key];
+
 
         for (int i = 0; i < levelList.Length; i++)
         {
             if (levelList[i].indexLevelJSON == indexLevel && levelList[i].collectablesJSON.ContainsKey(key)) valueKey = levelList[i].collectablesJSON[key];
         }
+
 
         return valueKey;
     }
