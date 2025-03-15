@@ -6,10 +6,11 @@ using UnityEngine;
 public class MovePlataform : Rewind
 {
 
-    [SerializeField, Tooltip("Puntos a los que va a ir")] Transform[] _waypoints;
+    [Tooltip("Puntos a los que va a ir")] public Transform[] waypoints;
     [SerializeField, Tooltip("Velocidad")] private float _maxVelocity = 7f;
     [SerializeField, Tooltip("Segunso que va a esperar para moverse otra vez")] float _secondsWaiting = 1f;
     private float _currentVelocity = 7f;
+    
 
     [Space(10), SerializeField] private bool _isActiveMove = true;
     public bool IsActiveMove { set { _isActiveMove = value; } }
@@ -17,6 +18,8 @@ public class MovePlataform : Rewind
 
     private int _actualIndex;
     private Vector3 _velocity;
+    public Vector3 Velocity { get { return _velocity; } }
+
     private Rigidbody _rb;
 
 
@@ -80,15 +83,15 @@ public class MovePlataform : Rewind
     {
         if (!_isActiveMove) return;
 
-        if (Vector3.Distance(_rb.position, _waypoints[_actualIndex].position) <= 1)
+        if (Vector3.Distance(_rb.position, waypoints[_actualIndex].position) <= 1)
         {
             StartCoroutine(WaitSeconds());
             _actualIndex++;
 
-            if (_actualIndex >= _waypoints.Length) _actualIndex = 0;
+            if (_actualIndex >= waypoints.Length) _actualIndex = 0;
         }
         
-        _velocity = _waypoints[_actualIndex].position - _rb.position;
+        _velocity = waypoints[_actualIndex].position - _rb.position;
         _velocity.Normalize();
 
         //transform.position += _velocity*_maxVelocity * Time.deltaTime;
@@ -215,7 +218,7 @@ public class MovePlataform : Rewind
         
         var col = _currentState.Remember();
 
-        transform.position = _waypoints[_actualIndex].position;
+        transform.position = waypoints[_actualIndex].position;
         StartCoroutine(WaitSeconds());
         _isActiveMove = (bool)col.parameters[1];
         //_currentVelocity = (float)col.parameters[2];
