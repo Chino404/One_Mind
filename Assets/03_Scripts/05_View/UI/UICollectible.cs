@@ -10,7 +10,7 @@ public class UICollectible : MonoBehaviour
     [SerializeField] private CharacterTarget _player;
     private string _key;
 
-    public enum ShowType { InGame, InCanvasWin }
+    public enum ShowType { InGame, InCanvas }
     [HideInInspector] public ShowType myShowType;
 
     [Space(10), Header("-> Positions")]
@@ -57,7 +57,7 @@ public class UICollectible : MonoBehaviour
             _key = "FrankTrinket";
         }
 
-        if (myShowType == ShowType.InCanvasWin)
+        if (myShowType == ShowType.InCanvas)
         {
             UnityEngine.SceneManagement.Scene currentScene = SceneManager.GetActiveScene();
             SetUIToLevel(currentScene.buildIndex);
