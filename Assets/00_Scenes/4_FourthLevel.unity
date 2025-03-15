@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12811469, g: 0.044899415, b: 0.14673907, a: 1}
+  m_IndirectSpecularColor: {r: 0.08419958, g: 0.0439166, b: 0.13619617, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -25833,6 +25833,37 @@ PrefabInstance:
       propertyPath: _indexLevel
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 929708000975014876, guid: b688054529d9e4c47a335b1e80f5c403,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.00035157203
+      objectReference: {fileID: 0}
+    - target: {fileID: 929708000975014876, guid: b688054529d9e4c47a335b1e80f5c403,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.85882354
+      objectReference: {fileID: 0}
+    - target: {fileID: 929708000975014876, guid: b688054529d9e4c47a335b1e80f5c403,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3246113673836117156, guid: b688054529d9e4c47a335b1e80f5c403,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3749069851446512737, guid: b688054529d9e4c47a335b1e80f5c403,
+        type: 3}
+      propertyPath: sharedProfile
+      value: 
+      objectReference: {fileID: 11400000, guid: db5aa81deabc9ef40a7b6bee9e080849,
+        type: 2}
+    - target: {fileID: 4358803176461116391, guid: b688054529d9e4c47a335b1e80f5c403,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5487185091243099559, guid: b688054529d9e4c47a335b1e80f5c403,
         type: 3}
       propertyPath: m_Name
@@ -25843,6 +25874,41 @@ PrefabInstance:
       propertyPath: secondsInGame
       value: 
       objectReference: {fileID: 552435138}
+    - target: {fileID: 8070082355569038303, guid: b688054529d9e4c47a335b1e80f5c403,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.58556753
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070082355569038303, guid: b688054529d9e4c47a335b1e80f5c403,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.20136462
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070082355569038303, guid: b688054529d9e4c47a335b1e80f5c403,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7847405
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070082355569038303, guid: b688054529d9e4c47a335b1e80f5c403,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.027299086
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070082355569038303, guid: b688054529d9e4c47a335b1e80f5c403,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 11.127
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070082355569038303, guid: b688054529d9e4c47a335b1e80f5c403,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -251.414
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070082355569038303, guid: b688054529d9e4c47a335b1e80f5c403,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 20.774
+      objectReference: {fileID: 0}
     - target: {fileID: 8944405046387045373, guid: b688054529d9e4c47a335b1e80f5c403,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -85535,7 +85601,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 0
+  prewarm: 1
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
@@ -86090,7 +86156,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 1000
+    maxNumParticles: 10000
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -86356,7 +86422,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 100
+      scalar: 200
       minScalar: 10
       maxCurve:
         serializedVersion: 2
