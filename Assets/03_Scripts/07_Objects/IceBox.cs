@@ -5,6 +5,7 @@ using UnityEngine;
 public class IceBox : Rewind
 {
     private Vector3 _position;
+    public Transform desiredPosition;
 
     private void Start()
     {
@@ -14,6 +15,8 @@ public class IceBox : Rewind
     {
         if (other.gameObject.layer == 17)
             transform.position = _position;
+        if (other.gameObject.layer == 19&&desiredPosition)
+            transform.position = desiredPosition.position;
     }
 
     public override void Save()
