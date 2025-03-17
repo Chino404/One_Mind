@@ -208,7 +208,7 @@ public class MovePlataform : Rewind
 
     public override void Save()
     {
-        _currentState.Rec(transform.position, _isActiveMove /*_currentVelocity*/);
+        _currentState.Rec(_isActiveMove, waypoints, _actualIndex);
     }
 
     public override void Load()
@@ -218,9 +218,11 @@ public class MovePlataform : Rewind
         
         var col = _currentState.Remember();
 
-        transform.position = waypoints[_actualIndex].position;
         StartCoroutine(WaitSeconds());
-        _isActiveMove = (bool)col.parameters[1];
+        _isActiveMove = (bool)col.parameters[0];
+        waypoints = (Transform[])col.parameters[1];
+        _actualIndex = (int)col.parameters[2];
+        transform.position = waypoints[_actualIndex].position;
         //_currentVelocity = (float)col.parameters[2];
 
         //banana = (Transform)col.parameters[1];
