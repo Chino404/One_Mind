@@ -10,7 +10,7 @@ public class FakePlataform : Rewind
     [SerializeField] public Renderer[] _disolveRenderers;
     private List<Material> _disolveMaterials = new List<Material>(); // Lista para almacenar los materiales 
     private int _IdDisolve = Shader.PropertyToID("_Disolve");
-
+    [SerializeField] private bool _hasStarted = false;
     public override void Awake()
     {
         base.Awake();
@@ -19,12 +19,16 @@ public class FakePlataform : Rewind
         {
             _disolveMaterials.AddRange(renderer.materials);
         }
-        _valueDisolve = 0f;
+       // _valueDisolve = 0f;
     }
 
     private void OnEnable()
     {
-        StartCoroutine(ShaderDisolve(false));
+        if (_hasStarted) // Solo se ejecuta después del inicio
+        {
+            StartCoroutine(ShaderDisolve(false));
+        }
+        _hasStarted = true; // Marca que el juego ha iniciado
     }
 
 
@@ -107,3 +111,4 @@ public class FakePlataform : Rewind
 
     }
 }
+    
