@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-public class Escoba : MonoBehaviour
+public class ArtMovement : MonoBehaviour
 {
     [Header("Movimiento de Barrido")]
     public Transform parteInferior; // Referencia al Transform de la parte móvil
