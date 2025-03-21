@@ -26,7 +26,6 @@ public class ArtMovement : MonoBehaviour
             Debug.LogError("El modelo 3D no está asignado.");
             return;
         }
-        parteInferior.localRotation = Quaternion.Euler(-50, parteInferior.rotation.eulerAngles.y, parteInferior.rotation.eulerAngles.z);
 
         rotacionInicial = parteInferior.localRotation;
     }

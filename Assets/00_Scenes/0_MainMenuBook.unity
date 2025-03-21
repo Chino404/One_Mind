@@ -38869,8 +38869,8 @@ GameObject:
   - component: {fileID: 290309850677384022}
   - component: {fileID: 3432212122937889610}
   - component: {fileID: 595985829718943616}
-  - component: {fileID: 3961002432136139091}
   - component: {fileID: 3235450892337622872}
+  - component: {fileID: 3432212122937889611}
   m_Layer: 0
   m_Name: Escoba Variant
   m_TagString: Untagged
@@ -41072,6 +41072,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1102453826383530476}
   m_Mesh: {fileID: 6099800089077584851, guid: 65e3c4a7c8e3f6a47ac062eb5823fcee, type: 3}
+--- !u!114 &3432212122937889611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102453826383530476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92063005699d0c349bdf60aff346ab8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parteInferior: {fileID: 256100688332944573}
+  modelo3D: {fileID: 1102453826383530476}
+  anguloMaximo: 30
+  velocidad: 5.75
 --- !u!4 &3456456438643400001
 Transform:
   m_ObjectHideFlags: 0
@@ -41643,22 +41659,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &3961002432136139091
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1102453826383530476}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee6ea93035072f64da9baab393001ed6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parteInferior: {fileID: 256100688332944573}
-  modelo3D: {fileID: 1102453826383530476}
-  anguloMaximo: 30
-  velocidad: 5.75
 --- !u!1 &3989730686948323208
 GameObject:
   m_ObjectHideFlags: 0
