@@ -34,10 +34,10 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 0.8166666666666667
-    m_ClipIn: 0
+    m_Start: 1.6666666666666667
+    m_ClipIn: 0.5666666666666669
     m_Asset: {fileID: 8715896327519430083}
-    m_Duration: 1.2666666666666668
+    m_Duration: 0.8083333333333331
     m_TimeScale: 1
     m_ParentTrack: {fileID: -5613411356340262440}
     m_EaseInDuration: 0
@@ -46,7 +46,25 @@ MonoBehaviour:
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -70,7 +88,7 @@ MonoBehaviour:
     m_Start: 0.48333333333333334
     m_ClipIn: 0
     m_Asset: {fileID: 6556327147705350181}
-    m_Duration: 0.3333333333333333
+    m_Duration: 0.35000000000000003
     m_TimeScale: 1
     m_ParentTrack: {fileID: -5613411356340262440}
     m_EaseInDuration: 0
@@ -118,10 +136,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0.48333333333333334
     m_DisplayName: Jump_Idle_Bongo
   - m_Version: 1
-    m_Start: 2.0833333333333335
-    m_ClipIn: 0.033333333333333215
+    m_Start: 2.4749999999999996
+    m_ClipIn: 0
     m_Asset: {fileID: -2214128128759814035}
-    m_Duration: 2.4250000000000003
+    m_Duration: 2.3583333333333334
     m_TimeScale: 1
     m_ParentTrack: {fileID: -5613411356340262440}
     m_EaseInDuration: 0
@@ -186,6 +204,39 @@ MonoBehaviour:
     m_PostExtrapolationTime: Infinity
     m_PreExtrapolationTime: 0
     m_DisplayName: ComeBackFall
+  - m_Version: 1
+    m_Start: 0.8333333333333334
+    m_ClipIn: 0
+    m_Asset: {fileID: 3423147058515611427}
+    m_Duration: 0.8333333333333334
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -5613411356340262440}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: -1
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 1
+    m_PreExtrapolationMode: 1
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: New_Fall_High
   m_Markers:
     m_Objects: []
   m_InfiniteClipPreExtrapolation: 0
@@ -499,7 +550,7 @@ MonoBehaviour:
     m_Start: 0.48333333333333334
     m_ClipIn: 0
     m_Asset: {fileID: -8063606803552115923}
-    m_Duration: 4.025
+    m_Duration: 4.366666666666666
     m_TimeScale: 1
     m_ParentTrack: {fileID: -3342544168249229424}
     m_EaseInDuration: 0
@@ -619,7 +670,7 @@ MonoBehaviour:
   - {fileID: -3342544168249229424}
   - {fileID: 2460324321233294493}
   - {fileID: -4852674092092225819}
-  m_FixedDuration: 4.5
+  m_FixedDuration: 4.833333333333333
   m_EditorSettings:
     m_Framerate: 60
     m_ScenePreview: 1
@@ -666,6 +717,28 @@ MonoBehaviour:
   m_OpenClipOffsetRotation: {x: 0, y: 0, z: 0, w: 1}
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
   m_ApplyOffsets: 0
+--- !u!114 &3423147058515611427
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 030f85c3f73729f4f976f66ffb23b875, type: 3}
+  m_Name: AnimationPlayableAsset
+  m_EditorClassIdentifier: 
+  m_Clip: {fileID: 7400000, guid: a315495ea0c2b8c48951bdf5a194e005, type: 2}
+  m_Position: {x: 0, y: 0, z: 0}
+  m_EulerAngles: {x: 0, y: 0, z: 0}
+  m_UseTrackMatchFields: 1
+  m_MatchTargetFields: 63
+  m_RemoveStartOffset: 1
+  m_ApplyFootIK: 1
+  m_Loop: 0
+  m_Version: 1
+  m_Rotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!114 &6556327147705350181
 MonoBehaviour:
   m_ObjectHideFlags: 1
