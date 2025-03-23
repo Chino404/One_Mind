@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PenguinFly : MonoBehaviour, IInteracteable
+public class PenguinFly : MonoBehaviour, IInteracteable,IDamageable
 {
     private Vector3 _newPosition;
     [SerializeField] private Vector3 _positionInBongo;
@@ -60,5 +60,15 @@ public class PenguinFly : MonoBehaviour, IInteracteable
     public void StopFlying()
     {
         _animator.SetTrigger("Normal");
+    }
+
+    public void TakeDamageEntity(float dmg, Vector3 target)
+    {
+        
+    }
+
+    public void Dead()
+    {
+        GameManager.instance.modelBongo.Dead();
     }
 }
