@@ -50,8 +50,10 @@ public class Geiser : MonoBehaviour, IImpulse
     {
         //_scaleCollider.y = newScaleY;
         _myCollider.size += new Vector3(0, addScaleY, 0);
-
-        ModifyParticle(newSpeedParticle);
+        _actualSpeedParticle += newSpeedParticle;
+        var main = _myParticle.main;
+        main.startSpeed = _actualSpeedParticle;
+       // ModifyParticle(newSpeedParticle);
 
         //Para automatizar las particulas
         //var porcentaje = newScaleY / (_iniScaleCollider.y * 1.5f);
