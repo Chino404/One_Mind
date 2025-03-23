@@ -58,14 +58,14 @@ public class NormalPressurePlate : Rewind, IInteracteable
             {
                 _active[i].gameObject.SetActive(true);
 
-                _active[i].gameObject.GetComponent<WallHolograph>().Active();
+                _active[i].gameObject.GetComponent<DesactiveWall>().Active();
             }
 
             for (int i = 0; i < _desactive.Length; i++) //Desactivo los objetos
             {
                 //_deactive[i].gameObject.SetActive(false);
 
-                _desactive[i].gameObject.GetComponent<WallHolograph>().Desactive();
+                _desactive[i].gameObject.GetComponent<DesactiveWall>().Desactive();
 
             }
 

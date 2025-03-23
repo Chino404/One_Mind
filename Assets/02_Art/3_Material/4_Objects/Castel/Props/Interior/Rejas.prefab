@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &243235205890088204
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3575837577436857512}
+  m_Layer: 8
+  m_Name: Waypoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3575837577436857512
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243235205890088204}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: -18.32, z: -1.67}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3770878323014212307}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &275434900207841120
 GameObject:
   m_ObjectHideFlags: 0
@@ -11,7 +42,7 @@ GameObject:
   - component: {fileID: 117681584863742221}
   - component: {fileID: 3600954969096247559}
   - component: {fileID: 2931250496422228018}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Reja_medio (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +125,7 @@ GameObject:
   - component: {fileID: 755491778161504832}
   - component: {fileID: 6913690061420070115}
   - component: {fileID: 5651584055540533722}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Reja_medio (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +206,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3770878323014212307}
-  m_Layer: 0
+  - component: {fileID: 6284128990539212593}
+  m_Layer: 8
   m_Name: Rejas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,8 +237,37 @@ Transform:
   - {fileID: 117681584863742221}
   - {fileID: 753847073009036343}
   - {fileID: 755491778161504832}
+  - {fileID: 3575837577436857512}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &6284128990539212593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2638218970195883323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22149bc709972794090286538ced7e1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bars:
+  - {fileID: 3438350251971335841}
+  - {fileID: 6617510736450575363}
+  - {fileID: 6568693308640711183}
+  - {fileID: 5057297966471847460}
+  - {fileID: 5352277815015950687}
+  - {fileID: 7688941401710380879}
+  - {fileID: 275434900207841120}
+  - {fileID: 3649334657876102459}
+  - {fileID: 2280694825532503405}
+  - {fileID: 4801172172655294814}
+  _minDelay: 0.2
+  _maxDelay: 1
+  _minSpeed: 20
+  _maxSpeed: 25
+  waypoint: {fileID: 3575837577436857512}
 --- !u!1 &3438350251971335841
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,7 +279,7 @@ GameObject:
   - component: {fileID: 6313875935666172337}
   - component: {fileID: 8115976430769524030}
   - component: {fileID: 8062048068548724095}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Reja_Chica
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -301,7 +362,7 @@ GameObject:
   - component: {fileID: 753847073009036343}
   - component: {fileID: 2540127813345663567}
   - component: {fileID: 386270662138839510}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Reja_medio (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -385,7 +446,7 @@ GameObject:
   - component: {fileID: 7162734982445817466}
   - component: {fileID: 7334524952896661854}
   - component: {fileID: 7122040696748260230}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -476,8 +537,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 3.306669, y: 1, z: 0.99999976}
+  m_Center: {x: -0.9957619, y: 0, z: 1.4980082e-16}
 --- !u!1 &5057297966471847460
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,7 +550,7 @@ GameObject:
   - component: {fileID: 4856510569482188812}
   - component: {fileID: 8248275115751825360}
   - component: {fileID: 5893287978666361372}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Reja_Chica (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -572,7 +633,7 @@ GameObject:
   - component: {fileID: 8675542983975232478}
   - component: {fileID: 6132425432443892151}
   - component: {fileID: 6315045791944093631}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Reja_Grande
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -655,7 +716,7 @@ GameObject:
   - component: {fileID: 2198251946198773745}
   - component: {fileID: 1564402712819070185}
   - component: {fileID: 2287350649519504362}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Reja_Chica (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -738,7 +799,7 @@ GameObject:
   - component: {fileID: 1541531051332703376}
   - component: {fileID: 859684562942134075}
   - component: {fileID: 6552144220888768019}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Reja_Chica (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -821,7 +882,7 @@ GameObject:
   - component: {fileID: 6760165866233837879}
   - component: {fileID: 1200081792070875554}
   - component: {fileID: 6624011440012854466}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Reja_medio
   m_TagString: Untagged
   m_Icon: {fileID: 0}

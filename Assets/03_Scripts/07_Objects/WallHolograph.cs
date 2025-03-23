@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WallHolograph : Rewind
+public class WallHolograph : DesactiveWall
 {
     private Renderer _opacityMaterial;
     [SerializeField, Range(0, 1f)] private float _valueOpacity = 1;
@@ -22,7 +22,7 @@ public class WallHolograph : Rewind
         _opacityMaterial.material.SetFloat(_IdOpacity, _valueOpacity);
     }
 
-    public void Active()
+    public override void Active()
     {
         StartCoroutine(timeToActive());
     }
@@ -36,7 +36,7 @@ public class WallHolograph : Rewind
 
     }
 
-    public void Desactive()
+    public override void Desactive()
     {
         StartCoroutine(timeToDesactive());
         AudioManager.instance.Play(SoundId.DesactiveWallHolograph);
