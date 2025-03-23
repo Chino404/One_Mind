@@ -47,13 +47,14 @@ public class BreakablePlatform : Rewind
         {
             if (_isBreaking) return;
             _isBreaking = true;
-
+            
             Onplatform();
         }
     }
 
     private void Onplatform()
     {
+        
 
         if (_myState == BreakingState.Subido) return;
         _myState = BreakingState.Subido;
@@ -115,7 +116,7 @@ public class BreakablePlatform : Rewind
 
     public override void Save()
     {
-        _currentState.Rec( gameObject.activeInHierarchy);
+        _currentState.Rec( _myState,_currentTrigger,_isBreaking);
     }
 
     public override void Load()
@@ -123,11 +124,15 @@ public class BreakablePlatform : Rewind
         if (!_currentState.IsRemember()) return;
         var col = _currentState.Remember();
         //gameObject.SetActive((bool)col.parameters[0]);
-        
-        StopAllCoroutines();
+
+        //_myState = (BreakingState)col.parameters[0];
+        //_currentTrigger = (string)col.parameters[1];
+        //_isBreaking = (bool)col.parameters[2];
 
         //_myAnimator.SetTrigger("Idle");
+
         Idle();
+        StopAllCoroutines();
     }
 
     #endregion
