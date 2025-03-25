@@ -33,9 +33,7 @@ public class BarsWall : DesactiveWall
 
         foreach (var item in bars)
         {
-            //float delay = Random.Range(_minDelay, _maxDelay);
-            //float speed = Random.Range(_minSpeed, _maxSpeed);
-            StartCoroutine(ActiveBars(item, 0, _maxSpeed));
+            StartCoroutine(ActiveBars(item, 0, _maxSpeed * 2));
         }
 
         _isStartActive = true;
