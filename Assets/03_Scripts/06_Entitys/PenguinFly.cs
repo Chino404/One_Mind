@@ -10,6 +10,12 @@ public class PenguinFly : MonoBehaviour, IInteracteable,IDamageable
     [SerializeField]private bool _isInBongo;
     private bool _isDisable;
     [SerializeField]private Animator _animator;
+    [Header("SIN BONGO")]
+    public Transform[] waypoints;
+    public float speed;
+    [SerializeField] private float _secondsWaiting=1.5f;
+    private int _actualIndex;
+    private Vector3 _velocity;
 
     void Awake()
     {
@@ -31,6 +37,33 @@ public class PenguinFly : MonoBehaviour, IInteracteable,IDamageable
             gameObject.SetActive(false);
             GameManager.instance.modelBongo.penguin = null;
         }
+
+        else if (!_isInBongo)
+        {
+            if (Vector3.Distance(transform.position, waypoints[_actualIndex].position) <= 0.5f)
+            {
+                StartCoroutine(StopWalk());
+                _actualIndex++;
+                if (_actualIndex >= waypoints.Length) _actualIndex = 0;
+            }
+            _velocity = waypoints[_actualIndex].position - transform.position;
+            _velocity.Normalize();
+            transform.position += _velocity * speed * Time.deltaTime;
+            transform.LookAt(waypoints[_actualIndex].position);
+            _animator.SetTrigger("Walking");
+
+        }
+    }
+
+    IEnumerator StopWalk()
+    {
+        var actualSpeed = speed;
+        speed = 0;
+        _animator.SetTrigger("Normal");
+        yield return new WaitForSeconds(_secondsWaiting);
+        speed = actualSpeed;
+        
+
     }
 
     public void Active()
@@ -40,6 +73,7 @@ public class PenguinFly : MonoBehaviour, IInteracteable,IDamageable
         _isInBongo = true;
         GameManager.instance.modelBongo.penguin = this;
         GameManager.instance.modelBongo.IsGetPenguin = true;
+        _animator.SetTrigger("Normal");
     }
 
     public void Deactive()
