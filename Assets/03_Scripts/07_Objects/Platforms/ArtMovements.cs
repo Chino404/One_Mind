@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArtMovements : MonoBehaviour
+public class ArtMovements : Rewind
 {
     [SerializeField] private float fallDistance = 2f; // Distancia que baja
     [SerializeField] private float fallSpeed = 2f; // Velocidad de caída
@@ -47,5 +47,18 @@ public class ArtMovements : MonoBehaviour
         }
 
         isFalling = false;
+    }
+
+    public override void Save()
+    {
+        _currentState.Rec(transform.position);
+    }
+
+    public override void Load()
+    {
+        if (!_currentState.IsRemember()) return;
+
+        var col = _currentState.Remember();
+        transform.position = (Vector3)col.parameters[0];
     }
 }
