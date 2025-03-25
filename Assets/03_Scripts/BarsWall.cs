@@ -9,6 +9,7 @@ public class BarsWall : DesactiveWall
     [SerializeField] private float _maxDelay = 1f;
     [SerializeField] private float _minSpeed = 1f;
     [SerializeField] private float _maxSpeed = 3f;
+    [SerializeField] private GameObject _particles;
     public Transform waypoint;
 
     [SerializeField] bool _isStartActive;
@@ -68,7 +69,7 @@ public class BarsWall : DesactiveWall
             float speed = Random.Range(_minSpeed, _maxSpeed);
             StartCoroutine(DesactiveBars(item, delay, speed));
         }
-
+        
         _isStartActive = false;
     }
 
@@ -87,5 +88,30 @@ public class BarsWall : DesactiveWall
             yield return null;
         }
         bar.transform.position = targetPos;
+    }
+
+    public override void Save()
+    {
+        base.Save();
+        List<Vector3> barsPositions = new();
+        foreach (var item in bars)
+        {
+            barsPositions.Add(item.transform.position);
+        }
+        _currentState.Rec(barsPositions);
+    }
+
+    public override void Load()
+    {
+        base.Load();
+        if (!_currentState.IsRemember()) return;
+        var col = _currentState.Remember();
+        List<Vector3> barsPositions = (List<Vector3>)col.parameters[0];
+
+        for (int i = 0; i < bars.Length; i++)
+        {
+            if (i < barsPositions.Count)
+                bars[i].transform.position = barsPositions[i];
+        }
     }
 }
