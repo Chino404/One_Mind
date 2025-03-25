@@ -28,13 +28,13 @@ public class NormalPressurePlate : Rewind, IInteracteable
 
     private void Start()
     {
-        for (int i = 0; i < _active.Length; i++)
-        {
-            if (_active[i].activeInHierarchy) //Si los objetos a activar estan activos en la jerarquia, los apago
-            {
-                _active[i].gameObject.SetActive(false);
-            }
-        }
+        //for (int i = 0; i < _active.Length; i++)
+        //{
+        //    if (_active[i].activeInHierarchy) //Si los objetos a activar estan activos en la jerarquia, los apago
+        //    {
+        //        _active[i].gameObject.SetActive(false);
+        //    }
+        //}
     }
 
     private void Update()
@@ -51,19 +51,19 @@ public class NormalPressurePlate : Rewind, IInteracteable
     {
         if(!_pressed)
         {
-            _pressed = true;
+            //_pressed = true;
             //_animator?.SetTrigger("Pressed");
 
             for (int i = 0; i < _active.Length; i++) //Activo los objetos
             {
-                _active[i].gameObject.SetActive(true);
+                //_active[i].gameObject.SetActive(true);
 
                 _active[i].gameObject.GetComponent<DesactiveWall>().Active();
             }
 
             for (int i = 0; i < _desactive.Length; i++) //Desactivo los objetos
             {
-                //_deactive[i].gameObject.SetActive(false);
+                //_desactive[i].gameObject.SetActive(false);
 
                 _desactive[i].gameObject.GetComponent<DesactiveWall>().Desactive();
 
