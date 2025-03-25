@@ -12,6 +12,7 @@ public class NormalPressurePlate : Rewind, IInteracteable
     //private Animator _animator;
 
     private bool _pressed;
+    [SerializeField, Tooltip("Se puede volver a presionar de nuevo")] private bool _isPressAgain;
 
     [Header("Prefab Settings")]
     [SerializeField] private GameObject _prefab;
@@ -43,7 +44,6 @@ public class NormalPressurePlate : Rewind, IInteracteable
         {
             if(_button.transform.localPosition.y>_endAnimation)
                 _button.transform.localPosition -= new Vector3(0,  Time.deltaTime, 0);
-
         }
             
     }
@@ -51,7 +51,7 @@ public class NormalPressurePlate : Rewind, IInteracteable
     {
         if(!_pressed)
         {
-            //_pressed = true;
+            if(!_isPressAgain)_pressed = true;
             //_animator?.SetTrigger("Pressed");
 
             for (int i = 0; i < _active.Length; i++) //Activo los objetos
