@@ -59,6 +59,11 @@ public class CamerasManager : MonoBehaviour
         //getCamera?.Invoke(newCamera);
     }
 
+    /// <summary>
+    /// Me da la cámara actual.
+    /// </summary>
+    /// <param name="playerType"></param>
+    /// <returns></returns>
     public CameraRails GetCurrentCamera(CharacterTarget playerType)
     {
         CameraRails camera = null;

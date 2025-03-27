@@ -8,7 +8,7 @@ public class Rail : MonoBehaviour
     [SerializeField] private Transform _target;
     public Transform RailTarget { get => _target; set => _target = value; }
 
-    public List<Transform> nodes;
+    public List<NodesOfTheRail> nodes;
 
     private int _nodeCount;
 
@@ -22,7 +22,8 @@ public class Rail : MonoBehaviour
             if (transform.GetChild(i).gameObject.GetComponent<NodesOfTheRail>())
             {
                 //nodes[i] = transform.GetChild(i);
-                nodes.Add(transform.GetChild(i));
+
+                nodes.Add(transform.GetChild(i).GetComponent<NodesOfTheRail>());
             }
 
         }
@@ -41,16 +42,16 @@ public class Rail : MonoBehaviour
         //Si el nodo más cercano es el primero o el último de la lista, proyecta player sobre el segmento que conecta con el siguiente o anterior nodo, respectivamente.
         if (closestNodeIndex == 0) //Primer nodo
         {
-            return ProjectOnSegment(nodes[0].position, nodes[1].position, _target.position);
+            return ProjectOnSegment(nodes[0].transform.position, nodes[1].transform.position, _target.position);
         }
 
         if (closestNodeIndex == nodes.Count - 1) //Último nodo
         {
-            return ProjectOnSegment(nodes[nodes.Count - 1].position, nodes[nodes.Count - 2].position, _target.position);
+            return ProjectOnSegment(nodes[nodes.Count - 1].transform.position, nodes[nodes.Count - 2].transform.position, _target.position);
         }
 
-        Vector3 leftSeg = ProjectOnSegment(nodes[closestNodeIndex - 1].position, nodes[closestNodeIndex].position, player);
-        Vector3 rightSeg = ProjectOnSegment(nodes[closestNodeIndex + 1].position, nodes[closestNodeIndex].position, player);
+        Vector3 leftSeg = ProjectOnSegment(nodes[closestNodeIndex - 1].transform.position, nodes[closestNodeIndex].transform.position, player);
+        Vector3 rightSeg = ProjectOnSegment(nodes[closestNodeIndex + 1].transform.position, nodes[closestNodeIndex].transform.position, player);
 
         Debug.DrawLine(player, leftSeg, Color.red);
         Debug.DrawLine(player, rightSeg, Color.blue);
@@ -72,7 +73,7 @@ public class Rail : MonoBehaviour
         for (int i = 0; i < nodes.Count; i++) //Recorro cada nodo.
         {
             //Calculo la distancia entre el nodo actual y el parámetro.
-            float newDistance = (nodes[i].position - player).sqrMagnitude;
+            float newDistance = (nodes[i].transform.position - player).sqrMagnitude;
 
             //Si la distancia es mas corta que la anterior.
             if (newDistance < shortestDistance)
