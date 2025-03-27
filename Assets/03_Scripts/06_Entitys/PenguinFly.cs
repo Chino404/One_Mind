@@ -13,6 +13,7 @@ public class PenguinFly : MonoBehaviour, IInteracteable,IDamageable
     [Header("SIN BONGO")]
     public Transform[] waypoints;
     public float speed;
+    public float rotationSpeed;
     [SerializeField] private float _secondsWaiting=1.5f;
     private int _actualIndex;
     private Vector3 _velocity;
@@ -49,7 +50,9 @@ public class PenguinFly : MonoBehaviour, IInteracteable,IDamageable
             _velocity = waypoints[_actualIndex].position - transform.position;
             _velocity.Normalize();
             transform.position += _velocity * speed * Time.deltaTime;
-            transform.LookAt(waypoints[_actualIndex].position);
+            Quaternion targetRotation = Quaternion.LookRotation(_velocity);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            
             _animator.SetTrigger("Walking");
 
         }
