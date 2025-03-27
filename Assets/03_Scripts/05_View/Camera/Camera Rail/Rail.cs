@@ -8,9 +8,9 @@ public class Rail : MonoBehaviour
     [SerializeField] private Transform _target;
     public Transform RailTarget { get => _target; set => _target = value; }
 
-    public List<NodesOfTheRail> nodes;
+    [Tooltip("Nodos del rail.")] public List<NodesOfTheRail> nodes;
 
-    private int _nodeCount;
+    [Tooltip("Cantidad de Nodos")] private int _nodeCount;
 
     private void Awake()
     {
@@ -19,11 +19,16 @@ public class Rail : MonoBehaviour
 
         for (int i = 0; i < _nodeCount; i++)
         {
-            if (transform.GetChild(i).gameObject.GetComponent<NodesOfTheRail>())
+            var node = transform.GetChild(i).gameObject.GetComponent<NodesOfTheRail>();
+
+            if (node)
             {
                 //nodes[i] = transform.GetChild(i);
 
-                nodes.Add(transform.GetChild(i).GetComponent<NodesOfTheRail>());
+                //nodes.Add(transform.GetChild(i).GetComponent<NodesOfTheRail>());
+
+                nodes.Add(node);
+                node.index = i;
             }
 
         }
@@ -36,27 +41,27 @@ public class Rail : MonoBehaviour
     /// <returns></returns>
     public Vector3 ProjectPositionOnRail(Vector3 player)
     {
-        int closestNodeIndex = GetClosestNode(player); // Obtengo el nodo más cercano.
-
+        //int closestNodeIndex = GetClosestNode(player); // Obtengo el nodo más cercano.
+        NodesOfTheRail closestNode = GetClosestNode(player); // Obtengo el nodo más cercano.
 
         //Si el nodo más cercano es el primero o el último de la lista, proyecta player sobre el segmento que conecta con el siguiente o anterior nodo, respectivamente.
-        if (closestNodeIndex == 0) //Primer nodo
+        if (closestNode.index == 0) //Primer nodo
         {
             return ProjectOnSegment(nodes[0].transform.position, nodes[1].transform.position, _target.position);
         }
 
-        if (closestNodeIndex == nodes.Count - 1) //Último nodo
+        else if (closestNode.index == nodes.Count - 1) //Último nodo
         {
             return ProjectOnSegment(nodes[nodes.Count - 1].transform.position, nodes[nodes.Count - 2].transform.position, _target.position);
         }
 
-        Vector3 leftSeg = ProjectOnSegment(nodes[closestNodeIndex - 1].transform.position, nodes[closestNodeIndex].transform.position, player);
-        Vector3 rightSeg = ProjectOnSegment(nodes[closestNodeIndex + 1].transform.position, nodes[closestNodeIndex].transform.position, player);
+        Vector3 nextNode = ProjectOnSegment(nodes[closestNode.index + 1].transform.position, closestNode.transform.position, player);
+        Vector3 backNode = ProjectOnSegment(nodes[closestNode.index - 1].transform.position, closestNode.transform.position, player);
 
-        Debug.DrawLine(player, leftSeg, Color.red);
-        Debug.DrawLine(player, rightSeg, Color.blue);
+        Debug.DrawLine(player, nextNode, Color.blue);
+        Debug.DrawLine(player, backNode, Color.yellow);
 
-        return (player - leftSeg).sqrMagnitude <= (player - rightSeg).sqrMagnitude ? leftSeg : rightSeg;
+        return (player - backNode).sqrMagnitude <= (player - nextNode).sqrMagnitude ? backNode : nextNode;
     }
 
     /// <summary>
@@ -64,9 +69,9 @@ public class Rail : MonoBehaviour
     /// </summary>
     /// <param name="player"></param>
     /// <returns></returns>
-    public int GetClosestNode(Vector3 player)
+    private NodesOfTheRail GetClosestNode(Vector3 player)
     {
-        int closestNodeIndex = -1; //Nodo más cercano
+        NodesOfTheRail auxNode = default;
 
         float shortestDistance = Mathf.Infinity; //Distancia más corta
 
@@ -81,11 +86,11 @@ public class Rail : MonoBehaviour
                 //Actualizo la distancia más corta.
                 shortestDistance = newDistance;
 
-                closestNodeIndex = i;
+                auxNode = nodes[i];
             }
         }
 
-        return closestNodeIndex;
+        return auxNode;
     }
 
 
