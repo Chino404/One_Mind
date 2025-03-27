@@ -5,6 +5,7 @@ using UnityEngine;
 public class NodesOfTheRail : MonoBehaviour
 {
     public CharacterTarget player;
+    [SerializeField] public int index;
 
     [Space(7)]
     [Tooltip("Puntos siguientes")] public NodesOfTheRail[] neighborNode;
