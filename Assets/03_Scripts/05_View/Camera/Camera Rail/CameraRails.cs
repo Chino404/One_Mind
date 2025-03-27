@@ -12,13 +12,13 @@ public class CameraRails : MonoBehaviour
     [HideInInspector] public bool isTeleporting;
     [SerializeField] private bool _isFixedCamera;
 
-    [Header("Components")]
+    [Header("-> Components")]
     public CharacterTarget myCharacterTarget;
     public Transform target;
 
     [SerializeField, Tooltip("Nodo fijo que setea la pos. y la rot. de la cámara")] public Transform fixedNode { get; private set; }
 
-    [Space(6), Header("Smoothing Values")]
+    [Space(6), Header("-> Smoothing Values")]
     public float moveSpeed = 5f;
 
     [Space(10), SerializeField] private bool _smoothMove = true;
@@ -28,20 +28,19 @@ public class CameraRails : MonoBehaviour
 
     [Range(0.01f, 10f)][SerializeField] float _smoothSpeedRotation = 0.075f;
 
-    Vector3 _desiredPos, _smoothPos;
-    Quaternion _smoothRot;
-
-
-
-    [Header("Camera Offset")]
+    [Header("-> Camera Offset")]
     [Tooltip("Ajusta la posición de la cámara detrás del personaje.")] public Vector3 cameraOffset = new Vector3(0f, 0f, -9f);
 
     [Space(5)]
     [SerializeField, Range(0, -50f)] private float minXRotation = -20f; // Límite inferior del eje X
     [SerializeField, Range(0, 50f)] private float maxXRotation = 35f;  // Límite superior del eje X
+
+    [Space(5)]
     [SerializeField, Range(0, -20f)] private float minYRotation = -10f; // Límite izquierdo del eje Y
     [SerializeField, Range(0, 20f)] private float maxYRotation = 10f;  // Límite derecho del eje Y
 
+    Vector3 _desiredPos, _smoothPos;
+    Quaternion _smoothRot;
 
     private void Awake()
     {
@@ -95,8 +94,6 @@ public class CameraRails : MonoBehaviour
     /// <param name="newRail"></param>
     public void ChangeToRail(Rail newRail)
     {
-        //if (newRail == _myRail) return;
-
         _myRail = newRail;
 
         if(_myRail.RailTarget == null) _myRail.RailTarget = target;
@@ -107,6 +104,7 @@ public class CameraRails : MonoBehaviour
     {
         if (target == null) return;
 
+        //Si la cámara va a estar fija.
         if(_isFixedCamera)
         {
             SetPositionAndRotationTarget();
@@ -122,10 +120,7 @@ public class CameraRails : MonoBehaviour
             _lastPosition = Vector3.Lerp(_lastPosition, targetPosition, moveSpeed * Time.deltaTime);
             transform.position = _lastPosition;
         }
-        else
-        {
-            transform.position = targetPosition;
-        }
+        else transform.position = targetPosition;
 
         #region Puede Servir
         // Suavizar la rotación para que la cámara mire en la dirección del personaje
@@ -137,6 +132,7 @@ public class CameraRails : MonoBehaviour
         AdjustCameraRotation();
     }
 
+    #region Camera Rail
     private void AdjustCameraRotation()
     {
         // Dirección hacia el personaje
@@ -161,6 +157,30 @@ public class CameraRails : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, finalRotation, _smoothSpeedRotation * Time.deltaTime);
     }
 
+    /// <summary>
+    /// Transicionar al Rail.
+    /// </summary>
+    public void TransitionToRail(Transform newNode = default)
+    {
+        if (!_isFixedCamera) return;
+
+        _isFixedCamera = false;
+        
+        if(newNode != default)
+        {
+            _lastPosition = newNode.position;
+            _lastRotation = newNode.rotation;
+        }
+
+        transform.position = _lastPosition;
+        transform.rotation = _lastRotation;
+    }
+#endregion
+
+    #region Fixed Camera
+    /// <summary>
+    /// Sete la Pos. y la Rot. cuando la cámara está fija.
+    /// </summary>
     private void SetPositionAndRotationTarget()
     {
         if (isTeleporting)
@@ -199,23 +219,7 @@ public class CameraRails : MonoBehaviour
         fixedNode = newNode;
     }
 
-    /// <summary>
-    /// Transicionar al Rail.
-    /// </summary>
-    public void TransitionToRail(Transform newNode = default)
-    {
-        if (!_isFixedCamera) return;
+#endregion
 
-        _isFixedCamera = false;
-        
-        if(newNode != default)
-        {
-            _lastPosition = newNode.position;
-            _lastRotation = newNode.rotation;
-        }
-
-        transform.position = _lastPosition;
-        transform.rotation = _lastRotation;
-    }
 }
 
