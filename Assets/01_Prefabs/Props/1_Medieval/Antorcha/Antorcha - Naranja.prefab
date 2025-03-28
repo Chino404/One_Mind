@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 1670270159586375}
   - component: {fileID: 2873604786188087437}
   - component: {fileID: 2579294482928428917}
+  - component: {fileID: 7193862533092246231}
   m_Layer: 0
   m_Name: Antorcha - Naranja
   m_TagString: Untagged
@@ -160,7 +161,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4387038354486972760}
-  m_Mesh: {fileID: 5302568919011541938, guid: 53f75a161a9679e48bc92c0552a36806, type: 3}
+  m_Mesh: {fileID: 5302568919011541938, guid: 6032c1d7b1061c145b2d8471bc10293b, type: 3}
 --- !u!23 &2873604786188087437
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -221,6 +222,29 @@ MonoBehaviour:
   _rangeLight: 1.8
   _fireMaterial: {fileID: 9088818291813216920}
   myParticleSystem: {fileID: 0}
+  iceTorch: 0
+--- !u!64 &7193862533092246231
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4387038354486972760}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5302568919011541938, guid: 6032c1d7b1061c145b2d8471bc10293b, type: 3}
 --- !u!1 &4631757133650503153
 GameObject:
   m_ObjectHideFlags: 0
