@@ -26,6 +26,9 @@ public class CameraRails : MonoBehaviour
     private Vector3 _lastPosition;
     private Quaternion _lastRotation;
 
+    Vector3 _targetPosition;
+    Quaternion _targetRotation;
+
     [Range(0.01f, 10f)][SerializeField] float _smoothSpeedRotation = 0.075f;
 
     [Header("-> Camera Offset")]
@@ -111,16 +114,26 @@ public class CameraRails : MonoBehaviour
             return;
         }
 
+
+        (_targetPosition,_targetRotation) = _myRail.ProjectPositionOnRail(target.position);
+        //_targetPosition = _myRail.ProjectPositionOnRail(target.position) + cameraOffset;
+
         // Calcular la posición deseada detrás del personaje, con el desplazamiento.
-        Vector3 targetPosition = _myRail.ProjectPositionOnRail(target.position) + cameraOffset;
+        _targetPosition += cameraOffset;
 
         // Movimiento suave
         if (_smoothMove)
         {
-            _lastPosition = Vector3.Lerp(_lastPosition, targetPosition, moveSpeed * Time.deltaTime);
+            _lastPosition = Vector3.Lerp(_lastPosition, _targetPosition, moveSpeed * Time.deltaTime);
             transform.position = _lastPosition;
+
+            if (_targetRotation != Quaternion.identity)
+            {
+                _lastRotation = Quaternion.Slerp(_lastRotation, _targetRotation, _smoothSpeedRotation * Time.deltaTime);
+                transform.rotation = _lastRotation;
+            }
         }
-        else transform.position = targetPosition;
+        else transform.position = _targetPosition;
 
         #region Puede Servir
         // Suavizar la rotación para que la cámara mire en la dirección del personaje
@@ -154,7 +167,7 @@ public class CameraRails : MonoBehaviour
 
         // Aplicar la rotación con suavizado
         Quaternion finalRotation = Quaternion.Euler(eulerRotation);
-        transform.rotation = Quaternion.Lerp(transform.rotation, finalRotation, _smoothSpeedRotation * Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, finalRotation, _smoothSpeedRotation * Time.deltaTime);
     }
 
     /// <summary>

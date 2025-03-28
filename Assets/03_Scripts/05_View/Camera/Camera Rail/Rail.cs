@@ -9,6 +9,8 @@ public class Rail : MonoBehaviour
     public Transform RailTarget { get => _target; set => _target = value; }
 
     [Tooltip("Nodos del rail.")] public List<NodesOfTheRail> nodes;
+    [SerializeField] private Vector3 _targetPos;
+    [SerializeField] private Quaternion _targetRot;
 
     [Tooltip("Cantidad de Nodos")] private int _nodeCount;
 
@@ -39,20 +41,24 @@ public class Rail : MonoBehaviour
     /// </summary>
     /// <param name="player"></param>
     /// <returns></returns>
-    public Vector3 ProjectPositionOnRail(Vector3 player)
+    public (Vector3, Quaternion) ProjectPositionOnRail(Vector3 player)
     {
-        //int closestNodeIndex = GetClosestNode(player); // Obtengo el nodo más cercano.
+        //ACA ES PARA ROTAR LA CÁMARA EN EL NODO QUE IRIA (CREO)
+
         NodesOfTheRail closestNode = GetClosestNode(player); // Obtengo el nodo más cercano.
+
+        if (closestNode.isToRotateTheCamera) _targetRot = closestNode.rotationCamera;
+        else _targetRot = Quaternion.identity;
 
         //Si el nodo más cercano es el primero o el último de la lista, proyecta player sobre el segmento que conecta con el siguiente o anterior nodo, respectivamente.
         if (closestNode.index == 0) //Primer nodo
         {
-            return ProjectOnSegment(nodes[0].transform.position, nodes[1].transform.position, _target.position);
+            return (ProjectOnSegment(nodes[0].transform.position, nodes[1].transform.position, _target.position), _targetRot);
         }
 
         else if (closestNode.index == nodes.Count - 1) //Último nodo
         {
-            return ProjectOnSegment(nodes[nodes.Count - 1].transform.position, nodes[nodes.Count - 2].transform.position, _target.position);
+            return (ProjectOnSegment(nodes[nodes.Count - 1].transform.position, nodes[nodes.Count - 2].transform.position, _target.position), _targetRot);
         }
 
         Vector3 nextNode = ProjectOnSegment(nodes[closestNode.index + 1].transform.position, closestNode.transform.position, player);
@@ -61,8 +67,37 @@ public class Rail : MonoBehaviour
         Debug.DrawLine(player, nextNode, Color.blue);
         Debug.DrawLine(player, backNode, Color.yellow);
 
-        return (player - backNode).sqrMagnitude <= (player - nextNode).sqrMagnitude ? backNode : nextNode;
+        _targetPos = (player - backNode).sqrMagnitude <= (player - nextNode).sqrMagnitude ? backNode : nextNode;
+
+        
+
+        return (_targetPos, _targetRot);
     }
+
+    //public Vector3 ProjectPositionOnRail(Vector3 player)
+    //{
+    //    //int closestNodeIndex = GetClosestNode(player); // Obtengo el nodo más cercano.
+    //    NodesOfTheRail closestNode = GetClosestNode(player); // Obtengo el nodo más cercano.
+
+    //    //Si el nodo más cercano es el primero o el último de la lista, proyecta player sobre el segmento que conecta con el siguiente o anterior nodo, respectivamente.
+    //    if (closestNode.index == 0) //Primer nodo
+    //    {
+    //        return ProjectOnSegment(nodes[0].transform.position, nodes[1].transform.position, _target.position);
+    //    }
+
+    //    else if (closestNode.index == nodes.Count - 1) //Último nodo
+    //    {
+    //        return ProjectOnSegment(nodes[nodes.Count - 1].transform.position, nodes[nodes.Count - 2].transform.position, _target.position);
+    //    }
+
+    //    Vector3 nextNode = ProjectOnSegment(nodes[closestNode.index + 1].transform.position, closestNode.transform.position, player);
+    //    Vector3 backNode = ProjectOnSegment(nodes[closestNode.index - 1].transform.position, closestNode.transform.position, player);
+
+    //    Debug.DrawLine(player, nextNode, Color.blue);
+    //    Debug.DrawLine(player, backNode, Color.yellow);
+
+    //    return (player - backNode).sqrMagnitude <= (player - nextNode).sqrMagnitude ? backNode : nextNode;
+    //}
 
     /// <summary>
     /// Determina qué nodo está más cerca de la cámara o del jugador para luego encontrar en qué segmento del "riel" debería estar.
