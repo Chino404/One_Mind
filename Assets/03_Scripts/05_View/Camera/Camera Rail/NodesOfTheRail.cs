@@ -11,7 +11,10 @@ public class NodesOfTheRail : MonoBehaviour
     [Tooltip("Puntos siguientes")] public NodesOfTheRail[] neighborNode;
 
     [HideInInspector, Tooltip("Es para girar la cámara.")] public bool isToRotateTheCamera;
-    [HideInInspector, Tooltip("La rotación de la cámara cuando llegeu a este nodo.")] public Quaternion rotationCamera;
+    [HideInInspector, Tooltip("La rotación de la cámara cuando llegeu a este nodo.")] public Vector3 rotationCamera;
+
+    [HideInInspector, Tooltip("Para modificar el FOV de la cámara.")] public bool isChangeTheCameraOffset = false;
+    [HideInInspector, Range(40,120), Tooltip("Nuevo valor del offset")] public Vector3 newOffset;
 
     private void OnDrawGizmosSelected()
     {

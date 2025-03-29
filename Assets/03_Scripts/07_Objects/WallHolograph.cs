@@ -8,12 +8,20 @@ public class WallHolograph : DesactiveWall
     [SerializeField, Range(0, 1f)] private float _valueOpacity = 1;
     private int _IdOpacity = Shader.PropertyToID("_Opacity");
 
+    [SerializeField] private bool _isDesactiveStart;
+    private bool _isActive = true;
+
     private Animator _animator;
+    private Collider _myCollider;
 
     public override void Awake()
     {
         _animator = GetComponent<Animator>();
         _opacityMaterial = GetComponent<Renderer>();
+        _myCollider = GetComponent<Collider>();
+
+        if (_isDesactiveStart) Desactive();
+
         base.Awake();
     }
 
@@ -24,22 +32,41 @@ public class WallHolograph : DesactiveWall
 
     public override void Active()
     {
+        if (_isActive) return;
+
+        _isActive = true;
         StartCoroutine(timeToActive());
     }
 
     IEnumerator timeToActive()
     {
         //gameObject.SetActive(true);
-        _animator.SetTrigger("Desactive");
-        yield return new WaitForSeconds(0.25f);
-        _animator.SetTrigger("Active");
+        //_animator.SetTrigger("Desactive");
+        //yield return new WaitForSeconds(0.25f);
+        //_animator.SetTrigger("Active");
+
+        var timer = 0f;
+
+        while (timer < 0.25f)
+        {
+            timer += Time.deltaTime;
+            float t = timer / 0.25f;
+            _valueOpacity = Mathf.Lerp(-0.4f, 1, t);
+            yield return null;
+        }
+
+        _myCollider.enabled = true;
 
     }
 
     public override void Desactive()
     {
+        if (!_isActive) return;
+
+        _isActive = false;
+
         StartCoroutine(timeToDesactive());
-        AudioManager.instance.Play(SoundId.DesactiveWallHolograph);
+        //AudioManager.instance.Play(SoundId.DesactiveWallHolograph);
         //OldAudioManager.instance.PlaySFX(OldAudioManager.instance.wallHoloraphActive);
     }
 
@@ -52,13 +79,15 @@ public class WallHolograph : DesactiveWall
         {
             timer += Time.deltaTime;
             float t = timer / 0.25f;
-            _valueOpacity = Mathf.Lerp(1, 0, t);
+            _valueOpacity = Mathf.Lerp(1, -0.4f, t);
             yield return null;
         }
 
         //_animator.SetTrigger("Desactive");
         //yield return new WaitForSeconds(0.25f);
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
+
+        _myCollider.enabled = false;
     }
 
     public override void Save()
