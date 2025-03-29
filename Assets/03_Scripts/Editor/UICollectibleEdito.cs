@@ -29,7 +29,6 @@ public class UICollectibleEdito : Editor
                 script.showPos = EditorGUILayout.Vector2Field(new GUIContent("Show Pos", "Esta es la posición cuando se muestre"), script.showPos);
                 script.hidePos = EditorGUILayout.Vector2Field(new GUIContent("Hide Pos", "Esta es la posición cuando se esconda"), script.hidePos);
 
-                //script.timeShow = EditorGUILayout.FloatField(new GUIContent("Time Show", "Tiempo que va a estar mostrandose"), script.timeShow);
                 script.timeShow = EditorGUILayout.Slider(new GUIContent("Time Show", "Tiempo que va a estar mostrandose"), script.timeShow, 0f, 3f);
                 script.speed = EditorGUILayout.Slider(new GUIContent("Speed", "Tiempo que va a estar mostrandose"), script.speed, 0f, 0.5f);
 
