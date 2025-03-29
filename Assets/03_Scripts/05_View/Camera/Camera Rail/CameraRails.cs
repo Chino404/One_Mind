@@ -24,6 +24,7 @@ public class CameraRails : MonoBehaviour
     [Space(10), SerializeField] private bool _smoothMove = true;
     [Range(0.01f, 10f)][SerializeField] float _smoothSpeedPosition = 5f;
     private Vector3 _lastPosition;
+    [SerializeField] bool _mostrarNodos;
     private Quaternion _lastRotation;
 
     Vector3 _targetPosition;
@@ -50,6 +51,7 @@ public class CameraRails : MonoBehaviour
         myCamera = gameObject.GetComponent<Camera>();
 
         _lastPosition = transform.position;
+        _lastRotation = transform.rotation;
 
         if (myCharacterTarget == CharacterTarget.Bongo)
         {
@@ -115,23 +117,15 @@ public class CameraRails : MonoBehaviour
         }
 
 
-        (_targetPosition,_targetRotation) = _myRail.ProjectPositionOnRail(target.position);
-        //_targetPosition = _myRail.ProjectPositionOnRail(target.position) + cameraOffset;
-
         // Calcular la posición deseada detrás del personaje, con el desplazamiento.
-        _targetPosition += cameraOffset;
+        _targetPosition = _myRail.ProjectPositionOnRail(target.position) + cameraOffset;
+
 
         // Movimiento suave
         if (_smoothMove)
         {
             _lastPosition = Vector3.Lerp(_lastPosition, _targetPosition, moveSpeed * Time.deltaTime);
             transform.position = _lastPosition;
-
-            if (_targetRotation != Quaternion.identity)
-            {
-                _lastRotation = Quaternion.Slerp(_lastRotation, _targetRotation, _smoothSpeedRotation * Time.deltaTime);
-                transform.rotation = _lastRotation;
-            }
         }
         else transform.position = _targetPosition;
 
@@ -142,11 +136,38 @@ public class CameraRails : MonoBehaviour
         #endregion
 
         // Ajustar la rotación de la cámara
-        AdjustCameraRotation();
+        //transform.rotation = AdjustCameraRotationToTheCharacter();
+
+        RotCmaeraNode();
+    }
+
+    private void RotCmaeraNode()
+    {
+        var currentNode = _myRail.GetClosestNode(target.position);
+
+        //NodesOfTheRail nextNode = currentNode.index == _myRail.nodes.Count - 1 ? currentNode : _myRail.nodes[currentNode.index + 1];
+        //NodesOfTheRail previousNode = currentNode.index == 0 ? currentNode : _myRail.nodes[currentNode.index - 1];
+
+        //if (_mostrarNodos)
+        //{
+        //    Debug.Log($"El nodo mas cercano es el: {currentNode}| El que le sigue es el '{nextNode}' y el anterior es {previousNode}");
+        //}
+
+        if (currentNode.isToRotateTheCamera)
+        {
+            //_lastRotation = Quaternion.Slerp(_lastRotation, currentNode.rotationCamera, 0.5f * Time.deltaTime);
+            //transform.rotation = _lastRotation;
+            transform.rotation = Quaternion.Slerp(transform.rotation, currentNode.rotationCamera, 0.5f * Time.deltaTime);
+        }
+        else transform.rotation = AdjustCameraRotationToTheCharacter();
+
     }
 
     #region Camera Rail
-    private void AdjustCameraRotation()
+    /// <summary>
+    /// La rotación de la cámara respecto al personaje.
+    /// </summary>
+    private Quaternion AdjustCameraRotationToTheCharacter()
     {
         // Dirección hacia el personaje
         Vector3 direction = target.position - transform.position;
@@ -167,7 +188,10 @@ public class CameraRails : MonoBehaviour
 
         // Aplicar la rotación con suavizado
         Quaternion finalRotation = Quaternion.Euler(eulerRotation);
-        transform.rotation = Quaternion.Slerp(transform.rotation, finalRotation, _smoothSpeedRotation * Time.deltaTime);
+
+        //transform.rotation = Quaternion.Slerp(transform.rotation, finalRotation, _smoothSpeedRotation * Time.deltaTime);
+
+        return Quaternion.Slerp(transform.rotation, finalRotation, _smoothSpeedRotation * Time.deltaTime);
     }
 
     /// <summary>
