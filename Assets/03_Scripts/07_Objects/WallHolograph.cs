@@ -93,7 +93,7 @@ public class WallHolograph : DesactiveWall
     public override void Save()
     {
         
-        _currentState.Rec(gameObject.activeInHierarchy, _valueOpacity);
+        _currentState.Rec(gameObject.activeInHierarchy, _valueOpacity,_myCollider.enabled,_isActive);
     }
 
     public override void Load()
@@ -102,5 +102,7 @@ public class WallHolograph : DesactiveWall
         var col = _currentState.Remember();
         gameObject.SetActive((bool)col.parameters[0]);
         _valueOpacity = (float)col.parameters[1];
+        _myCollider.enabled = (bool)col.parameters[2];
+        _isActive = (bool)col.parameters[3];
     }
 }
