@@ -6,5 +6,6 @@ public interface IDamageable
 { 
     public void TakeDamageEntity(float dmg, Vector3 target);
 
-    public void Dead();    
+    public void Dead();
+    public void DeadByWater();
 }

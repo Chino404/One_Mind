@@ -86,6 +86,8 @@ public abstract class Characters : Entity, IDamageable
 
     public PlayableDirector[] cinematics;
 
+    private bool _isDead;
+
     public override void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked; //Me bloque el mouse al centro de la pantalla
@@ -114,7 +116,8 @@ public abstract class Characters : Entity, IDamageable
 
     public virtual void Update()
     {
-        
+        if (_isDead) return;
+
         CoyoteTime();
 
         if(mostrar) Debug.Log(_rbCharacter.velocity);
@@ -122,7 +125,7 @@ public abstract class Characters : Entity, IDamageable
 
     public virtual void FixedUpdate()
     {
-        
+        if (_isDead) return;
         _rbCharacter.AddForce(Vector3.down * _forceGravity, ForceMode.VelocityChange);
     }
 
@@ -660,16 +663,41 @@ public abstract class Characters : Entity, IDamageable
 
     public void Dead()
     {
+        Debug.Log("funcion de dead");
         _actualLife = 0;
         PauseManager.instance.GameOver();
 
+    }
+
+    public void DeadByWater()
+    {
+        if (!_isDead)
+            StartCoroutine(Death());
+    }
+    IEnumerator Death()
+    {
+        _isDead = true;
+        _animPlayer.SetTrigger("Death");
+        yield return new WaitForSeconds(0.05f);
+
+        _rbCharacter.isKinematic = true;
+        
+        yield return new WaitForSeconds(0.5f);
+
+        _rbCharacter.isKinematic = false;
+        _rbCharacter.useGravity = true;
+        yield return new WaitForSeconds(0.5f);
+        Dead();
+
+        //_actualLife = 0;
+        //_isDead = false;
     }
     #endregion
 
     #region Memento
     public override void Save()
     {
-        _currentState.Rec(transform.position, transform.rotation, _actualLife, actualStatePlayer);
+        _currentState.Rec(transform.position, transform.rotation, _actualLife, actualStatePlayer, _isDead);
         //Debug.Log("guarde mono");
     }
 
@@ -678,11 +706,11 @@ public abstract class Characters : Entity, IDamageable
         if (!_currentState.IsRemember()) return;
 
         var col = _currentState.Remember();
-        
+        StopAllCoroutines();
         if (actualCheckpoint != null)
         {
-            transform.position = actualCheckpoint.SpawnPoint.position;
-            transform.rotation = actualCheckpoint.SpawnPoint.rotation;
+            _rbCharacter.position = actualCheckpoint.SpawnPoint.position;
+            _rbCharacter.rotation = actualCheckpoint.SpawnPoint.rotation;
             Debug.Log("se carga la posicion del checkpoint");
 
         }
@@ -695,8 +723,11 @@ public abstract class Characters : Entity, IDamageable
 
         _actualLife = (float)col.parameters[2];
         actualStatePlayer = (EstadoDePlayer)col.parameters[3];
+        _isDead = (bool)col.parameters[4];
         
         _rbCharacter.isKinematic = false;
+        _rbCharacter.useGravity = false;
+        Debug.Log("termina de cargar todo");
 
         //EventManager.Trigger("ProjectLifeBar", _maxLife, _actualLife);
 
@@ -712,4 +743,6 @@ public abstract class Characters : Entity, IDamageable
 
         Debug.DrawLine(pos, pos + (dir * dist));
     }
+
+   
 }
