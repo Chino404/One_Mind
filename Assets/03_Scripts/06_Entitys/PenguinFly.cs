@@ -108,4 +108,9 @@ public class PenguinFly : MonoBehaviour, IInteracteable,IDamageable
     {
         GameManager.instance.modelBongo.Dead();
     }
+
+    public void DeadByWater()
+    {
+        
+    }
 }

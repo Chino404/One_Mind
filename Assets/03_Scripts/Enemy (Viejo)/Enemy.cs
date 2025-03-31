@@ -447,5 +447,10 @@ public class Enemy : Entity, IDamageable
 
         StartCoroutine(Death());
     }
+
+    public void DeadByWater()
+    {
+        
+    }
 }
 
