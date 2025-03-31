@@ -14,9 +14,16 @@ public class UICoins : MonoBehaviour
     {
         _textMesh = GetComponent<TextMeshProUGUI>();
         
-        if(_targetCharacter == CharacterTarget.Bongo) GameManager.instance.uiCoinBongo = this;
+        if(_targetCharacter == CharacterTarget.Bongo && GameManager.instance.uiCoinBongo == null) GameManager.instance.uiCoinBongo = this;
 
-        else GameManager.instance.uiCoinFrank = this;
+        else if(GameManager.instance.uiCoinFrank == null) GameManager.instance.uiCoinFrank = this;
+    }
+
+    private void OnEnable()
+    {
+        if (_targetCharacter == CharacterTarget.Bongo) _textMesh.text = $"{GameManager.instance.currentLevel.currentCoinsBongoSide} / {totalPointInThisSide}";
+
+        else _textMesh.text = $"{GameManager.instance.currentLevel.currentCoinsFrankSide} / {totalPointInThisSide}";
     }
 
     private void Start()
@@ -35,7 +42,7 @@ public class UICoins : MonoBehaviour
 
             AddPoints(GameManager.instance.currentLevel.currentCoinsFrankSide);
 
-        }
+        }       
     }
 
     public void AddPoints(int newPoints)

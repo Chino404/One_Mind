@@ -77,6 +77,15 @@ public class UICollectible : MonoBehaviour
 
     }
 
+    private void OnEnable()
+    {
+        if (myShowType != ShowType.InCanvas) return;
+
+        if (CallJson.instance.refJasonSave.GetValueCollectableDict(GameManager.instance.currentLevel.indexLevelJSON, _key)) _image.color = activeColor;
+        else _image.color = deactiveColor;
+
+    }
+
     /// <summary>
     /// Seteo el coleccionable respecto al nivel que pertenezca
     /// </summary>
