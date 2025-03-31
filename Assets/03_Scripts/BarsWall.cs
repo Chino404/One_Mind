@@ -96,7 +96,7 @@ public class BarsWall : DesactiveWall
         {
             barsPositions.Add(item.transform.position);
         }
-        _currentState.Rec(barsPositions);
+        _currentState.Rec(barsPositions,_isStartActive);
     }
 
     public override void Load()
@@ -105,6 +105,7 @@ public class BarsWall : DesactiveWall
         if (!_currentState.IsRemember()) return;
         var col = _currentState.Remember();
         List<Vector3> barsPositions = (List<Vector3>)col.parameters[0];
+        _isStartActive = (bool)col.parameters[1];
 
         for (int i = 0; i < bars.Length; i++)
         {
