@@ -30,6 +30,7 @@ public class PauseManager : MonoBehaviour
         else
             Destroy(gameObject);
     }
+
     private void Update()
     {
         
