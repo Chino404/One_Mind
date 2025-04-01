@@ -35,6 +35,7 @@ public class UICollectible : MonoBehaviour
     private TextMeshProUGUI _txt;
 
     private int _totalAmountCollectible = 1;
+    private bool _isTake = false;
 
     private void Awake()
     {
@@ -46,32 +47,25 @@ public class UICollectible : MonoBehaviour
         //Si no hay ninguna refrencia de la UI en el GameManager, me agrego yo
         if (_player == CharacterTarget.Bongo)
         {
-            if (myShowType == ShowType.InGame && !GameManager.instance.UIBongoTrincket) GameManager.instance.UIBongoTrincket = this;
+            if (myShowType == ShowType.InGame && !GameManager.instance.UICollBongo) GameManager.instance.UICollBongo = this;
             _key = "BongoTrinket";
         }
 
         else if (_player == CharacterTarget.Frank)
         {
-            if(myShowType == ShowType.InGame && !GameManager.instance.UIFrankTrincket) GameManager.instance.UIFrankTrincket = this;
+            if(myShowType == ShowType.InGame && !GameManager.instance.UICollFrank) GameManager.instance.UICollFrank = this;
 
             _key = "FrankTrinket";
         }
 
+        _isTake = CallJson.instance.refJasonSave.GetValueCollectableDict(GameManager.instance.IndexLevel, _key);
+
         if (myShowType == ShowType.InCanvas)
         {
-            UnityEngine.SceneManagement.Scene currentScene = SceneManager.GetActiveScene();
-            SetUIToLevel(currentScene.buildIndex);
+            SetUIToLevel(GameManager.instance.currentLevel.indexLevelJSON);
 
             return;
         }
-
-        //Si ya hay, me destruyo
-        //else
-        //{
-        //    Destroy(gameObject);
-        //    return;
-        //}
-
 
         _rectTransform.anchoredPosition = hidePos;
 
@@ -79,11 +73,12 @@ public class UICollectible : MonoBehaviour
 
     private void OnEnable()
     {
-        if (myShowType != ShowType.InCanvas) return;
+        if (myShowType != ShowType.InCanvas || _image.color == activeColor) return;
 
-        if (CallJson.instance.refJasonSave.GetValueCollectableDict(GameManager.instance.currentLevel.indexLevelJSON, _key)) _image.color = activeColor;
-        else _image.color = deactiveColor;
+        //Si no fue agarrado previamente el colleccionable, pongo el valor que está en el GameManager.
+        if(!_isTake) _isTake = _player == CharacterTarget.Bongo ? GameManager.instance.isTakeCollBongo : GameManager.instance.isTakeCollFrank;
 
+        _image.color = _isTake ? activeColor : deactiveColor;
     }
 
     /// <summary>
@@ -95,7 +90,7 @@ public class UICollectible : MonoBehaviour
         //Si no se agarro el coleccionable en este nivel
         if (!CallJson.instance.refJasonSave.GetValueCollectableDict(buildIndexLevel, _key))
         {
-            Debug.LogWarning($"No se agarro el: {gameObject.name}");
+            //Debug.LogWarning($"No se agarro el: {gameObject.name}");
 
             //Desactivo el color en la UI
             _image.color = deactiveColor;
@@ -107,8 +102,10 @@ public class UICollectible : MonoBehaviour
         //Caso contrario
         else
         {
-            Debug.LogWarning($"Se agarro el: {gameObject.name}!!!");
+            //Debug.LogWarning($"Se agarro el: {gameObject.name}!!!");
+
             _image.color = activeColor;
+
             if (myShowType == ShowType.InGame) UpdateCollectibleTxt(1);
         }
     }

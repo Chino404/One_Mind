@@ -59,7 +59,7 @@ public class ButtonLevelSelector : MonoBehaviour
         if (_levelName != string.Empty && _txmpLvelName != null) _txmpLvelName.text = _levelName;
 
         //El total de las orbes
-        if (_txmpTotalCoins != null) _txmpTotalCoins.text = $"{_currentLevel.currentCoinsBongoSide + _currentLevel.currentCoinsFrankSide} / {_totalCoins}";
+        if (_txmpTotalCoins != null) _txmpTotalCoins.text = $"{_currentLevel.coinsObtainedBongoSide + _currentLevel.coinsObtainedFrankSide} / {_totalCoins}";
 
         if (_txmpMyBestTime != null && _currentLevel.myBestTimeRecord.isBusy && _currentLevel.isLevelCompleteJSON)
         {

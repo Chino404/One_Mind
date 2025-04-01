@@ -44,8 +44,8 @@ public class CoinsCollectibles : MonoBehaviour
             uiPoints.AddPoints(1);
 
             //myCurrentLevel.TakeMoneyLevelData(gameObject.name);
-
             GameManager.instance.coinsNameList.Add(gameObject.name);
+
 
             if (_targetCharacter == CharacterTarget.Bongo)
             {

@@ -38,25 +38,26 @@ public class GameManager : MonoBehaviour
     [HideInInspector,Tooltip("El canvas en donde van a aparecer los mejores tiempos records")]public RecordBestTimesView UIBestTimesInlevel;
 
 
-
-
     [Space(10), Header("-> Collecctibles")]
-    public List<CollectibleManager> collectiblesList;
+    public bool isTakeCollBongo;
+    [HideInInspector] public string nameCollBongo;
+    [HideInInspector] public UICollectible UICollBongo;
 
-    [HideInInspector]public UICollectible UIBongoTrincket;
-    [HideInInspector] public UICollectible UIFrankTrincket;
+    public bool isTakeCollFrank;
+    [HideInInspector] public string nameCollFrank;
+    [HideInInspector] public UICollectible UICollFrank;
 
     [Space(10), Header("-> Coins")]
     public int totalCoinsInLevel;
     [Tooltip("El nombre de cada moneda.")]public List<string> coinsNameList;
 
-    [HideInInspector]public UICoins uiCoinBongo;
+    [HideInInspector] public UICoins uiCoinBongo;
     [HideInInspector, Tooltip("Monedas totales del lado de Bongo")] public int totalCoinsBongoSide;
     [Tooltip("Monedas recolectadas actualmente del lado de Bongo")] public int currentCollectedCoinsBongo;
 
-    [HideInInspector]public UICoins uiCoinFrank;
+    [HideInInspector] public UICoins uiCoinFrank;
     [HideInInspector, Tooltip("Monedas totales del lado de Frank")] public int totalCoinsFrankSide;
-    [Tooltip("Monedas recolectadas actualmente del lado de Frank")]public int currentCollectedCoinsFrank;
+    [Tooltip("Monedas recolectadas actualmente del lado de Frank")] public int currentCollectedCoinsFrank;
 
 
     [Space(10), Header("-> Camera Config.")]
@@ -85,7 +86,7 @@ public class GameManager : MonoBehaviour
         }
         else Destroy(gameObject);
 
-        if(!_scenePractice)
+        if (!_scenePractice)
         {
             foreach (var level in CallJson.instance.refJasonSave.GetSaveData.levels)
             {
@@ -96,6 +97,10 @@ public class GameManager : MonoBehaviour
                     break;
                 }
             }
+
+            currentCollectedCoinsBongo = currentLevel.coinsObtainedBongoSide;
+
+            currentCollectedCoinsFrank = currentLevel.coinsObtainedFrankSide;
 
             isChronometerActive = CallJson.instance.refJasonSave.GetSaveData.playWithTimer;
         }
@@ -129,9 +134,9 @@ public class GameManager : MonoBehaviour
     }
 
     #region Coleccionables
-    public int SetCollectibleManager(Collectible collectible) => CollectibleFacade.SetCollectible(collectible, collectiblesList);
+    //public int SetCollectibleManager(Collectible collectible) => CollectibleFacade.SetCollectible(collectible, collectiblesList);
 
-    public void UpdateUICollectible(int buildIndexLevel) => CollectibleFacade.UpdateUICollectible(buildIndexLevel, UIBongoTrincket, UIFrankTrincket);
+    public void UpdateUICollectible(int buildIndexLevel) => CollectibleFacade.UpdateUICollectible(buildIndexLevel, UICollBongo, UICollFrank);
     #endregion
 }
 

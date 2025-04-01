@@ -14,18 +14,18 @@ public class CollectibleManager : MonoBehaviour
     {
         buildIndexLevel = GameManager.instance.IndexLevel;
 
-        GameManager.instance.collectiblesList.Add(this);
+        //GameManager.instance.collectiblesList.Add(this);
     }
 
     private void Start()
     {
-        GameManager.instance.UIBongoTrincket.ShowUI();
-        GameManager.instance.UIFrankTrincket.ShowUI();
+        GameManager.instance.UICollBongo.ShowUI();
+        GameManager.instance.UICollFrank.ShowUI();
     }
 
-    private void OnDestroy()
-    {
-        GameManager.instance.collectiblesList.Remove(this);
-    }
+    //private void OnDestroy()
+    //{
+    //    //GameManager.instance.collectiblesList.Remove(this);
+    //}
 
 }

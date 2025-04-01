@@ -11,7 +11,7 @@ public struct TimeChronometer
 
     [HideInInspector, Tooltip("Si ya esta usado este espacio")] public bool isBusy;
 
-    [SerializeField]private float _timeInSeconds;
+    [SerializeField] private float _timeInSeconds;
 
     public float TimeInSeconds
     {
@@ -44,9 +44,9 @@ public class LevelData
     //Monedas
     [Space(10), Header("-> COINS")]
     public bool isTakeAllCoinsThisLevel;
-    [Tooltip("Monedas que tengo ya obtenidas del lado de Bongo")] public int currentCoinsBongoSide = 0;
-    [Tooltip("Monedas que tengo ya obtenidas del lado de Bongo")] public int currentCoinsFrankSide = 0;
-    [Tooltip("Diccionario de las monedas")]public Dictionary<string, bool> dictCoinsJSON= new ();
+    [Tooltip("Monedas ya obtenidas y guardadas del lado de Bongo")] public int coinsObtainedBongoSide = 0;
+    [Tooltip("Monedas ya obtenidas y guardadas del lado de Frank")] public int coinsObtainedFrankSide = 0;
+    [Tooltip("Diccionario de las monedas")] public Dictionary<string, bool> dictCoinsJSON= new ();
     public string txtCoinsJSON;
 
     //Coleccionables
@@ -176,8 +176,8 @@ public class LevelData
         //Monedas
         isTakeAllCoinsThisLevel = false;
         txtCoinsJSON = string.Empty;
-        currentCoinsBongoSide = 0;
-        currentCoinsFrankSide = 0;
+        coinsObtainedBongoSide = 0;
+        coinsObtainedFrankSide = 0;
         dictCoinsJSON.Clear();
 
         //Coleccionables
