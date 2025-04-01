@@ -6,9 +6,12 @@ using TMPro;
 public class UICoins : MonoBehaviour
 {
     [SerializeField] private CharacterTarget _targetCharacter;
-    private int _points;
     public int totalPointInThisSide;
+    private int _points;
     private TextMeshProUGUI _textMesh;
+
+    [Space(7)]
+    [Tooltip("Solo para el menú de pausa")] public bool isInPause;
 
     private void Awake()
     {
@@ -21,27 +24,39 @@ public class UICoins : MonoBehaviour
 
     private void OnEnable()
     {
-        if (_targetCharacter == CharacterTarget.Bongo) _textMesh.text = $"{GameManager.instance.currentLevel.currentCoinsBongoSide} / {totalPointInThisSide}";
+        if (!isInPause) return;
 
-        else _textMesh.text = $"{GameManager.instance.currentLevel.currentCoinsFrankSide} / {totalPointInThisSide}";
+        if (_targetCharacter == CharacterTarget.Bongo)
+        {
+            if(totalPointInThisSide == default) totalPointInThisSide = GameManager.instance.totalCoinsBongoSide;
+
+            _textMesh.text = $"{GameManager.instance.currentCollectedCoinsBongo} / {totalPointInThisSide}";
+        }
+
+        else
+        {
+            if(totalPointInThisSide == default ) totalPointInThisSide = GameManager.instance.totalCoinsFrankSide;
+
+            _textMesh.text = $"{GameManager.instance.currentCollectedCoinsFrank} / {totalPointInThisSide}";
+        }
     }
 
     private void Start()
     {
+        if (isInPause) return;
+
         if (_targetCharacter == CharacterTarget.Bongo)
         {           
             totalPointInThisSide = GameManager.instance.totalCoinsBongoSide;
 
-            AddPoints(GameManager.instance.currentLevel.currentCoinsBongoSide);
-
+            AddPoints(GameManager.instance.currentLevel.coinsObtainedBongoSide);
         }
+
         else
         {         
             totalPointInThisSide = GameManager.instance.totalCoinsFrankSide;
 
-
-            AddPoints(GameManager.instance.currentLevel.currentCoinsFrankSide);
-
+            AddPoints(GameManager.instance.currentLevel.coinsObtainedFrankSide);
         }       
     }
 

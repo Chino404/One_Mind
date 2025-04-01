@@ -23,7 +23,7 @@ public class ControllerFrank
         //    _model.ActualMove = _model.NormalMovement;
         //}
 
-        if (Input.GetKeyDown(KeyCode.Tab)) GameManager.instance.UIFrankTrincket.ShowUI();
+        if (Input.GetKeyDown(KeyCode.Tab)) GameManager.instance.UICollFrank.ShowUI();
 
         #region Jump
 

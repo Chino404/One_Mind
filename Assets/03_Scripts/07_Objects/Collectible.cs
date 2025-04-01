@@ -7,28 +7,24 @@ using UnityEngine.UI;
 public class Collectible : MonoBehaviour
 {
     public CharacterTarget trinketCharacter;
-    private int _myBuildIndex;
+    private string _myName;
 
     [Space(10),SerializeField] private float _rotationSpeed;
 
+    private void Awake()
+    {
+        _myName = trinketCharacter == CharacterTarget.Bongo ? "BongoTrinket" : "FrankTrinket";
+    }
 
     private void Start()
     {
         Scene currentScene = SceneManager.GetActiveScene(); //GetActiveScene() es para averiguar en que escena estas
 
-        //Pido el buildIndex y me paso como referencia
-        _myBuildIndex = GameManager.instance.SetCollectibleManager(this);
+        if (CallJson.instance.refJasonSave.GetValueCollectableDict(GameManager.instance.IndexLevel, _myName))
+        {
+            gameObject.SetActive(false);
+        }
 
-        if (trinketCharacter == CharacterTarget.Bongo)
-        {
-            //Si ya el coleccioanble esta agarrado, apago el objeto
-            if (CallJson.instance.refJasonSave.GetValueCollectableDict(_myBuildIndex, "BongoTrinket")) gameObject.SetActive(false);
-        }
-        else
-        {
-            //Si ya el coleccioanble esta agarrado, apago el objeto
-            if (CallJson.instance.refJasonSave.GetValueCollectableDict(_myBuildIndex, "FrankTrinket")) gameObject.SetActive(false);
-        }
     }
 
     private void Update()
@@ -54,27 +50,29 @@ public class Collectible : MonoBehaviour
 
         if (trinketCharacter == CharacterTarget.Bongo)
         {
-            //Cambio el booleano del dicccionario por verdadero
-            CallJson.instance.refJasonSave.ModyfyValueCollectableDict(_myBuildIndex, "BongoTrinket", true);
+            GameManager.instance.isTakeCollBongo = true;
+            GameManager.instance.nameCollBongo = _myName;
+
 
             //Aviso a la UI que tome el coleccionable
-            GameManager.instance.UIBongoTrincket.ShowUI();
-            GameManager.instance.UIBongoTrincket.UICollectibleTaken();
+            GameManager.instance.UICollBongo.ShowUI();
+            GameManager.instance.UICollBongo.UICollectibleTaken();
 
             //Debug.LogWarning("Coleccionable BONGO agarrado");
             gameObject.SetActive(false);
         }
         else
         {
-            //Cambio el booleano del dicccionario por verdadero
-            CallJson.instance.refJasonSave.ModyfyValueCollectableDict(_myBuildIndex, "FrankTrinket", true);
+            GameManager.instance.isTakeCollFrank = true;
+            GameManager.instance.nameCollFrank = _myName;
 
             //Aviso a la UI que tome el coleccionable
-            GameManager.instance.UIFrankTrincket.ShowUI();
-            GameManager.instance.UIFrankTrincket.UICollectibleTaken();
+            GameManager.instance.UICollFrank.ShowUI();
+            GameManager.instance.UICollFrank.UICollectibleTaken();
 
             //Debug.LogWarning("Coleccionable FRANK agarrado");
             gameObject.SetActive(false);
         }
+
     }
 }

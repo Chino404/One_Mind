@@ -26,7 +26,7 @@ public class ControllerBongo
         //    _model.ActualMove = _model.NormalMovement;
         //}
 
-        if (Input.GetKeyDown(KeyCode.Tab)) GameManager.instance.UIBongoTrincket.ShowUI();
+        if (Input.GetKeyDown(KeyCode.Tab)) GameManager.instance.UICollBongo.ShowUI();
 
 
         #region Jump

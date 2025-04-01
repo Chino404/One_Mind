@@ -16,7 +16,7 @@ public class WinCollider : MonoBehaviour
             GameManager.instance.currentLevel.isLevelCompleteJSON = true;
 
             //Si se agarraron todas las monedas
-            totalCoins = GameManager.instance.currentLevel.currentCoinsBongoSide + GameManager.instance.currentLevel.currentCoinsFrankSide;
+            totalCoins = GameManager.instance.currentLevel.coinsObtainedBongoSide + GameManager.instance.currentLevel.coinsObtainedFrankSide;
 
             if (totalCoins == GameManager.instance.totalCoinsInLevel) GameManager.instance.currentLevel.isTakeAllCoinsThisLevel = true;
 
@@ -44,13 +44,26 @@ public class WinCollider : MonoBehaviour
 
     private void SaveData()
     {
-        GameManager.instance.currentLevel.currentCoinsBongoSide += GameManager.instance.currentCollectedCoinsBongo;
+        #region Coins
 
-        GameManager.instance.currentLevel.currentCoinsFrankSide += GameManager.instance.currentCollectedCoinsFrank;
+        GameManager.instance.currentLevel.coinsObtainedBongoSide = GameManager.instance.currentCollectedCoinsBongo;
+
+        GameManager.instance.currentLevel.coinsObtainedFrankSide = GameManager.instance.currentCollectedCoinsFrank;
 
         foreach (var coin in GameManager.instance.coinsNameList)
         {
             GameManager.instance.currentLevel.TakeMoneyLevelData(coin);
         }
+
+        #endregion
+
+        #region Collectable
+        //Cambio el booleano del dicccionario por verdadero
+
+        if(GameManager.instance.isTakeCollBongo) CallJson.instance.refJasonSave.ModyfyValueCollectableDict(GameManager.instance.IndexLevel, GameManager.instance.nameCollBongo, true);
+
+        if(GameManager.instance.isTakeCollFrank) CallJson.instance.refJasonSave.ModyfyValueCollectableDict(GameManager.instance.IndexLevel, GameManager.instance.nameCollFrank, true);
+
+        #endregion
     }
 }
