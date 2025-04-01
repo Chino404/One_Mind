@@ -37,7 +37,7 @@ public class ButtonLevelSelector : MonoBehaviour
     private Vector3 _endScale = new Vector3(1.5f, 1.5f, 1.5f);
 
     [Space(7),Header("-> Config. Collec. Image")]
-    public CollectableMenu[] _collectables = new CollectableMenu[2];
+    public CollectableMenu[] collectablesList = new CollectableMenu[2];
 
     [Space(7), Header("-> Config. Star Image")]
     public Image[] starImage = new Image[3];
@@ -85,7 +85,7 @@ public class ButtonLevelSelector : MonoBehaviour
     {
         if (!_button.interactable) return;
 
-        foreach (var collectable in _collectables)
+        foreach (var collectable in collectablesList)
         {
             //if (_currentLevel.isLevelCompleteJSON) 
             collectable.imageCollectable.gameObject.SetActive(true);
