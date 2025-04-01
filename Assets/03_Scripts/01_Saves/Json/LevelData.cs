@@ -46,7 +46,7 @@ public class LevelData
     public bool isTakeAllCoinsThisLevel;
     [Tooltip("Monedas que tengo ya obtenidas del lado de Bongo")] public int currentCoinsBongoSide = 0;
     [Tooltip("Monedas que tengo ya obtenidas del lado de Bongo")] public int currentCoinsFrankSide = 0;
-    public Dictionary<string, bool> dictCoinsJSON= new ();
+    [Tooltip("Diccionario de las monedas")]public Dictionary<string, bool> dictCoinsJSON= new ();
     public string txtCoinsJSON;
 
     //Coleccionables

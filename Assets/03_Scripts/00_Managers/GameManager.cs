@@ -48,10 +48,16 @@ public class GameManager : MonoBehaviour
 
     [Space(10), Header("-> Coins")]
     public int totalCoinsInLevel;
+    [Tooltip("El nombre de cada moneda.")]public List<string> coinsNameList;
+
     [HideInInspector]public UICoins uiCoinBongo;
-    public int totalCoinsBongoSide;
+    [HideInInspector, Tooltip("Monedas totales del lado de Bongo")] public int totalCoinsBongoSide;
+    [Tooltip("Monedas recolectadas actualmente del lado de Bongo")] public int currentCollectedCoinsBongo;
+
     [HideInInspector]public UICoins uiCoinFrank;
-    public int totalCoinsFrankSide;
+    [HideInInspector, Tooltip("Monedas totales del lado de Frank")] public int totalCoinsFrankSide;
+    [Tooltip("Monedas recolectadas actualmente del lado de Frank")]public int currentCollectedCoinsFrank;
+
 
     [Space(10), Header("-> Camera Config.")]
     public CameraTracker bongoNormalCamera;

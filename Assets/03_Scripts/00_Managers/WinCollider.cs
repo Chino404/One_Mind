@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WinCollider : MonoBehaviour
 {
+    int totalCoins;
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer == 3)
@@ -14,7 +16,7 @@ public class WinCollider : MonoBehaviour
             GameManager.instance.currentLevel.isLevelCompleteJSON = true;
 
             //Si se agarraron todas las monedas
-            var totalCoins = GameManager.instance.currentLevel.currentCoinsBongoSide + GameManager.instance.currentLevel.currentCoinsFrankSide;
+            totalCoins = GameManager.instance.currentLevel.currentCoinsBongoSide + GameManager.instance.currentLevel.currentCoinsFrankSide;
 
             if (totalCoins == GameManager.instance.totalCoinsInLevel) GameManager.instance.currentLevel.isTakeAllCoinsThisLevel = true;
 
@@ -28,6 +30,8 @@ public class WinCollider : MonoBehaviour
             }
             else
             {
+                SaveData();
+
                 PauseManager.instance.winCanvas.gameObject.SetActive(true);
 
                 Cursor.lockState = CursorLockMode.None;
@@ -36,5 +40,17 @@ public class WinCollider : MonoBehaviour
             
         }
 
+    }
+
+    private void SaveData()
+    {
+        GameManager.instance.currentLevel.currentCoinsBongoSide += GameManager.instance.currentCollectedCoinsBongo;
+
+        GameManager.instance.currentLevel.currentCoinsFrankSide += GameManager.instance.currentCollectedCoinsFrank;
+
+        foreach (var coin in GameManager.instance.coinsNameList)
+        {
+            GameManager.instance.currentLevel.TakeMoneyLevelData(coin);
+        }
     }
 }
