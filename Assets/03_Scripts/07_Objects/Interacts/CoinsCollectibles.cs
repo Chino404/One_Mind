@@ -5,7 +5,7 @@ using UnityEngine;
 public class CoinsCollectibles : MonoBehaviour
 {
     [SerializeField] private CharacterTarget _targetCharacter;
-    private UICoins points;
+    private UICoins uiPoints;
     private LevelData myCurrentLevel;
 
     private void Awake()
@@ -18,28 +18,19 @@ public class CoinsCollectibles : MonoBehaviour
         //Si no estoy guardado en el Dict
         if (!myCurrentLevel.dictCoinsJSON.ContainsKey(gameObject.name)) myCurrentLevel.dictCoinsJSON.Add(gameObject.name, false); //Me agrego al diccionario
 
-        else
-        {
-            //Si ya agarre esta moneda, la apago
-            if (myCurrentLevel.dictCoinsJSON[gameObject.name]) gameObject.SetActive(false);
-        }
+        //Si ya agarre esta moneda o estoy jugando en modo cronometro, la apago
+        else if (myCurrentLevel.dictCoinsJSON[gameObject.name] || GameManager.instance.isChronometerActive) gameObject.SetActive(false);
 
-        if (_targetCharacter == CharacterTarget.Bongo)
-        {
-            GameManager.instance.totalCoinsBongoSide++;
-        }
+        if (_targetCharacter == CharacterTarget.Bongo) GameManager.instance.totalCoinsBongoSide++;
 
-        else
-        {
-            GameManager.instance.totalCoinsFrankSide++;
-        }
+        else GameManager.instance.totalCoinsFrankSide++;
     }
 
     private void Start()
     {
-        if (_targetCharacter == CharacterTarget.Bongo) points = GameManager.instance.uiCoinBongo;
+        if (_targetCharacter == CharacterTarget.Bongo) uiPoints = GameManager.instance.uiCoinBongo;
 
-        else points = GameManager.instance.uiCoinFrank;
+        else uiPoints = GameManager.instance.uiCoinFrank;
     }
 
 
@@ -50,13 +41,23 @@ public class CoinsCollectibles : MonoBehaviour
             Debug.Log("agarre coleccionable");
 
             //Sumo un punto a la UI
-            points.AddPoints(1);
+            uiPoints.AddPoints(1);
 
-            myCurrentLevel.TakeMoneyLevelData(gameObject.name);
+            //myCurrentLevel.TakeMoneyLevelData(gameObject.name);
 
-            if(_targetCharacter == CharacterTarget.Bongo) myCurrentLevel.currentCoinsBongoSide ++;
+            GameManager.instance.coinsNameList.Add(gameObject.name);
 
-            else myCurrentLevel.currentCoinsFrankSide ++;
+            if (_targetCharacter == CharacterTarget.Bongo)
+            {
+                GameManager.instance.currentCollectedCoinsBongo++;
+                //myCurrentLevel.currentCoinsBongoSide++;
+            }
+
+            else
+            {
+                GameManager.instance.currentCollectedCoinsFrank++;
+                //myCurrentLevel.currentCoinsFrankSide++;
+            }
 
             Destroy(gameObject);
         }
