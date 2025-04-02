@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour
         
         _counter += Time.deltaTime;
         
-        if(_counter >= 2)
+        if(_counter >= 1)
         {
             _objectPool.StockAdd(this);      
         }
