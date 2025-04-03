@@ -20,11 +20,13 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
     private int _IdFireThreshold = Shader.PropertyToID("_FireThreshold");
     [Space(10), SerializeField, Tooltip("Material del fuego")]private Renderer _fireMaterial;
 
-    [Tooltip("valor del tamaño del fueho")]private float _valueFireTreshold = 0f;
+    [Tooltip("valor del tamaño del fueho")] private float _valueFireTreshold = 0f;
     public ParticleSystem myParticleSystem;
+    [SerializeField] private ParticleSystem _myParticleAmber;
 
-    private bool _isActive;
+    [Space(10)]
     public bool iceTorch;
+    private bool _isActive;
 
     private void Awake()
     {
@@ -42,22 +44,24 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
 
     void Start()
     {
-        if(iceTorch) myParticleSystem?.Play();
-
-        else myParticleSystem.gameObject.SetActive(false);
+        myParticleSystem?.Stop();
     }
     
     public void ChangeColorFire(Color color)
     {
+        _colorFire = color;
+
         _fireMaterial.material.SetColor(_IdFireColor, color);
         _light.color = color;
+
+        //if(_myParticleAmber) _myParticleAmber.colorOverLifetime.color = color;
     }
 
     public void Active()
     {
         _timer = 0;
         
-        if(!myParticleSystem.gameObject.activeInHierarchy) myParticleSystem.gameObject.SetActive(true);
+        //if(!myParticleSystem.gameObject.activeInHierarchy) myParticleSystem.gameObject.SetActive(true);
 
         myParticleSystem?.Play();
 
@@ -66,7 +70,7 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
 
     void Update()
     {
-        if (iceTorch&&_isActive)
+        if (iceTorch && _isActive)
         {
             _dissolve += Time.deltaTime;
             _dissolve = Mathf.Clamp01(_dissolve);
@@ -149,8 +153,6 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
         }
 
         myParticleSystem?.Stop();
-
-        if(myParticleSystem.gameObject.activeInHierarchy) myParticleSystem.gameObject.SetActive(false);
 
         _timer = 0;
         _timeToDespawn = 0;
