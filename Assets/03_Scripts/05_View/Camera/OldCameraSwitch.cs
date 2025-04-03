@@ -33,7 +33,7 @@ public class OldCameraSwitch : MonoBehaviour
             if (myCharacterTarget == CharacterTarget.Bongo) _tracker = GameManager.instance.bongoNormalCamera;
             else if (myCharacterTarget == CharacterTarget.Frank) _tracker = GameManager.instance.frankNormalCamera;
 
-            if (!_tracker)Debug.LogError($"No se asigno ninguna cámara en: {gameObject.name}");
+            if (!_tracker)Debug.LogError($"(OLD CAMERA) No se asigno ninguna cámara en: {gameObject.name}");
         }
 
         else
@@ -41,7 +41,7 @@ public class OldCameraSwitch : MonoBehaviour
             if (myCharacterTarget == CharacterTarget.Bongo) _myRail = GameManager.instance.bongoRailsCamera;
             else if (myCharacterTarget == CharacterTarget.Frank) _myRail = GameManager.instance.frankRailsCamera;
 
-            if (!_myRail)Debug.LogError($"No se asigno ninguna cámara en: {gameObject.name}");
+            if (!_myRail)Debug.LogError($"(OLD CAMERA) No se asigno ninguna cámara en: {gameObject.name}");
         }
     }
 
@@ -49,7 +49,7 @@ public class OldCameraSwitch : MonoBehaviour
     {
         if(!goTo)
         {
-            Debug.LogError($"Poner un 'point' para la cámara en: {gameObject.name}");
+            Debug.LogError($"(OLD CAMERA) Poner un 'point' para la cámara en: {gameObject.name}");
 
             return;
         }
