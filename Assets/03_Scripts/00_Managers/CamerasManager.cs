@@ -47,12 +47,19 @@ public class CamerasManager : MonoBehaviour
         {
             if (camera.NumberCamera != newCamera.NumberCamera)
             {
-                camera.gameObject.SetActive(false);
+                //camera.gameObject.SetActive(false);
+
+                camera.gameObject.GetComponent<Camera>().enabled = false;
+                camera.gameObject.GetComponent<AudioListener>().enabled = false;
 
                 continue;
             }
 
-            camera.gameObject.SetActive(true);
+            //camera.gameObject.SetActive(true);
+
+            camera.gameObject.GetComponent<Camera>().enabled = true;
+            camera.gameObject.GetComponent<AudioListener>().enabled = true;
+
         }
 
         //Llamo al evento.

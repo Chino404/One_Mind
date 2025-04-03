@@ -26,7 +26,7 @@ public class CameraSwitchEditor : Editor
         // Dependiendo del valor del enum, muestra variables específicas
         switch (script.myTransitiontype)
         {
-            case CameraSwitch.TransitionType.Goto:
+            case CameraSwitch.TransitionType.GotoFixedNode:
                 script.goToNode = (Transform)EditorGUILayout.ObjectField("Go to Node", script.goToNode, typeof(Transform), true);
                 break;
             case CameraSwitch.TransitionType.BackTo:
