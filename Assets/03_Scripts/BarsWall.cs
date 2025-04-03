@@ -11,11 +11,13 @@ public class BarsWall : DesactiveWall
     [SerializeField] private float _maxSpeed = 3f;
     [SerializeField] private GameObject _particles;
     public Transform waypoint;
+    
 
     [SerializeField] bool _isStartActive;
 
     private void Start()
     {
+        
         if (!_isStartActive)
         {
             foreach (var item in bars)
@@ -30,21 +32,24 @@ public class BarsWall : DesactiveWall
     public override void Active()
     {
         if (_isStartActive) return;
+        _isActing = true;
 
         foreach (var item in bars)
         {
             StartCoroutine(ActiveBars(item, 0, _maxSpeed * 2));
         }
-
+        
         _isStartActive = true;
+        StartCoroutine(EndTransition(0.5f));
     }
 
     IEnumerator ActiveBars(GameObject bar, float delay, float speed)
     {
+        
         Vector3 startpos = bar.transform.position;
         Vector3 targetPos = startpos - new Vector3(0, waypoint.position.y, 0);
-
         yield return new WaitForSeconds(delay);
+
         float elapsedTime = 0f;
         float duration = waypoint.position.y / -speed;
 
@@ -55,24 +60,28 @@ public class BarsWall : DesactiveWall
             yield return null;
         }
         bar.transform.position = targetPos;
+        
     }
 
     public override void Desactive()
     {
         if (!_isStartActive) return;
+        _isActing = true;
 
         foreach (var item in bars)
         {
             float delay = Random.Range(_minDelay, _maxDelay);
             float speed = Random.Range(_minSpeed, _maxSpeed);
             StartCoroutine(DesactiveBars(item, delay, speed));
+            
         }
-        
+        StartCoroutine(EndTransition(1.5f));
         _isStartActive = false;
     }
 
     IEnumerator DesactiveBars(GameObject bar, float delay, float speed)
     {
+        
         yield return new WaitForSeconds(delay);
         Vector3 startpos = bar.transform.position;
         Vector3 targetPos = startpos - new Vector3(0, -waypoint.position.y, 0);
@@ -86,7 +95,14 @@ public class BarsWall : DesactiveWall
             yield return null;
         }
         bar.transform.position = targetPos;
+        
     }
+    IEnumerator EndTransition(float cooldown)
+    {
+        yield return new WaitForSeconds(cooldown);
+        _isActing = false;
+    }
+   
 
     public override void Save()
     {

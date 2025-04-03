@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DesactiveWall : Rewind
 {
+    public bool _isActing;
+    
     public override void Save()
     {
 
