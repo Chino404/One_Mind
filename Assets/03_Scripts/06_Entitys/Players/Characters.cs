@@ -688,7 +688,7 @@ public abstract class Characters : Entity, IDamageable
         _rbCharacter.useGravity = true;
         yield return new WaitForSeconds(0.5f);
         Dead();
-
+        
         //_actualLife = 0;
         //_isDead = false;
     }

@@ -225,7 +225,7 @@ public class MovePlataform : Rewind
         _actualIndex = (int)col.parameters[2];
         
 
-        transform.position = waypoints[_actualIndex].position;
+        _rb.position = waypoints[_actualIndex].position;
         //_currentVelocity = (float)col.parameters[2];
 
         //banana = (Transform)col.parameters[1];
