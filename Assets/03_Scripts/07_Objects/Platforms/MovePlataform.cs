@@ -17,6 +17,7 @@ public class MovePlataform : Rewind
 
 
     private int _actualIndex;
+    public int ActualIndex { set { _actualIndex = value; } }
     private Vector3 _velocity;
     public Vector3 Velocity { get { return _velocity; } }
 
