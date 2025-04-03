@@ -39,11 +39,14 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
 
         
     }
+
     void Start()
     {
-        if(iceTorch)
-        myParticleSystem?.Play();
+        if(iceTorch) myParticleSystem?.Play();
+
+        else myParticleSystem.gameObject.SetActive(false);
     }
+    
     public void ChangeColorFire(Color color)
     {
         _fireMaterial.material.SetColor(_IdFireColor, color);
@@ -54,7 +57,10 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
     {
         _timer = 0;
         
+        if(!myParticleSystem.gameObject.activeInHierarchy) myParticleSystem.gameObject.SetActive(true);
+
         myParticleSystem?.Play();
+
         StartCoroutine(SpawnFire());
     }
 
@@ -143,6 +149,8 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
         }
 
         myParticleSystem?.Stop();
+
+        if(myParticleSystem.gameObject.activeInHierarchy) myParticleSystem.gameObject.SetActive(false);
 
         _timer = 0;
         _timeToDespawn = 0;
