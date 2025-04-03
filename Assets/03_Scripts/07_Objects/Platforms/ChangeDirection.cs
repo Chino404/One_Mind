@@ -17,6 +17,7 @@ public class ChangeDirection : MonoBehaviour
         if (collision.gameObject.GetComponent<Characters>())
         {
             _movePlataform.waypoints = waypoints;
+            _movePlataform.ActualIndex = 0;
             //collision.transform.SetParent(transform);
             //collision.gameObject.GetComponent<Rigidbody>().MovePosition(collision.gameObject.GetComponent<Rigidbody>().position + _movePlataform.Velocity*1f );
 
