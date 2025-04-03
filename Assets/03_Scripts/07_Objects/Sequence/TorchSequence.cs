@@ -43,49 +43,52 @@ public class TorchSequence : MonoBehaviour
         while (true)
         {
             #region PARPADEO
+            float t = 0.25f;
+
             for (int i = 0; i < _torchs.Length; i++)
             {
                 _torchs[i].ChangeColorFire(_ChangeColorFire);
                 _torchs[i].Active();
             }
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(t);
 
             for (int i = 0; i < _torchs.Length; i++)
             {
                 _torchs[i].Deactive();
             }
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(t);
 
             for (int i = 0; i < _torchs.Length; i++)
             {
                 _torchs[i].Active();
             }
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(t);
 
             for (int i = 0; i < _torchs.Length; i++)
             {
                 _torchs[i].Deactive();
             }
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(t);
 
             for (int i = 0; i < _torchs.Length; i++)
             {
                 _torchs[i].Active();
             }
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(t);
 
             for (int i = 0; i < _torchs.Length; i++)
             {
                 _torchs[i].Deactive();
-                _torchs[i].ChangeColorFire(_saveColorFire[i]);
             }
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(t);
+
+            for (int i = 0; i < _torchs.Length; i++) _torchs[i].ChangeColorFire(_saveColorFire[i]);
             #endregion
 
             for (int i = 0; i < sequenceList.Count; i++)
