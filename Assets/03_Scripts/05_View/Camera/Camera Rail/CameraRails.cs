@@ -71,7 +71,10 @@ public class CameraRails : MonoBehaviour
             {
                 Debug.Log($"Apago cámara: {gameObject.name}");
 
-                gameObject.SetActive(false);
+                //gameObject.SetActive(false);
+
+                gameObject.GetComponent<Camera>().enabled = false;
+                gameObject.GetComponent<AudioListener>().enabled = false;
             }
             else CamerasManager.instance.currentBongoCamera = this;
         }
@@ -86,7 +89,10 @@ public class CameraRails : MonoBehaviour
             {
                 Debug.Log($"Apago cámara: {gameObject.name}");
 
-                gameObject.SetActive(false);
+                //gameObject.SetActive(false);
+
+                gameObject.GetComponent<Camera>().enabled = false;
+                gameObject.GetComponent<AudioListener>().enabled = false;
             }
             else CamerasManager.instance.currentFrankCamera = this;
         }

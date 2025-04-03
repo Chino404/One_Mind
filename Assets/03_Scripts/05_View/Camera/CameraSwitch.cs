@@ -5,12 +5,12 @@ using UnityEngine;
 public class CameraSwitch : MonoBehaviour
 {
     [Header("Componet")]
-    [SerializeField] private CameraRails _myRefCamera;
+    [SerializeField,Tooltip("¡¡No poner nada acá!!")] private CameraRails _myRefCamera;
 
     [Space(10)]
     public CharacterTarget myCharacterTarget;
 
-    public enum TransitionType {Goto, BackTo, Both }
+    public enum TransitionType {None, GotoFixedNode, BackTo, Both}
     [HideInInspector] public TransitionType myTransitiontype;
 
     [HideInInspector, Tooltip("Hacia donde se va a mover la cámara")] public Transform goToNode;
@@ -30,7 +30,7 @@ public class CameraSwitch : MonoBehaviour
 
         if(other.gameObject.GetComponent<Characters>())
         {
-            if (!goToNode && myTransitiontype != TransitionType.BackTo)
+            if (!goToNode && myTransitiontype != TransitionType.BackTo && myTransitiontype != TransitionType.None)
             {
                 Debug.LogError($"Poner un 'point' para la cámara en: {gameObject.name}");
 
@@ -42,7 +42,7 @@ public class CameraSwitch : MonoBehaviour
             _myRefCamera = CamerasManager.instance.GetCurrentCamera(myCharacterTarget);
 
             //Si es un Goto o Both, lo mado a un nodo fijo
-            if (myTransitiontype != TransitionType.BackTo)
+            if (myTransitiontype != TransitionType.BackTo && myTransitiontype != TransitionType.None)
             {
                 _myRefCamera.TransitionToAFixedNode(goToNode);
             }
@@ -52,7 +52,7 @@ public class CameraSwitch : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
 
-        if (other.gameObject.GetComponent<Characters>() && myTransitiontype != TransitionType.Goto)
+        if (other.gameObject.GetComponent<Characters>() && myTransitiontype != TransitionType.GotoFixedNode && myTransitiontype != TransitionType.None)
         {
             //Si tengo un punto especifico a cuál mandarlo, le asigno ese nodo.
             if (isBackToNewNode && newToNode != null)
