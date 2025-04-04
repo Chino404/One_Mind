@@ -83,11 +83,11 @@ public class WallHolograph : DesactiveWall
             yield return null;
         }
 
-        //_animator.SetTrigger("Desactive");
-        //yield return new WaitForSeconds(0.25f);
-        //gameObject.SetActive(false);
+        _animator.SetTrigger("Desactive");
+        yield return new WaitForSeconds(0.25f);
+        gameObject.SetActive(false);
 
-        _myCollider.enabled = false;
+        //_myCollider.enabled = false;
     }
 
     public override void Save()
