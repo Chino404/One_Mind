@@ -12,7 +12,6 @@ public struct TimeChronometer
     [HideInInspector, Tooltip("Si ya esta usado este espacio")] public bool isBusy;
 
     [SerializeField] private float _timeInSeconds;
-
     public float TimeInSeconds
     {
         get { return _timeInSeconds; }

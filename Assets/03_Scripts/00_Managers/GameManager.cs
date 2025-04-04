@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -32,10 +33,13 @@ public class GameManager : MonoBehaviour
     }
 
 
-    [Space(10), Header("-> Chronometer")] public bool isChronometerActive; 
+    [Space(10), Header("-> Chronometer")]
+    public bool isChronometerActive; 
     public TimeChronometer timeInLevel;
-    [SerializeField] private TimeChronometer[] _myBestTimesInLevel = new TimeChronometer[2];
-    [HideInInspector,Tooltip("El canvas en donde van a aparecer los mejores tiempos records")]public RecordBestTimesView UIBestTimesInlevel;
+    [SerializeField] private TimeChronometer[] _myBestTimesInLevel = new TimeChronometer[3];
+    public TimeChronometer[] BestTimesInLevel { get {  return _myBestTimesInLevel; } }
+    [HideInInspector,Tooltip("El canvas en donde van a aparecer los mejores tiempos records")] public RecordBestTimesView UIBestTimesInlevel;
+    [HideInInspector] public GameObject secondsInGame;
 
 
     [Space(10), Header("-> Collecctibles")]
