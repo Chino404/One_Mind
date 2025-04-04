@@ -9,7 +9,7 @@ public enum Action
     Ambas
 }
 
-public class ActiveObject : MonoBehaviour, IInteracteable
+public class ActiveObject : Rewind, IInteracteable
 {
     [SerializeField, Tooltip("Acción a realizar")] private Action _action;
 
@@ -59,6 +59,25 @@ public class ActiveObject : MonoBehaviour, IInteracteable
                 _objectsToDeactive[i].SetActive(false);
             }
             gameObject.SetActive(false);
+        }
+    }
+
+    public override void Save()
+    {
+        foreach (var item in _objectsToDeactive)
+        {
+            _currentState.Rec(item.activeInHierarchy);
+        }
+    }
+
+    public override void Load()
+    {
+        if (!_currentState.IsRemember()) return;
+        var col = _currentState.Remember();
+
+        foreach (var item in _objectsToDeactive)
+        {
+            item.SetActive((bool)col.parameters[0]);
         }
     }
 
