@@ -87,6 +87,7 @@ public abstract class Characters : Entity, IDamageable
     public PlayableDirector[] cinematics;
 
     private bool _isDead;
+    public bool IsDead { get { return _isDead; } }
 
     public override void Awake()
     {
@@ -713,6 +714,7 @@ public abstract class Characters : Entity, IDamageable
         if (!_currentState.IsRemember()) return;
 
         var col = _currentState.Remember();
+        
         StopAllCoroutines();
         if (actualCheckpoint != null)
         {
