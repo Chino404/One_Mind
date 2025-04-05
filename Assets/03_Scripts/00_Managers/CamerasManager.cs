@@ -9,9 +9,11 @@ public class CamerasManager : MonoBehaviour
 
     public List<CameraRails> listBongosRailsCamera;
     public CameraRails currentBongoCamera;
+    public CameraTracker deathCameraBongo;
 
     public List<CameraRails> listFranksRailsCamera;
     public CameraRails currentFrankCamera;
+    public CameraTracker deathCameraFrank;
 
     //public delegate void GetCameraDelegate(CameraRails newCamera);
     //public event GetCameraDelegate getCamera;
@@ -22,6 +24,7 @@ public class CamerasManager : MonoBehaviour
     }
 
     #region Cámaras
+
     /// <summary>
     /// Activo la cámara que me pasaron por parámetro.
     /// </summary>
@@ -30,16 +33,22 @@ public class CamerasManager : MonoBehaviour
     {
         List<CameraRails> list;
 
+        Transform targetPlyaer = default;
+
         //Seteo mi lista.
         if (playerType == CharacterTarget.Bongo)
         {
             list = listBongosRailsCamera;
             currentBongoCamera = newCamera;
+
+            targetPlyaer = GameManager.instance.modelBongo.transform;
         }
         else
         {
             list = listFranksRailsCamera;
             currentFrankCamera = newCamera;
+
+            targetPlyaer = GameManager.instance.modelFrank.transform;
         }
 
         //Apago las que no correspondan.
@@ -49,17 +58,12 @@ public class CamerasManager : MonoBehaviour
             {
                 camera.gameObject.SetActive(false);
 
-                //camera.gameObject.GetComponent<Camera>().enabled = false;
-                //camera.gameObject.GetComponent<AudioListener>().enabled = false;
-
                 continue;
             }
 
+            if (!camera.target) camera.target = targetPlyaer;
+
             camera.gameObject.SetActive(true);
-
-            //camera.gameObject.GetComponent<Camera>().enabled = true;
-            //camera.gameObject.GetComponent<AudioListener>().enabled = true;
-
         }
 
         //Llamo al evento.
@@ -79,6 +83,33 @@ public class CamerasManager : MonoBehaviour
         else camera = currentFrankCamera;
 
         return camera;
+    }
+
+    public void DeathCamera(CharacterTarget playerType)
+    {
+        Debug.LogWarning(playerType);
+
+        //Seteo mi lista.
+        List<CameraRails> list = playerType == CharacterTarget.Bongo ? listBongosRailsCamera : listFranksRailsCamera;
+        CameraTracker deathCamera = playerType == CharacterTarget.Bongo ? deathCameraBongo : deathCameraFrank;
+
+        foreach (var camera in list)
+        {
+            camera.gameObject.SetActive(false);
+        }
+
+        //deathCamera.gameObject.SetActive(true);
+        deathCamera.PlayerDeath();
+
+    }
+
+    public void AliveCamera()
+    {
+        if (deathCameraBongo.isPlayerDead) deathCameraBongo.PlayerAlive();
+        currentBongoCamera.gameObject.SetActive(true);
+
+        if(deathCameraFrank.isPlayerDead) deathCameraFrank.PlayerAlive();
+        currentFrankCamera.gameObject.SetActive(true);
     }
     #endregion
 }

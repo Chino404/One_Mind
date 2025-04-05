@@ -25,6 +25,8 @@ public class CameraTracker : MonoBehaviour
     Quaternion _smoothRot;
 
     public bool isTeleporting;
+    public bool isDeathCamera;
+    [HideInInspector] public bool isPlayerDead;
 
     private void Awake()
     {
@@ -39,6 +41,8 @@ public class CameraTracker : MonoBehaviour
             else GameManager.instance.bongoNormalCamera = this;
 
             if(!_target) _target = GameManager.instance.modelBongo.transform;
+
+            CamerasManager.instance.deathCameraBongo = this;
         }
 
         else if (_myCharacterTarget == CharacterTarget.Frank)
@@ -46,13 +50,29 @@ public class CameraTracker : MonoBehaviour
             if (GameManager.instance.frankNormalCamera) Destroy(gameObject);
             else GameManager.instance.frankNormalCamera = this;
 
-            if(!_target)_target = GameManager.instance.modelFrank.transform;      
+            if(!_target)_target = GameManager.instance.modelFrank.transform;
+
+            CamerasManager.instance.deathCameraFrank = this;
         }
 
         if (_target == null) Debug.LogError($"Falta target en: {gameObject.name}");
         else gameObject.GetComponent<CameraTransparency>().target = _target;
 
         //gameObject.SetActive(false);
+        if(isDeathCamera) gameObject.GetComponent<Camera>().enabled = false;
+
+    }
+
+    public void PlayerDeath()
+    {
+        isPlayerDead = true;
+        gameObject.GetComponent<Camera>().enabled = true;
+    }
+
+    public void PlayerAlive()
+    {
+        isPlayerDead= false;
+        gameObject.GetComponent<Camera>().enabled = false;
     }
 
     private void Start()
@@ -63,31 +83,6 @@ public class CameraTracker : MonoBehaviour
             Debug.LogError($"Asignar punto en la cámara: {gameObject.name}");
             return;
         }
-
-    }
-
-    IEnumerator Wait()
-    {
-        yield return new WaitForEndOfFrame();
-
-        transform.position = _point.position;
-
-        if (MyCharacterTarget == CharacterTarget.Bongo)
-        {
-            _target = GameManager.instance.modelBongo.transform;
-
-            GameManager.instance.bongoNormalCamera = this;
-        }
-
-        else if (MyCharacterTarget == CharacterTarget.Frank)
-        {
-            _target = GameManager.instance.modelFrank.transform;
-
-            GameManager.instance.frankNormalCamera = this;
-        }
-
-        if (_target == null) Debug.LogError("FALTA TARGET");
-        else gameObject.GetComponent<CameraTransparency>().target = _target;
 
     }
 
@@ -102,13 +97,13 @@ public class CameraTracker : MonoBehaviour
     {
         if (_target == null || _point == null) return;
 
-        
+
         SetPositionAndRotationTarget();
     }
 
-    private void SetPositionAndRotationTarget()
+    public void SetPositionAndRotationTarget()
     {
-        if (isTeleporting)
+        if (isTeleporting || isDeathCamera)
         {
             transform.SetPositionAndRotation(_point.position, _point.rotation);
         }
@@ -123,7 +118,7 @@ public class CameraTracker : MonoBehaviour
 
             transform.SetPositionAndRotation(_smoothPos, _smoothRot);
         }
-        
+
     }
 
     public void TransicionPoint(Transform newPoint)
