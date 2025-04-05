@@ -42,7 +42,7 @@ public class CameraTracker : MonoBehaviour
 
             if(!_target) _target = GameManager.instance.modelBongo.transform;
 
-            CamerasManager.instance.deathCameraBongo = this;
+            if(isDeathCamera)CamerasManager.instance.deathCameraBongo = this;
         }
 
         else if (_myCharacterTarget == CharacterTarget.Frank)
@@ -52,7 +52,7 @@ public class CameraTracker : MonoBehaviour
 
             if(!_target)_target = GameManager.instance.modelFrank.transform;
 
-            CamerasManager.instance.deathCameraFrank = this;
+            if(isDeathCamera)CamerasManager.instance.deathCameraFrank = this;
         }
 
         if (_target == null) Debug.LogError($"Falta target en: {gameObject.name}");
