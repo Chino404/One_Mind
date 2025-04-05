@@ -667,9 +667,11 @@ public abstract class Characters : Entity, IDamageable
         _actualLife = 0;
         PauseManager.instance.GameOver();
 
+        CamerasManager.instance.AliveCamera();
+
     }
 
-    public void DeadByWater()
+    public virtual void DeadByWater()
     {
         if (!_isDead)
         {
@@ -677,6 +679,7 @@ public abstract class Characters : Entity, IDamageable
 
         }
     }
+
     IEnumerator Death()
     {
         _isDead = true;
@@ -690,6 +693,7 @@ public abstract class Characters : Entity, IDamageable
         _rbCharacter.isKinematic = false;
         _rbCharacter.useGravity = true;
         yield return new WaitForSeconds(0.5f);
+
         Dead();
         
         //_actualLife = 0;

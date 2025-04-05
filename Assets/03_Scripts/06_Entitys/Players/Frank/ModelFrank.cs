@@ -60,4 +60,11 @@ public class ModelFrank : Characters
     {
         base.Attack();
     }
+
+    public override void DeadByWater()
+    {
+        base.DeadByWater();
+
+        CamerasManager.instance.DeathCamera(CharacterTarget.Frank);
+    }
 }

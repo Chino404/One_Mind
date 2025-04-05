@@ -62,20 +62,12 @@ public class CameraRails : MonoBehaviour
 
         if (myCharacterTarget == CharacterTarget.Bongo)
         {
-
             CamerasManager.instance.listBongosRailsCamera.Add(this);
 
             if (!target) target = GameManager.instance.modelBongo.transform;
 
-            if(_myNumberCamera > 1)
-            {
-                Debug.Log($"Apago cámara: {gameObject.name}");
+            if(_myNumberCamera > 1) gameObject.SetActive(false);
 
-                gameObject.SetActive(false);
-
-                //gameObject.GetComponent<Camera>().enabled = false;
-                //gameObject.GetComponent<AudioListener>().enabled = false;
-            }
             else CamerasManager.instance.currentBongoCamera = this;
         }
 
@@ -85,15 +77,8 @@ public class CameraRails : MonoBehaviour
 
             if (!target) target = GameManager.instance.modelFrank.transform;
 
-            if (_myNumberCamera > 1)
-            {
-                Debug.Log($"Apago cámara: {gameObject.name}");
+            if (_myNumberCamera > 1) gameObject.SetActive(false);
 
-                gameObject.SetActive(false);
-
-                //gameObject.GetComponent<Camera>().enabled = false;
-                //gameObject.GetComponent<AudioListener>().enabled = false;
-            }
             else CamerasManager.instance.currentFrankCamera = this;
         }
 

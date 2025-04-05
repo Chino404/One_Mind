@@ -121,6 +121,13 @@ public class ModelBongo : Characters
         }
     }
 
+    public override void DeadByWater()
+    {
+        base.DeadByWater();
+
+        CamerasManager.instance.DeathCamera(CharacterTarget.Bongo);
+    }
+
     //public override void Attack()
     //{
     //    //base.Attack();

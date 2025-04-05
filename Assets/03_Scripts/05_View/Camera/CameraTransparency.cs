@@ -95,17 +95,17 @@ public class CameraTransparency : MonoBehaviour
 
         //CUBO
         // Dibujar el cubo en el punto de inicio con la dirección y tamaño correcto
-        Gizmos.color = Color.red;
-        var centerBox = transform.position + direction * (distance / 2);
+        //Gizmos.color = Color.red;
+        //var centerBox = transform.position + direction * (distance / 2);
 
         // Guarda la matriz actual
-        Gizmos.matrix = Matrix4x4.TRS(centerBox, _rotationBoxCast, _boxCastSize);
+        //Gizmos.matrix = Matrix4x4.TRS(centerBox, _rotationBoxCast, _boxCastSize);
 
         // Dibuja el cubo en la posición y rotación especificadas
-        Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
+        //Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
 
         // Restaura la matriz original
-        Gizmos.matrix = Matrix4x4.identity;
+        //Gizmos.matrix = Matrix4x4.identity;
     }
 
 }

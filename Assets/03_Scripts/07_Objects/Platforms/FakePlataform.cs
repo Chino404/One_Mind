@@ -107,7 +107,8 @@ public class FakePlataform : Rewind
         gameObject.SetActive((bool)col.parameters[0]);
         _valueDisolve = (float)col.parameters[1];
         StopAllCoroutines();
-        Debug.Log($"{gameObject.name} cargue plataforma");
+
+        //Debug.Log($"{gameObject.name} cargue plataforma");
 
     }
 }
