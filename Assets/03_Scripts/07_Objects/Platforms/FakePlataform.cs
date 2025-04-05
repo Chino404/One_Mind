@@ -94,7 +94,7 @@ public class FakePlataform : Rewind
     public override void Save()
     {
         _currentState.Rec(gameObject.activeInHierarchy, _valueDisolve);
-        Debug.Log($"{gameObject.name} guardo plataforma");
+        //Debug.Log($"{gameObject.name} guardo plataforma");
 
     }
 

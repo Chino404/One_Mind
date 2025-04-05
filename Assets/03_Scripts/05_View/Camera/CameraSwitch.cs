@@ -30,21 +30,33 @@ public class CameraSwitch : MonoBehaviour
 
         if(other.gameObject.GetComponent<Characters>())
         {
-            if (!goToNode && myTransitiontype != TransitionType.BackToRail && myTransitiontype != TransitionType.None)
+            if (!goToNode && myTransitiontype == TransitionType.GoToFixedNode)
             {
                 Debug.LogError($"Poner un 'point' para la cámara en: {gameObject.name}");
 
                 return;
             }
 
-            if (isChangeNewCamera && newCamera != null) CamerasManager.instance.ActiveCamera(newCamera, myCharacterTarget);
+            if (isChangeNewCamera && newCamera != null)
+            {
+                //Si la cámara que quiero activar es la misma que ya está activada, entonces no sigo.
+                if (newCamera.NumberCamera == CamerasManager.instance.GetCurrentCamera(myCharacterTarget).NumberCamera) return;
+
+                CamerasManager.instance.ActiveCamera(newCamera, myCharacterTarget);
+            }
 
             _myRefCamera = CamerasManager.instance.GetCurrentCamera(myCharacterTarget);
 
             //Si es un Goto o Both, lo mado a un nodo fijo
-            if (myTransitiontype != TransitionType.BackToRail && myTransitiontype != TransitionType.None)
+            if (myTransitiontype == TransitionType.GoToFixedNode || myTransitiontype == TransitionType.Both)
             {
                 _myRefCamera.TransitionToAFixedNode(goToNode);
+                return;
+            }
+
+            else if(myTransitiontype == TransitionType.BackToRail)
+            {
+                _myRefCamera.TransitionToRail(newToNode);
             }
         }
     }
@@ -52,7 +64,7 @@ public class CameraSwitch : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
 
-        if (other.gameObject.GetComponent<Characters>() && myTransitiontype != TransitionType.GoToFixedNode && myTransitiontype != TransitionType.None)
+        if (other.gameObject.GetComponent<Characters>() && myTransitiontype == TransitionType.Both)
         {
             //Si tengo un punto especifico a cuál mandarlo, le asigno ese nodo.
             if (isBackToNewNode && newToNode != null)
@@ -64,5 +76,18 @@ public class CameraSwitch : MonoBehaviour
             _myRefCamera.TransitionToRail();
 
         }
+
+        //if (other.gameObject.GetComponent<Characters>() && myTransitiontype != TransitionType.GoToFixedNode && myTransitiontype != TransitionType.None)
+        //{
+        //    //Si tengo un punto especifico a cuál mandarlo, le asigno ese nodo.
+        //    if (isBackToNewNode && newToNode != null)
+        //    {
+        //        _myRefCamera.TransitionToRail(newToNode);
+        //        return;
+        //    }
+
+        //    _myRefCamera.TransitionToRail();
+
+        //}
     }
 }
