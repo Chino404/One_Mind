@@ -71,10 +71,10 @@ public class CameraRails : MonoBehaviour
             {
                 Debug.Log($"Apago cámara: {gameObject.name}");
 
-                //gameObject.SetActive(false);
+                gameObject.SetActive(false);
 
-                gameObject.GetComponent<Camera>().enabled = false;
-                gameObject.GetComponent<AudioListener>().enabled = false;
+                //gameObject.GetComponent<Camera>().enabled = false;
+                //gameObject.GetComponent<AudioListener>().enabled = false;
             }
             else CamerasManager.instance.currentBongoCamera = this;
         }
@@ -89,10 +89,10 @@ public class CameraRails : MonoBehaviour
             {
                 Debug.Log($"Apago cámara: {gameObject.name}");
 
-                //gameObject.SetActive(false);
+                gameObject.SetActive(false);
 
-                gameObject.GetComponent<Camera>().enabled = false;
-                gameObject.GetComponent<AudioListener>().enabled = false;
+                //gameObject.GetComponent<Camera>().enabled = false;
+                //gameObject.GetComponent<AudioListener>().enabled = false;
             }
             else CamerasManager.instance.currentFrankCamera = this;
         }
@@ -233,9 +233,9 @@ public class CameraRails : MonoBehaviour
     /// </summary>
     public void TransitionToRail(Transform newNode = default)
     {
-        if (!_isFixedCamera) return;
+        //if (!_isFixedCamera) return;
 
-        _isFixedCamera = false;
+        if(_isFixedCamera) _isFixedCamera = false;
         
         if(newNode != default)
         {

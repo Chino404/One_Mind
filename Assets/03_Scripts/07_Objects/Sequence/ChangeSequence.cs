@@ -18,7 +18,7 @@ public class ChangeSequence : MonoBehaviour, IInteracteable
     public void Active()
     {
 
-        if (!_changeSequenceRef.isActiveAndEnabled) _changeSequenceRef.enabled = true;
+        if (_changeSequenceRef && !_changeSequenceRef.isActiveAndEnabled) _changeSequenceRef.enabled = true;
 
         _torchSequence.sequenceList.Clear(); //Limpio la lista
 

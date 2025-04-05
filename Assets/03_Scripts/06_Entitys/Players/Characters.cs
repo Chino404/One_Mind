@@ -663,7 +663,7 @@ public abstract class Characters : Entity, IDamageable
 
     public void Dead()
     {
-        Debug.Log("funcion de dead");
+        //Debug.Log("funcion de dead");
         _actualLife = 0;
         PauseManager.instance.GameOver();
 
@@ -672,7 +672,10 @@ public abstract class Characters : Entity, IDamageable
     public void DeadByWater()
     {
         if (!_isDead)
+        {
             StartCoroutine(Death());
+
+        }
     }
     IEnumerator Death()
     {
