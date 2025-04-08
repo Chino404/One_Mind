@@ -86,8 +86,8 @@ public abstract class Characters : Entity, IDamageable
 
     public PlayableDirector[] cinematics;
 
-    private bool _isDead;
-    public bool IsDead { get { return _isDead; } }
+    private bool _isDoingAnimation;
+    public bool IsDoingAnimation { get { return _isDoingAnimation; } }
 
     public override void Awake()
     {
@@ -117,7 +117,7 @@ public abstract class Characters : Entity, IDamageable
 
     public virtual void Update()
     {
-        if (_isDead) return;
+        if (_isDoingAnimation) return;
 
         CoyoteTime();
 
@@ -126,7 +126,7 @@ public abstract class Characters : Entity, IDamageable
 
     public virtual void FixedUpdate()
     {
-        if (_isDead) return;
+        if (_isDoingAnimation) return;
         _rbCharacter.AddForce(Vector3.down * _forceGravity, ForceMode.VelocityChange);
     }
 
@@ -636,6 +636,22 @@ public abstract class Characters : Entity, IDamageable
         }
     }
 
+    public void TakingCollectible()
+    {
+        StartCoroutine(Celebrate());
+    }
+
+    IEnumerator Celebrate()
+    {
+        _isDoingAnimation = true;
+        _animPlayer.SetTrigger("Collecting");
+        _rbCharacter.isKinematic = true;
+        yield return new WaitForSeconds(1.05f);
+
+       _isDoingAnimation = false;
+        _rbCharacter.isKinematic = false;
+    }
+
     #region DAMAGE / LIFE
     public void TakeDamageEntity(float dmg, Vector3 target)
     {
@@ -650,6 +666,8 @@ public abstract class Characters : Entity, IDamageable
 
         Dead();
     }
+
+    
 
     public void Heal(float life)
     {
@@ -674,7 +692,7 @@ public abstract class Characters : Entity, IDamageable
 
     public virtual void DeadByWater()
     {
-        if (!_isDead)
+        if (!_isDoingAnimation)
         {
             StartCoroutine(Death());
 
@@ -683,7 +701,7 @@ public abstract class Characters : Entity, IDamageable
 
     IEnumerator Death()
     {
-        _isDead = true;
+        _isDoingAnimation = true;
         _animPlayer.SetTrigger("Death");
         yield return new WaitForSeconds(0.05f);
 
@@ -705,7 +723,7 @@ public abstract class Characters : Entity, IDamageable
     #region Memento
     public override void Save()
     {
-        _currentState.Rec(transform.position, transform.rotation, _actualLife, actualStatePlayer, _isDead);
+        _currentState.Rec(transform.position, transform.rotation, _actualLife, actualStatePlayer, _isDoingAnimation);
         //Debug.Log("guarde mono");
     }
 
@@ -732,7 +750,7 @@ public abstract class Characters : Entity, IDamageable
 
         _actualLife = (float)col.parameters[2];
         actualStatePlayer = (EstadoDePlayer)col.parameters[3];
-        _isDead = (bool)col.parameters[4];
+        _isDoingAnimation = (bool)col.parameters[4];
         
         _rbCharacter.isKinematic = false;
         _rbCharacter.useGravity = false;

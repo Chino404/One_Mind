@@ -37,6 +37,7 @@ public class Collectible : MonoBehaviour
         if (other.GetComponent<Characters>())
         {
             Take();
+            other.GetComponent<Characters>().TakingCollectible();
         }
     }
 
