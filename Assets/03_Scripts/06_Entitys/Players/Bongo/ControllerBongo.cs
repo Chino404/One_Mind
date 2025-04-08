@@ -19,7 +19,7 @@ public class ControllerBongo
 
     public void ArtificialUpdate()
     {
-        if (_model.IsDead) return;
+        if (_model.IsDoingAnimation) return;
         if (Time.timeScale == 0) return;
 
         //if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.LeftShift) && _model.actualStatePlayer == EstadoDePlayer.Escalando)
@@ -58,7 +58,7 @@ public class ControllerBongo
 
     public void ListenFixedKeys()
     {
-        if (_model.IsDead) return;
+        if (_model.IsDoingAnimation) return;
         if (_dirRaw.sqrMagnitude != 0)
         {
             _viewBongo.Walking(true);
