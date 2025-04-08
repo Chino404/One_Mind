@@ -22,7 +22,7 @@ public class MovePlataform : Rewind
     public Vector3 Velocity { get { return _velocity; } }
 
     private Rigidbody _rb;
-
+    private Vector3 _startPos;
 
     //private Animator _animator;
     //[SerializeField] Vector3[] _positions;
@@ -53,6 +53,7 @@ public class MovePlataform : Rewind
     private void Start()
     {
         _currentVelocity = _maxVelocity;
+        _startPos = _rb.position;
     }
 
     //private void Update()
@@ -84,7 +85,7 @@ public class MovePlataform : Rewind
     {
         if (!_isActiveMove) return;
 
-        if (Vector3.Distance(_rb.position, waypoints[_actualIndex].position) <= 1)
+        if (Vector3.Distance(_rb.position, waypoints[_actualIndex].position) <= 0.3f)
         {
             StartCoroutine(WaitSeconds());
             _actualIndex++;
@@ -219,13 +220,16 @@ public class MovePlataform : Rewind
         
         var col = _currentState.Remember();
 
-        StartCoroutine(WaitSeconds());
+        StopAllCoroutines();
         _isActiveMove = (bool)col.parameters[0];
         waypoints = (Transform[])col.parameters[1];
-        _actualIndex = (int)col.parameters[2];
-        
+        _actualIndex = 0;
 
-        _rb.position = waypoints[_actualIndex].position;
+        _rb.velocity = Vector3.zero;
+        _rb.position = _startPos;
+        _velocity = Vector3.zero;
+        _currentVelocity = _maxVelocity;
+        StartCoroutine(WaitSeconds());
         //_currentVelocity = (float)col.parameters[2];
 
         //banana = (Transform)col.parameters[1];
