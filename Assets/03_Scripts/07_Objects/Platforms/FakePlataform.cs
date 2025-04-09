@@ -93,7 +93,7 @@ public class FakePlataform : Rewind
 
     public override void Save()
     {
-        _currentState.Rec(gameObject.activeInHierarchy, _valueDisolve);
+        _currentState.Rec( _valueDisolve,transform.position);
         //Debug.Log($"{gameObject.name} guardo plataforma");
 
     }
@@ -104,8 +104,9 @@ public class FakePlataform : Rewind
 
         var col = _currentState.Remember();
 
-        gameObject.SetActive((bool)col.parameters[0]);
-        _valueDisolve = (float)col.parameters[1];
+        //gameObject.SetActive((bool)col.parameters[0]);
+        _valueDisolve = (float)col.parameters[0];
+        transform.position = (Vector3)col.parameters[1];
         StopAllCoroutines();
 
         //Debug.Log($"{gameObject.name} cargue plataforma");
