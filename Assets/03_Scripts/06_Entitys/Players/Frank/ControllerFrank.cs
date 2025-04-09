@@ -17,7 +17,7 @@ public class ControllerFrank
 
     public void ArtificialUpdate()
     {
-        if (_model.IsDoingAnimation) return;
+        if (_model.IsDoingAnimation||GameManager.instance.modelBongo.IsDoingAnimation) return;
         if (Time.timeScale == 0) return;
         //if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.LeftShift))
         //{
@@ -51,7 +51,8 @@ public class ControllerFrank
 
     public void ListenFixedKeys()
     {
-        if (_model.IsDoingAnimation) return;
+        if (_model.IsDoingAnimation || GameManager.instance.modelBongo.IsDoingAnimation) return;
+
         if (_dirRaw.sqrMagnitude != 0)
         {
             _viewFrank.Walking(true);

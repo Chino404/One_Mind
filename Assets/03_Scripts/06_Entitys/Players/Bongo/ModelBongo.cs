@@ -71,6 +71,8 @@ public class ModelBongo : Characters
 
     public override void Update()
     {
+        if (!IsDoingAnimation&& GameManager.instance.modelFrank.IsDoingAnimation) _animPlayer.SetBool("Walk", false);
+
         foreach (var item in cinematics)
         {
             if (item.state == PlayState.Playing) return;

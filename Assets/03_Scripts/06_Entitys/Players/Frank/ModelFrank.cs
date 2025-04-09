@@ -39,6 +39,7 @@ public class ModelFrank : Characters
 
     public override void Update()
     {
+        if (!IsDoingAnimation && GameManager.instance.modelBongo.IsDoingAnimation) _animPlayer.SetBool("Walk", false);
         foreach (var item in cinematics)
         {
             if (item.state == PlayState.Playing) return;
@@ -51,6 +52,7 @@ public class ModelFrank : Characters
 
     public override void FixedUpdate()
     {
+
         base.FixedUpdate();
 
         _controller.ListenFixedKeys();

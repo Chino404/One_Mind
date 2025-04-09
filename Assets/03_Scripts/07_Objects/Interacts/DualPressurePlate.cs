@@ -14,6 +14,7 @@ public class DualPressurePlate : Rewind, IInteracteable
     public bool ActivePressurePlate { get { return _activePressurePlate; } }
 
     private bool _actionCompleted = false;
+    public bool ActionCompleted { set { _actionCompleted = value; } }
 
     [SerializeField] private Material[] _materials;
 
@@ -29,6 +30,7 @@ public class DualPressurePlate : Rewind, IInteracteable
     [SerializeField] private GameObject _button;
     [SerializeField] private float _endAnimation;
     [SerializeField] private float _speed;
+    
 
 
     public override void Awake()
@@ -59,6 +61,8 @@ public class DualPressurePlate : Rewind, IInteracteable
 
     void Update()
     {
+        
+            
         if (_activePressurePlate)
         {
             if (_button.transform.localPosition.y > 0)
