@@ -18,10 +18,15 @@ public class DualDoor : MonoBehaviour, ITransparency
     [SerializeField] private float _animDuration=2f;
      private float _animTime=0f;
     private bool _isOpen;
+    private bool _isClosing;
+    
+
+    public DualPressurePlate myPressurePlate;
 
     private void Awake()
-    {    
+    {
         //_animator = GetComponent<Animator>();
+        myPressurePlate = transform.parent.GetComponentInChildren<DualPressurePlate>();
     }
 
     public void OpenTheDoor()
@@ -29,8 +34,20 @@ public class DualDoor : MonoBehaviour, ITransparency
         //OldAudioManager.instance.PlaySFX(OldAudioManager.instance.doorOpen);
         //_animator.SetTrigger("Open");
         AudioManager.instance.Play(SoundId.OpenDoor);
+        _animTime = 0f;
+        _isClosing = false;
         _isOpen = true;
 
+    }
+
+    public void CloseTheDoor()
+    {
+        //AudioManager.instance.Play(SoundId.OpenDoor);
+        _animTime = 0f;
+        _isOpen = false;
+        myPressurePlate.ActionCompleted = false;
+        myPressurePlate.Deactive();
+        _isClosing = true;
     }
 
     private void Update()
@@ -42,6 +59,16 @@ public class DualDoor : MonoBehaviour, ITransparency
             float otherAngle = Mathf.Lerp(0, -90, _animTime / _animDuration);
             _doors[0].transform.localRotation = Quaternion.Euler(0, actualAngle, 0);
             _doors[1].transform.localRotation = Quaternion.Euler(0, otherAngle, 0);
+        }
+
+        if (_isClosing && _animTime < _animDuration)
+        {
+            _animTime += Time.deltaTime;
+            float actualAngle = Mathf.Lerp(0, 0, _animTime / _animDuration);
+            //float otherAngle = Mathf.Lerp(0, 0, _animTime / _animDuration);
+            _doors[0].transform.localRotation = Quaternion.Euler(0, actualAngle, 0);
+            _doors[1].transform.localRotation = Quaternion.Euler(0, actualAngle, 0);
+            
         }
 
     }

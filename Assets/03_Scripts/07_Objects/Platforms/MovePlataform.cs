@@ -54,7 +54,7 @@ public class MovePlataform : Rewind
     {
         _currentVelocity = _maxVelocity;
         _startPos = _rb.position;
-        Debug.Log(_startPos);
+       
     }
 
     //private void Update()
