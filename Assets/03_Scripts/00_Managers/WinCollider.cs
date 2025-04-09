@@ -6,35 +6,43 @@ public class WinCollider : MonoBehaviour
 {
     int totalCoins;
 
+    [SerializeField] private bool _isWithCinematic;
+
+    public void WinPlayer()
+    {
+
+        Time.timeScale = 0;
+
+        //Si se paso el nivel normal
+        GameManager.instance.currentLevel.isLevelCompleteJSON = true;
+
+        //Si se paso en modo cronómetro
+        if (GameManager.instance.isChronometerActive)
+        {
+            if (GameManager.instance.secondsInGame && GameManager.instance.secondsInGame.gameObject.activeInHierarchy) GameManager.instance.secondsInGame.gameObject.SetActive(false);
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            GameManager.instance.UIBestTimesInlevel.Show();
+        }
+        else
+        {
+            SaveData();
+
+            PauseManager.instance.winCanvas.gameObject.SetActive(true);
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer == 3)
         {
-            Time.timeScale = 0;
 
-            //Si se paso el nivel normal
-            GameManager.instance.currentLevel.isLevelCompleteJSON = true;
-
-            //Si se paso en modo cronómetro
-            if (GameManager.instance.isChronometerActive)
-            {
-                if(GameManager.instance.secondsInGame && GameManager.instance.secondsInGame.gameObject.activeInHierarchy) GameManager.instance.secondsInGame.gameObject.SetActive(false);
-
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-
-                GameManager.instance.UIBestTimesInlevel.Show();
-            }
-            else
-            {
-                SaveData();
-
-                PauseManager.instance.winCanvas.gameObject.SetActive(true);
-
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
-            
+            if(!_isWithCinematic) WinPlayer();
         }
 
     }
