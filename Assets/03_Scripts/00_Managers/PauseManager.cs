@@ -12,6 +12,7 @@ public class PauseManager : MonoBehaviour
     public Canvas pauseMenu;
     public Canvas winCanvas;
     public Canvas saveWarningCanvas;
+    public Canvas WarningChronometer;
     public Canvas gameOverCanvas;
 
     private bool _isPaused;
@@ -66,26 +67,8 @@ public class PauseManager : MonoBehaviour
             item.Load();
         }
 
-        //StartCoroutine(CanvasGameOver());
-
     }
 
-    IEnumerator CanvasGameOver()
-    {
-        gameOverCanvas.gameObject.SetActive(true);
-
-
-        yield return new WaitForSeconds(1.5f);
-
-        foreach (var item in GameManager.instance.rewinds)
-        {
-            item.Load();
-        }
-
-        yield return new WaitForSeconds(1f);
-        gameOverCanvas.gameObject.SetActive(false);
-
-    }
 
     public void NextLvL(int scene)
     {
@@ -130,8 +113,20 @@ public class PauseManager : MonoBehaviour
         _isPaused = false;
     }
 
-    public void RestartGame()
+    public void RestartGame(bool isLevelComplete = false)
     {
+
+        if(isLevelComplete)
+        {
+            WarningChronometer.gameObject.SetActive(true);
+            return;
+        }
+
+        if(GameManager.instance.isChronometerActive)
+        {
+            CallJson.instance.refJasonSave.GetSaveData.playWithTimer = true;
+            CallJson.instance.refJasonSave.SaveJSON();
+        }
 
         UnityEngine.SceneManagement.Scene currentScene = SceneManager.GetActiveScene(); //GetActiveScene() es para averiguar en que escena estas
 
@@ -140,6 +135,17 @@ public class PauseManager : MonoBehaviour
         //pauseMenu.gameObject.SetActive(false);
         Time.timeScale = 1;
 
+    }
 
+    /// <summary>
+    /// Jugar con el cronómetro.
+    /// </summary>
+    /// <param name="scene"></param>
+    public void PlayWithChronometer()
+    {
+        CallJson.instance.refJasonSave.GetSaveData.playWithTimer = true;
+        CallJson.instance.refJasonSave.SaveJSON();
+        RestartGame();
+        //PlayGame(_indexLevelToPlay);
     }
 }
