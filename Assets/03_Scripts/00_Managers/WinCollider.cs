@@ -30,7 +30,7 @@ public class WinCollider : MonoBehaviour
         {
             SaveData();
 
-            PauseManager.instance.winCanvas.gameObject.SetActive(true);
+            PauseManager.instance.Win();
 
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -7,13 +8,18 @@ using UnityEngine.UI;
 public class PauseManager : MonoBehaviour
 {
     public static PauseManager instance;
-    [Header("-> Canvas")]
-    //public Canvas gameOverCanvas;
+    [Header("-> Parameters")]
     public Canvas pauseMenu;
-    public Canvas winCanvas;
     public Canvas saveWarningCanvas;
-    public Canvas WarningChronometer;
     public Canvas gameOverCanvas;
+
+
+    [Space(5),Header("-> Win")]
+    public Canvas winCanvas;
+    private bool _isLevelComplete;
+    [SerializeField] private TextMeshProUGUI _txtChronometerUnlocked;
+    public Canvas WarningChronometer;
+
 
     private bool _isPaused;
     [Space(10), SerializeField, Tooltip("Escena de carga asincrónica.")] private int _asyncScene = 1;
@@ -30,6 +36,8 @@ public class PauseManager : MonoBehaviour
         }
         else
             Destroy(gameObject);
+
+        _isLevelComplete = GameManager.instance.currentLevel != null ? GameManager.instance.currentLevel.isLevelCompleteJSON : false;
     }
 
     private void Update()
@@ -69,6 +77,13 @@ public class PauseManager : MonoBehaviour
 
     }
 
+
+    public void Win()
+    {
+        winCanvas.gameObject.SetActive(true);
+
+        if (!_isLevelComplete) _txtChronometerUnlocked.gameObject.SetActive(true);
+    }
 
     public void NextLvL(int scene)
     {
