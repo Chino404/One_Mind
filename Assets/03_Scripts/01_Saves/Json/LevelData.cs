@@ -57,8 +57,8 @@ public class LevelData
     //Cronómetro
     [Space(10), Header("-> CHRONOMETER")]
     public bool isLevelCompleteWithChronometerJSON;
-    public TimeChronometer myBestTimeRecord;
-    [Tooltip("Mejores Tiempos")]public TimeChronometer[] bestTimesJSON = new TimeChronometer[3];
+    [Tooltip("Mi mejor tiempo personal.")]public TimeChronometer myBestTimeRecord;
+    [Tooltip("Los mejores tiempos.")]public TimeChronometer[] bestTimesJSON = new TimeChronometer[3];
 
     /// <summary>
     /// Obtengo la moneda
@@ -75,24 +75,28 @@ public class LevelData
     {
         TimeChronometer currentTimeChronometer = newTime;
 
+        //Si no tengo un mejor tiempo personal y el que me pasan por referencia es mi tiempo, me lo guardo.
         if (!myBestTimeRecord.isBusy && isMyTime)
         {
             myBestTimeRecord = currentTimeChronometer;
             myBestTimeRecord.isBusy = true;
-            Debug.Log("No habia anda y guarde");
+            Debug.Log("<color=green><b>No tenía un mejor tiempo personal y entonces me guarde la referencia. </b> </color>");
         }
+
+        //Si ya tengo un mejor tiempo personal y lo supero con otro, me lo sobrescribo.
         else if (currentTimeChronometer.TimeInSeconds < myBestTimeRecord.TimeInSeconds && isMyTime)
         {
-            Debug.Log($"{currentTimeChronometer.name} el tiempo es mejor que {myBestTimeRecord.name}");
+            Debug.Log($"<color=green><b>El mejor tiempo personal de '{currentTimeChronometer.name}' es mejor que el de '{myBestTimeRecord.name}'. </b> </color>");
 
             myBestTimeRecord = currentTimeChronometer;
             myBestTimeRecord.isBusy = true;
 
         }
 
+
         for (int i = 0; i < bestTimesJSON.Length; i++)
         {
-            //Si son lo mismo, entonces corto con el for para que no se guarde en los siguientes indices
+            //Si son lo mismo, entonces corto con el for para que no se guarde en los siguientes indices.
             if (newTime.name == bestTimesJSON[i].name && newTime.TimeInSeconds == bestTimesJSON[i].TimeInSeconds) return;
 
             //Si no hay nada en este indice, lo guardo acá
@@ -103,7 +107,7 @@ public class LevelData
                 return;
             }
 
-            //Sino pregunto si su tiempo es menor que el que esta guardado, si es así lo sobrescribo y me guardo la otra referencia
+            //Sino pregunto si su tiempo es menor que el que esta guardado; si es así lo sobrescribo y me guardo la otra referencia.
             else if (currentTimeChronometer.TimeInSeconds < bestTimesJSON[i].TimeInSeconds)
             {
                 //Me guardo el actual
@@ -125,6 +129,8 @@ public class LevelData
     private void SaveBestTime(int index, TimeChronometer timeRecord)
     {
         bestTimesJSON[index] = timeRecord;
+
+        if (timeRecord.isBusy && timeRecord.txtTimeInMinutes != string.Empty) return;
 
         var time = bestTimesJSON[index].TimeInSeconds;
 
