@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
 
 
     [Space(10), Header("-> Chronometer")]
-    public bool isChronometerActive; 
+    [Tooltip("Si se esta jugando con el cronómetro.")]public bool isChronometerActive; 
     public TimeChronometer timeInLevel;
     [SerializeField] private TimeChronometer[] _myBestTimesInLevel = new TimeChronometer[3];
     public TimeChronometer[] BestTimesInLevel { get {  return _myBestTimesInLevel; } }
