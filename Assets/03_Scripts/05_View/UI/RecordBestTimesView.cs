@@ -77,6 +77,9 @@ public class RecordBestTimesView : MonoBehaviour
    
     }
 
+    /// <summary>
+    /// Hay un nuevo record.
+    /// </summary>
     private void NewRecord()
     {
         _refInputName.inputField.gameObject.SetActive(true);
@@ -126,6 +129,9 @@ public class RecordBestTimesView : MonoBehaviour
     }
     #endregion
 
+    /// <summary>
+    /// Mostrar los mejores tiempos.
+    /// </summary>
     public void ShowBestTimesRecords()
     {
 
