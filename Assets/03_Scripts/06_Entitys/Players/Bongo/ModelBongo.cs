@@ -55,15 +55,15 @@ public class ModelBongo : Characters
         _controller = new ControllerBongo(this, _view);
 
         _currentState = new MementoState();
-        _targetLock = GetComponent<FixativeObjectUI>();
+        //_targetLock = GetComponent<FixativeObjectUI>();
     }
 
     public override void Start()
     {
         base.Start();
 
-        _factory = new BulletFactory(_spellPrefab);
-        _objectPool = new ObjectPool<Bullet>(_factory.GetObj, Bullet.TurnOff, Bullet.TurnOn, _bulletQuantity);
+        //_factory = new BulletFactory(_spellPrefab);
+        //_objectPool = new ObjectPool<Bullet>(_factory.GetObj, Bullet.TurnOff, Bullet.TurnOn, _bulletQuantity);
 
 
         //ActualMove = NormalMovement;
@@ -77,6 +77,7 @@ public class ModelBongo : Characters
         {
             if (item.state == PlayState.Playing) return;
         }
+
         base.Update();
 
         _controller.ArtificialUpdate();
