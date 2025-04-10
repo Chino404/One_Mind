@@ -81,6 +81,7 @@ public class PauseManager : MonoBehaviour
     public void Win()
     {
         winCanvas.gameObject.SetActive(true);
+        winCanvas.gameObject.GetComponentInChildren<CanvasWin>().ShowCanvas();
 
         if (!_isLevelComplete) _txtChronometerUnlocked.gameObject.SetActive(true);
     }
