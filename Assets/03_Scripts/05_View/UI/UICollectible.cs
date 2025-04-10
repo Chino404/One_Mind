@@ -141,15 +141,15 @@ public class UICollectible : MonoBehaviour
 
     IEnumerator Show(bool active)
     {
-        float elpasedTime = 0;
+        float elapsedTime = 0;
 
         var actualPos = _rectTransform.anchoredPosition;
 
-        while (elpasedTime < speed)
+        while (elapsedTime < speed)
         {
-            elpasedTime += Time.deltaTime;
+            elapsedTime += Time.deltaTime;
 
-            float t = elpasedTime / speed;
+            float t = elapsedTime / speed;
 
             if(active) _rectTransform.anchoredPosition = Vector2.Lerp(actualPos, showPos, t);
 
