@@ -22,12 +22,12 @@ public class AsyncLoad : MonoBehaviour
         StartCoroutine(AsyncCharge());
     }
 
-    private void Update()
-    {
-        if(_asyncOperation.allowSceneActivation==false)
-            _loaderImage.GetComponent<RectTransform>().Rotate(0f, 0f, -200f * Time.deltaTime);
+    //private void Update()
+    //{
+    //    if(_asyncOperation.allowSceneActivation == false)
+    //        _loaderImage.GetComponent<RectTransform>().Rotate(0f, 0f, -200f * Time.deltaTime);
 
-    }
+    //}
 
     IEnumerator AsyncCharge()
     {
