@@ -73,17 +73,17 @@ public class WallHolograph : DesactiveWall
     IEnumerator timeToDesactive()
     {
 
-        var timer = 0f;
+        //var timer = 0f;
 
-        while (timer < 0.25f)
-        {
-            timer += Time.deltaTime;
-            float t = timer / 0.25f;
-            _valueOpacity = Mathf.Lerp(1, -0.4f, t);
-            yield return null;
-        }
+        //while (timer < 0.25f)
+        //{
+        //    timer += Time.deltaTime;
+        //    float t = timer / 0.25f;
+        //    _valueOpacity = Mathf.Lerp(1, -0.4f, t);
+        //    yield return null;
+        //}
 
-        _animator.SetTrigger("Desactive");
+        //_animator.SetTrigger("Desactive");
         yield return new WaitForSeconds(0.25f);
         gameObject.SetActive(false);
 
@@ -94,6 +94,7 @@ public class WallHolograph : DesactiveWall
     {
         
         _currentState.Rec(gameObject.activeInHierarchy, _valueOpacity,_myCollider.enabled,_isActive);
+        Debug.Log("guardo wall holograph");
     }
 
     public override void Load()
@@ -104,5 +105,7 @@ public class WallHolograph : DesactiveWall
         _valueOpacity = (float)col.parameters[1];
         _myCollider.enabled = (bool)col.parameters[2];
         _isActive = (bool)col.parameters[3];
+        
+        Debug.Log("cargo wall holograph");
     }
 }
