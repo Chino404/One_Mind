@@ -97,6 +97,8 @@ public class CameraRails : MonoBehaviour
     /// <param name="newRail"></param>
     public void ChangeToRail(Rail newRail)
     {
+        if (newRail == _myRail) return;
+
         _myRail = newRail;
 
         if(_myRail.RailTarget == null) _myRail.RailTarget = target;
