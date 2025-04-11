@@ -12,6 +12,10 @@ public class UICoins : MonoBehaviour
 
     [Space(7)]
     [Tooltip("Solo para el menú de pausa")] public bool isInPause;
+    [Tooltip("Solo para el Canvas Win")] public bool isInCanvasWin;
+
+    private enum TypeView { InGame, InPuase, InWin}
+    [SerializeField] private TypeView _type;
 
     private void Awake()
     {
@@ -24,11 +28,17 @@ public class UICoins : MonoBehaviour
 
     private void OnEnable()
     {
-        if (!isInPause) return;
+        if (_type == TypeView.InGame) return;
 
         if (_targetCharacter == CharacterTarget.Bongo)
         {
             if(totalPointInThisSide == default) totalPointInThisSide = GameManager.instance.totalCoinsBongoSide;
+
+            if (_type == TypeView.InWin)
+            {
+                _textMesh.text = $"0 / {totalPointInThisSide}";
+                return;
+            }
 
             _textMesh.text = $"{GameManager.instance.currentCollectedCoinsBongo} / {totalPointInThisSide}";
         }
@@ -37,13 +47,19 @@ public class UICoins : MonoBehaviour
         {
             if(totalPointInThisSide == default ) totalPointInThisSide = GameManager.instance.totalCoinsFrankSide;
 
+            if (_type == TypeView.InWin)
+            {
+                _textMesh.text = $"0 / {totalPointInThisSide}";
+                return;
+            }
+
             _textMesh.text = $"{GameManager.instance.currentCollectedCoinsFrank} / {totalPointInThisSide}";
         }
     }
 
     private void Start()
     {
-        if (isInPause) return;
+        if (_type != TypeView.InGame) return;
 
         if (_targetCharacter == CharacterTarget.Bongo)
         {           

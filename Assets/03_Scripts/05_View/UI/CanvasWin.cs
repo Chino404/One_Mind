@@ -15,11 +15,21 @@ public class CanvasWin : MonoBehaviour
     public Image[] starImage = new Image[3];
     [SerializeField] private Color _activedStarColor;
 
+    [Space(7), Header("-> Ui COins")]
+    [SerializeField] private UICoins _uiBongosCoins;
+    private int _currentBongosCoins;
+    [SerializeField] private UICoins _uiFranksCoins;
+    private int _currentFranksCoins;
+
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
 
         _rectTransform.anchoredPosition = _iniPos;
+
+        _currentBongosCoins = GameManager.instance.currentCollectedCoinsBongo;
+
+        _currentFranksCoins = GameManager.instance.currentCollectedCoinsFrank;
 
     }
 
@@ -69,8 +79,14 @@ public class CanvasWin : MonoBehaviour
     {
         float time = 0.17f;
 
+        //Nivel completado
         yield return StartCoroutine(ActivateStars(0, time, GameManager.instance.currentLevel.isLevelCompleteJSON));
+
+        //Cantidad de monedas recolectadas
+        yield return StartCoroutine(AddPointsUI());
         yield return StartCoroutine(ActivateStars(1, time, GameManager.instance.currentLevel.isTakeAllCoinsThisLevel));
+
+        //Nivel pasado con cronómetro
         yield return StartCoroutine(ActivateStars(2, time, GameManager.instance.currentLevel.isLevelCompleteWithChronometerJSON));
     }
 
@@ -101,6 +117,37 @@ public class CanvasWin : MonoBehaviour
             target.localScale = new Vector3(scale, scale, scale);
             yield return null;
         }
+    }
+
+    #endregion
+
+    #region Add points in UICoins
+
+    IEnumerator AddPointsUI()
+    {
+        bool adds = true;
+
+        while (adds == true)
+        {
+
+            if(_currentBongosCoins > 0)
+            {
+                _uiBongosCoins.AddPoints(1);
+                _currentBongosCoins--;
+            }
+
+            if(_currentFranksCoins > 0)
+            {
+                _uiFranksCoins.AddPoints(1);
+                _currentFranksCoins--;
+            }
+
+            if(_currentBongosCoins <= 0 && _currentFranksCoins <= 0) adds = false;
+
+            yield return new WaitForSecondsRealtime(0.15f);
+        }
+
+        yield return new WaitForSecondsRealtime(0.25f);
     }
 
     #endregion
