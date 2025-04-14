@@ -8,13 +8,16 @@ public class ArtMovement : MonoBehaviour
     public GameObject modelo3D;     // Referencia explícita al modelo 3D
     public float anguloMaximo = 45.0f; // Ángulo máximo de barrido en grados
     public float velocidad = 3.0f;     // Velocidad del barrido
-
+    public bool Canmove = false;
     private Quaternion rotacionInicial;
 
     void Start()
     {
-       
 
+        if (!Canmove)
+        {
+            this.enabled = false;
+        }
         if (parteInferior == null)
         {
             Debug.LogError("La parte inferior no está asignada.");
@@ -32,7 +35,7 @@ public class ArtMovement : MonoBehaviour
 
     void Update()
     {
-        if (parteInferior != null && modelo3D != null)
+        if (parteInferior != null && modelo3D != null && Canmove)
         {
             float angulo = Mathf.Sin(Time.time * velocidad) * anguloMaximo;
 

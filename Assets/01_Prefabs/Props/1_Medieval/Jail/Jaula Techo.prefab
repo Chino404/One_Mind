@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2014804455045035902}
+  - component: {fileID: 1764871329712200715}
   m_Layer: 0
   m_Name: Jaula Techo
   m_TagString: Untagged
@@ -32,6 +33,23 @@ Transform:
   - {fileID: 8060498520843728939}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1764871329712200715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4784111358754295267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee6ea93035072f64da9baab393001ed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parteInferior: {fileID: 2014804455045035902}
+  modelo3D: {fileID: 7248389799047062161}
+  anguloMaximo: 10
+  velocidad: 0.5
+  Canmove: 0
 --- !u!1001 &7518229405954400192
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -120,6 +138,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f586cbe67e970f74895296cd5075fa39, type: 3}
+--- !u!1 &7248389799047062161 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f586cbe67e970f74895296cd5075fa39,
+    type: 3}
+  m_PrefabInstance: {fileID: 7518229405954400192}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8060498520843728939 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f586cbe67e970f74895296cd5075fa39,
