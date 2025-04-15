@@ -17,6 +17,7 @@ public class ArtMovement : MonoBehaviour
         if (!Canmove)
         {
             this.enabled = false;
+            return;
         }
         if (parteInferior == null)
         {
