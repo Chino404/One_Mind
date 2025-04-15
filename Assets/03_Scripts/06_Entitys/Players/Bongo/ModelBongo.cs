@@ -36,7 +36,9 @@ public class ModelBongo : Characters
     private Factory<Bullet> _factory;
     private ObjectPool<Bullet> _objectPool;
 
+
     public PenguinFly penguin;
+    [Tooltip("Esta haciendo la animación")] public bool IsDoingAnimation { get { return _isDoingAnimation; } set { _isDoingAnimation = value; } }
 
 
     public override void Awake()
@@ -71,7 +73,14 @@ public class ModelBongo : Characters
 
     public override void Update()
     {
-        if (!IsDoingAnimation&& GameManager.instance.modelFrank.IsDoingAnimation) _animPlayer.SetBool("Walk", false);
+        if (!IsDoingAnimation && GameManager.instance.modelFrank.IsDoingAnimation) _animPlayer.SetBool("Walk", false);
+
+        //if (_isDoingAnimation || GameManager.instance.modelFrank.IsDoingAnimation)
+        //{
+        //    _animPlayer.SetBool("Walk", false);
+
+        //    return;
+        //}
 
         foreach (var item in cinematics)
         {

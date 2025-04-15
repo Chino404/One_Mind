@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FakePlataform : Rewind
+public class FakePlataform : Rewind, IInteracteable
 {
     [SerializeField, Range(0.1f, 1), Tooltip("Tiempo de la transición del Disolve")] private float _timeToDisolve = 0.25f;
     [SerializeField, Tooltip("Tiempo que tarda en respawnear cuando se DESACTIVO")] private float _timeToRespawn = 1.5f;
@@ -43,12 +43,22 @@ public class FakePlataform : Rewind
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.GetComponent<Characters>() && _valueDisolve == 1)
+    //    {
+    //        StartCoroutine(ShaderDisolve(true));
+    //    }
+    //}
+
+    public void Active()
     {
-        if (other.GetComponent<Characters>() && _valueDisolve == 1)
-        {
-            StartCoroutine(ShaderDisolve(true));
-        }
+        if(_valueDisolve == 1) StartCoroutine(ShaderDisolve(true));
+    }
+
+    public void Deactive()
+    {
+
     }
 
     public IEnumerator ShaderDisolve(bool desactive)

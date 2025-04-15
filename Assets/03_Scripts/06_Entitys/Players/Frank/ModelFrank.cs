@@ -12,6 +12,8 @@ public class ModelFrank : Characters
     private ViewFrank _view;
     public static ModelFrank instance;
 
+    [Tooltip("Esta haciendo la animación")] public bool IsDoingAnimation { get { return _isDoingAnimation; } }
+
     public override void Awake()
     {
         if (instance == null) instance = this;
@@ -40,10 +42,18 @@ public class ModelFrank : Characters
     public override void Update()
     {
         if (!IsDoingAnimation && GameManager.instance.modelBongo.IsDoingAnimation) _animPlayer.SetBool("Walk", false);
+
+        //if (_isDoingAnimation || GameManager.instance.modelBongo.IsDoingAnimation)
+        //{
+        //    _animPlayer.SetBool("Walk", false);
+        //    return;
+        //}
+
         foreach (var item in cinematics)
         {
             if (item.state == PlayState.Playing) return;
         }
+
         base.Update();
 
         //if (GameManager.instance.bongo.stopMove) return;

@@ -86,8 +86,8 @@ public abstract class Characters : Entity, IDamageable
 
     public PlayableDirector[] cinematics;
 
-    private bool _isDoingAnimation;
-    public bool IsDoingAnimation { get { return _isDoingAnimation; } }
+    protected bool _isDoingAnimation;
+    //[Tooltip("Esta haciendo la animación")] public bool IsDoingAnimation { get { return _isDoingAnimation; } }
 
     public override void Awake()
     {
@@ -117,7 +117,7 @@ public abstract class Characters : Entity, IDamageable
 
     public virtual void Update()
     {
-        if (_isDoingAnimation) return;
+        //if (_isDoingAnimation) return;
 
         CoyoteTime();
 
@@ -126,7 +126,7 @@ public abstract class Characters : Entity, IDamageable
 
     public virtual void FixedUpdate()
     {
-        if (_isDoingAnimation) return;
+        //if (_isDoingAnimation) return;
         _rbCharacter.AddForce(Vector3.down * _forceGravity, ForceMode.VelocityChange);
     }
 
