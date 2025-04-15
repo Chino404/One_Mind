@@ -39,10 +39,17 @@ public class WinCollider : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        
+
         if(other.gameObject.layer == 3)
         {
+            if (_isWithCinematic)
+            {
+                Debug.Log("No entre");
+                return;
+            }
 
-            if(!_isWithCinematic) WinPlayer();
+            WinPlayer();
         }
 
     }
