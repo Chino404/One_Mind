@@ -17,10 +17,12 @@ public class PenguinFly : MonoBehaviour, IInteracteable,IDamageable
     [SerializeField] private float _secondsWaiting=1.5f;
     private int _actualIndex;
     private Vector3 _velocity;
+    private Collider _boxCollider;
 
     void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
+        _boxCollider = GetComponent<BoxCollider>();
     }
 
     private void Update()
@@ -74,6 +76,7 @@ public class PenguinFly : MonoBehaviour, IInteracteable,IDamageable
         if (_isDisable) return;
 
         _isInBongo = true;
+        _boxCollider.enabled = false;
         GameManager.instance.modelBongo.penguin = this;
         GameManager.instance.modelBongo.IsGetPenguin = true;
         _animator.SetTrigger("Normal");

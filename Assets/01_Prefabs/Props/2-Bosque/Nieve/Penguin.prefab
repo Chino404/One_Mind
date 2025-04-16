@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 1336496693277694283}
   - component: {fileID: 886120211934457094}
   - component: {fileID: 4588334493424150882}
-  - component: {fileID: 3016848258476317896}
   - component: {fileID: 4657695605713635550}
   m_Layer: 0
   m_Name: Penguin
@@ -103,6 +102,10 @@ MonoBehaviour:
   _positionInBongo: {x: 0, y: 2, z: 0}
   _isInBongo: 0
   _animator: {fileID: 0}
+  waypoints: []
+  speed: 0
+  rotationSpeed: 0
+  _secondsWaiting: 1.5
 --- !u!54 &4588334493424150882
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -130,29 +133,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!136 &3016848258476317896
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6047046964204434518}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &4657695605713635550
 BoxCollider:
   m_ObjectHideFlags: 0
