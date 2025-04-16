@@ -24,6 +24,7 @@ public class CollZoneManager : MonoBehaviour
     public void SwitchZone(CharacterTarget player, bool value, int indexScene)
     {
         if(player == CharacterTarget.Bongo) _bongoActiveZone = value;
+
         else _frankActiveZone = value;
 
 
