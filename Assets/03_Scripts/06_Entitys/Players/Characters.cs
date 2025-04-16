@@ -58,6 +58,7 @@ public abstract class Characters : Entity, IDamageable
 
     [Header("--> RAYCASTS")]
     [SerializeField, Range(0.1f, 3f) , Tooltip("Rango del raycast para el coyote time")] protected float _groundRange = 2;
+    [SerializeField, Range(0.1f, 3f) , Tooltip("Radio para el sphere cast")] protected float _radius = 0.5f;
     [SerializeField, Tooltip("Layer de objeto en donde pueda saltar")] protected LayerMask _floorLayer;
     [SerializeField, Tooltip("Tipo de piso")] public TypeFloor _typeFloor;
     [Space(10),SerializeField] private LayerMask _iceLayer;
@@ -199,7 +200,7 @@ public abstract class Characters : Entity, IDamageable
         RaycastHit hit;
 
 
-        return Physics.Raycast(pos, dir, out hit, _groundRange, layer);
+        return Physics.SphereCast(pos, _radius, dir, out hit, _groundRange, layer);
     }
 
     #endregion
@@ -767,7 +768,9 @@ public abstract class Characters : Entity, IDamageable
         Vector3 pos = transform.position;
         Vector3 dir = Vector3.down;
         float dist = _groundRange;
+        Gizmos.color = Color.red;
 
+        Gizmos.DrawSphere(transform.position - transform.up * _groundRange, _radius);
         Debug.DrawLine(pos, pos + (dir * dist));
     }
 
