@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Rewind : MonoBehaviour
@@ -21,4 +19,9 @@ public abstract class Rewind : MonoBehaviour
     /// Cargar
     /// </summary>
     public abstract void Load();
+
+    public virtual void OnDestroy()
+    {
+        GameManager.instance.rewinds.Remove(this);
+    }
 }
