@@ -11,6 +11,7 @@ public class FakePlataform : Rewind, IInteracteable
     private List<Material> _disolveMaterials = new List<Material>(); // Lista para almacenar los materiales 
     private int _IdDisolve = Shader.PropertyToID("_Disolve");
     [SerializeField] private bool _hasStarted = false;
+
     public override void Awake()
     {
         base.Awake();
