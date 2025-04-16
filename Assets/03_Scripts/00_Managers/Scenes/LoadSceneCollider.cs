@@ -9,13 +9,19 @@ public class LoadSceneCollider : MonoBehaviour
 {
     [SerializeField] private int _indexScene;
 
-    public SceneReferenceSO sceneReference;
+    [SerializeField] private SceneReferenceSO[] _sceneReference;
+    [SerializeField] private bool _isAwake;
 
     [Space(5), Header("Zonas de coleccionables")]
     [SerializeField] private CharacterTarget _player;
     [SerializeField, Tooltip("Activar o descativar escena")] private bool _active = true;
 
     [Space(5), SerializeField] private bool _isLoadZoneCollectable;
+
+    private void Awake()
+    {
+        if (_isAwake) SceneLoaded();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -30,15 +36,26 @@ public class LoadSceneCollider : MonoBehaviour
 
             //SceneManager.LoadSceneAsync(_indexScene,LoadSceneMode.Additive);
 
-            if (!_active && sceneReference.IsSceneLoaded())
+            SceneLoaded();
+
+        }
+    }
+
+    private void SceneLoaded()
+    {
+        if (_sceneReference.Length < 0) return;
+
+        foreach (var scene in _sceneReference)
+        {
+            if (!_active && scene.IsSceneLoaded())
             {
-                Debug.Log("DESACTIVE LA ESCENA");
-                sceneReference.UnloadScene();
+                Debug.Log($"<color=red> <b>DESACTIVE LA ESCENA </b></color>");
+                scene.UnloadScene();
 
                 return;
             }
 
-            else if(_active && !sceneReference.IsSceneLoaded()) sceneReference.LoadSceneAdditive();
+            else if (_active && !scene.IsSceneLoaded()) scene.LoadSceneAdditive();
         }
     }
 
