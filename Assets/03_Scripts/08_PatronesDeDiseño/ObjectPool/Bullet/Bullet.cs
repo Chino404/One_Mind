@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Bullet : MonoBehaviour
 {
@@ -7,7 +8,14 @@ public class Bullet : MonoBehaviour
     //public float damage;
 
     private ObjectPool<Bullet> _objectPool;
+    public GameObject bullet;
+    private SphereCollider _collider;
+    public ParticleSystem particles;
 
+    private void Awake()
+    {
+        _collider = GetComponent<SphereCollider>();
+    }
 
     void Update()
     {
@@ -48,7 +56,17 @@ public class Bullet : MonoBehaviour
 
         else
         {
-            gameObject.SetActive(false);
+            StartCoroutine(DestroySnowBall());
         }
     }
+
+    IEnumerator DestroySnowBall()
+    {
+        particles.Play();
+        bullet.SetActive(false);
+        _collider.enabled = false;
+        yield return new WaitForSeconds(0.2f);
+        gameObject.SetActive(false);
+    }
+
 }
