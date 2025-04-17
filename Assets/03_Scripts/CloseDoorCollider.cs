@@ -2,31 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum TypeCollider
+{
+    Close,
+    Open
+}
+
 public class CloseDoorCollider : MonoBehaviour
 {
+    public TypeCollider type;
     public DualDoor door;
-    private bool _isPlayerPassed;
-    public bool IsPlayerPassed { get { return _isPlayerPassed; } }
+    //private bool _isPlayerPassed;
+    //public bool IsPlayerPassed { get { return _isPlayerPassed; } }
     public CloseDoorCollider otherCloseDoorCollider;
 
     private void Update()
     {
-        if (_isPlayerPassed && otherCloseDoorCollider.IsPlayerPassed)
+        if (type == TypeCollider.Open) return;
+        if (door.doorCanClose && otherCloseDoorCollider.door.doorCanClose)
         {
             door.CloseTheDoor();
-            StartCoroutine(PlayerPass());
+            //StartCoroutine(PlayerPass());
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Characters>())
-            _isPlayerPassed = true;
+        {
+            if (type==TypeCollider.Close)
+                door.doorCanClose = true;
+            else if (type==TypeCollider.Open)
+                door.doorCanClose = false;
+        }
     }
 
-    IEnumerator PlayerPass()
-    {
-        yield return new WaitForSeconds(2f);
-        _isPlayerPassed = false;
-    }
+    
 }

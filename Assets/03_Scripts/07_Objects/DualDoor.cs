@@ -19,8 +19,8 @@ public class DualDoor : MonoBehaviour, ITransparency
      private float _animTime=0f;
     private bool _isOpen;
     private bool _isClosing;
-    
 
+    [HideInInspector] public bool doorCanClose;
     public DualPressurePlate myPressurePlate;
 
     private void Awake()
@@ -65,9 +65,9 @@ public class DualDoor : MonoBehaviour, ITransparency
         {
             _animTime += Time.deltaTime;
             float actualAngle = Mathf.Lerp(0, 0, _animTime / _animDuration);
-            //float otherAngle = Mathf.Lerp(0, 0, _animTime / _animDuration);
+            float otherAngle = Mathf.Lerp(0, 0, _animTime / _animDuration);
             _doors[0].transform.localRotation = Quaternion.Euler(0, actualAngle, 0);
-            _doors[1].transform.localRotation = Quaternion.Euler(0, actualAngle, 0);
+            _doors[1].transform.localRotation = Quaternion.Euler(0, otherAngle, 0);
             
         }
 
