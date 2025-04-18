@@ -66,6 +66,12 @@ public class ActiveObject : Rewind, IInteracteable
     {
         foreach (var item in _objectsToDeactive)
         {
+            if(item == null)
+            {
+                Debug.Log($"Variable <color=yellow>{gameObject.name}</color> no asignada!");
+                continue;
+            }
+
             _currentState.Rec(item.activeInHierarchy);
         }
     }

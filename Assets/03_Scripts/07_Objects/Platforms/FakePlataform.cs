@@ -12,9 +12,13 @@ public class FakePlataform : Rewind, IInteracteable
     private int _IdDisolve = Shader.PropertyToID("_Disolve");
     [SerializeField] private bool _hasStarted = false;
 
+    private Collider _myCollider;
+
     public override void Awake()
     {
         base.Awake();
+
+        _myCollider = GetComponent<Collider>();
 
         foreach (var renderer in _disolveRenderers)
         {
@@ -54,7 +58,7 @@ public class FakePlataform : Rewind, IInteracteable
 
     public void Active()
     {
-        if(_valueDisolve == 1) StartCoroutine(ShaderDisolve(true));
+        if(_valueDisolve == 1 && _myCollider.isTrigger) StartCoroutine(ShaderDisolve(true));
     }
 
     public void Deactive()
