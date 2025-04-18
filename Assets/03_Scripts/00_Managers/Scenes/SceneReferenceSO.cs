@@ -56,7 +56,7 @@ public class SceneReferenceSO :ScriptableObject
         if (buildIndex >= 0)
             SceneManager.LoadSceneAsync(buildIndex, LoadSceneMode.Additive);
         else
-            Debug.LogError($"La escena '{sceneName}' no está en los Build Settings.");
+            Debug.LogError($"La escena <color=yellow>'{sceneName}'</color> no está en los Build Settings.");
     }
 
     public void UnloadScene()

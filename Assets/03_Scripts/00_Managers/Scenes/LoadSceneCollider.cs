@@ -5,18 +5,24 @@ using UnityEngine.SceneManagement;
 using UnityEditor;
 #endif
 
+[Serializable]
+public struct SettingScene
+{
+    public SceneReferenceSO sceneReference;
+    [Tooltip("Activar o descativar escena")] public bool isActiveScene;
+}
+
 public class LoadSceneCollider : MonoBehaviour
 {
-    [SerializeField] private int _indexScene;
 
-    [SerializeField] private SceneReferenceSO[] _sceneReference;
-    [SerializeField] private bool _isAwake;
+    [SerializeField] private SettingScene[] _scenesReference;
+    [SerializeField,Tooltip("Si se activan al inicio del juego")] private bool _isAwake;
 
-    [Space(5), Header("Zonas de coleccionables")]
-    [SerializeField] private CharacterTarget _player;
-    [SerializeField, Tooltip("Activar o descativar escena")] private bool _active = true;
+    //[SerializeField] private int _indexScene;
+    //[Space(5), Header("Zonas de coleccionables")]
+    //[SerializeField] private CharacterTarget _player;
 
-    [Space(5), SerializeField] private bool _isLoadZoneCollectable;
+    //[Space(5), SerializeField] private bool _isLoadZoneCollectable;
 
     private void Awake()
     {
@@ -27,12 +33,12 @@ public class LoadSceneCollider : MonoBehaviour
     {
         if (other.GetComponent<Characters>())
         {
-            if(CollZoneManager.instance && _isLoadZoneCollectable)
-            {
-                Debug.Log("cargo zona coleccionable");
-                CollZoneManager.instance.SwitchZone(_player, _active, _indexScene);
-                return;
-            }
+            //if(CollZoneManager.instance && _isLoadZoneCollectable)
+            //{
+            //    Debug.Log("cargo zona coleccionable");
+            //    CollZoneManager.instance.SwitchZone(_player, _scenesReference[0].isActiveScene, _indexScene);
+            //    return;
+            //}
 
             //SceneManager.LoadSceneAsync(_indexScene,LoadSceneMode.Additive);
 
@@ -43,19 +49,19 @@ public class LoadSceneCollider : MonoBehaviour
 
     private void SceneLoaded()
     {
-        if (_sceneReference.Length < 0) return;
+        if (_scenesReference.Length < 0) return;
 
-        foreach (var scene in _sceneReference)
+        foreach (var scene in _scenesReference)
         {
-            if (!_active && scene.IsSceneLoaded())
+            if (!scene.isActiveScene && scene.sceneReference.IsSceneLoaded())
             {
                 Debug.Log($"<color=red> <b>DESACTIVE LA ESCENA </b></color>");
-                scene.UnloadScene();
+                scene.sceneReference.UnloadScene();
 
                 return;
             }
 
-            else if (_active && !scene.IsSceneLoaded()) scene.LoadSceneAdditive();
+            else if (scene.isActiveScene && !scene.sceneReference.IsSceneLoaded()) scene.sceneReference.LoadSceneAdditive();
         }
     }
 
