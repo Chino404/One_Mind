@@ -148,7 +148,7 @@ public class JsonSaves : MonoBehaviour
 
         for (int i = 0; i < levelList.Length; i++)
         {
-            if (levelList[i].indexLevelJSON == indexLevel)
+            if (/*levelList[i].indexLevelJSON*/  levelList[i].sceneReferenceSO.BuildIndex == indexLevel)
             {
                 if (levelList[i].collectablesJSON.ContainsKey(key)) levelList[i].collectablesJSON[key] = value; //Modifico el valor del Diccionario del Coleccionable
 
@@ -176,7 +176,7 @@ public class JsonSaves : MonoBehaviour
 
         foreach (var level in levelList)
         {
-            if (indexManager == level.indexLevelJSON)
+            if (indexManager == /*level.indexLevelJSON*/ level.sceneReferenceSO.BuildIndex)
             {
                 indexValue = level;
                 break;
@@ -205,7 +205,14 @@ public class JsonSaves : MonoBehaviour
 
         for (int i = 0; i < levelList.Length; i++)
         {
-            if (levelList[i].indexLevelJSON == indexLevel && levelList[i].collectablesJSON.ContainsKey(key)) valueKey = levelList[i].collectablesJSON[key];
+            if (levelList[i].sceneReferenceSO == null)
+            {
+                Debug.LogError($"Falta <color=yellow>referencia de escena</color> en el JSON en el indice: {i}");
+                continue;
+            }
+
+            Debug.Log($"{levelList[i].sceneReferenceSO.BuildIndex}");
+            if (/*levelList[i].indexLevelJSON*/ levelList[i].sceneReferenceSO.BuildIndex == indexLevel && levelList[i].collectablesJSON.ContainsKey(key)) valueKey = levelList[i].collectablesJSON[key];
         }
 
 

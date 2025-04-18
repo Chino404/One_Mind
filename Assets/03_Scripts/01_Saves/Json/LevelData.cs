@@ -36,7 +36,8 @@ public struct TimeChronometer
 public class LevelData
 {
     [Header("-> NORMAL VALUES")]
-    public int indexLevelJSON;
+    public SceneReferenceSO sceneReferenceSO;
+    //public int indexLevelJSON;
     public bool isUnlockLevelJSON;
     public bool isLevelCompleteJSON;
 
@@ -59,6 +60,7 @@ public class LevelData
     public bool isLevelCompleteWithChronometerJSON;
     [Tooltip("Mi mejor tiempo personal.")]public TimeChronometer myBestTimeRecord;
     [Tooltip("Los mejores tiempos.")]public TimeChronometer[] bestTimesJSON = new TimeChronometer[3];
+
 
     /// <summary>
     /// Obtengo la moneda

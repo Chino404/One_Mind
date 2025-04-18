@@ -24,13 +24,11 @@ public class UnlockNextLevel : MonoBehaviour
         foreach (var currentLevel in levelsList)
         {
             //Cuando lo encunetro lo pongo como desbloqueado.
-            if(currentLevel.indexLevelJSON == nextLevel)
+            if (/*currentLevel.indexLevelJSON*/ currentLevel.sceneReferenceSO.BuildIndex == nextLevel)
             {
                 currentLevel.isUnlockLevelJSON = true;
                 break;
             }
-
-            
         }
 
         //Desbloque el proximo nivel. Accedo al diccionario y le cambio su booleano.
