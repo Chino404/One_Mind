@@ -29,8 +29,6 @@ public class UnlockNextLevel : MonoBehaviour
                 currentLevel.isUnlockLevelJSON = true;
                 break;
             }
-
-            
         }
 
         //Desbloque el proximo nivel. Accedo al diccionario y le cambio su booleano.

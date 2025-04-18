@@ -95,11 +95,20 @@ public class GameManager : MonoBehaviour
             foreach (var level in CallJson.instance.refJasonSave.GetSaveData.levels)
             {
                 //Si su IndexLevel es el mismo que el del GameManager, lo guardo en el currentLevel
-                if (level.indexLevelJSON == _indexLevel)
+                //if (level.indexLevelJSON == _indexLevel)
+                //{
+                //    currentLevel = level;
+                //    break;
+                //}
+
+                if (level.sceneReferenceSO.BuildIndex == _indexLevel)
                 {
                     currentLevel = level;
+
+                    Debug.Log($"El index del nivel es: {level.sceneReferenceSO.BuildIndex}");
                     break;
                 }
+
             }
 
             currentCollectedCoinsBongo = currentLevel.coinsObtainedBongoSide;
