@@ -58,7 +58,7 @@ public class LoadSceneCollider : MonoBehaviour
                 Debug.Log($"<color=red> <b>DESACTIVE LA ESCENA </b></color>");
                 scene.sceneReference.UnloadScene();
 
-                return;
+                continue;
             }
 
             else if (scene.isActiveScene && !scene.sceneReference.IsSceneLoaded()) scene.sceneReference.LoadSceneAdditive();
