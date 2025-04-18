@@ -30,7 +30,7 @@ public class CheckPoint : MonoBehaviour
 
             _inPosition = true;
 
-            if(_refOtherCheckPoint.InPosition&&!_isSave)
+            if(_refOtherCheckPoint.InPosition && !_isSave)
             {
                 SaveCheckpoint();
                 _refOtherCheckPoint.SaveCheckpoint();

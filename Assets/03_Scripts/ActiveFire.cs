@@ -6,11 +6,12 @@ public class ActiveFire : Rewind
 {
     public GameObject turnOnFire;
     public GameObject turnOffFire;
+
     public override void Save()
     {
-        if (turnOnFire != null)
-            _currentState.Rec(turnOffFire.activeInHierarchy, turnOnFire.activeInHierarchy);
-        else _currentState.Rec(turnOffFire.activeInHierarchy);
+        if (turnOnFire) _currentState.Rec(turnOffFire.activeInHierarchy, turnOnFire.activeInHierarchy);
+
+        else if (turnOffFire) _currentState.Rec(turnOffFire.activeInHierarchy);
 
 
     }
