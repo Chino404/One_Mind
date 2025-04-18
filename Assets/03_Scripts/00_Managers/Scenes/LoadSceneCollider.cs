@@ -14,15 +14,8 @@ public struct SettingScene
 
 public class LoadSceneCollider : MonoBehaviour
 {
-
     [SerializeField] private SettingScene[] _scenesReference;
     [SerializeField,Tooltip("Si se activan al inicio del juego")] private bool _isAwake;
-
-    //[SerializeField] private int _indexScene;
-    //[Space(5), Header("Zonas de coleccionables")]
-    //[SerializeField] private CharacterTarget _player;
-
-    //[Space(5), SerializeField] private bool _isLoadZoneCollectable;
 
     private void Awake()
     {
@@ -33,17 +26,7 @@ public class LoadSceneCollider : MonoBehaviour
     {
         if (other.GetComponent<Characters>())
         {
-            //if(CollZoneManager.instance && _isLoadZoneCollectable)
-            //{
-            //    Debug.Log("cargo zona coleccionable");
-            //    CollZoneManager.instance.SwitchZone(_player, _scenesReference[0].isActiveScene, _indexScene);
-            //    return;
-            //}
-
-            //SceneManager.LoadSceneAsync(_indexScene,LoadSceneMode.Additive);
-
             SceneLoaded();
-
         }
     }
 

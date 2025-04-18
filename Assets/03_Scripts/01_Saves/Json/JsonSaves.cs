@@ -19,7 +19,7 @@ public class JsonSaves : MonoBehaviour
 
         _path = customDir + "/Saves.Json";
 
-        Debug.LogWarning($"Ubicacion del saveData: {_path}");
+        Debug.LogWarning($"Ubicacion del saveData: {_path}");      
 
         LoadJSON();
 
@@ -35,6 +35,7 @@ public class JsonSaves : MonoBehaviour
         CallJson.instance.refJasonSave = this;
 
         //LoadJSON();
+        
 
         DictionaryCheck(CallJson.instance.refJasonSave.GetSaveData.levels);
 
