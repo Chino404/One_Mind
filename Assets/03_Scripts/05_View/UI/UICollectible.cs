@@ -62,7 +62,8 @@ public class UICollectible : MonoBehaviour
 
         if (myShowType == ShowType.InCanvas)
         {
-            SetUIToLevel(GameManager.instance.currentLevel.indexLevelJSON);
+            //SetUIToLevel(GameManager.instance.currentLevel.indexLevelJSON);
+            SetUIToLevel(GameManager.instance.currentLevel.sceneReferenceSO.BuildIndex);
 
             return;
         }

@@ -30,7 +30,7 @@ public class OldButtonSelector : MonoBehaviour
         foreach (var level in CallJson.instance.refJasonSave.GetSaveData.levels)
         {
             //Si su IndexLevel es el mismo que el del boton, lo guardo en el _currentLevel
-            if (level.indexLevelJSON == indexLevel)
+            if (/*level.indexLevelJSON*/  level.sceneReferenceSO.BuildIndex == indexLevel)
             {
                 _currentLevel = level;
 
