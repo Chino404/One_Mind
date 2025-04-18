@@ -37,11 +37,8 @@ public class LevelData
 {
     [Header("-> NORMAL VALUES")]
     public int indexLevelJSON;
-    public SceneReferenceSO sceneReferenceSO;
     public bool isUnlockLevelJSON;
     public bool isLevelCompleteJSON;
-
-    public int Numero =>  indexLevelJSON = sceneReferenceSO.BuildIndex;
 
     //Monedas
     [Space(10), Header("-> COINS")]
@@ -62,11 +59,6 @@ public class LevelData
     public bool isLevelCompleteWithChronometerJSON;
     [Tooltip("Mi mejor tiempo personal.")]public TimeChronometer myBestTimeRecord;
     [Tooltip("Los mejores tiempos.")]public TimeChronometer[] bestTimesJSON = new TimeChronometer[3];
-
-    public void SetIndex()
-    {
-        indexLevelJSON = sceneReferenceSO.BuildIndex;
-    }
 
     /// <summary>
     /// Obtengo la moneda

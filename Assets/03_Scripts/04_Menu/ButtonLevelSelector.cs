@@ -26,8 +26,7 @@ public class ButtonLevelSelector : MonoBehaviour
 
     [Header("-> General Config, Button")]
     [SerializeField] private string _levelName;
-    //[Tooltip("Index del nivel")] public int indexLevel;
-    [Tooltip("La escena a la que voy a ir")] public SceneReferenceSO sceneReference;
+    [Tooltip("Index del nivel")] public int indexLevel;
     [SerializeField] private int _totalCoins = 0;
 
     [Space(10)]
@@ -54,8 +53,7 @@ public class ButtonLevelSelector : MonoBehaviour
     {
         _button = GetComponent<Button>();
 
-        //_currentLevel = CallJson.instance.refJasonSave.GetCurrentLevel(indexLevel);
-        _currentLevel = CallJson.instance.refJasonSave.GetCurrentLevel(sceneReference.BuildIndex);
+        _currentLevel = CallJson.instance.refJasonSave.GetCurrentLevel(indexLevel);
 
         //Si tengo algo escrito en el nombre del nivel
         if (_levelName != string.Empty && _txmpLvelName != null) _txmpLvelName.text = _levelName;
@@ -93,12 +91,10 @@ public class ButtonLevelSelector : MonoBehaviour
             collectable.imageCollectable.gameObject.SetActive(true);
 
             //Si el coleccionable es de Bongo, obtengo su booleano
-            //if (collectable.trinketCharacter == CharacterTarget.Bongo) collectable.isTaken = CallJson.instance.refJasonSave.GetValueCollectableDict(indexLevel, "BongoTrinket");
-            if (collectable.trinketCharacter == CharacterTarget.Bongo) collectable.isTaken = CallJson.instance.refJasonSave.GetValueCollectableDict(sceneReference.BuildIndex, "BongoTrinket");
+            if (collectable.trinketCharacter == CharacterTarget.Bongo) collectable.isTaken = CallJson.instance.refJasonSave.GetValueCollectableDict(indexLevel, "BongoTrinket");
 
             //Si es de Frank lo mismo
-            //else collectable.isTaken = CallJson.instance.refJasonSave.GetValueCollectableDict(indexLevel, "FrankTrinket");
-            else collectable.isTaken = CallJson.instance.refJasonSave.GetValueCollectableDict(sceneReference.BuildIndex, "FrankTrinket");
+            else collectable.isTaken = CallJson.instance.refJasonSave.GetValueCollectableDict(indexLevel, "FrankTrinket");
 
             if (collectable.isTaken) collectable.imageCollectable.color = collectable.activeColor;
             else collectable.imageCollectable.color = collectable.deactiveColor;
@@ -108,6 +104,10 @@ public class ButtonLevelSelector : MonoBehaviour
 
         StartCoroutine(SwitchScale());
 
+        //foreach (var image in starImage)
+        //{
+        //    image.gameObject.SetActive(true);
+        //}
 
         if (_currentLevel.isLevelCompleteJSON) starImage[0].color = _activedStarColor;
 
@@ -140,8 +140,7 @@ public class ButtonLevelSelector : MonoBehaviour
     {
         if (!_button.interactable) return;
 
-        //MenuManager.Instance.PlayGame(indexLevel, _currentLevel.isLevelCompleteJSON);
-        MenuManager.Instance.PlayGame(sceneReference.BuildIndex, _currentLevel.isLevelCompleteJSON);
+        MenuManager.Instance.PlayGame(indexLevel, _currentLevel.isLevelCompleteJSON);
     }
 
     /// <summary>
