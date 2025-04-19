@@ -77,9 +77,9 @@ public class WinCollider : MonoBehaviour
         #region Collectable
         //Cambio el booleano del dicccionario por verdadero
 
-        if (GameManager.instance.isTakeCollBongo) CallJson.instance.refJasonSave.ModyfyValueCollectableDict(GameManager.instance.IndexLevel, GameManager.instance.nameCollBongo, true);
+        if (GameManager.instance.isTakeCollBongo) CallJson.instance.refJasonSave.ModyfyValueCollectableDict(GameManager.instance.currentLevel.indexLevelJSON, GameManager.instance.nameCollBongo, true);
 
-        if(GameManager.instance.isTakeCollFrank) CallJson.instance.refJasonSave.ModyfyValueCollectableDict(GameManager.instance.IndexLevel, GameManager.instance.nameCollFrank, true);
+        if(GameManager.instance.isTakeCollFrank) CallJson.instance.refJasonSave.ModyfyValueCollectableDict(GameManager.instance.currentLevel.indexLevelJSON, GameManager.instance.nameCollFrank, true);
 
         #endregion
     }

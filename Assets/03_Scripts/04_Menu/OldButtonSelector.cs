@@ -26,17 +26,17 @@ public class OldButtonSelector : MonoBehaviour
         _myAnimator = GetComponent<Animator>();
         _button = GetComponent<Button>();
 
-        //Recorro cada nivel del Json
-        foreach (var level in CallJson.instance.refJasonSave.GetSaveData.levels)
-        {
-            //Si su IndexLevel es el mismo que el del boton, lo guardo en el _currentLevel
-            if (/*level.indexLevelJSON*/  level.sceneReferenceSO.BuildIndex == indexLevel)
-            {
-                _currentLevel = level;
+        ////Recorro cada nivel del Json
+        //foreach (var level in CallJson.instance.refJasonSave.GetSaveData.levels)
+        //{
+        //    //Si su IndexLevel es el mismo que el del boton, lo guardo en el _currentLevel
+        //    if (/*level.indexLevelJSON*/  level.sceneReferenceSO.BuildIndex == indexLevel)
+        //    {
+        //        _currentLevel = level;
 
-                break;
-            }
-        }
+        //        break;
+        //    }
+        //}
     }
 
     /// <summary>
@@ -83,7 +83,7 @@ public class OldButtonSelector : MonoBehaviour
     {
         if (!_button.interactable) return;
 
-        MenuManager.Instance.PlayGame(indexLevel, _currentLevel.isLevelCompleteJSON);
+        //MenuManager.Instance.PlayGame(indexLevel, _currentLevel.isLevelCompleteJSON);
     }
 
     /// <summary>

@@ -36,8 +36,8 @@ public struct TimeChronometer
 public class LevelData
 {
     [Header("-> NORMAL VALUES")]
-    public SceneReferenceSO sceneReferenceSO;
-    //public int indexLevelJSON;
+    //public SceneReferenceSO sceneReferenceSO;
+    public int indexLevelJSON;
     public bool isUnlockLevelJSON;
     public bool isLevelCompleteJSON;
 

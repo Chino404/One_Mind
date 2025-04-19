@@ -10,6 +10,8 @@ public class JsonSaves : MonoBehaviour
     [SerializeField] SaveData saveData = new SaveData();
     string _path = ""; //Es la barra que aparece arriba en los archivos, para buscarlos
 
+    public SceneReferenceSO[] scenes;
+
     private void Awake()
     {                                               //Obtengo la ubicacion de Mis documentos                  //Voy a la carpeta del nombre de la compañia y al nombre del juego  //A la carpeta de SaveData
         string customDir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Replace("\\", "/") + "/" + Application.companyName + "/" + Application.productName + "/SaveData";//Mas pro, Customisiado
@@ -21,6 +23,7 @@ public class JsonSaves : MonoBehaviour
 
         Debug.LogWarning($"Ubicacion del saveData: {_path}");
 
+        
         LoadJSON();
 
     }
@@ -35,6 +38,12 @@ public class JsonSaves : MonoBehaviour
         CallJson.instance.refJasonSave = this;
 
         //LoadJSON();
+        var levels = CallJson.instance.refJasonSave.GetSaveData.levels;
+
+        for (int i = 0; i < levels.Length; i++)
+        {
+            levels[i].indexLevelJSON = scenes[i].BuildIndex;
+        }
 
         DictionaryCheck(CallJson.instance.refJasonSave.GetSaveData.levels);
 
@@ -148,7 +157,7 @@ public class JsonSaves : MonoBehaviour
 
         for (int i = 0; i < levelList.Length; i++)
         {
-            if (/*levelList[i].indexLevelJSON*/  levelList[i].sceneReferenceSO.BuildIndex == indexLevel)
+            if (levelList[i].indexLevelJSON  /*levelList[i].sceneReferenceSO.BuildIndex*/ == indexLevel)
             {
                 if (levelList[i].collectablesJSON.ContainsKey(key)) levelList[i].collectablesJSON[key] = value; //Modifico el valor del Diccionario del Coleccionable
 
@@ -176,7 +185,7 @@ public class JsonSaves : MonoBehaviour
 
         foreach (var level in levelList)
         {
-            if (indexManager == /*level.indexLevelJSON*/ level.sceneReferenceSO.BuildIndex)
+            if (indexManager == level.indexLevelJSON /*level.sceneReferenceSO.BuildIndex*/)
             {
                 indexValue = level;
                 break;
@@ -205,14 +214,13 @@ public class JsonSaves : MonoBehaviour
 
         for (int i = 0; i < levelList.Length; i++)
         {
-            if (levelList[i].sceneReferenceSO == null)
-            {
-                Debug.LogError($"Falta <color=yellow>referencia de escena</color> en el JSON en el indice: {i}");
-                continue;
-            }
+            //if (levelList[i].sceneReferenceSO == null)
+            //{
+            //    Debug.LogError($"Falta <color=yellow>referencia de escena</color> en el JSON en el indice: {i}");
+            //    continue;
+            //}
 
-            Debug.Log($"{levelList[i].sceneReferenceSO.BuildIndex}");
-            if (/*levelList[i].indexLevelJSON*/ levelList[i].sceneReferenceSO.BuildIndex == indexLevel && levelList[i].collectablesJSON.ContainsKey(key)) valueKey = levelList[i].collectablesJSON[key];
+            if (levelList[i].indexLevelJSON /*levelList[i].sceneReferenceSO.BuildIndex*/ == indexLevel && levelList[i].collectablesJSON.ContainsKey(key)) valueKey = levelList[i].collectablesJSON[key];
         }
 
 

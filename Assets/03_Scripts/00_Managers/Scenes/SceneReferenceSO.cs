@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -11,16 +12,26 @@ public class SceneReferenceSO :ScriptableObject
 
 #if UNITY_EDITOR
     public SceneAsset sceneAsset;
+
+    public SceneAsset[] moreScene;
 #endif
 
     [SerializeField, HideInInspector]
-    private string sceneName;
+    private List<string> _scenesNames;
+    public List<string> ScenesNames => _scenesNames;
 
     [SerializeField, HideInInspector]
-    private int buildIndex;
+    private List<int> _buildIndexScenes;
+    public List<int> BuildIndexScenes => _buildIndexScenes;
 
-    public string SceneName => sceneName;
-    public int BuildIndex => buildIndex;
+
+    [SerializeField, HideInInspector]
+    private string _sceneName;
+    public string SceneName => _sceneName;
+
+    [SerializeField, HideInInspector]
+    private int _buildIndex;
+    public int BuildIndex => _buildIndex;
 
 
 #if UNITY_EDITOR
@@ -29,19 +40,47 @@ public class SceneReferenceSO :ScriptableObject
         if (sceneAsset != null)
         {
             string path = AssetDatabase.GetAssetPath(sceneAsset);
-            sceneName = System.IO.Path.GetFileNameWithoutExtension(path);
-            buildIndex = GetBuildIndexByScenePath(path);
+            _sceneName = System.IO.Path.GetFileNameWithoutExtension(path);
+            _buildIndex = GetBuildIndexByScenePath(path);
         }
         else
         {
-            sceneName = string.Empty;
-            buildIndex = -1;
+            _sceneName = string.Empty;
+            _buildIndex = -1;
+        }
+
+        if (moreScene != null && moreScene.Length > 0)
+        {
+            Debug.Log("Hay más escenas!!");
+
+            _scenesNames.Clear();
+            _buildIndexScenes.Clear();
+
+            for (int i = 0; i < moreScene.Length; i++)
+            {
+                string path = AssetDatabase.GetAssetPath(moreScene[i]);
+                _scenesNames.Add(System.IO.Path.GetFileNameWithoutExtension(path));
+                _buildIndexScenes.Add(GetBuildIndexByScenePath(path));
+            }
+        }
+        else
+        {
+            Debug.Log("NO hay más escenas!!");
+
+            _scenesNames.Clear();
+            _buildIndexScenes.Clear();
         }
     }
 
+    /// <summary>
+    /// Obtengo el indice en base a la ubicación.
+    /// </summary>
+    /// <param name="scenePath"></param>
+    /// <returns></returns>
     private int GetBuildIndexByScenePath(string scenePath)
     {
         var scenes = EditorBuildSettings.scenes;
+
         for (int i = 0; i < scenes.Length; i++)
         {
             if (scenes[i].path == scenePath)
@@ -53,26 +92,42 @@ public class SceneReferenceSO :ScriptableObject
 
     public void LoadSceneAdditive()
     {
-        if (buildIndex >= 0)
-            SceneManager.LoadSceneAsync(buildIndex, LoadSceneMode.Additive);
+        if (_buildIndex >= 0)
+            SceneManager.LoadSceneAsync(_buildIndex, LoadSceneMode.Additive);
         else
-            Debug.LogError($"La escena <color=yellow>'{sceneName}'</color> no está en los Build Settings.");
+            Debug.LogError($"La escena <color=yellow>'{_sceneName}'</color> no está en los Build Settings.");
     }
+
+#if UNITY_EDITOR
+    public void LoadMoreSceneAdditive()
+    {
+        if (moreScene.Length <= 0 && moreScene != null)
+        {
+            Debug.LogError($"No hay escenas de más cargadas!");
+            return;
+        }
+
+        for (int i = 0; i < moreScene.Length; i++)
+        {
+            SceneManager.LoadSceneAsync(_buildIndexScenes[i],LoadSceneMode.Additive);
+        }
+    }
+#endif
 
     public void UnloadScene()
     {
-        if(buildIndex >= 0)
-            SceneManager.UnloadSceneAsync(buildIndex);
+        if(_buildIndex >= 0)
+            SceneManager.UnloadSceneAsync(_buildIndex);
         else
-            Debug.LogError($"La escena '{sceneName}' no está en los Build Settings.");
+            Debug.LogError($"La escena '{_sceneName}' no está en los Build Settings.");
     }
 
     public bool IsSceneLoaded()
     {
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {
-            Scene scene = SceneManager.GetSceneAt(i);
-            if (scene.buildIndex == buildIndex && scene.isLoaded)
+            var scene = SceneManager.GetSceneAt(i);
+            if (scene.buildIndex == _buildIndex && scene.isLoaded)
                 return true;
         }
         return false;

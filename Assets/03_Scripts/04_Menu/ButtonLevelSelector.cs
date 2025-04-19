@@ -145,7 +145,7 @@ public class ButtonLevelSelector : MonoBehaviour
         if (!_button.interactable) return;
 
         //MenuManager.Instance.PlayGame(indexLevel, _currentLevel.isLevelCompleteJSON);
-        MenuManager.Instance.PlayGame(sceneReference.BuildIndex, _currentLevel.isLevelCompleteJSON);
+        MenuManager.Instance.PlayGame(sceneReference, _currentLevel.isLevelCompleteJSON);
     }
 
     /// <summary>

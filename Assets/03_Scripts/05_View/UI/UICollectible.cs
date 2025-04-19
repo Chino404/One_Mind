@@ -62,8 +62,8 @@ public class UICollectible : MonoBehaviour
 
         if (myShowType == ShowType.InCanvas)
         {
-            //SetUIToLevel(GameManager.instance.currentLevel.indexLevelJSON);
-            SetUIToLevel(GameManager.instance.currentLevel.sceneReferenceSO.BuildIndex);
+            SetUIToLevel(GameManager.instance.currentLevel.indexLevelJSON);
+            //SetUIToLevel(GameManager.instance.currentLevel.sceneReferenceSO.BuildIndex);
 
             return;
         }
@@ -74,7 +74,7 @@ public class UICollectible : MonoBehaviour
 
     private void OnEnable()
     {
-        if (myShowType != ShowType.InCanvas || _image.color == activeColor) return;
+        if (myShowType == ShowType.InGame || _image.color == activeColor) return;
 
         //Si no fue agarrado previamente el colleccionable, pongo el valor que está en el GameManager.
         if(!_isTake) _isTake = _player == CharacterTarget.Bongo ? GameManager.instance.isTakeCollBongo : GameManager.instance.isTakeCollFrank;
