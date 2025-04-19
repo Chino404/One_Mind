@@ -27,7 +27,8 @@ public class MenuManager : MonoBehaviour
     [Space(5), Header("-> Botones"), Tooltip("En este array se ponen todos los botones que empiezan desactivados. El primero del array no se desactiva")]
     public ButtonsLevelSelector[] buttons;
 
-    private int _indexLevelToPlay;
+    //private int _indexLevelToPlay;
+    private SceneReferenceSO _sceneRef;
 
     private void Awake()
     {
@@ -66,6 +67,11 @@ public class MenuManager : MonoBehaviour
             SceneManager.LoadSceneAsync(_asyncScene);
             AsyncLoad.sceneNumber = 5;
             Time.timeScale = 1;
+        }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            CallJson.instance.refJasonSave.LoadJSON();
         }
 
         if (Input.GetKeyDown(KeyCode.F11))
@@ -116,9 +122,9 @@ public class MenuManager : MonoBehaviour
     /// </summary>
     /// <param name="sceneNumber"></param>
     /// <param name="levelComplete"></param>
-    public void PlayGame(int sceneNumber, bool levelComplete = false)
+    public void PlayGame(SceneReferenceSO scene, bool levelComplete = false)
     {
-        _indexLevelToPlay = sceneNumber;
+        _sceneRef = scene;
 
         if(levelComplete)
         {
@@ -136,7 +142,8 @@ public class MenuManager : MonoBehaviour
     public void PlayInNormalMode()
     {
         SceneManager.LoadSceneAsync(_asyncScene);
-        AsyncLoad.sceneNumber = _indexLevelToPlay;
+        //AsyncLoad.sceneReference = _indexLevelToPlay;
+        AsyncLoad.sceneReference = _sceneRef;
         Time.timeScale = 1;
     }
 
@@ -148,7 +155,7 @@ public class MenuManager : MonoBehaviour
     {
         CallJson.instance.refJasonSave.GetSaveData.playWithTimer = true;
         CallJson.instance.refJasonSave.SaveJSON();
-        PlayGame(_indexLevelToPlay);
+        PlayGame(_sceneRef);
     }
 
     public void QuitGame()

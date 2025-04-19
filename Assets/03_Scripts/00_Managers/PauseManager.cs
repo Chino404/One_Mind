@@ -86,13 +86,13 @@ public class PauseManager : MonoBehaviour
         if (!_isLevelComplete) _txtChronometerUnlocked.gameObject.SetActive(true);
     }
 
-    public void NextLvL(int scene)
+    public void NextLvL(SceneReferenceSO scene)
     {
         //UnityEngine.SceneManagement.Scene currentScene = SceneManager.GetActiveScene(); //GetActiveScene() es para averiguar en que escena estas
         //Debug.Log($"Mi Index es: {currentScene.buildIndex}");
 
         SceneManager.LoadSceneAsync(_asyncScene);
-        AsyncLoad.sceneNumber = scene;
+        AsyncLoad.sceneReference = scene;
         //pauseMenu.gameObject.SetActive(false);
         Time.timeScale = 1;
     }

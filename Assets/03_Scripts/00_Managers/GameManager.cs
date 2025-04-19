@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector, Tooltip("Nivel actual")] public LevelData currentLevel;
     [SerializeField] private int _indexLevel;
+    [SerializeField] private SceneReferenceSO[] _sceneReferenceAwake;
     [SerializeField] private bool _scenePractice;
     public int IndexLevel
     {
@@ -95,7 +96,7 @@ public class GameManager : MonoBehaviour
             foreach (var level in CallJson.instance.refJasonSave.GetSaveData.levels)
             {
                 //Si su IndexLevel es el mismo que el del GameManager, lo guardo en el currentLevel
-                if (/*level.indexLevelJSON*/ level.sceneReferenceSO.BuildIndex == _indexLevel)
+                if (level.indexLevelJSON /*level.sceneReferenceSO.BuildIndex*/ == _indexLevel)
                 {
                     currentLevel = level;
                     break;
@@ -109,6 +110,8 @@ public class GameManager : MonoBehaviour
 
             isChronometerActive = CallJson.instance.refJasonSave.GetSaveData.playWithTimer;
         }
+
+        
 
         Debug.Log("AWAKE GAMEMANAGER");
     }
