@@ -17,21 +17,10 @@ public class GameManager : MonoBehaviour
     public List<Rewind> rewinds;
 
     [HideInInspector, Tooltip("Nivel actual")] public LevelData currentLevel;
-    [SerializeField] private int _indexLevel;
-    [SerializeField] private SceneReferenceSO[] _sceneReferenceAwake;
+    [SerializeField, Tooltip("Mi referencia de la escena.")] private SceneReferenceSO _mySceneReference;
     [SerializeField] private bool _scenePractice;
-    public int IndexLevel
-    {
-        get { return _indexLevel; }
-
-        set
-        {
-            _indexLevel = value;
-
-            UpdateUICollectible(_indexLevel);
-            //UpdateUICollectibleManager(_indexLevel);
-        }
-    }
+    private int _indexLevel;
+    public int IndexLevel { get { return _indexLevel; } }
 
 
     [Space(10), Header("-> Chronometer")]
@@ -89,7 +78,22 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
-        else Destroy(gameObject);
+        else
+        {
+            Debug.LogWarning($"Destruí este GameManager (<color=red>{gameObject.name}</color>) porque ya existe en escena el <color=yellow>{GameManager.instance.gameObject.name}</color>");
+            Destroy(gameObject);
+            return;
+        }
+
+        if (_mySceneReference)
+        {
+            _indexLevel = _mySceneReference.BuildIndex;
+        }
+        else
+        {
+            Debug.LogError($"Falta la referencia de mi escena (<color=red><b>{gameObject.name}</color></b>)");
+            return;
+        }
 
         if (!_scenePractice)
         {
@@ -113,13 +117,13 @@ public class GameManager : MonoBehaviour
 
         
 
-        Debug.Log("AWAKE GAMEMANAGER");
+        Debug.Log($"<color=yellow>AWAKE GAMEMANAGER</color>");
     }
 
     private void Start()
     {
-        UnityEngine.SceneManagement.Scene currentScene = SceneManager.GetActiveScene(); //GetActiveScene() es para averiguar en que escena estas
-        IndexLevel = currentScene.buildIndex;
+
+        UpdateUICollectible(_indexLevel);
 
         if (!modelBongo) Debug.LogError("Falta la referencia de BONGO");
         if (!modelFrank) Debug.LogError("Falta la referencia de FRANK");
