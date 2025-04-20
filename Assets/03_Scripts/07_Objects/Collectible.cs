@@ -22,6 +22,7 @@ public class Collectible : MonoBehaviour
 
         if (CallJson.instance.refJasonSave.GetValueCollectableDict(GameManager.instance.IndexLevel, _myName))
         {
+            Debug.Log($"Ya fui recogido. (<color=yellow>{gameObject.name}</color>)");
             gameObject.SetActive(false);
         }
 
