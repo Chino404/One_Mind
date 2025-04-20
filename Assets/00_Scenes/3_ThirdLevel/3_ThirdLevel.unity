@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12722059, g: 0.045054514, b: 0.14665735, a: 1}
+  m_IndirectSpecularColor: {r: 0.08446868, g: 0.044185676, b: 0.13646099, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -10572,7 +10572,11 @@ PrefabInstance:
     - {fileID: 3016848258476317896, guid: 62508e496001a294381a32deac037596, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6047046964204434518, guid: 62508e496001a294381a32deac037596,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2001677940}
   m_SourcePrefab: {fileID: 100100000, guid: 62508e496001a294381a32deac037596, type: 3}
 --- !u!95 &243803433 stripped
 Animator:
@@ -10583,6 +10587,12 @@ Animator:
 --- !u!1 &243803434 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8402460081880263398, guid: 62508e496001a294381a32deac037596,
+    type: 3}
+  m_PrefabInstance: {fileID: 243803432}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &243803435 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6047046964204434518, guid: 62508e496001a294381a32deac037596,
     type: 3}
   m_PrefabInstance: {fileID: 243803432}
   m_PrefabAsset: {fileID: 0}
@@ -16539,6 +16549,8 @@ PlayableDirector:
     value: {fileID: 1919051154}
   - key: {fileID: 5082927370352050990, guid: e3974d9a33a708640a8b90ecf5ea0521, type: 2}
     value: {fileID: 243803433}
+  - key: {fileID: 6411271956433442473, guid: e3974d9a33a708640a8b90ecf5ea0521, type: 2}
+    value: {fileID: 2001677940}
   m_ExposedReferences:
     m_References: []
 --- !u!1 &355371614
@@ -54103,7 +54115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   saveData:
     levels:
-    - sceneReferenceSO: {fileID: 0}
+    - indexLevelJSON: 0
       isUnlockLevelJSON: 0
       isLevelCompleteJSON: 0
       isTakeAllCoinsThisLevel: 0
@@ -54131,7 +54143,7 @@ MonoBehaviour:
         isBusy: 0
         _timeInSeconds: 0
         txtTimeInMinutes: 
-    - sceneReferenceSO: {fileID: 0}
+    - indexLevelJSON: 0
       isUnlockLevelJSON: 0
       isLevelCompleteJSON: 0
       isTakeAllCoinsThisLevel: 0
@@ -54159,7 +54171,7 @@ MonoBehaviour:
         isBusy: 0
         _timeInSeconds: 0
         txtTimeInMinutes: 
-    - sceneReferenceSO: {fileID: 0}
+    - indexLevelJSON: 0
       isUnlockLevelJSON: 0
       isLevelCompleteJSON: 0
       isTakeAllCoinsThisLevel: 0
@@ -54187,7 +54199,7 @@ MonoBehaviour:
         isBusy: 0
         _timeInSeconds: 0
         txtTimeInMinutes: 
-    - sceneReferenceSO: {fileID: 0}
+    - indexLevelJSON: 0
       isUnlockLevelJSON: 0
       isLevelCompleteJSON: 0
       isTakeAllCoinsThisLevel: 0
@@ -54218,6 +54230,7 @@ MonoBehaviour:
     playWithTimer: 0
     sfxVolume: 0
     musicVolume: 0
+  scenes: []
 --- !u!4 &1241836579
 Transform:
   m_ObjectHideFlags: 0
@@ -94521,6 +94534,24 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 243803432}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2001677940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243803435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 2f5f195d8b642964ea842dcb8ec34e43, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &2001948276 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 327496700672663488, guid: 2eaee56b2efe89f4fa9f85b6f574764d,
