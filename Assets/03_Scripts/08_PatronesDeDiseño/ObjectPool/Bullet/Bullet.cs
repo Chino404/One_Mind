@@ -66,7 +66,7 @@ public class Bullet : MonoBehaviour
         bullet.SetActive(false);
         _collider.enabled = false;
         yield return new WaitForSeconds(0.2f);
-        gameObject.SetActive(false);
+        TurnOff(this);
     }
 
 }
