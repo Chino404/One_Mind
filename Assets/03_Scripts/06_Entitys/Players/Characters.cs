@@ -147,6 +147,7 @@ public abstract class Characters : Entity, IDamageable
         //Si toco el suelo
         else if (IsGrounded(_floorLayer) && Mathf.Abs(_rbCharacter.velocity.y) <= 10f)
         {
+            Debug.Log("esta en el piso");
             if(_rbCharacter.drag != 1) _rbCharacter.drag = 1;
 
             _isInIce = false;
