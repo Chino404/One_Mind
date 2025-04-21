@@ -211,7 +211,7 @@ public class MovePlataform : Rewind
 
     public override void Save()
     {
-        _currentState.Rec(_isActiveMove, waypoints, _actualIndex);
+        _currentState.Rec(_isActiveMove, waypoints, _actualIndex,gameObject.GetComponent<Rigidbody>().constraints);
     }
 
     public override void Load()
@@ -225,7 +225,7 @@ public class MovePlataform : Rewind
         _isActiveMove = (bool)col.parameters[0];
         waypoints = (Transform[])col.parameters[1];
         _actualIndex = 0;
-
+        gameObject.GetComponent<Rigidbody>().constraints = (RigidbodyConstraints)col.parameters[3];
         _rb.velocity = Vector3.zero;
         _rb.position = _startPos;
         _velocity = Vector3.zero;
