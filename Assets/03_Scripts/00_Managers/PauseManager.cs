@@ -88,19 +88,16 @@ public class PauseManager : MonoBehaviour
 
     public void NextLvL(SceneReferenceSO scene)
     {
-        //UnityEngine.SceneManagement.Scene currentScene = SceneManager.GetActiveScene(); //GetActiveScene() es para averiguar en que escena estas
-        //Debug.Log($"Mi Index es: {currentScene.buildIndex}");
+        AudioManager.instance.Stop(SoundId.Theme);
 
         SceneManager.LoadSceneAsync(_asyncScene);
         AsyncLoad.sceneReference = scene;
-        //pauseMenu.gameObject.SetActive(false);
         Time.timeScale = 1;
     }
 
     public void PauseGame()
     {
         pauseMenu.gameObject.SetActive(true);
-        //OldAudioManager.instance.StopAll();
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         Time.timeScale = 0;
@@ -113,11 +110,13 @@ public class PauseManager : MonoBehaviour
 
     public void ReturnMainMenu()
     {
+        AudioManager.instance.Stop(SoundId.Theme);
+
+
         GameManager.instance.rewinds.Clear();
         //GameManager.instance.enemies.Clear();
 
         SceneManager.LoadScene(_mainMenuScene);
-        //pauseMenu.gameObject.SetActive(false);
     }
 
     public void ResumeGame()
@@ -144,11 +143,12 @@ public class PauseManager : MonoBehaviour
             CallJson.instance.refJasonSave.SaveJSON();
         }
 
-        UnityEngine.SceneManagement.Scene currentScene = SceneManager.GetActiveScene(); //GetActiveScene() es para averiguar en que escena estas
+        AudioManager.instance.Stop(SoundId.Theme);
 
+        Scene currentScene = SceneManager.GetActiveScene(); //GetActiveScene() es para averiguar en que escena estas
         AsyncLoad.sceneNumber = currentScene.buildIndex;
         SceneManager.LoadSceneAsync(_asyncScene);
-        //pauseMenu.gameObject.SetActive(false);
+
         Time.timeScale = 1;
 
     }

@@ -3,12 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
+public enum SoundId
+{
+    //General
+    None,
+    Theme,
+
+    //Monkey
+    Jump,
+    DeathMonkey,
+    Fall,
+
+    //Interacts
+    OpenDoor,
+    ButtonDualDoor,
+    IceBreak,
+    DesactiveWallHolograph,
+    Wind
+}
+
 [System.Serializable]
 public class Sounds
 {
     public string name;
+    public SoundId id;
     public AudioClip clip;
-    public float volume = 1f;
+    [Range(0f, 2f)]public float volume = 1f;
     public float pitch = 1f;
     public bool loop;
     public AudioMixerGroup output;

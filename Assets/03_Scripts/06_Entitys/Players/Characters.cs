@@ -491,6 +491,7 @@ public abstract class Characters : Entity, IDamageable
 
         _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _jumpForce, _rbCharacter.velocity.z);
 
+        //AudioManager.instance.Play(SoundId.Jump);
         AudioManager.instance.Play(SoundId.Jump);
     }
 
@@ -703,6 +704,9 @@ public abstract class Characters : Entity, IDamageable
 
     IEnumerator Death()
     {
+        AudioManager.instance.Play(SoundId.DeathMonkey);
+
+
         _isDoingAnimation = true;
         _animPlayer.SetTrigger("Death");
         yield return new WaitForSeconds(0.05f);
