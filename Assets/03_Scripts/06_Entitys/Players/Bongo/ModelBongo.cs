@@ -100,7 +100,17 @@ public class ModelBongo : Characters
 
     public override void FixedUpdate()
     {
+
         base.FixedUpdate();
+
+        foreach (var item in cinematics)
+        {
+            if (item.state == PlayState.Playing)
+            {
+                _rbCharacter.velocity = new Vector3(0,_rbCharacter.velocity.y, 0);
+                return;
+            }
+        }
 
         _controller.ListenFixedKeys();
     }
