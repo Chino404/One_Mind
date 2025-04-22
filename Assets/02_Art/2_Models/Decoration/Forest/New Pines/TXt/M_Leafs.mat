@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5421882432248342738
+--- !u!114 &-7637177963983443565
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_StylizedWater
-  m_Shader: {fileID: -6465566751694194690, guid: d2decadc9e4f8b441ae0c403194d7bde,
+  m_Name: M_Leafs
+  m_Shader: {fileID: -6465566751694194690, guid: bcbf4ac75ed53d04ea0091cb479a886f,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -33,19 +33,15 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: _Snore_Color
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: d1bd7c8492cbcf743898da37bc48cfa2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Caustic_Texture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -65,24 +61,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _FoamNoise:
-        m_Texture: {fileID: 2800000, guid: 643d288538b3e0545828acc265f6c406, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Foam_Texture:
-        m_Texture: {fileID: 2800000, guid: 643d288538b3e0545828acc265f6c406, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: d1bd7c8492cbcf743898da37bc48cfa2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _NoiseDistorionFoam:
-        m_Texture: {fileID: 2800000, guid: 06867271d1cf6ca4b9e282aab2a37ca1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -111,73 +95,51 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.9
-    - _AlphaClip: 0
+    - _AlphaClip: 1
     - _AlphaToMask: 0
-    - _Base_color: 0
     - _Blend: 0
-    - _BlendModePreserveSpecular: 1
+    - _BlendModePreserveSpecular: 0
     - _BumpScale: 1
-    - _CausticCutou: 0
+    - _CanMoveX: 0
+    - _CanMoveY: 1
+    - _CanMoveZ: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _Depth: 4.23
-    - _Depth_Fallof: 1.91
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DistoritionScale: 0.0005
-    - _DstBlend: 0
-    - _DstBlendAlpha: 0
+    - _Dithering: 1
+    - _DstBlend: 10
+    - _DstBlendAlpha: 10
+    - _Edge: 0.05
     - _EnvironmentReflections: 1
-    - _FoamAmount: 1.45
-    - _FoamCouout: 0.001
-    - _FoamCutOut: 0.06
-    - _FoamDepth: 14.76
-    - _FoamFallof: 12.4
-    - _FoamShoreWidth: 0.68
-    - _FoamTilling: 0.64
-    - _Foam_Amount: 1
-    - _Foam_Color: 0
-    - _Foam_Density: 0
-    - _Foam_Fallof: 2.09
-    - _Foam_Shortwidth: 67.77
-    - _Foam_Snore_Amunt: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _Lineas: 10
     - _Metallic: 0
     - _OcclusionStrength: 1
+    - _Opacity: 2
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Smoothness: 0.5
+    - _Scale: 5
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
+    - _SnowSize: 100
     - _SpecularHighlights: 1
-    - _SpeedDistoortion: 0
-    - _SrcBlend: 1
+    - _Speed: 5
+    - _SrcBlend: 5
     - _SrcBlendAlpha: 1
-    - _Surface: 0
-    - _Tillig: 0.47
-    - _Tillig_Foam: 1
-    - _WaveSpeed: 0.5
-    - _Wave_Intensity: 0.33
+    - _Surface: 1
     - _WorkflowMode: 1
-    - _ZWrite: 1
+    - _ZWrite: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Base_Color: {r: 0, g: 0.49803922, b: 0.509434, a: 1}
-    - _CausticColor: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FoamColor: {r: 0.8726415, g: 1, b: 0.9409352, a: 1}
-    - _FoamImageTile: {r: 0, g: 1, b: 0, a: 0}
-    - _FoamSpeed: {r: 0, g: -0.005, b: 0, a: 0}
-    - _Foam_Color: {r: 1, g: 0.116666675, b: 0, a: 0}
-    - _Foam_Speed: {r: 0, g: 0.1, b: 0, a: 0}
-    - _Foam_Speed_1: {r: 0, g: 0.05, b: 0, a: 0}
-    - _Snore_Color: {r: 0.61957103, g: 0.77762556, b: 0.8584906, a: 1}
+    - _SnowDirection: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
