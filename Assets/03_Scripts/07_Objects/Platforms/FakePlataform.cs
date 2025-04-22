@@ -14,6 +14,7 @@ public class FakePlataform : Rewind, IInteracteable
 
     private Collider _myCollider;
 
+
     public override void Awake()
     {
         base.Awake();
