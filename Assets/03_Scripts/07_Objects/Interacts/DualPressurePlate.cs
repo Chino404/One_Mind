@@ -86,7 +86,6 @@ public class DualPressurePlate : Rewind, IInteracteable
 
         _activePressurePlate = true;
 
-        //_animator?.SetTrigger("Pressed");
 
         if(_player == CharacterTarget.Bongo)
         {
