@@ -176,14 +176,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
+  - name: Theme
+    id: 1
+    clip: {fileID: 8300000, guid: 401c6fe718bbdc64a8bc70b61c4548cd, type: 3}
+    volume: 0.4
+    pitch: 1
+    loop: 1
+    output: {fileID: -7810267070654459088, guid: e86c14edebd3fdc4d9a4b30f60285ecb,
+      type: 2}
+    source: {fileID: 0}
   - name: Jump
+    id: 2
     clip: {fileID: 8300000, guid: c03ca6cdc5bd12240b8ae56b154c050e, type: 3}
     volume: 1
     pitch: 1
     loop: 0
     output: {fileID: 336519010787691560, guid: e86c14edebd3fdc4d9a4b30f60285ecb, type: 2}
     source: {fileID: 0}
-  - name: OpenDoor
+  - name: DeathMonkey
+    id: 3
+    clip: {fileID: 8300000, guid: 7d471ada686d8944d8b3b4b9cd7135e9, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    output: {fileID: 336519010787691560, guid: e86c14edebd3fdc4d9a4b30f60285ecb, type: 2}
+    source: {fileID: 0}
+  - name: Open Door
+    id: 5
     clip: {fileID: 8300000, guid: 75be19b9cf0ce7147a6bbfab09c5690e, type: 3}
     volume: 1
     pitch: 1
@@ -191,23 +210,8 @@ MonoBehaviour:
     output: {fileID: -7543299602545284783, guid: e86c14edebd3fdc4d9a4b30f60285ecb,
       type: 2}
     source: {fileID: 0}
-  - name: DesactiveWallHolograph
-    clip: {fileID: 8300000, guid: 8011a3f6be8a8304a95a32e18a4901f0, type: 3}
-    volume: 1
-    pitch: 1
-    loop: 0
-    output: {fileID: -7543299602545284783, guid: e86c14edebd3fdc4d9a4b30f60285ecb,
-      type: 2}
-    source: {fileID: 0}
-  - name: Fall
-    clip: {fileID: 8300000, guid: a3a1fc8d88295b14d95b0b7e839056c8, type: 3}
-    volume: 1
-    pitch: 1
-    loop: 0
-    output: {fileID: -7543299602545284783, guid: e86c14edebd3fdc4d9a4b30f60285ecb,
-      type: 2}
-    source: {fileID: 0}
-  - name: ButtonDualDoor
+  - name: Button Dual Door
+    id: 6
     clip: {fileID: 8300000, guid: c24182fdf57cdb04c9497d6732325db2, type: 3}
     volume: 0.3
     pitch: 1
@@ -215,7 +219,17 @@ MonoBehaviour:
     output: {fileID: -7543299602545284783, guid: e86c14edebd3fdc4d9a4b30f60285ecb,
       type: 2}
     source: {fileID: 0}
-  - name: IceBreak
+  - name: Fall
+    id: 4
+    clip: {fileID: 8300000, guid: a3a1fc8d88295b14d95b0b7e839056c8, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    output: {fileID: -7543299602545284783, guid: e86c14edebd3fdc4d9a4b30f60285ecb,
+      type: 2}
+    source: {fileID: 0}
+  - name: Ice Break
+    id: 7
     clip: {fileID: 8300000, guid: c0b2b98661803144db682896e64a901f, type: 3}
     volume: 0.3
     pitch: 1

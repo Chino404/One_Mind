@@ -9,6 +9,8 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
     public Sounds[] sounds;
 
+    private Dictionary<SoundId, Sounds> soundDict;
+
     [SerializeField] AudioMixer _mixer;
     public const string MUSIC_KEY = "MusicVolume";
     public const string SFX_KEY = "SFXVolume";
@@ -26,23 +28,35 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
+        soundDict = new Dictionary<SoundId, Sounds>();
+
         foreach (var item in sounds)
         {
             item.source = gameObject.AddComponent<AudioSource>();
+            soundDict[item.id] = item;
             item.source.clip = item.clip;
             item.source.volume = item.volume;
             item.source.pitch = item.pitch;
             item.source.loop = item.loop;
             item.source.outputAudioMixerGroup = item.output;
+
+
         }
 
     }
-    public void Play(int SoundId)
+    public void Play(SoundId soundId)
     {
-        Sounds item = sounds[SoundId];
 
-        if (item == null) return;
-        item.source.Play();
+        if (soundDict.TryGetValue(soundId, out Sounds sound))
+        {
+            sound.source.Play();
+        }
+        else
+        {
+            Debug.LogWarning($"No se encontró el sonido con ID: <color=yellow>{soundId}</color>");
+        }
+
 
     }
     public void SetVolume(int SoundId, float vol)
@@ -54,13 +68,16 @@ public class AudioManager : MonoBehaviour
         item.source.volume = vol;
     }
 
-    public void Stop(int SoundId)
+    public void Stop(SoundId SoundId)
     {
-        Sounds item = sounds[SoundId];
-
-        if (item == null || !item.source.isPlaying) return;
-
-        item.source.Stop();
+        if (soundDict.TryGetValue(SoundId, out Sounds sound))
+        {
+            sound.source.Stop();
+        }
+        else
+        {
+            Debug.LogWarning($"No se encontró el sonido con ID: <color=yellow>{SoundId}</color>");
+        }
     }
 
 
@@ -74,13 +91,15 @@ public class AudioManager : MonoBehaviour
        // _mixer.SetFloat(VolumeSettings.MIXER_MASTER, Mathf.Log10(_masterVolume) * 20);
     }
 }
-public static class SoundId
-{
-    public const int Jump = 0;
-    public const int OpenDoor = 1;
-    public const int DesactiveWallHolograph = 2;
-    public const int Fall = 3;
-    public const int ButtonDualDoor = 4;
-    public const int IceBreak = 5;
-    public const int Wind = 6;
-}
+
+//public static class SoundId
+//{
+//    public const int Jump = 0;
+//    public const int OpenDoor = 1;
+//    public const int DesactiveWallHolograph = 2;
+//    public const int Fall = 3;
+//    public const int ButtonDualDoor = 4;
+//    public const int IceBreak = 5;
+//    public const int Wind = 6;
+//    public const int DeathMonkey = 7;
+//}

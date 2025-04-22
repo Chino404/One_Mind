@@ -18,7 +18,6 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector, Tooltip("Nivel actual")] public LevelData currentLevel;
     [SerializeField, Tooltip("Mi referencia de la escena.")] private SceneReferenceSO _mySceneReference;
-    [SerializeField] private bool _scenePractice;
     private int _indexLevel;
     public int IndexLevel { get { return _indexLevel; } }
 
@@ -85,6 +84,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+
         if (_mySceneReference)
         {
             _indexLevel = _mySceneReference.BuildIndex;
@@ -95,33 +95,41 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        if (!_scenePractice)
+        if (CallJson.instance == null)
         {
-            foreach (var level in CallJson.instance.refJasonSave.GetSaveData.levels)
-            {
-                //Si su IndexLevel es el mismo que el del GameManager, lo guardo en el currentLevel
-                if (level.indexLevelJSON /*level.sceneReferenceSO.BuildIndex*/ == _indexLevel)
-                {
-                    currentLevel = level;
-                    break;
-                }
-
-            }
-
-            currentCollectedCoinsBongo = currentLevel.coinsObtainedBongoSide;
-
-            currentCollectedCoinsFrank = currentLevel.coinsObtainedFrankSide;
-
-            isChronometerActive = CallJson.instance.refJasonSave.GetSaveData.playWithTimer;
+            Debug.LogError("Falta la instancia del <color=yellow>CallJson</color>");
+            return;
         }
 
-        
+
+
+
+        foreach (var level in CallJson.instance.refJasonSave.GetSaveData.levels)
+        {
+            //Si su IndexLevel es el mismo que el del GameManager, lo guardo en el currentLevel
+            if (level.indexLevelJSON /*level.sceneReferenceSO.BuildIndex*/ == _indexLevel)
+            {
+                currentLevel = level;
+                break;
+            }
+
+        }
+
+        currentCollectedCoinsBongo = currentLevel.coinsObtainedBongoSide;
+
+        currentCollectedCoinsFrank = currentLevel.coinsObtainedFrankSide;
+
+        isChronometerActive = CallJson.instance.refJasonSave.GetSaveData.playWithTimer;
+
+
 
         Debug.Log($"<color=yellow>AWAKE GAMEMANAGER</color>");
     }
 
     private void Start()
     {
+
+        AudioManager.instance.Play(SoundId.Theme);
 
         UpdateUICollectible(_indexLevel);
 
@@ -135,6 +143,7 @@ public class GameManager : MonoBehaviour
         {
             currentLevel.SaveTimeInOrder(_myBestTimesInLevel[i]);
         }
+
     }
 
     public void RemoveAll()

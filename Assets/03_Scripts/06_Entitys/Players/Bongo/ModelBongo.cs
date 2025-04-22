@@ -64,6 +64,8 @@ public class ModelBongo : Characters
     {
         base.Start();
 
+
+
         //_factory = new BulletFactory(_spellPrefab);
         //_objectPool = new ObjectPool<Bullet>(_factory.GetObj, Bullet.TurnOff, Bullet.TurnOn, _bulletQuantity);
 
