@@ -108,6 +108,9 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
             yield return null;
         }
 
+        _fireMaterial.material.SetFloat(_IdFireThreshold, 1);
+        _light.range = _rangeLight;
+
         if (_timer >= _timeToSpawn)
         {
             _light.range = _rangeLight;
@@ -145,6 +148,9 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
 
             yield return null;
         }
+
+        _fireMaterial.material.SetFloat(_IdFireThreshold, 0);
+        _light.range = 0;
 
         if (_timer >= _timeToSpawn)
         {
