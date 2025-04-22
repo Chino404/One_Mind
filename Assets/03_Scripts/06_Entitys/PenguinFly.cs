@@ -28,12 +28,12 @@ public class PenguinFly : MonoBehaviour, IInteracteable,IDamageable
     private void Update()
     {
         if (_isInBongo && !_isDisable)
-        {         
+        {
             transform.position = GameManager.instance.modelBongo.gameObject.transform.position + _positionInBongo;
             transform.forward = GameManager.instance.modelBongo.gameObject.transform.forward;
         }
 
-        else if (_isDisable)
+        if (_isDisable)
         {
             GameManager.instance.modelBongo.FlyPenguin(false);
             GameManager.instance.modelBongo.IsGetPenguin = false;
@@ -71,11 +71,18 @@ public class PenguinFly : MonoBehaviour, IInteracteable,IDamageable
 
     }
 
+    public void TakePenguin()
+    {
+        transform.position = GameManager.instance.modelBongo.gameObject.transform.position + _positionInBongo;
+        transform.forward = GameManager.instance.modelBongo.gameObject.transform.forward;
+
+        _isInBongo = true;
+    }
+
     public void Active()
     {
         if (_isDisable) return;
 
-        _isInBongo = true;
         _boxCollider.enabled = false;
         GameManager.instance.modelBongo.penguin = this;
         GameManager.instance.modelBongo.IsGetPenguin = true;
