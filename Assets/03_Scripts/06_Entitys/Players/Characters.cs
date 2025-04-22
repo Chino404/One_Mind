@@ -48,6 +48,7 @@ public abstract class Characters : Entity, IDamageable
     [SerializeField,Range(0, 15f),Tooltip("Velocidad máxima cuando se salta en el hielo")] private float _maxSpeedJumpIce;
     private bool _isInIce;
     public bool IsInIce { get { return _isInIce; } }
+    public bool isDead;
     //[SerializeField, Tooltip("Daño de golpe")] protected int _normalDamage = 1;
 
     [Header("--> CLIMB")]
@@ -685,7 +686,6 @@ public abstract class Characters : Entity, IDamageable
 
     public void Dead()
     {
-        //Debug.Log("funcion de dead");
         _actualLife = 0;
         PauseManager.instance.GameOver();
 
@@ -706,7 +706,7 @@ public abstract class Characters : Entity, IDamageable
     {
         AudioManager.instance.Play(SoundId.DeathMonkey);
 
-
+        isDead = true;
         _isDoingAnimation = true;
         _animPlayer.SetTrigger("Death");
         yield return new WaitForSeconds(0.05f);
@@ -719,6 +719,7 @@ public abstract class Characters : Entity, IDamageable
         _rbCharacter.useGravity = true;
         yield return new WaitForSeconds(0.5f);
 
+        isDead = false;
         Dead();
         
         //_actualLife = 0;

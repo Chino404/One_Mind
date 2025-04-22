@@ -95,7 +95,7 @@ public class CameraTracker : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (_target == null || _point == null) return;
+        if (_target == null || _point == null || _target.GetComponent<Characters>().isDead) return;
 
 
         SetPositionAndRotationTarget();
