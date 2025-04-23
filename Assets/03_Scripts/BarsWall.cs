@@ -34,6 +34,8 @@ public class BarsWall : DesactiveWall
         if (_isStartActive) return;
         _isActing = true;
 
+        AudioManager.instance.Play(SoundId.IronBars);
+
         foreach (var item in bars)
         {
             StartCoroutine(ActiveBars(item, 0, _maxSpeed * 2));
@@ -67,6 +69,9 @@ public class BarsWall : DesactiveWall
     {
         if (!_isStartActive) return;
         _isActing = true;
+
+        AudioManager.instance.Play(SoundId.IronBars);
+
 
         foreach (var item in bars)
         {
