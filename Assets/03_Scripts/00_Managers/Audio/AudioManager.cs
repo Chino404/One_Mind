@@ -50,6 +50,8 @@ public class AudioManager : MonoBehaviour
 
         if (soundDict.TryGetValue(soundId, out Sounds sound))
         {
+            if(soundId != SoundId.Theme) sound.source.pitch = Random.Range(0.8f, 1.2f);
+
             sound.source.Play();
         }
         else

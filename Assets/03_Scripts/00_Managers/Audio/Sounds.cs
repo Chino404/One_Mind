@@ -17,8 +17,9 @@ public enum SoundId
     //Interacts
     OpenDoor,
     ButtonDualDoor,
+    NormalPressurePlate,
+    IronBars,
     IceBreak,
-    DesactiveWallHolograph,
     Wind
 }
 
