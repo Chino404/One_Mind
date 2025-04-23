@@ -63,7 +63,6 @@ public class BreakablePlatform : Rewind
         _myAnimator.SetTrigger("OnPlatform");
 
 
-        AudioManager.instance.Play(SoundId.IceBreak);
     }
 
     public void WarningBreaking()
@@ -80,6 +79,8 @@ public class BreakablePlatform : Rewind
     IEnumerator ActionBreaking()
     {
         _myAnimator.SetTrigger("Warning");
+        AudioManager.instance.Play(SoundId.IceBreak);
+
 
         yield return new WaitForSeconds(_timeToWarning);
 
