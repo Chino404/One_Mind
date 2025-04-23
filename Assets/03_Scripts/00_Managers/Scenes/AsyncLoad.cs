@@ -34,7 +34,7 @@ public class AsyncLoad : MonoBehaviour
         Scene loadingScene = SceneManager.GetActiveScene();
 
         // 2. Cargar escena principal (aditiva) SIN activarla aún
-        _asyncOperation = sceneNumber != 0 ? SceneManager.LoadSceneAsync(sceneNumber, LoadSceneMode.Additive) : SceneManager.LoadSceneAsync(sceneReference.BuildIndex, LoadSceneMode.Additive);
+        _asyncOperation = sceneReference != null ? SceneManager.LoadSceneAsync(sceneReference.BuildIndex, LoadSceneMode.Additive) : SceneManager.LoadSceneAsync(sceneNumber, LoadSceneMode.Additive);
 
         _asyncOperation.allowSceneActivation = false;
 
@@ -50,7 +50,7 @@ public class AsyncLoad : MonoBehaviour
         // 4. Cargar escenas adicionales desde el SO
         List<AsyncOperation> additionalLoads = new();
 
-        if (sceneReference.BuildIndexScenes != null && sceneReference.BuildIndexScenes.Count > 0)
+        if (sceneReference != null && sceneReference.BuildIndexScenes.Count > 0)
         {
             foreach (int buildIndex in sceneReference.BuildIndexScenes)
             {
@@ -86,7 +86,7 @@ public class AsyncLoad : MonoBehaviour
         yield return new WaitUntil(() => _asyncOperation.isDone);
 
         // 9. Establecer escena activa
-        Scene mainScene = SceneManager.GetSceneByBuildIndex(sceneReference.BuildIndex);
+        Scene mainScene = sceneReference != null ? SceneManager.GetSceneByBuildIndex(sceneReference.BuildIndex) : SceneManager.GetSceneByBuildIndex(sceneNumber);
         if (mainScene.IsValid())
             SceneManager.SetActiveScene(mainScene);
 
