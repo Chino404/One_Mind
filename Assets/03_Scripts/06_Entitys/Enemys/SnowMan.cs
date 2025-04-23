@@ -28,8 +28,8 @@ public class SnowMan : MonoBehaviour
     private void Start()
     {
         _factory = new BulletFactory(prefab);
-        
         _objectPool = new ObjectPool<Bullet>(_factory.GetObj, Bullet.TurnOff, Bullet.TurnOn, _bulletQuantity);
+        
         _secondsShooting = timeShooting;
     }
 

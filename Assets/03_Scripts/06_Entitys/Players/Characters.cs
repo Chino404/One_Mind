@@ -730,7 +730,7 @@ public abstract class Characters : Entity, IDamageable
     #region Memento
     public override void Save()
     {
-        _currentState.Rec(transform.position, transform.rotation, _actualLife, actualStatePlayer, _isDoingAnimation);
+        _currentState.Rec(transform.position, transform.rotation, _actualLife, actualStatePlayer, _isDoingAnimation,isDead);
         //Debug.Log("guarde mono");
     }
 
@@ -758,6 +758,7 @@ public abstract class Characters : Entity, IDamageable
         _actualLife = (float)col.parameters[2];
         actualStatePlayer = (EstadoDePlayer)col.parameters[3];
         _isDoingAnimation = (bool)col.parameters[4];
+        isDead = (bool)col.parameters[5];
         
         _rbCharacter.isKinematic = false;
         _rbCharacter.useGravity = false;
