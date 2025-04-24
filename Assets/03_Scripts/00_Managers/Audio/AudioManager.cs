@@ -35,6 +35,7 @@ public class AudioManager : MonoBehaviour
         {
             item.source = gameObject.AddComponent<AudioSource>();
             soundDict[item.id] = item;
+            item.source.playOnAwake = false;
             item.source.clip = item.clip;
             item.source.volume = item.volume;
             item.source.pitch = item.pitch;

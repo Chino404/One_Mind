@@ -19,6 +19,7 @@ public enum SoundId
     ButtonDualDoor,
     NormalPressurePlate,
     IronBars,
+    WoodElevator,
     IceBreak,
     Wind
 }

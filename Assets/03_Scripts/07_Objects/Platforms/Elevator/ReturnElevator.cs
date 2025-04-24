@@ -8,6 +8,7 @@ public class ReturnElevator : MonoBehaviour, IInteracteable
 
     public void Active()
     {
+
         if (_elevator.isNotMove)
         {
             _elevator.isNotMove = false;
