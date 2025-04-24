@@ -86,7 +86,7 @@ public class MovePlataform : Rewind
     {
         if (!_isActiveMove) return;
 
-        if (Vector3.Distance(_rb.position, waypoints[_actualIndex].position) <= 0.3f)
+        if (Vector3.Distance(_rb.position, waypoints[_actualIndex].position) <= 1f)
         {
             StartCoroutine(WaitSeconds());
             _actualIndex++;
@@ -230,7 +230,7 @@ public class MovePlataform : Rewind
         _rb.position = (Vector3)col.parameters[3];
         _velocity = Vector3.zero;
         _currentVelocity = _maxVelocity;
-        StartCoroutine(WaitSeconds());
+        //StartCoroutine(WaitSeconds());
         //_currentVelocity = (float)col.parameters[2];
 
         //banana = (Transform)col.parameters[1];

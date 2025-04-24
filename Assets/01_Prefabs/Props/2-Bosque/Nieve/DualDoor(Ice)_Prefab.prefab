@@ -325,6 +325,84 @@ Transform:
   - {fileID: 8342694404669188555}
   m_Father: {fileID: 4673533190882756919}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5335770951938014028
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5404816358262096382}
+  - component: {fileID: 3418330411417207132}
+  - component: {fileID: 3182488983124524436}
+  - component: {fileID: 8191480475533867423}
+  m_Layer: 0
+  m_Name: CloseDoorCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5404816358262096382
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5335770951938014028}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.70710707, z: -0, w: 0.7071066}
+  m_LocalPosition: {x: 9.71, y: 0.2834, z: 0.0906}
+  m_LocalScale: {x: 10.645019, y: 11.597, z: 0.99999976}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4673533190882756919}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &3418330411417207132
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5335770951938014028}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &3182488983124524436
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5335770951938014028}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.0000005, y: 1, z: 1.0000005}
+  m_Center: {x: 0.00000011920935, y: 0, z: -4.6185278e-14}
+--- !u!114 &8191480475533867423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5335770951938014028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ccb856088a2b944384d643e4408ffca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  door: {fileID: 5251156782416925593}
+  otherCloseDoorCollider: {fileID: 0}
 --- !u!1 &7515646286661258083
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,6 +437,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5404816358262096382}
   - {fileID: 7839767785412256886}
   - {fileID: 7289042438998058519}
   - {fileID: 6601994826392023361}
@@ -383,6 +462,8 @@ MonoBehaviour:
   - {fileID: 8721927450204086694}
   - {fileID: 3732687779270989196}
   _animDuration: 1
+  doorCanClose: 0
+  myPressurePlate: {fileID: 0}
 --- !u!95 &8005186709242589889
 Animator:
   serializedVersion: 5
