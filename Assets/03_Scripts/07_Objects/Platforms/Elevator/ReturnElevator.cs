@@ -9,13 +9,11 @@ public class ReturnElevator : MonoBehaviour, IInteracteable
     public void Active()
     {
 
-        if (_elevator.isNotMove)
+        if (_elevator.IsNotMove)
         {
-            _elevator.isNotMove = false;
+            _elevator.ActiveElevator();
 
-            //_elevator.IsActiveElevator = true;
-
-            _elevator.ActiveElevator(true);
+            _elevator.isPlaySound = false;
         }
     }
 
