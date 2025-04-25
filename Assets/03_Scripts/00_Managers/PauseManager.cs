@@ -77,13 +77,16 @@ public class PauseManager : MonoBehaviour
 
     }
 
-
+    /// <summary>
+    /// Cuando se gana el nivel
+    /// </summary>
     public void Win()
     {
         winCanvas.gameObject.SetActive(true);
         winCanvas.gameObject.GetComponentInChildren<CanvasWin>().ShowCanvas();
 
-        if (!_isLevelComplete) _txtChronometerUnlocked.gameObject.SetActive(true);
+        if (!_isLevelComplete && !_txtChronometerUnlocked.gameObject.activeInHierarchy) _txtChronometerUnlocked.gameObject.SetActive(true);
+        else if(_isLevelComplete && _txtChronometerUnlocked.gameObject.activeInHierarchy) _txtChronometerUnlocked.gameObject.SetActive(false);
     }
 
     public void NextLvL(SceneReferenceSO scene)

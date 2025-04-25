@@ -33,6 +33,9 @@ public class CanvasWin : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Mostrar el canvas de victoria
+    /// </summary>
     public void ShowCanvas()
     {
         StartCoroutine(Show());
