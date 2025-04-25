@@ -23,11 +23,11 @@ public class AudioManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
+        //else
+        //{
+        //    Destroy(gameObject);
+        //    return;
+        //}
 
         soundDict = new Dictionary<SoundId, Sounds>();
 

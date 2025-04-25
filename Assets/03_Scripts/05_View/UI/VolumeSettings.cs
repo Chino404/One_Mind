@@ -21,6 +21,8 @@ public class VolumeSettings : MonoBehaviour
     public void SetMusicVolume()
     {
         float volume = _musicSlider.value;
+
+        //CallJson.instance.
         _audioMixer.SetFloat("Music", Mathf.Log10(volume) * 30);
         PlayerPrefs.SetFloat("musicVolume", volume);
     }
@@ -28,6 +30,7 @@ public class VolumeSettings : MonoBehaviour
     public void SetSFXVolume()
     {
         float volume = _SFXSlider.value;
+
         _audioMixer.SetFloat("SFX", Mathf.Log10(volume) * 30);
         PlayerPrefs.SetFloat("SFXVolume", volume);
     }
