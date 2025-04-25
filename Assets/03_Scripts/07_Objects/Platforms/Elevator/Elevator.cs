@@ -15,13 +15,16 @@ public class Elevator : Connected, IInteracteable
 
     [SerializeField, Tooltip("Velocidad")] private float _maxVelocity = 9f;
     private float _currentVelocity = 7f;
-    [SerializeField, Range(0, 8f) ,Tooltip("Segunso que va a esperar para moverse otra vez")] float _secondsWaiting = 5f;
+    [SerializeField, Range(0, 8f), Tooltip("Segunso que va a esperar para moverse otra vez")] float _secondsWaiting = 5f;
 
 
     [Space(10), SerializeField, Tooltip("Elevador activado")] private bool _isActiveElevator = true;
     public bool IsActiveElevator { set { _isActiveElevator = value; } }
 
-    public bool isNotMove;
+    [SerializeField, Tooltip("Si el elevador ya no se va a mover")] private bool _isNotMove = false;
+    public bool IsNotMove { get { return _isNotMove; } }
+
+    public bool isPlaySound = false;
 
     public override void Awake()
     {
@@ -45,14 +48,13 @@ public class Elevator : Connected, IInteracteable
 
         if (Vector3.Distance(_rb.position, _waypoints[_actualIndexNode].position) <= 0.3f)
         {
-            ActiveElevator(false);
+            StopElevator();
 
             _actualIndexNode++;
 
             if (_actualIndexNode >= _waypoints.Length)
             {
-                isNotMove = false;
-
+               
                 _actualIndexNode = 0;
             }
         }
@@ -69,53 +71,55 @@ public class Elevator : Connected, IInteracteable
     /// Activar el elevador.
     /// </summary>
     /// <param name="active"></param>
-    public void ActiveElevator(bool active)
+    public void ActiveElevator()
     {
-        if(!active)
+        if (!isPlaySound)
         {
-            _isActiveElevator = false;
-
-            isNotMove = true;
-
-            _currentVelocity = 0;
-            door.gameObject.SetActive(false);
-
-            return;
-        }
-
-        else
-        {
-            _isActiveElevator = true;
-            //_myAudioSource.Play();
-
+            isPlaySound = true;
             AudioManager.instance.Play(SoundId.WoodElevator);
         }
 
+        _isActiveElevator = true;
 
         _currentVelocity = _maxVelocity;
         door.gameObject.SetActive(true);
     }
 
+    public void StopElevator()
+    {
+        _currentVelocity = 0;
+        door.gameObject.SetActive(false);
+
+        StartCoroutine(CoolDownElevator());
+
+    }
+
+    IEnumerator CoolDownElevator()
+    {
+        yield return new WaitForSeconds(0.75f);
+
+        _isNotMove = !_isNotMove;
+
+        _isActiveElevator = false;
+
+    }
+
     public void Active()
     {
+        if (_isActiveElevator) return;
+
         _isActive = true;
 
-        if (_connectedObject.IsActive && !_connectedObject.GetComponent<Elevator>().isNotMove)
+        if (_connectedObject.IsActive && !_connectedObject.GetComponent<Elevator>().IsNotMove)
         {
+            ActiveElevator();
 
-            //door.gameObject.SetActive(true);
-            //_connectedObject.gameObject.GetComponent<Elevator>().door.gameObject.SetActive(true);
-
-            //_isActiveElevator = true;
-            //_connectedObject.gameObject.GetComponent<Elevator>().IsActiveElevator = true;
-
-
-            ActiveElevator(true);
-            _connectedObject.gameObject.GetComponent<Elevator>().ActiveElevator(true);
+            _connectedObject.gameObject.GetComponent<Elevator>().ActiveElevator();
         }
         else
             Debug.LogWarning("No esta activado el otro objeto");
     }
+
 
     public void Deactive()
     {
