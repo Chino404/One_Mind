@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class UnlockNextLevel : MonoBehaviour
 {
+    [Tooltip("Si es TRUE, entonces el proximo nivel no me lo desbloquea")]public bool isFinalDemo;
     [Tooltip("Poner numero de build index del nivel siguiente")] public int nextLevel;
 
     private void OnTriggerEnter(Collider other)
@@ -17,6 +18,8 @@ public class UnlockNextLevel : MonoBehaviour
     /// </summary>
     void UnlockNewLvl()
     {
+        if (isFinalDemo) return;
+
         var levelsList = CallJson.instance.refJasonSave.GetSaveData.levels;
         //Debug.Log($"El nivel del indice {CallJson.instance.refJasonSave.GetSaveData.levels[index + 1]} se desbloqueo");
 

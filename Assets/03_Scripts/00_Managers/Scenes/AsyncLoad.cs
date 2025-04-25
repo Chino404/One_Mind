@@ -94,6 +94,7 @@ public class AsyncLoad : MonoBehaviour
         if (loadingScene.IsValid() && loadingScene.name != mainScene.name)
             SceneManager.UnloadSceneAsync(loadingScene);
 
+        sceneReference = default;
 
         Debug.Log("<color=green>Escena cargada correctamente.</color>");
 

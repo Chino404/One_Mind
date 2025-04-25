@@ -45,7 +45,7 @@ public class WinCollider : MonoBehaviour
         {
             if (_isWithCinematic)
             {
-                Debug.Log("No entre");
+                Debug.Log("No entre porque se stá ejectuando una cinematica");
                 return;
             }
 
