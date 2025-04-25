@@ -51,7 +51,7 @@ public class SceneReferenceSO :ScriptableObject
 
         if (moreScene != null && moreScene.Length > 0)
         {
-            Debug.Log("Hay más escenas!!");
+            //Debug.Log("Hay más escenas!!");
 
             _scenesNames.Clear();
             _buildIndexScenes.Clear();
@@ -65,7 +65,7 @@ public class SceneReferenceSO :ScriptableObject
         }
         else
         {
-            Debug.Log("NO hay más escenas!!");
+            //Debug.Log("NO hay más escenas!!");
 
             _scenesNames.Clear();
             _buildIndexScenes.Clear();
