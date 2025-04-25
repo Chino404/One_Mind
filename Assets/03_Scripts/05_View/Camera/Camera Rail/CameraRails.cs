@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class CameraRails : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class CameraRails : MonoBehaviour
 
     [Space(6), Header("-> Smoothing Values")]
     public float moveSpeed = 5f;
+    public PlayableDirector[] cinematics;
+
     //[Range(0,1)]public float rotation;
     //public Vector3 iniEuler;
     //public Vector3 endEuler;
@@ -119,6 +122,11 @@ public class CameraRails : MonoBehaviour
         _currentNode = _myRail.GetClosestNode(target.position);
 
         cameraOffset = _currentNode.isChangeTheCameraOffset ? _currentNode.newOffset : _defaultOffset;
+
+        foreach (var item in cinematics)
+        {
+            if (item.state == PlayState.Playing) return;
+        }
 
         // Calcular la posición deseada detrás del personaje, con el desplazamiento.
         _targetPosition = _myRail.ProjectPositionOnRail(target.position) + cameraOffset;
