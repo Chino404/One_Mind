@@ -147,7 +147,7 @@ public class CanvasWin : MonoBehaviour
 
             if(_currentBongosCoins <= 0 && _currentFranksCoins <= 0) adds = false;
 
-            yield return new WaitForSecondsRealtime(0.15f);
+            yield return new WaitForSecondsRealtime(0.075f);
         }
 
         yield return new WaitForSecondsRealtime(0.25f);

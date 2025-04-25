@@ -5,6 +5,12 @@ using UnityEngine;
 public class CoinsCollectibles : MonoBehaviour
 {
     [SerializeField] private CharacterTarget _targetCharacter;
+
+    [Space(10)]
+    [SerializeField, Range(0,300)] private float _minRotationSpeed;
+    [SerializeField, Range(0,300)] private float _maxRotationSpeed;
+    private float _rotationSpeed;
+
     private UICoins uiPoints;
     private LevelData myCurrentLevel;
 
@@ -31,6 +37,13 @@ public class CoinsCollectibles : MonoBehaviour
         if (_targetCharacter == CharacterTarget.Bongo) uiPoints = GameManager.instance.uiCoinBongo;
 
         else uiPoints = GameManager.instance.uiCoinFrank;
+
+        _rotationSpeed = Random.Range(_minRotationSpeed, _maxRotationSpeed);
+    }
+
+    private void Update()
+    {
+        transform.Rotate(new Vector3(0, -_rotationSpeed, 0) * Time.deltaTime);
     }
 
 
