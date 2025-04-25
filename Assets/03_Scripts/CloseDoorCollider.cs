@@ -15,13 +15,16 @@ public class CloseDoorCollider : MonoBehaviour
     //private bool _isPlayerPassed;
     //public bool IsPlayerPassed { get { return _isPlayerPassed; } }
     public CloseDoorCollider otherCloseDoorCollider;
-
+    private bool _isCLose;
     private void Update()
     {
         if (type == TypeCollider.Open) return;
+        if (_isCLose) return;
         if (door.doorCanClose && otherCloseDoorCollider.door.doorCanClose)
         {
+
             door.CloseTheDoor();
+            _isCLose = true;
             //StartCoroutine(PlayerPass());
         }
     }

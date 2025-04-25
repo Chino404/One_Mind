@@ -42,32 +42,32 @@ public class MenuManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            AsyncLoad.sceneNumber = 2;
-            SceneManager.LoadSceneAsync(_asyncScene);
-            Time.timeScale = 1;
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    AsyncLoad.sceneNumber = 2;
+        //    SceneManager.LoadSceneAsync(_asyncScene);
+        //    Time.timeScale = 1;
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            AsyncLoad.sceneNumber = 3;
-            SceneManager.LoadSceneAsync(_asyncScene);
-            Time.timeScale = 1;
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha2))
+        //{
+        //    AsyncLoad.sceneNumber = 3;
+        //    SceneManager.LoadSceneAsync(_asyncScene);
+        //    Time.timeScale = 1;
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            AsyncLoad.sceneNumber = 4;
-            SceneManager.LoadSceneAsync(_asyncScene);
-            Time.timeScale = 1;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            AsyncLoad.sceneNumber = 5;
-            SceneManager.LoadSceneAsync(_asyncScene);
-            Time.timeScale = 1;
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha3))
+        //{
+        //    AsyncLoad.sceneNumber = 4;
+        //    SceneManager.LoadSceneAsync(_asyncScene);
+        //    Time.timeScale = 1;
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha4))
+        //{
+        //    AsyncLoad.sceneNumber = 5;
+        //    SceneManager.LoadSceneAsync(_asyncScene);
+        //    Time.timeScale = 1;
+        //}
 
         if (Input.GetKeyDown(KeyCode.F))
         {
