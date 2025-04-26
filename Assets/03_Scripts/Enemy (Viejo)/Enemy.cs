@@ -452,5 +452,10 @@ public class Enemy : Entity, IDamageable
     {
         
     }
+
+    public void DeadByShoot()
+    {
+        
+    }
 }
 

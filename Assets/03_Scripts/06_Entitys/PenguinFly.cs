@@ -123,4 +123,9 @@ public class PenguinFly : MonoBehaviour, IInteracteable,IDamageable
     {
         
     }
+
+    public void DeadByShoot()
+    {
+        
+    }
 }
