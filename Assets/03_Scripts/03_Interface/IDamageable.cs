@@ -8,4 +8,5 @@ public interface IDamageable
 
     public void Dead();
     public void DeadByWater();
+    public void DeadByShoot();
 }

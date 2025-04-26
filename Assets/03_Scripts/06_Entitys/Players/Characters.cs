@@ -697,18 +697,38 @@ public abstract class Characters : Entity, IDamageable
     {
         if (!_isDoingAnimation)
         {
-            StartCoroutine(Death());
+            StartCoroutine(Death("Death"));
 
         }
     }
 
-    IEnumerator Death()
+    public virtual void DeadByShoot()
+    {
+        if (!_isDoingAnimation)
+        {
+            StartCoroutine(DeathByShooting("DeathByShoot"));
+
+        }
+    }
+
+    IEnumerator DeathByShooting(string death)
+    {
+        AudioManager.instance.Play(SoundId.DeathMonkey);
+        isDead = true;
+        _isDoingAnimation = true;
+        _animPlayer.SetTrigger(death);
+        yield return new WaitForSeconds(2f);
+        isDead = false;
+        Dead();
+    }
+
+    IEnumerator Death(string death)
     {
         AudioManager.instance.Play(SoundId.DeathMonkey);
 
         isDead = true;
         _isDoingAnimation = true;
-        _animPlayer.SetTrigger("Death");
+        _animPlayer.SetTrigger(death);
         yield return new WaitForSeconds(0.05f);
 
         _rbCharacter.isKinematic = true;

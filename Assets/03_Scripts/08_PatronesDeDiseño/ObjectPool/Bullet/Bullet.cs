@@ -51,7 +51,7 @@ public class Bullet : MonoBehaviour
 
         if (damageable != null)
         {
-            damageable.Dead();
+            damageable.DeadByShoot();
         }
 
         else
