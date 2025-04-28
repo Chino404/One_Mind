@@ -4,7 +4,7 @@ using System.Collections;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] float _speed;
-    [Tooltip("Contador de tiempo para apagarme y guardarme en el objectPool")] private float _counter;
+    [Tooltip("Contador de tiempo para apagarme y guardarme en el objectPool")] public float _counter;
     //public float damage;
 
     private ObjectPool<Bullet> _objectPool;
@@ -15,6 +15,12 @@ public class Bullet : MonoBehaviour
     private void Awake()
     {
         _collider = GetComponent<SphereCollider>();
+    }
+
+    private void OnEnable()
+    {
+        bullet.SetActive(true);
+        _collider.enabled = true;
     }
 
     void Update()
@@ -66,7 +72,7 @@ public class Bullet : MonoBehaviour
         bullet.SetActive(false);
         _collider.enabled = false;
         yield return new WaitForSeconds(0.2f);
-        TurnOff(this);
+        _objectPool.StockAdd(this);
     }
 
 }
