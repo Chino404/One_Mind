@@ -95,7 +95,7 @@ public class IceCubeMovement : Rewind, IInteracteable
 
     public override void Save()
     {
-        _currentState.Rec(transform.position, _isActiveMove, _currentVelocity);
+        _currentState.Rec(_rb.position, _isActiveMove, _currentVelocity);
     }
 
     public override void Load()
@@ -105,7 +105,7 @@ public class IceCubeMovement : Rewind, IInteracteable
 
         var col = _currentState.Remember();
 
-        transform.position = (Vector3)col.parameters[0];
+        _rb.position = (Vector3)col.parameters[0];
         _isActiveMove = (bool)col.parameters[1];
         _currentVelocity = (float)col.parameters[2];
         
