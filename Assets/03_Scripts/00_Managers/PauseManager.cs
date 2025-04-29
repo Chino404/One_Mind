@@ -118,7 +118,7 @@ public class PauseManager : MonoBehaviour
 
         GameManager.instance.rewinds.Clear();
         //GameManager.instance.enemies.Clear();
-
+        SceneManager.LoadSceneAsync(_asyncScene);
         SceneManager.LoadScene(_mainMenuScene);
     }
 
