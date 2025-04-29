@@ -20,7 +20,7 @@ public enum SoundId
     NormalPressurePlate,
     IronBars,
     WoodElevator,
-    IceBreak,
+    BreakingIce,
     Wind
 }
 
