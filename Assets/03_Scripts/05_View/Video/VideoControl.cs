@@ -62,7 +62,7 @@ public class VideoControl : MonoBehaviour
 
 
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
 
             videoPlayer.Stop(); // Detiene y vuelve al inicio
