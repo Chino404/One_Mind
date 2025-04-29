@@ -28,7 +28,8 @@ public class MenuManager : MonoBehaviour
     public ButtonsLevelSelector[] buttons;
 
     //private int _indexLevelToPlay;
-    private SceneReferenceSO _sceneRef;
+    private SceneReferenceSO _scenelevelRef;
+    private SceneReferenceSO _sceneVideoRef;
 
     private void Awake()
     {
@@ -122,12 +123,13 @@ public class MenuManager : MonoBehaviour
     /// </summary>
     /// <param name="sceneNumber"></param>
     /// <param name="levelComplete"></param>
-    public void PlayGame(SceneReferenceSO scene, bool levelComplete = false)
+    public void PlayGame(SceneReferenceSO sceneLevel, SceneReferenceSO sceneVideoCinematic = default ,bool levelComplete = false)
     {
-        _sceneRef = scene;
+        _scenelevelRef = sceneLevel;
+        _sceneVideoRef = sceneVideoCinematic;
 
         if(levelComplete)
-        {
+        {            
             _stopwatchCanvas.gameObject.SetActive(true);
         }
         else
@@ -143,7 +145,7 @@ public class MenuManager : MonoBehaviour
     {
         SceneManager.LoadSceneAsync(_asyncScene);
         //AsyncLoad.sceneReference = _indexLevelToPlay;
-        AsyncLoad.sceneReference = _sceneRef;
+        AsyncLoad.sceneReference = _sceneVideoRef != null ? _sceneVideoRef : _scenelevelRef;
         Time.timeScale = 1;
     }
 
@@ -155,7 +157,7 @@ public class MenuManager : MonoBehaviour
     {
         CallJson.instance.refJasonSave.GetSaveData.playWithTimer = true;
         CallJson.instance.refJasonSave.SaveJSON();
-        PlayGame(_sceneRef);
+        PlayGame(_scenelevelRef);
     }
 
     public void QuitGame()

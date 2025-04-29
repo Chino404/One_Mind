@@ -27,7 +27,9 @@ public class ButtonLevelSelector : MonoBehaviour
     [Header("-> General Config, Button")]
     [SerializeField] private string _levelName;
     //[Tooltip("Index del nivel")] public int indexLevel;
-    [Tooltip("Escena a la que voi a ir")]public SceneReferenceSO sceneReference;
+    [Tooltip("Escena con el video cinemática")] public SceneReferenceSO sceneVideo;
+    [Tooltip("Escena a la que voy a ir")] public SceneReferenceSO sceneReference;
+    private SceneReferenceSO _scene;
     [SerializeField] private int _totalCoins = 0;
 
     [Space(10)]
@@ -145,7 +147,7 @@ public class ButtonLevelSelector : MonoBehaviour
         if (!_button.interactable) return;
 
         //MenuManager.Instance.PlayGame(indexLevel, _currentLevel.isLevelCompleteJSON);
-        MenuManager.Instance.PlayGame(sceneReference, _currentLevel.isLevelCompleteJSON);
+        MenuManager.Instance.PlayGame(sceneReference, sceneVideo != null ? sceneVideo : null , _currentLevel.isLevelCompleteJSON);
     }
 
     /// <summary>
