@@ -20,7 +20,7 @@ public class NormalPressurePlate : Rewind, IInteracteable
 
     [SerializeField] private float _endAnimation;
     [SerializeField] private GameObject _button;
-
+    [SerializeField] Renderer ButtonRender;
     public override void Awake()
     {
         //_animator = GetComponent<Animator>();
@@ -81,8 +81,16 @@ public class NormalPressurePlate : Rewind, IInteracteable
             {
                 Instantiate(_prefab, _spawnPoint.position, _spawnPoint.rotation); // Instancia el prefab
             }
-            
+
+               
+            if (ButtonRender != null)
+            {
+                Material mat = ButtonRender.material; // Instancia material para este renderer
+                mat.EnableKeyword("_EMISSION");
+               // mat.SetColor("_EmissionColor", Color.yellow * 1.5f); // Puedes cambiar color e intensidad
+            }
         }
+           
     }
 
     public void Deactive()
