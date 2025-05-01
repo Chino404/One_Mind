@@ -10,7 +10,8 @@ public class MovePlataform : Rewind
     [SerializeField, Tooltip("Velocidad")] private float _maxVelocity = 7f;
     [SerializeField, Tooltip("Segunso que va a esperar para moverse otra vez")] float _secondsWaiting = 1f;
     private float _currentVelocity = 7f;
-    
+
+    public MeshRenderer[] renderers;
 
     [Space(10), SerializeField] private bool _isActiveMove = true;
     public bool IsActiveMove { set { _isActiveMove = value; } }
@@ -47,11 +48,16 @@ public class MovePlataform : Rewind
     public override void Awake()
     {
         _rb = GetComponentInChildren<Rigidbody>();
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            renderers[i] = GetComponentInChildren<MeshRenderer>();
+        }
         base.Awake();
     }
 
     private void Start()
     {
+
         _currentVelocity = _maxVelocity;
         _startPos = _rb.position;
        
