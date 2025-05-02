@@ -27,7 +27,7 @@ public class NormalPressurePlate : Rewind, IInteracteable
         //_animator = GetComponent<Animator>();
         base.Awake();
 
-        if (!_button) Debug.LogError($"Falta referencia de 'button' <color=yellow>{gameObject.name}</color>");
+        //if (!_button) Debug.LogError($"Falta referencia de 'button' <color=yellow>{gameObject.name}</color>");
     }
 
     private void Start()
@@ -110,8 +110,13 @@ public class NormalPressurePlate : Rewind, IInteracteable
 
     public override void Save()
     {
-        _currentState.Rec(_pressed, _button.transform.localPosition, _isEmissiveOn);
+        if(!_button)
+        {
+            Debug.LogError($"Falta referencia de 'button' <color=yellow>{gameObject.name}</color>");
+            return;
+        }
 
+        _currentState.Rec(_pressed, _button.transform.localPosition, _isEmissiveOn);
 
     }
 
