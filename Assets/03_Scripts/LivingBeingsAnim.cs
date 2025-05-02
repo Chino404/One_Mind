@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class SkeletonAnim : MonoBehaviour
+public class LivingBeingsAnim : MonoBehaviour
 {
 
     private Animation _animation;
