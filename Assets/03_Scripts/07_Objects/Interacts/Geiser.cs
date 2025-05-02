@@ -13,6 +13,7 @@ public class Geiser : MonoBehaviour, IImpulse
     private BoxCollider _myCollider;
 
     [Space(10), Header("-> Particle")]
+    [SerializeField] private bool _isManualSpeed;
     [SerializeField] private float _actualSpeedParticle;
     private float _iniSpeedParticle;
     private ParticleSystem _myParticle;
@@ -46,10 +47,18 @@ public class Geiser : MonoBehaviour, IImpulse
         ModifyParticle(startSpeedParticle);
     }
 
+    /// <summary>
+    /// Modifico la escala del Geiser en el eje Y-
+    /// </summary>
+    /// <param name="addScaleY"></param>
+    /// <param name="newSpeedParticle"></param>
     public void ModifyScaleYGeiser(float addScaleY, float newSpeedParticle)
     {
         //_scaleCollider.y = newScaleY;
         _myCollider.size += new Vector3(0, addScaleY, 0);
+
+        if (_isManualSpeed) return;
+
         _actualSpeedParticle += newSpeedParticle;
         var main = _myParticle.main;
         main.startSpeed = _actualSpeedParticle;
@@ -71,6 +80,8 @@ public class Geiser : MonoBehaviour, IImpulse
 
     private void ModifyParticle(float valueSpeed)
     {
+        if (_isManualSpeed) return;
+
         var main = _myParticle.main; //Para poder llegar a sus variables
         _actualSpeedParticle = valueSpeed;
         main.startSpeed = _actualSpeedParticle;
