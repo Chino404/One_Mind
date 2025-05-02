@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
+
 
 public class BurningPlataform : MonoBehaviour
 {
@@ -10,12 +10,21 @@ public class BurningPlataform : MonoBehaviour
     private float _currentValue = 0f;
     private float _targetValue = 0f;
     private float _speed=2f;
+    private List<Material> _materials=new();
 
     private void Awake()
     {
-        renderers = GetComponentsInChildren<MeshRenderer>()
-                    .Where(r=>r.gameObject!=this.gameObject)
-                    .ToArray();
+        renderers = GetComponentsInChildren<MeshRenderer>();
+        
+
+    }
+
+    private void Start()
+    {
+        foreach (var item in renderers)
+        {
+            _materials.AddRange(item.materials);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -38,13 +47,16 @@ public class BurningPlataform : MonoBehaviour
             _speed = 5f;
         _currentValue = Mathf.MoveTowards(_currentValue, _targetValue, _speed * Time.deltaTime);
 
-        for (int i = 0; i < renderers.Length; i++)
+        //for (int i = 0; i < renderers.Length; i++)
+        //{
+        //    renderers[i].material.SetFloat("_DisolverLava", _currentValue);
+        //}
+
+
+        foreach (var item in _materials)
         {
-            renderers[i].material.SetFloat("_DisolverLava", _currentValue);
+            item.SetFloat("_DisolverLava", _currentValue);
         }
-        
-
-
 
 
 

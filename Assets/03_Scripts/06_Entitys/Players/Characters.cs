@@ -75,6 +75,8 @@ public abstract class Characters : Entity, IDamageable
     [Header("--> PARTICLES")]
     [SerializeField] protected ParticleSystem _particleJump;
 
+    
+
     //public delegate void MyDelegate(Vector3 dirRaw);
     //public event MyDelegate _actualMove;
     //public MyDelegate ActualMove { get { return _actualMove; } set { _actualMove = value; } }
