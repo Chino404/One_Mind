@@ -6,7 +6,7 @@ using UnityEngine;
 public class NormalPressurePlate : Rewind, IInteracteable
 {
     [Header("OBJECTS TO...")]
-    [Space(5),SerializeField] private GameObject[] _active;
+    [Space(5), SerializeField] private GameObject[] _active;
     [SerializeField] private GameObject[] _desactive;
 
     //private Animator _animator;
@@ -21,6 +21,7 @@ public class NormalPressurePlate : Rewind, IInteracteable
     [SerializeField] private float _endAnimation;
     [SerializeField] private GameObject _button;
     [SerializeField] Renderer ButtonRender;
+    private bool _isEmissiveOn;
     public override void Awake()
     {
         //_animator = GetComponent<Animator>();
@@ -44,10 +45,10 @@ public class NormalPressurePlate : Rewind, IInteracteable
     {
         if (_pressed)
         {
-            if(_button.transform.localPosition.y>_endAnimation)
-                _button.transform.localPosition -= new Vector3(0,  Time.deltaTime, 0);
+            if (_button.transform.localPosition.y > _endAnimation)
+                _button.transform.localPosition -= new Vector3(0, Time.deltaTime, 0);
         }
-            
+
     }
     public void Active()
     {
@@ -74,17 +75,17 @@ public class NormalPressurePlate : Rewind, IInteracteable
                 if (!_desactive[i].GetComponent<DesactiveWall>()._isActing)
                     _desactive[i].gameObject.GetComponent<DesactiveWall>().Desactive();
                 else return;
-                
+
 
             }
-          
+
 
             if (_prefab != null && _spawnPoint != null)
             {
                 Instantiate(_prefab, _spawnPoint.position, _spawnPoint.rotation); // Instancia el prefab
             }
 
-
+            _isEmissiveOn = true;
             if (ButtonRender != null)
             {
                 Material mat = ButtonRender.material; // Instancia material para este renderer
@@ -92,19 +93,26 @@ public class NormalPressurePlate : Rewind, IInteracteable
                 // mat.SetColor("_EmissionColor", Color.yellow * 1.5f); // Puedes cambiar color e intensidad
             }
         }
-           
+
     }
 
     public void Deactive()
     {
+        //_isEmissiveOn = false;
+        //if (ButtonRender != null)
+        //{
+        //    Material mat = ButtonRender.material; // Instancia material para este renderer
+        //    mat.DisableKeyword("_EMISSION");
+        //    // mat.SetColor("_EmissionColor", Color.yellow * 1.5f); // Puedes cambiar color e intensidad
 
+        //}
     }
 
     public override void Save()
     {
-        _currentState.Rec(_pressed,_button.transform.localPosition);
-            
-         
+        _currentState.Rec(_pressed, _button.transform.localPosition, _isEmissiveOn);
+
+
     }
 
     public override void Load()
@@ -114,8 +122,24 @@ public class NormalPressurePlate : Rewind, IInteracteable
         var col = _currentState.Remember();
         _pressed = (bool)col.parameters[0];
         _button.transform.localPosition = (Vector3)col.parameters[1];
-        
+        _isEmissiveOn = (bool)col.parameters[2];
         //if (_pressed == false)
         //    _animator?.SetTrigger("Normal");
+
+
+        if (ButtonRender.material != null)
+        {
+            Material mat = ButtonRender.material;
+            if (_isEmissiveOn)
+            {
+                mat.EnableKeyword("_EMISSION");
+
+            }
+            else
+            {
+                mat.DisableKeyword("_EMISSION");
+
+            }
+        }
     }
 }
