@@ -25,6 +25,8 @@ public class NormalPressurePlate : Rewind, IInteracteable
     {
         //_animator = GetComponent<Animator>();
         base.Awake();
+
+        if (!_button) Debug.LogError($"Falta referencia de 'button' <color=yellow>{gameObject.name}</color>");
     }
 
     private void Start()
@@ -82,12 +84,12 @@ public class NormalPressurePlate : Rewind, IInteracteable
                 Instantiate(_prefab, _spawnPoint.position, _spawnPoint.rotation); // Instancia el prefab
             }
 
-               
+
             if (ButtonRender != null)
             {
                 Material mat = ButtonRender.material; // Instancia material para este renderer
                 mat.EnableKeyword("_EMISSION");
-               // mat.SetColor("_EmissionColor", Color.yellow * 1.5f); // Puedes cambiar color e intensidad
+                // mat.SetColor("_EmissionColor", Color.yellow * 1.5f); // Puedes cambiar color e intensidad
             }
         }
            
