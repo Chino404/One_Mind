@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ChangeDirection : MonoBehaviour
 {
-    MovePlataform _movePlataform;
+    MoveThings _movePlataform;
     public Transform[] waypoints; 
 
     private void Awake()
     {
-        _movePlataform = gameObject.GetComponent<MovePlataform>();
+        _movePlataform = gameObject.GetComponent<MoveThings>();
     }
 
     private void OnCollisionEnter(Collision collision)

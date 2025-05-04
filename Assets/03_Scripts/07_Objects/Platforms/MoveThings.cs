@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class MovePlataform : Rewind
+public class MoveThings : Rewind
 {
 
     [Tooltip("Puntos a los que va a ir")] public Transform[] waypoints;
-    [SerializeField, Tooltip("Velocidad")] private float _maxVelocity = 7f;
-    [SerializeField, Tooltip("Segunso que va a esperar para moverse otra vez")] float _secondsWaiting = 1f;
-    private float _currentVelocity = 7f;
+    [SerializeField, Tooltip("Velocidad")] protected float _maxVelocity = 7f;
+    [SerializeField, Tooltip("Segunso que va a esperar para moverse otra vez")] protected float _secondsWaiting = 1f;
+    protected float _currentVelocity = 7f;
 
     
 
@@ -52,7 +52,7 @@ public class MovePlataform : Rewind
         base.Awake();
     }
 
-    private void Start()
+    public virtual void Start()
     {
 
         _currentVelocity = _maxVelocity;
@@ -85,7 +85,7 @@ public class MovePlataform : Rewind
     //}
 
     //MATI GIL
-    private void FixedUpdate()
+    public virtual void FixedUpdate()
     {
         if (!_isActiveMove) return;
 
@@ -132,7 +132,7 @@ public class MovePlataform : Rewind
     //    character.GetComponent<Rigidbody>().MovePosition(character.GetComponent<Rigidbody>().position + _velocity*0.01f );
     //}
 
-    IEnumerator WaitSeconds()
+    public virtual IEnumerator WaitSeconds()
     {
         Debug.Log("freno");
         
