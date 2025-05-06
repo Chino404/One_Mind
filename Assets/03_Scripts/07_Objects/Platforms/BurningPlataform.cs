@@ -9,7 +9,7 @@ public class BurningPlataform : MonoBehaviour
     private bool _isBurning;
     private float _currentValue = 0f;
     private float _targetValue = 0f;
-    private float _speed=2f;
+    [SerializeField]private float _speed=5f;
     private List<Material> _materials=new();
 
     private void Awake()
@@ -41,10 +41,10 @@ public class BurningPlataform : MonoBehaviour
 
     private void Update()
     {
-        if (_targetValue == 0f)
-            _speed = 0.5f;
-        if (_targetValue == 1f)
-            _speed = 5f;
+        //if (_targetValue == 0f)
+        //    _speed = 0.5f;
+        //if (_targetValue == 1f)
+        //    _speed = 5f;
         _currentValue = Mathf.MoveTowards(_currentValue, _targetValue, _speed * Time.deltaTime);
 
         //for (int i = 0; i < renderers.Length; i++)
