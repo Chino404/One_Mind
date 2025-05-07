@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum TypeModifyParticleGeiser { overwirte, add, substract}
+
 public class Geiser : MonoBehaviour, IImpulse
 {
     [SerializeField, Range(0,50f)] private float _actualForceGeiser = 2;
@@ -15,8 +17,11 @@ public class Geiser : MonoBehaviour, IImpulse
     [Space(10), Header("-> Particle")]
     [SerializeField] private bool _isManualSpeed;
     [SerializeField] private float _actualSpeedParticle;
+    [SerializeField] private float _actualSpeedLifeTimeParticle;
     private float _iniSpeedParticle;
     private ParticleSystem _myParticle;
+
+    
 
     private void Awake()
     {
@@ -28,6 +33,7 @@ public class Geiser : MonoBehaviour, IImpulse
 
         var main = _myParticle.main; //Para poder llegar a sus variables
         _actualSpeedParticle = main.startSpeed.constant;
+        _actualSpeedLifeTimeParticle = main.startLifetime.constant;
 
         _iniScaleCollider = _myCollider.size;
         _iniSpeedParticle = main.startSpeed.constant;
@@ -39,12 +45,15 @@ public class Geiser : MonoBehaviour, IImpulse
         _forceGeiserOnPenguin = _actualForceGeiser / 1.5f;
     }
 
-    public void StartScale(float startScaleY, float startSpeedParticle)
+    public void StartScale(float startScaleY, float startSpeedParticle, float starSpeedLifeTime)
     {
         _scaleCollider.y = startScaleY;
         _myCollider.size = _scaleCollider;
 
-        ModifyParticle(startSpeedParticle);
+        _actualSpeedParticle = startSpeedParticle;
+        _actualSpeedLifeTimeParticle = starSpeedLifeTime;
+
+        ModifyParticle(startSpeedParticle, starSpeedLifeTime, TypeModifyParticleGeiser.overwirte);
     }
 
     /// <summary>
@@ -52,39 +61,56 @@ public class Geiser : MonoBehaviour, IImpulse
     /// </summary>
     /// <param name="addScaleY"></param>
     /// <param name="newSpeedParticle"></param>
-    public void ModifyScaleYGeiser(float addScaleY, float newSpeedParticle)
+    public void ModifyScaleYGeiser(float addScaleY, float newSpeedParticle, float newSpeedLifeTimeParticle, TypeModifyParticleGeiser type)
     {
         //_scaleCollider.y = newScaleY;
         _myCollider.size += new Vector3(0, addScaleY, 0);
 
         if (_isManualSpeed) return;
 
-        _actualSpeedParticle += newSpeedParticle;
-        var main = _myParticle.main;
-        main.startSpeed = _actualSpeedParticle;
-       // ModifyParticle(newSpeedParticle);
+        ModifyParticle(newSpeedParticle, newSpeedLifeTimeParticle, type);
 
         //Para automatizar las particulas
         //var porcentaje = newScaleY / (_iniScaleCollider.y * 1.5f);
     }
 
-    public void RevertChange(float subtractScaleY, float startSpeedParticle)
+    public void RevertChange(float subtractScaleY, float speedParticle, float speedLifeTime, TypeModifyParticleGeiser type)
     {
         //_myCollider.size = _iniScaleCollider;
         _myCollider.size -= new Vector3(0, subtractScaleY, 0);
 
         if(_myCollider.size.y <= 0) _myCollider.size = new Vector3(_myCollider.size.x, 0, _myCollider.size.z);
 
-        ModifyParticle(startSpeedParticle);
+        if (type == TypeModifyParticleGeiser.add) type = TypeModifyParticleGeiser.substract;
+        else if (type == TypeModifyParticleGeiser.substract) type = TypeModifyParticleGeiser.add;
+
+        ModifyParticle(speedParticle, speedLifeTime, type);
     }
 
-    private void ModifyParticle(float valueSpeed)
+    private void ModifyParticle(float valueSpeed, float valuSpeedLifeTime, TypeModifyParticleGeiser type)
     {
         if (_isManualSpeed) return;
 
         var main = _myParticle.main; //Para poder llegar a sus variables
-        _actualSpeedParticle = valueSpeed;
+
+        if(type == TypeModifyParticleGeiser.overwirte)
+        {
+            _actualSpeedParticle = valueSpeed;
+            _actualSpeedLifeTimeParticle = valuSpeedLifeTime;
+        }
+        else if (type == TypeModifyParticleGeiser.add)
+        {
+            _actualSpeedParticle += valueSpeed;
+            _actualSpeedLifeTimeParticle += valuSpeedLifeTime;
+        }
+        else
+        {
+            _actualSpeedParticle -= valueSpeed;
+            _actualSpeedLifeTimeParticle -= valuSpeedLifeTime;
+        }
+
         main.startSpeed = _actualSpeedParticle;
+        main.startLifetime = _actualSpeedLifeTimeParticle;
     }
 
     private void OnTriggerStay(Collider other)

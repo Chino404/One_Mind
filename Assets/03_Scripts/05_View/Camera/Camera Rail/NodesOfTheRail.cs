@@ -24,6 +24,12 @@ public class NodesOfTheRail : MonoBehaviour
 
             foreach (var point in neighborNode)
             {
+                if (!point)
+                {
+                    Debug.LogError("Hay espacio vacio.");
+                    continue;
+                }
+
                 Gizmos.color = gizmoColorNextPoint;
                 Gizmos.DrawLine(transform.position, point.transform.position);
             }
