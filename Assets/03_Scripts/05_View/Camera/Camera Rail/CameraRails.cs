@@ -250,6 +250,8 @@ public class CameraRails : MonoBehaviour
     /// </summary>
     private void SetPositionAndRotationTarget()
     {
+        bool permitirRotar = false;
+
         if (isTeleporting)
         {
             transform.SetPositionAndRotation(fixedNode.position, fixedNode.rotation);
@@ -265,7 +267,14 @@ public class CameraRails : MonoBehaviour
 
             //transform.SetPositionAndRotation(_smoothPos, _smoothRot);
 
-            transform.SetPositionAndRotation(fixedNode.position, fixedNode.rotation);
+            if(permitirRotar)
+            {
+                transform.position = fixedNode.position;
+
+                RotateCameraNode();
+            }
+
+            else transform.SetPositionAndRotation(fixedNode.position, fixedNode.rotation);
         }
 
     }

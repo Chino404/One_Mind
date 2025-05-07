@@ -5,17 +5,18 @@ using UnityEngine;
 [System.Serializable]
 public class ValueGeiser
 {
-    [Tooltip("Geiser que se va a modificar")]public Geiser refGeiser;
+    [Tooltip("-> Geiser que se va a modificar")]public Geiser refGeiser;
 
     [Space(5),Header("Como comienza el Geiser")]
     [Tooltip("Escala con la q va a iniciar el geiser")]public float startScaleGeiser = 2f;
+    [Tooltip("Velocidad / distancia en tiempo de vida en la que comienza de las particulas")] public float startSpeedLifeTimeParticle;
     [Tooltip("Velocidad / distancia en la que comienza las particulas")] public float startSpeedParticle;
 
-    [Space(5),Header("Como se va a actualizar")]
+    [Space(5),Header("-> Como se va a actualizar")]
+    [Tooltip("De que manera va se van a modificado el geiser")]public TypeModifyParticleGeiser typeModify;
     [Tooltip("Lo que se le va a sumar a su escala en Y")]public float addScaleY;
-    [Tooltip("Si en vez de SUMAR va a RESTAR")] public bool substract;
-
-    [Space(5),Tooltip("La velociad / distancia de las particulas")]public float speedParticle;
+    [Tooltip("Velocidad / distancia en tiempo de vida de las particulas")] public float speedLifeTimeParticle;
+    [Tooltip("La velociad / distancia de las particulas")]public float speedParticle;
 }
 
 public class SuckingHole : MonoBehaviour
@@ -34,7 +35,7 @@ public class SuckingHole : MonoBehaviour
     {
         foreach (var item in geisers)
         {
-            item.refGeiser.StartScale(item.startScaleGeiser, item.startSpeedParticle);
+            item.refGeiser.StartScale(item.startScaleGeiser, item.startSpeedParticle, item.startSpeedLifeTimeParticle);
         }
     }
 
@@ -44,8 +45,10 @@ public class SuckingHole : MonoBehaviour
         {
             foreach (var item in geisers)
             {
-                if(item.substract) item.refGeiser.ModifyScaleYGeiser(- item.addScaleY, item.speedParticle);
-                else item.refGeiser.ModifyScaleYGeiser(item.addScaleY, item.speedParticle);
+                if(item.typeModify == TypeModifyParticleGeiser.substract) item.refGeiser.ModifyScaleYGeiser(- item.addScaleY, item.speedParticle, item.speedLifeTimeParticle, item.typeModify);
+
+                else item.refGeiser.ModifyScaleYGeiser(item.addScaleY, item.speedParticle, item.speedLifeTimeParticle, item.typeModify);
+
                 _myParticle.Stop();
             }
         }
@@ -58,8 +61,12 @@ public class SuckingHole : MonoBehaviour
 
             foreach (var item in geisers)
             {
-                if(item.substract) item.refGeiser.RevertChange(- item.addScaleY, item.startSpeedParticle);
-                else item.refGeiser.RevertChange(item.addScaleY, item.startSpeedParticle);
+                //Si se sumo el valor de las particulas, mando para que se reste.
+                if(item.typeModify == TypeModifyParticleGeiser.add) item.refGeiser.RevertChange(item.addScaleY, item.speedParticle, item.speedLifeTimeParticle, item.typeModify);
+
+                //Sino lo mando para que se sobrescriba
+                else item.refGeiser.RevertChange(item.addScaleY, item.startSpeedParticle, item.startSpeedLifeTimeParticle, item.typeModify);
+
                 _myParticle.Play();
 
             }
