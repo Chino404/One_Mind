@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SnowMan : MonoBehaviour
 {
-    Factory<Bullet> _factory;
-    private ObjectPool<Bullet> _objectPool;
+    private Factory<Bullet> _factory;
+    private static ObjectPool<Bullet> _objectPool;
     private Animator _myAnimator;
 
     public Bullet prefab;
@@ -22,21 +22,28 @@ public class SnowMan : MonoBehaviour
 
     private void Awake()
     {
+
         _myAnimator = GetComponentInChildren<Animator>();
-        
-        
+
+        if (_objectPool == null)
+        {
             _factory = new BulletFactory(prefab);
             _objectPool = new ObjectPool<Bullet>(_factory.GetObj, Bullet.TurnOff, Bullet.TurnOn, _bulletQuantity);
-        
-        
+        }
 
         _secondsShooting = timeShooting;
     }
 
+    private void OnEnable()
+    {
+        _isInCoolDown = false;
+    }
+
     private void Update()
-    {     
+    {
         if (!_isInCoolDown)
         {
+        Debug.Log("disparo");
             StartCoroutine(Shoot());
         }
     }
