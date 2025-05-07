@@ -55,8 +55,8 @@ public class DualDoor : MonoBehaviour, ITransparency
         if (_isOpen && _animTime < _animDuration)
         {
             _animTime += Time.deltaTime;
-            float actualAngle = Mathf.Lerp(0, 90, _animTime / _animDuration);
-            float otherAngle = Mathf.Lerp(0, -90, _animTime / _animDuration);
+            float actualAngle = Mathf.Lerp(0, 80, _animTime / _animDuration);
+            float otherAngle = Mathf.Lerp(0, -80, _animTime / _animDuration);
             _doors[0].transform.localRotation = Quaternion.Euler(0, actualAngle, 0);
             _doors[1].transform.localRotation = Quaternion.Euler(0, otherAngle, 0);
         }
