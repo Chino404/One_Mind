@@ -118,8 +118,11 @@ public class DualPressurePlate : Rewind, IInteracteable
 
         if (_objectToInteract != null)
         {
-            if(_player == CharacterTarget.Bongo) _particleButton[0].Play();
-            else _particleButton[1].Play();
+            if(_particleButton.Length > 0)
+            {
+                if(_player == CharacterTarget.Bongo) _particleButton[0]?.Play();
+                else _particleButton[1]?.Play();
+            }
 
             _objectToInteract.OpenTheDoor();
 
