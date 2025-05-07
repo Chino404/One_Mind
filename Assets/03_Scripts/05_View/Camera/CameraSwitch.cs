@@ -20,10 +20,16 @@ public class CameraSwitch : MonoBehaviour
 
     [HideInInspector] public bool isBackToNewNode = false;
     [HideInInspector] public Transform newToNode;
+    private ChangeTheCameraRail _myRefChangeCameraRail;
 
 
     //private void Start() => CamerasManager.instance.getCamera += SetMyRefCamera;
     //private void SetMyRefCamera(CameraRails newCamera) => _myRefCamera = newCamera;
+
+    private void Awake()
+    {
+        _myRefChangeCameraRail = gameObject.GetComponent<ChangeTheCameraRail>() ? gameObject.GetComponent<ChangeTheCameraRail>() : null;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -56,6 +62,9 @@ public class CameraSwitch : MonoBehaviour
 
             else if(myTransitiontype == TransitionType.BackToRail)
             {
+                //Verifico si volví a entrar al mismo collider para que no vaya de nuevo al nodo.
+                if(_myRefChangeCameraRail && _myRefCamera.RefRail == _myRefChangeCameraRail.newRail)  return;
+
                 _myRefCamera.TransitionToRail(newToNode);
             }
         }

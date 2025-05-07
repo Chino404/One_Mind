@@ -7,6 +7,7 @@ using UnityEngine.Playables;
 public class CameraRails : MonoBehaviour
 {
     [SerializeField] private Rail _myRail;
+    public Rail RefRail { get { return _myRail; } }
     NodesOfTheRail _currentNode;
     public Camera myCamera { get; private set;}
     [SerializeField, Range(1,5)] private int _myNumberCamera;
