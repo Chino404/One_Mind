@@ -6,7 +6,13 @@ using UnityEngine.SceneManagement;
 public class UnlockNextLevel : MonoBehaviour
 {
     [Tooltip("Si es TRUE, entonces el proximo nivel no me lo desbloquea")]public bool isFinalDemo;
-    [Tooltip("Poner numero de build index del nivel siguiente")] public int nextLevel;
+    [Tooltip("Poner proximo nivel a desbloquearse")]public SceneReferenceSO nextLevel;
+    [Tooltip("Index del nivel siguiente")] private int _indexNextLevel;
+
+    private void Awake()
+    {
+        if(nextLevel) _indexNextLevel = nextLevel.BuildIndex;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -27,7 +33,7 @@ public class UnlockNextLevel : MonoBehaviour
         foreach (var currentLevel in levelsList)
         {
             //Cuando lo encunetro lo pongo como desbloqueado.
-            if (currentLevel.indexLevelJSON /*currentLevel.sceneReferenceSO.BuildIndex*/ == nextLevel)
+            if (currentLevel.indexLevelJSON /*currentLevel.sceneReferenceSO.BuildIndex*/ == _indexNextLevel)
             {
                 currentLevel.isUnlockLevelJSON = true;
                 break;
