@@ -9,6 +9,7 @@ public class CameraSwitch : MonoBehaviour
 
     [Space(10)]
     public CharacterTarget myCharacterTarget;
+    
 
     public enum TransitionType {None, GoToFixedNode, BackToRail, Both}
     [HideInInspector] public TransitionType myTransitiontype;
@@ -36,6 +37,7 @@ public class CameraSwitch : MonoBehaviour
 
         if(other.gameObject.GetComponent<Characters>())
         {
+
             if (!goToNode && myTransitiontype == TransitionType.GoToFixedNode)
             {
                 Debug.LogError($"Poner un 'point' para la cámara en: {gameObject.name}");
