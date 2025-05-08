@@ -109,6 +109,8 @@ public class CameraRails : MonoBehaviour
 
     }
 
+    public void RemoveCurrentRail() => _myRail = null;
+
     private void LateUpdate()
     {
         if (target == null) return;
