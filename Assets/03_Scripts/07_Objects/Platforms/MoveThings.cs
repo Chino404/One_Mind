@@ -55,15 +55,12 @@ public class MoveThings : Rewind
     public virtual void Start()
     {
 
-        
+        _currentVelocity = _maxVelocity;
         _startPos = _rb.position;
        
     }
 
-    private void OnEnable()
-    {
-        _currentVelocity = _maxVelocity;
-    }
+    
 
     //private void Update()
     //{
