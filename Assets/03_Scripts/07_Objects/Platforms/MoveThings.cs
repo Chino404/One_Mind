@@ -13,16 +13,16 @@ public class MoveThings : Rewind
 
     
 
-    [Space(10), SerializeField] private bool _isActiveMove = true;
+    [Space(10), SerializeField] protected bool _isActiveMove = true;
     public bool IsActiveMove { set { _isActiveMove = value; } }
 
 
     protected int _actualIndex;
     public int ActualIndex { set { _actualIndex = value; } }
-    private Vector3 _velocity;
+    protected Vector3 _velocity;
     public Vector3 Velocity { get { return _velocity; } }
 
-    private Rigidbody _rb;
+    protected Rigidbody _rb;
     private Vector3 _startPos;
 
     //private Animator _animator;
