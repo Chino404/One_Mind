@@ -98,14 +98,15 @@ public class NormalPressurePlate : Rewind, IInteracteable
 
     public void Deactive()
     {
-        //_isEmissiveOn = false;
-        //if (ButtonRender != null)
-        //{
-        //    Material mat = ButtonRender.material; // Instancia material para este renderer
-        //    mat.DisableKeyword("_EMISSION");
-        //    // mat.SetColor("_EmissionColor", Color.yellow * 1.5f); // Puedes cambiar color e intensidad
+        if (!_isPressAgain) return;
+        _isEmissiveOn = false;
+        if (ButtonRender != null)
+        {
+            Material mat = ButtonRender.material; // Instancia material para este renderer
+            mat.DisableKeyword("_EMISSION");
+            // mat.SetColor("_EmissionColor", Color.yellow * 1.5f); // Puedes cambiar color e intensidad
 
-        //}
+        }
     }
 
     public override void Save()
