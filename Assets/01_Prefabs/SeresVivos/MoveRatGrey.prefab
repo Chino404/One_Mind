@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 4940722880615587338}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 2.005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -60,7 +60,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3031393457829113375}
+  - {fileID: 1855515795380058936}
   - {fileID: 3370054402162188321}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -72,6 +72,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 336326578274142053}
     m_Modifications:
+    - target: {fileID: -5763519829581624064, guid: dfbb58c1b2a8d704986ba0c7576dd3af,
+        type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5763519829581624064, guid: dfbb58c1b2a8d704986ba0c7576dd3af,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
     - target: {fileID: 348319607591177790, guid: dfbb58c1b2a8d704986ba0c7576dd3af,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -122,17 +132,28 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 827275595720725771, guid: dfbb58c1b2a8d704986ba0c7576dd3af,
+        type: 3}
+      propertyPath: waypoints.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 827275595720725771, guid: dfbb58c1b2a8d704986ba0c7576dd3af,
+        type: 3}
+      propertyPath: waypoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 3370054402162188321}
     - target: {fileID: 3837994588488960244, guid: dfbb58c1b2a8d704986ba0c7576dd3af,
         type: 3}
       propertyPath: m_Name
       value: RataGris
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6737000997144093911, guid: dfbb58c1b2a8d704986ba0c7576dd3af, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfbb58c1b2a8d704986ba0c7576dd3af, type: 3}
---- !u!4 &3031393457829113375 stripped
+--- !u!4 &1855515795380058936 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 348319607591177790, guid: dfbb58c1b2a8d704986ba0c7576dd3af,
     type: 3}

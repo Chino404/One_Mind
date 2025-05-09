@@ -13,14 +13,20 @@ public class LivingMovement : MoveThings
         _animator = GetComponent<Animator>();
     }
 
+    private void Update()
+    {
+        if (_currentVelocity > 0) _animator.SetBool("IsWalking", true);
+        else if (_currentVelocity == 0) _animator.SetBool("IsWalking", false);
+    }
+
     public override IEnumerator WaitSeconds()
     {
         Debug.Log("freno");
-        _animator.SetBool("IsWalking", false);
+        
         _currentVelocity = 0;
 
         yield return new WaitForSeconds(_secondsWaiting);
         _currentVelocity = _maxVelocity;
-        _animator.SetBool("IsWalking", true);
+        
     }
 }
