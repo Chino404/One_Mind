@@ -5,7 +5,7 @@ using UnityEngine;
 public class SnowMan : MonoBehaviour
 {
     private Factory<Bullet> _factory;
-    private static ObjectPool<Bullet> _objectPool;
+    private  ObjectPool<Bullet> _objectPool;
     private Animator _myAnimator;
 
     public Bullet prefab;
@@ -25,11 +25,11 @@ public class SnowMan : MonoBehaviour
 
         _myAnimator = GetComponentInChildren<Animator>();
 
-        if (_objectPool == null)
-        {
+        //if (_objectPool == null)
+        //{
             _factory = new BulletFactory(prefab);
             _objectPool = new ObjectPool<Bullet>(_factory.GetObj, Bullet.TurnOff, Bullet.TurnOn, _bulletQuantity);
-        }
+        //}
 
         _secondsShooting = timeShooting;
     }
