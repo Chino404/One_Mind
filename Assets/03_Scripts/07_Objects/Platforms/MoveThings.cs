@@ -17,7 +17,7 @@ public class MoveThings : Rewind
     public bool IsActiveMove { set { _isActiveMove = value; } }
 
 
-    private int _actualIndex;
+    protected int _actualIndex;
     public int ActualIndex { set { _actualIndex = value; } }
     private Vector3 _velocity;
     public Vector3 Velocity { get { return _velocity; } }
