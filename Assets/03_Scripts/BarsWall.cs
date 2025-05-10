@@ -13,7 +13,10 @@ public class BarsWall : DesactiveWall
     public Transform waypoint;
     
 
+
     [SerializeField] bool _isStartActive;
+
+    
 
     private void Start()
     {
@@ -31,6 +34,11 @@ public class BarsWall : DesactiveWall
 
     public override void Active()
     {
+        if (!gameObject.activeInHierarchy)
+        {
+            _shouldCloseOnEnable = true;
+            return;
+        }
         if (_isStartActive) return;
         _isActing = true;
 
@@ -67,6 +75,11 @@ public class BarsWall : DesactiveWall
 
     public override void Desactive()
     {
+        if (!gameObject.activeInHierarchy)
+        {
+            _shouldOpenOnEnable = true;
+            return;
+        }
         if (!_isStartActive) return;
         _isActing = true;
 
