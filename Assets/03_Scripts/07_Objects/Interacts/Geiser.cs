@@ -20,7 +20,7 @@ public class Geiser : MonoBehaviour, IImpulse
     [SerializeField] private float _actualSpeedLifeTimeParticle;
     private float _iniSpeedParticle;
     private ParticleSystem _myParticle;
-
+    private Rigidbody _characterRb;
     
 
     private void Awake()
@@ -43,6 +43,7 @@ public class Geiser : MonoBehaviour, IImpulse
     private void Start()
     {
         _forceGeiserOnPenguin = _actualForceGeiser / 1.5f;
+        _characterRb = GameManager.instance.modelBongo.GetComponent<Rigidbody>();
     }
 
     public void StartScale(float startScaleY, float startSpeedParticle, float starSpeedLifeTime)
@@ -122,6 +123,16 @@ public class Geiser : MonoBehaviour, IImpulse
         else _actualForceGeiser = _iniForceGeiser;
 
         Action(rb);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        var rb = other.gameObject.GetComponent<Rigidbody>();
+        
+        if (other.GetComponent<Characters>())
+        {
+            rb.velocity = _characterRb.velocity;
+        }
     }
 
     public void Action(Rigidbody rb)

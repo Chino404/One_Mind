@@ -21,6 +21,7 @@ public enum TypeFloor
 public abstract class Characters : Entity, IDamageable
 {
     protected Rigidbody _rbCharacter;
+
     public Vector3 _myVelocityCharacter;
     protected Animator _animPlayer;
 
