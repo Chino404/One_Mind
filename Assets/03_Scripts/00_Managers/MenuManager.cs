@@ -45,27 +45,27 @@ public class MenuManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            AsyncLoad.sceneNumber = 2;
+            AsyncLoad.sceneNumber = CallJson.instance.refJasonSave.scenes[0].BuildIndex;
             SceneManager.LoadSceneAsync(_asyncScene);
             Time.timeScale = 1;
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            AsyncLoad.sceneNumber = 3;
+            AsyncLoad.sceneNumber = CallJson.instance.refJasonSave.scenes[1].BuildIndex;
             SceneManager.LoadSceneAsync(_asyncScene);
             Time.timeScale = 1;
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            AsyncLoad.sceneNumber = 4;
+            AsyncLoad.sceneNumber = CallJson.instance.refJasonSave.scenes[2].BuildIndex;
             SceneManager.LoadSceneAsync(_asyncScene);
             Time.timeScale = 1;
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            AsyncLoad.sceneNumber = 5;
+            AsyncLoad.sceneNumber = CallJson.instance.refJasonSave.scenes[3].BuildIndex;
             SceneManager.LoadSceneAsync(_asyncScene);
             Time.timeScale = 1;
         }
