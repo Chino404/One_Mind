@@ -21,20 +21,17 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: m_pocioncontenido
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: c6d8533b998fbe245b0b11f1d192215b,
+    type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _EMISSION
-  - _METALLICSPECGLOSSMAP
-  - _NORMALMAP
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: Opaque
+  stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -68,6 +65,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Main_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 2800000, guid: 78b42460e7ac63b4488ad635085075c1, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -81,6 +82,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2D:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -98,8 +103,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - Vector1_82e727038ef54484b568d04b184646ed: 0.459
+    - Vector1_ad089f2a608c4b40b54d1638b83f8710: 1
+    - Vector1_d27f5033bdeb4110baaff184bf68c7c1: 1
     - _AlphaClip: 0
     - _AlphaToMask: 0
+    - _Amplitude: 1.45
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -111,26 +120,50 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
+    - _Emission: 1.45
     - _EnvironmentReflections: 1
+    - _FoamWidth: 0
+    - _Foam_Amount: 0.96
+    - _Foam_Smoothness: 0
+    - _Foam_Width: 1.73
+    - _Frecuenc: 1
+    - _Frequency: 0
+    - _Fresnel_Power: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Metallic: 0
+    - _Metallic: -2.66
     - _OcclusionStrength: 1
     - _Parallax: 0.005
+    - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _Rim_Power: 2
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
+    - _Wobble_X: 0.51
+    - _Wobble_Z: 0.5
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Color_5ff24c3f876e41fb861a6d408ae6e955: {r: 1, g: 0, b: 0, a: 0}
+    - Color_c1034b8474d94b25b91383e96486e664: {r: 1, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 0.19806576, g: 1, b: 0, a: 1}
+    - _BottomColor: {r: 0, g: 0.8207547, b: 0.2961154, a: 1}
     - _Color: {r: 0.19806573, g: 1, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 3.2747207, b: 0.29146728, a: 1}
+    - _FillAmount: {r: 0, g: 0, b: 0, a: 0}
+    - _Fill_amount: {r: 0, g: 0, b: 0, a: 0}
+    - _FoamColor: {r: 0.2850213, g: 0.990566, b: 0.7492778, a: 1}
+    - _Foam_Edge_Color: {r: 1, g: 0, b: 0, a: 1}
+    - _Fresnel_Color: {r: 0, g: 1, b: 0.6750441, a: 0}
+    - _Rim_Color: {r: 0.693879, g: 1, b: 0.32547167, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Tint: {r: 0.2830189, g: 0.1241545, b: 0.1241545, a: 0}
+    - _TopColor: {r: 0, g: 0.6946828, b: 0.764151, a: 1}
+    - _Top_color: {r: 1, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
