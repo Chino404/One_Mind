@@ -14,7 +14,7 @@ public class DummieAnimation : MonoBehaviour
         if (other.gameObject.layer == 3)
         {
             int random = Random.Range(0, 2);
-            Debug.Log(random);
+            //Debug.Log(random);
             if (random == 0) _animator.SetTrigger("Hit1");
             if (random == 1) _animator.SetTrigger("Hit2");
         }
