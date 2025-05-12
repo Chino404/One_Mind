@@ -83,6 +83,8 @@ public class NormalPressurePlate : Rewind, IInteracteable
             if (_prefab != null && _spawnPoint != null)
             {
                 Instantiate(_prefab, _spawnPoint.position, _spawnPoint.rotation); // Instancia el prefab
+
+                Destroy(_prefab, 0.4f);
             }
 
             _isEmissiveOn = true;
