@@ -21,7 +21,7 @@ public class IceBox : Rewind
 
     public override void Save()
     {
-        _currentState.Rec(GetComponent<Rigidbody>().position);
+        _currentState.Rec(GetComponent<Rigidbody>().position,transform.position);
     }
 
     public override void Load()
@@ -30,6 +30,7 @@ public class IceBox : Rewind
 
         var col = _currentState.Remember();
         GetComponent<Rigidbody>().position = (Vector3)col.parameters[0];
+        transform.position = (Vector3)col.parameters[1];
     }
 
     
