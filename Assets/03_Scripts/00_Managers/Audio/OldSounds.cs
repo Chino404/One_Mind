@@ -3,29 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public enum SoundId
-{
-    //General
-    None,
-    Theme,
 
-    //Monkey
-    Jump,
-    DeathMonkey,
-    Fall,
-
-    //Interacts
-    OpenDoor,
-    ButtonDualDoor,
-    NormalPressurePlate,
-    IronBars,
-    WoodElevator,
-    BreakingIce,
-    Wind
-}
 
 [System.Serializable]
-public class Sounds
+public class OldSounds
 {
     public string name;
     public SoundId id;

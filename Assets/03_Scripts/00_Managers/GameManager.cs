@@ -130,6 +130,7 @@ public class GameManager : MonoBehaviour
     {
 
         AudioManager.instance.Play(SoundId.Theme);
+        //AudioSetting.instance.Play(SoundId.SoundLoop);
 
         UpdateUICollectible(_indexLevel);
 

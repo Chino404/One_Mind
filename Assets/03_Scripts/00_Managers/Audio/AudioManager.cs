@@ -7,9 +7,9 @@ using UnityEngine.Audio;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
-    public Sounds[] sounds;
+    public OldSounds[] sounds;
 
-    private Dictionary<SoundId, Sounds> soundDict;
+    private Dictionary<SoundId, OldSounds> soundDict;
 
     [SerializeField] AudioMixer _mixer;
     public const string MUSIC_KEY = "MusicVolume";
@@ -29,7 +29,7 @@ public class AudioManager : MonoBehaviour
         //    return;
         //}
 
-        soundDict = new Dictionary<SoundId, Sounds>();
+        soundDict = new Dictionary<SoundId, OldSounds>();
 
         foreach (var item in sounds)
         {
@@ -49,7 +49,7 @@ public class AudioManager : MonoBehaviour
     public void Play(SoundId soundId)
     {
 
-        if (soundDict.TryGetValue(soundId, out Sounds sound))
+        if (soundDict.TryGetValue(soundId, out OldSounds sound))
         {
             if(soundId != SoundId.Theme) sound.source.pitch = Random.Range(0.8f, 1.2f);
 
@@ -64,7 +64,7 @@ public class AudioManager : MonoBehaviour
     }
     public void SetVolume(int SoundId, float vol)
     {
-        Sounds item = sounds[SoundId];
+        OldSounds item = sounds[SoundId];
 
         if (item == null) return;
 
@@ -73,7 +73,7 @@ public class AudioManager : MonoBehaviour
 
     public void Stop(SoundId SoundId)
     {
-        if (soundDict.TryGetValue(SoundId, out Sounds sound))
+        if (soundDict.TryGetValue(SoundId, out OldSounds sound))
         {
             sound.source.Stop();
         }
