@@ -35,6 +35,11 @@ public class BreakablePlatform : Rewind
         _myAnimator = GetComponentInChildren<Animator>();
     }
 
+    private void OnEnable()
+    {
+        _isBreaking = false;
+    }
+
     //private void Start()
     //{
     //    _myAnimator.SetTrigger("Idle");
@@ -126,14 +131,15 @@ public class BreakablePlatform : Rewind
         var col = _currentState.Remember();
         //gameObject.SetActive((bool)col.parameters[0]);
 
-        //_myState = (BreakingState)col.parameters[0];
+        _myState = (BreakingState)col.parameters[0];
         //_currentTrigger = (string)col.parameters[1];
-        //_isBreaking = (bool)col.parameters[2];
+        _isBreaking = (bool)col.parameters[2];
 
         //_myAnimator.SetTrigger("Idle");
-
-        Idle();
         StopAllCoroutines();
+        _myAnimator.SetTrigger("Recover");
+        Idle();
+
     }
 
     #endregion
