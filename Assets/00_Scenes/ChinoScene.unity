@@ -569,6 +569,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 411815187864071970, guid: b688054529d9e4c47a335b1e80f5c403,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 447065970622228486, guid: b688054529d9e4c47a335b1e80f5c403,
         type: 3}
       propertyPath: _indexLevel
@@ -1188,6 +1193,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _refPlayer: {fileID: 0}
+  auxValueMax: 0
+  auxValueMin: 0
   sounds:
   - name: Lava
     clip: {fileID: 8300000, guid: f07c5ff8401c03e48afd816e39097a60, type: 3}
@@ -1198,8 +1205,9 @@ MonoBehaviour:
     maxVolume: 2
     maxPitch: 1.2
     minPitch: 0.8
+    currentDistance: 0
     maxDistance: 9
-    minDistance: 3.5
+    minDistance: 3
     loop: 1
     playOnAwake: 1
     source: {fileID: 0}

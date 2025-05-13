@@ -21,6 +21,8 @@ public class Geiser : MonoBehaviour, IImpulse
     private float _iniSpeedParticle;
     private ParticleSystem _myParticle;
     private Rigidbody _characterRb;
+
+    public Rigidbody playerRb;
     
 
     private void Awake()
@@ -114,9 +116,19 @@ public class Geiser : MonoBehaviour, IImpulse
         main.startLifetime = _actualSpeedLifeTimeParticle;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        var rb = other.gameObject.GetComponent<Rigidbody>();
+
+        playerRb = rb != null ? rb : null;
+    }
+
     private void OnTriggerStay(Collider other)
     {
         var rb = other.gameObject.GetComponent<Rigidbody>();
+
+        //playerRb = rb != null ? rb : null;
+
         var bongo = other.gameObject.GetComponent<ModelBongo>();
 
         if (bongo != null && bongo.IsFly) _actualForceGeiser = _forceGeiserOnPenguin;
@@ -132,14 +144,22 @@ public class Geiser : MonoBehaviour, IImpulse
         if (other.GetComponent<Characters>())
         {
             rb.velocity = _characterRb.velocity;
+            playerRb = null;
+
         }
+    }
+
+    private void OnDisable()
+    {
+        playerRb.velocity = _characterRb.velocity;
+        playerRb = null;
     }
 
     public void Action(Rigidbody rb)
     {
         if (rb != null)
         {
-            //rb.velocity = new Vector3(rb.velocity.x, _actualForceGeiser, rb.velocity.z);
+            //rb.AddForce(transform.up * _actualForceGeiser, ForceMode.Impulse);
 
             // Aplica la fuerza en la dirección del transform.up del géiser
             Vector3 geiserForce = transform.up * _actualForceGeiser;
