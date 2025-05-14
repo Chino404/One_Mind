@@ -653,6 +653,7 @@ public abstract class Characters : Entity, IDamageable
         _isDoingAnimation = true;
         _animPlayer.SetTrigger("Collecting");
         _rbCharacter.isKinematic = true;
+        
         yield return new WaitForSeconds(1.05f);
 
        _isDoingAnimation = false;
@@ -782,6 +783,7 @@ public abstract class Characters : Entity, IDamageable
         actualStatePlayer = (EstadoDePlayer)col.parameters[3];
         _isDoingAnimation = (bool)col.parameters[4];
         isDead = (bool)col.parameters[5];
+        _animPlayer.SetTrigger("Idle");
         
         _rbCharacter.isKinematic = false;
         _rbCharacter.useGravity = false;
