@@ -76,7 +76,7 @@ public class AudioSetting : MonoBehaviour
             return;
         }
 
-        sound.currentDistance = Vector3.Distance(sound.posSound, _refPlayer.position);
+        sound.currentDistance = Vector3.Distance(transform.position, _refPlayer.position);
 
         // Calcular el valor normalizado entre 1 (minDistance o más cerca) y 0 (maxDistance o más lejos)
         float normalizedDistance = Mathf.InverseLerp(sound.maxDistance, sound.minDistance, sound.currentDistance);
@@ -132,6 +132,8 @@ public class AudioSetting : MonoBehaviour
 
         foreach (var item in sounds)
         {
+            if (item.isNotWithDistance) return;
+
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, item.maxDistance);
             //Gizmos.DrawWireSphere(item.posSound, item.maxDistance);

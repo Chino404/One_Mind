@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 6310673800526545477}
   - component: {fileID: 6018090563817689026}
   - component: {fileID: 5877914299693218731}
+  - component: {fileID: 4044555035416315797}
   m_Layer: 0
   m_Name: CastelPressurePlate
   m_TagString: Untagged
@@ -58,7 +59,7 @@ Transform:
   m_GameObject: {fileID: 2011485362189821918}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 365, y: 0.91553, z: 114.29}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -110,6 +111,63 @@ MonoBehaviour:
   _endAnimation: -0.2
   _button: {fileID: 8088811642974798723}
   ButtonRender: {fileID: 7469714783810840580}
+--- !u!114 &4044555035416315797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2011485362189821918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4acadee499ca15469b383637098c33c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _refPlayer: {fileID: 0}
+  sounds:
+  - name: Pressure
+    clip: {fileID: 8300000, guid: 9c4ed41ee774d6d4e80beb8ff6b55c6f, type: 3}
+    id: 3
+    target: 2
+    output: {fileID: -7543299602545284783, guid: e86c14edebd3fdc4d9a4b30f60285ecb,
+      type: 2}
+    maxVolume: 0.1
+    volumeCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    maxPitch: 1.2
+    minPitch: 0.8
+    isNotWithDistance: 1
+    maxDistance: 7.8
+    minDistance: 0
+    posSound: {x: 0, y: 0, z: 0}
+    currentDistance: 0
+    isLoop: 0
+    isPlayOnAwake: 0
+    source: {fileID: 0}
+    stereo: {fileID: 0}
+  mixer: {fileID: 24100000, guid: e86c14edebd3fdc4d9a4b30f60285ecb, type: 2}
 --- !u!1 &4526196333434434077
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,7 +193,7 @@ Transform:
   m_GameObject: {fileID: 4526196333434434077}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -198,17 +256,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: f62c40c8f427ee04d91e549769bbcc3b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.00082398
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f62c40c8f427ee04d91e549769bbcc3b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.14379
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f62c40c8f427ee04d91e549769bbcc3b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0090484
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f62c40c8f427ee04d91e549769bbcc3b,
         type: 3}

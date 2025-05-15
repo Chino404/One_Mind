@@ -23,17 +23,20 @@ public class DualDoor : MonoBehaviour, ITransparency
     [HideInInspector] public bool doorCanClose;
     public DualPressurePlate myPressurePlate;
 
+    private AudioSetting _audioSetting;
+
     private void Awake()
     {
         //_animator = GetComponent<Animator>();
         myPressurePlate = transform.parent.GetComponentInChildren<DualPressurePlate>();
+        _audioSetting = GetComponent<AudioSetting>();
     }
 
     public void OpenTheDoor()
     {
         //OldAudioManager.instance.PlaySFX(OldAudioManager.instance.doorOpen);
         //_animator.SetTrigger("Open");
-        AudioManager.instance.Play(SoundId.OnlyActive);
+        _audioSetting?.Play(SoundId.OnlyActive);
         _animTime = 0f;
         _isClosing = false;
         _isOpen = true;
@@ -43,6 +46,7 @@ public class DualDoor : MonoBehaviour, ITransparency
     public void CloseTheDoor()
     {
         //AudioManager.instance.Play(SoundId.OpenDoor);
+        _audioSetting?.Play(SoundId.OnlyActive);
         _animTime = 0f;
         _isOpen = false;
         myPressurePlate.ActionCompleted = false;

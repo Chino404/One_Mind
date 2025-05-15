@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 public enum CharacterTarget
 {
     Bongo,
-    Frank
+    Frank,
+    None
 }
 
 [DefaultExecutionOrder(-50)]

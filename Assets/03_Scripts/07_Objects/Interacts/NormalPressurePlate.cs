@@ -22,11 +22,15 @@ public class NormalPressurePlate : Rewind, IInteracteable
     [SerializeField] private GameObject _button;
     [SerializeField] Renderer ButtonRender;
     private bool _isEmissiveOn;
+
+    private AudioSetting _audioSetting;
+
     public override void Awake()
     {
         //_animator = GetComponent<Animator>();
         base.Awake();
 
+        _audioSetting = GetComponent<AudioSetting>();
         //if (!_button) Debug.LogError($"Falta referencia de 'button' <color=yellow>{gameObject.name}</color>");
     }
 
@@ -57,7 +61,8 @@ public class NormalPressurePlate : Rewind, IInteracteable
             if (!_isPressAgain) _pressed = true;
             //_animator?.SetTrigger("Pressed");
 
-            AudioManager.instance.Play(SoundId.OnlyActive);
+            //AudioManager.instance.Play(SoundId.OnlyActive);
+            _audioSetting?.Play(SoundId.OnlyActive);
 
             for (int i = 0; i < _active.Length; i++) //Activo los objetos
             {

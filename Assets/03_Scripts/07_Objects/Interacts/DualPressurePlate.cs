@@ -30,7 +30,8 @@ public class DualPressurePlate : Rewind, IInteracteable
     [SerializeField] private GameObject _button;
     [SerializeField] private float _endAnimation;
     [SerializeField] private float _speed;
-    
+
+    private AudioSetting _audioSetting;
 
 
     public override void Awake()
@@ -49,6 +50,8 @@ public class DualPressurePlate : Rewind, IInteracteable
                 continue;
             } 
         }
+
+        _audioSetting = GetComponent<AudioSetting>();
 
     }
 
@@ -103,7 +106,7 @@ public class DualPressurePlate : Rewind, IInteracteable
             if (_indicators[i] != null) _indicators[i].Active();       
         }
 
-        if (!_actionCompleted) AudioManager.instance.Play(SoundId.OnlyActive);
+        if (!_actionCompleted) _audioSetting?.Play(SoundId.OnlyActive);
 
         if (_otherDualPressurePlate != null && _otherDualPressurePlate.ActivePressurePlate)
         {

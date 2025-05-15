@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5827906358049532691}
   - component: {fileID: 8293742198642494548}
   - component: {fileID: 496994695619281154}
+  - component: {fileID: 8389620337433970977}
   m_Layer: 6
   m_Name: DualPressurePlate
   m_TagString: Untagged
@@ -85,6 +86,63 @@ MonoBehaviour:
   _button: {fileID: 9012055815669075184}
   _endAnimation: 50
   _speed: 1200
+--- !u!114 &8389620337433970977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6440579754023411416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4acadee499ca15469b383637098c33c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _refPlayer: {fileID: 0}
+  sounds:
+  - name: Pressed
+    clip: {fileID: 8300000, guid: a96f5afd040869240b77506286e5ef59, type: 3}
+    id: 3
+    target: 2
+    output: {fileID: -7543299602545284783, guid: e86c14edebd3fdc4d9a4b30f60285ecb,
+      type: 2}
+    maxVolume: 0.1
+    volumeCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    maxPitch: 1.2
+    minPitch: 0.8
+    isNotWithDistance: 1
+    maxDistance: 0
+    minDistance: 0
+    posSound: {x: 0, y: 0, z: 0}
+    currentDistance: 0
+    isLoop: 0
+    isPlayOnAwake: 0
+    source: {fileID: 0}
+    stereo: {fileID: 0}
+  mixer: {fileID: 24100000, guid: e86c14edebd3fdc4d9a4b30f60285ecb, type: 2}
 --- !u!1001 &2170293083337991858
 PrefabInstance:
   m_ObjectHideFlags: 0
