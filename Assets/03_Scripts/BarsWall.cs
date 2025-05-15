@@ -16,7 +16,14 @@ public class BarsWall : DesactiveWall
 
     [SerializeField] bool _isStartActive;
 
-    
+    private AudioSetting _audioSetting;
+
+    public override void Awake()
+    {
+        base.Awake();
+
+        _audioSetting = GetComponent<AudioSetting>();
+    }
 
     private void Start()
     {
@@ -39,10 +46,12 @@ public class BarsWall : DesactiveWall
             _shouldCloseOnEnable = true;
             return;
         }
+
         if (_isStartActive) return;
         _isActing = true;
 
-        AudioManager.instance.Play(SoundId.OnlyActive);
+        //AudioManager.instance.Play(SoundId.OnlyActive);
+        _audioSetting?.Play(SoundId.OnlyActive);
 
         foreach (var item in bars)
         {
@@ -83,7 +92,8 @@ public class BarsWall : DesactiveWall
         if (!_isStartActive) return;
         _isActing = true;
 
-        AudioManager.instance.Play(SoundId.OnlyActive);
+        //AudioManager.instance.Play(SoundId.OnlyActive);
+        _audioSetting?.Play(SoundId.OnlyActive);
 
 
         foreach (var item in bars)
