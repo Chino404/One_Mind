@@ -13,7 +13,7 @@ public class IceBox : Rewind
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 17)
+        if (other.gameObject.layer == 17||other.GetComponent<DeadInFall>())
             transform.position = _position;
         if (other.gameObject.layer == 19&&desiredPosition)
             transform.position = desiredPosition.position;
