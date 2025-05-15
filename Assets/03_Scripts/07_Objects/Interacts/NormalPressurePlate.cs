@@ -57,7 +57,7 @@ public class NormalPressurePlate : Rewind, IInteracteable
             if (!_isPressAgain) _pressed = true;
             //_animator?.SetTrigger("Pressed");
 
-            AudioManager.instance.Play(SoundId.NormalPressurePlate);
+            AudioManager.instance.Play(SoundId.OnlyActive);
 
             for (int i = 0; i < _active.Length; i++) //Activo los objetos
             {

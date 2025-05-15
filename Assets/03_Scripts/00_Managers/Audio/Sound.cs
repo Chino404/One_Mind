@@ -6,47 +6,48 @@ public enum SoundId
     //General
     None,
     Theme,
-    SoundLoop,
 
-    //Monkey
+    ____Generic_____,
+
+    OnlyActive,
+    Always,
+    OnlyDeactive,
+
+    ____Players_____,
+
     Jump,
     DeathMonkey,
     Fall,
-
-    //Interacts
-    OpenDoor,
-    ButtonDualDoor,
-    NormalPressurePlate,
-    IronBars,
-    WoodElevator,
-    BreakingIce,
-    Wind
 }
 
 [System.Serializable]
 public class Sound
 {
-    [Header("-> Settings")]
+    //[Header("-> Settings")]
     public string name;
     public AudioClip clip;
     public SoundId id;
-    [Space(7)]public CharacterTarget target;
+    public CharacterTarget target;
     public AudioMixerGroup output;
 
-    [Space(10), Header("-> Values Sliders")]
+    //[Header("-> Values Sliders")]
     [Range(0f, 1f)] public float maxVolume = 1f;
+    public AnimationCurve volumeCurve = AnimationCurve.Linear(0, 0, 1, 1);
 
+    [Space(10)]
     [Range(-3,3)]public float maxPitch = 1.2f;
     [Range(-3,3)]public float minPitch = 0.8f;
 
-    [Space(5)]
-    [Tooltip("Distancia actual entre el personaje y el sonido")]public float currentDistance;
+    [Space(10)]
+    public bool isNotWithDistance;
     [Range(0,30)] public float maxDistance;
     [Range(0,20)] public float minDistance;
+    public Vector3 posSound;
+    [HideInInspector,Tooltip("Distancia actual entre el personaje y el sonido")]public float currentDistance;
 
-    [Space(10), Header("-> Bools")]
-    public bool loop;
-    public bool playOnAwake;
+    //[Space(10), Header("-> Bools")]
+    public bool isLoop;
+    public bool isPlayOnAwake;
 
 
     [HideInInspector] public AudioSource source;

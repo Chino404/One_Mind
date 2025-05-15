@@ -76,11 +76,8 @@ public abstract class Characters : Entity, IDamageable
     [Header("--> PARTICLES")]
     [SerializeField] protected ParticleSystem _particleJump;
 
+    protected AudioSetting _audioSetting;
     
-
-    //public delegate void MyDelegate(Vector3 dirRaw);
-    //public event MyDelegate _actualMove;
-    //public MyDelegate ActualMove { get { return _actualMove; } set { _actualMove = value; } }
 
     public Action<Vector3> ActualMove;
 
@@ -105,6 +102,7 @@ public abstract class Characters : Entity, IDamageable
         _rbCharacter.drag = 1;
 
         _animPlayer = GetComponentInChildren<Animator>();
+        _audioSetting = GetComponentInChildren<AudioSetting>();
 
         base.Awake();
     }
@@ -496,7 +494,7 @@ public abstract class Characters : Entity, IDamageable
         _rbCharacter.velocity = new Vector3(_rbCharacter.velocity.x, _jumpForce, _rbCharacter.velocity.z);
 
         //AudioManager.instance.Play(SoundId.Jump);
-        AudioManager.instance.Play(SoundId.Jump);
+        _audioSetting?.Play(SoundId.Jump);
     }
 
     private void IceJump()

@@ -42,7 +42,7 @@ public class BarsWall : DesactiveWall
         if (_isStartActive) return;
         _isActing = true;
 
-        AudioManager.instance.Play(SoundId.IronBars);
+        AudioManager.instance.Play(SoundId.OnlyActive);
 
         foreach (var item in bars)
         {
@@ -83,7 +83,7 @@ public class BarsWall : DesactiveWall
         if (!_isStartActive) return;
         _isActing = true;
 
-        AudioManager.instance.Play(SoundId.IronBars);
+        AudioManager.instance.Play(SoundId.OnlyActive);
 
 
         foreach (var item in bars)

@@ -33,7 +33,7 @@ public class DualDoor : MonoBehaviour, ITransparency
     {
         //OldAudioManager.instance.PlaySFX(OldAudioManager.instance.doorOpen);
         //_animator.SetTrigger("Open");
-        AudioManager.instance.Play(SoundId.OpenDoor);
+        AudioManager.instance.Play(SoundId.OnlyActive);
         _animTime = 0f;
         _isClosing = false;
         _isOpen = true;
