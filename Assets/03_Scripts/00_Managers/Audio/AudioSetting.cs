@@ -7,55 +7,51 @@ public class AudioSetting : MonoBehaviour
 {
     public static AudioSetting instance;
     [SerializeField] private Transform _refPlayer;
-    public float auxValue;
+    private float _auxValue;
 
     [Space(5)]public Sound[] sounds;
 
     private Dictionary<SoundId, Sound> soundDict;
 
-    [Space(5),SerializeField] AudioMixer _mixer;
+    [Space(5)] public AudioMixer mixer;
     public const string MUSIC_KEY = "MusicVolume";
     public const string SFX_KEY = "SFXVolume";
     public const string MASTER_KEY = "MasterVolume";
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-
         soundDict = new Dictionary<SoundId, Sound>();
 
         foreach (var item in sounds)
         {
             item.source = gameObject.AddComponent<AudioSource>();
             soundDict[item.id] = item;
-            item.source.playOnAwake = item.playOnAwake;
+            item.source.playOnAwake = item.isPlayOnAwake;
 
             item.source.clip = item.clip;
             item.source.volume = item.maxVolume;
             item.source.pitch = item.maxPitch;
-            item.source.loop = item.loop;
+            item.source.loop = item.isLoop;
 
             item.source.outputAudioMixerGroup = item.output;
 
-
             item.source.panStereo = item.target == CharacterTarget.Bongo ? -1 : 1;
+
+            //item.posSound = transform.position;
         }
     }
 
     private void Start()
     {
-        foreach (var item in sounds)
+        foreach (var sound in sounds)
         {
-            _refPlayer = item.target == CharacterTarget.Bongo ? GameManager.instance.modelBongo.transform : GameManager.instance.modelFrank.transform;
+            _refPlayer = sound.target == CharacterTarget.Bongo ? GameManager.instance.modelBongo.transform : GameManager.instance.modelFrank.transform;
 
-            if (item.playOnAwake)
+            if (sound.isPlayOnAwake)
             {
-                item.source.pitch = Random.Range(item.minPitch, item.maxPitch);
-                item.source.Play();
+                ModifyVolume(sound);
+                sound.source.pitch = Random.Range(sound.minPitch, sound.maxPitch);
+                sound.source.Play();
             }
         }
     }
@@ -74,10 +70,22 @@ public class AudioSetting : MonoBehaviour
 
     private void ModifyVolume(Sound sound)
     {
-        sound.currentDistance = Vector3.Distance(transform.position, _refPlayer.position);
+        if (sound.isNotWithDistance)
+        {
+            sound.source.volume = sound.maxVolume;
+            return;
+        }
 
-        auxValue = 1- Mathf.Clamp01(sound.currentDistance / sound.maxDistance);
+        sound.currentDistance = Vector3.Distance(sound.posSound, _refPlayer.position);
 
+        // Calcular el valor normalizado entre 1 (minDistance o más cerca) y 0 (maxDistance o más lejos)
+        float normalizedDistance = Mathf.InverseLerp(sound.maxDistance, sound.minDistance, sound.currentDistance);
+
+        float curvedValue = sound.volumeCurve.Evaluate(normalizedDistance);
+        //auxValue = normalizedDistance;
+
+        // Aplicar volumen proporcional (si querés)
+        sound.source.volume = sound.maxVolume * normalizedDistance;
     }
 
     public void Play(SoundId soundId)
@@ -120,15 +128,17 @@ public class AudioSetting : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        if(sounds.Length < 0) return;
+        if(sounds.Length < 1) return;
 
         foreach (var item in sounds)
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, item.maxDistance);
+            //Gizmos.DrawWireSphere(item.posSound, item.maxDistance);
 
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, item.minDistance);
+            //Gizmos.DrawWireSphere(item.posSound, item.minDistance);
         }
 
     }

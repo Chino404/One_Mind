@@ -103,7 +103,7 @@ public class DualPressurePlate : Rewind, IInteracteable
             if (_indicators[i] != null) _indicators[i].Active();       
         }
 
-        if (!_actionCompleted) AudioManager.instance.Play(SoundId.ButtonDualDoor);
+        if (!_actionCompleted) AudioManager.instance.Play(SoundId.OnlyActive);
 
         if (_otherDualPressurePlate != null && _otherDualPressurePlate.ActivePressurePlate)
         {

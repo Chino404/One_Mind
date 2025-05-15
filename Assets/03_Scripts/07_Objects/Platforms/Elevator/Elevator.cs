@@ -76,7 +76,7 @@ public class Elevator : Connected, IInteracteable
         if (!isPlaySound)
         {
             isPlaySound = true;
-            AudioManager.instance.Play(SoundId.WoodElevator);
+            AudioManager.instance.Play(SoundId.OnlyActive);
         }
 
         _isActiveElevator = true;
