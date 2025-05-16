@@ -11,7 +11,8 @@ public class AudioSetting : MonoBehaviour
 
     [Space(5)]public Sound[] sounds;
 
-    private Dictionary<SoundId, Sound> soundDict;
+    //private Dictionary<SoundId, Sound> soundDict;
+    private Dictionary<SoundId, List<Sound>> soundDict;
 
     [Space(5)] public AudioMixer mixer;
     public const string MUSIC_KEY = "MusicVolume";
@@ -20,16 +21,20 @@ public class AudioSetting : MonoBehaviour
 
     private void Awake()
     {
-        soundDict = new Dictionary<SoundId, Sound>();
+        //soundDict = new Dictionary<SoundId, Sound>();
+        soundDict = new Dictionary<SoundId, List<Sound>>();
 
         foreach (var item in sounds)
         {
             item.source = gameObject.AddComponent<AudioSource>();
-            soundDict[item.id] = item;
-            item.source.playOnAwake = item.isPlayOnAwake;
+            //soundDict[item.id] = item;
 
+            if (!soundDict.ContainsKey(item.id)) soundDict[item.id] = new List<Sound>();
+
+            soundDict[item.id].Add(item);
+
+            item.source.playOnAwake = item.isPlayOnAwake;
             item.source.clip = item.clip;
-            //item.source.volume = item.maxVolume;
             item.source.volume = 0;
             item.source.pitch = item.maxPitch;
             item.source.loop = item.isLoop;
@@ -108,30 +113,81 @@ public class AudioSetting : MonoBehaviour
     }
 #endregion
 
-    public void Play(SoundId soundId)
+    public void Play(SoundId soundId, int index = 0)
     {
-        if (soundDict.TryGetValue(soundId, out Sound sound))
-        {
-            if (soundId != SoundId.Theme) sound.source.pitch = Random.Range(0.8f, 1.2f);
+        //if (soundDict.TryGetValue(soundId, out Sound sound))
+        //{
+        //    if (soundId != SoundId.Theme) sound.source.pitch = Random.Range(0.8f, 1.2f);
 
-            sound.source.Play();
+        //    sound.source.Play();
+        //}
+
+        if (soundDict.TryGetValue(soundId, out List<Sound> soundList))
+        {
+            // Intentar encontrar el sonido que tenga ese indexSound específico
+            //Sound sound = soundList.Find(s => s.indexSound == index);
+            Sound sound = soundList[0];
+
+            foreach (var item in soundList)
+            {
+
+                if (item.indexSound == index)
+                {
+                    sound = item;
+                    break;
+                }
+                else sound = soundList[0];
+            }
+
+            if (sound != null)
+            {
+                if (soundId != SoundId.Theme)
+                    sound.source.pitch = Random.Range(sound.minPitch, sound.maxPitch);
+
+                sound.source.Play();
+            }
+            else
+            {
+                Debug.LogWarning($"No se encontró el sonido con ID: {soundId} y indexSound: {index}");
+            }
         }
 
         else
         {
             Debug.LogWarning($"No se encontró el sonido con ID: <color=yellow>{soundId}</color>");
         }
+
+
     }
 
-    public void Stop(SoundId SoundId)
+    public void Stop(SoundId soundId, int index = 0)
     {
-        if (soundDict.TryGetValue(SoundId, out Sound sound))
+        //if (soundDict.TryGetValue(SoundId, out Sound sound))
+        //{
+        //    sound.source.Stop();
+        //}
+
+        if (soundDict.TryGetValue(soundId, out List<Sound> soundList))
         {
-            sound.source.Stop();
+            Sound sound = soundList[0];
+
+            foreach (var item in soundList)
+            {
+                sound = item.indexSound == index ? item : soundList[0];
+            }
+
+            if (sound != null)
+            {
+                sound.source.Stop();
+            }
+            else
+            {
+                Debug.LogWarning($"No se encontró el sonido con ID: <color=yellow>{soundId}</color> y indexSound: {index}");
+            }
         }
         else
         {
-            Debug.LogWarning($"No se encontró el sonido con ID: <color=yellow>{SoundId}</color>");
+            Debug.LogWarning($"No se encontró el sonido con ID: <color=yellow>{soundId}</color>");
         }
     }
 
@@ -142,7 +198,7 @@ public class AudioSetting : MonoBehaviour
 
         foreach (var item in sounds)
         {
-            if (item.isNotWithDistance) return;
+            if (item.isNotWithDistance) continue;
 
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, item.maxDistance);
