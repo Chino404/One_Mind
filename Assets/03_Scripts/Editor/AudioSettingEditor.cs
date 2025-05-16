@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using Unity.VisualScripting;
+using System.Collections.Generic;
 
 [CanEditMultipleObjects]
 [CustomEditor(typeof(AudioSetting))]
@@ -63,6 +64,7 @@ public class AudioSettingEditor : Editor
         }
 
         CheckSounds();
+        CheckIndexSound();
 
         //Guarda y aplica los cambios al objeto AudioSetting.
         serializedObject.ApplyModifiedProperties();
@@ -144,8 +146,12 @@ public class AudioSettingEditor : Editor
         SerializedProperty clipProp = sound.FindPropertyRelative(nameof(Sound.clip));
         ChangeColorVariable(clipProp);
 
+        GUILayout.Space(10);
+
         SerializedProperty idProp = sound.FindPropertyRelative(nameof(Sound.id));
         ChangeColorVariable(idProp);
+
+        EditorGUILayout.PropertyField(sound.FindPropertyRelative(nameof(Sound.indexSound)));
 
 
 
@@ -243,5 +249,33 @@ public class AudioSettingEditor : Editor
         }
 
         EditorGUILayout.EndHorizontal();
+    }
+
+    private void CheckIndexSound()
+    {
+        //Dicicoanrio donde agrupo los sonidos por su Enum.
+        Dictionary<SoundId, int> indexMap = new Dictionary<SoundId, int>();
+
+        for (int i = 0; i < soundsProp.arraySize; i++)
+        {
+            SerializedProperty soundProp = soundsProp.GetArrayElementAtIndex(i);
+            SerializedProperty idProp = soundProp.FindPropertyRelative(nameof(Sound.id));
+            SerializedProperty indexProp = soundProp.FindPropertyRelative(nameof(Sound.indexSound));
+
+            SoundId currentId = (SoundId)idProp.enumValueIndex;
+
+            // Si no hay entradas todavía para este ID, inicializalo en 0
+            if (!indexMap.ContainsKey(currentId))
+            {
+                indexMap[currentId] = 0;
+            }
+
+            // Asignar el índice actual
+            indexProp.intValue = indexMap[currentId];
+
+            // Incrementar para la próxima vez que aparezca este ID
+            indexMap[currentId]++;
+        }
+
     }
 }

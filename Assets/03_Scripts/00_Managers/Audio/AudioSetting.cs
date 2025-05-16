@@ -7,7 +7,7 @@ public class AudioSetting : MonoBehaviour
 {
     public static AudioSetting instance;
     [SerializeField] private Transform _refPlayer;
-    private float _auxValue;
+
 
     [Space(5)]public Sound[] sounds;
 
@@ -29,7 +29,8 @@ public class AudioSetting : MonoBehaviour
             item.source.playOnAwake = item.isPlayOnAwake;
 
             item.source.clip = item.clip;
-            item.source.volume = item.maxVolume;
+            //item.source.volume = item.maxVolume;
+            item.source.volume = 0;
             item.source.pitch = item.maxPitch;
             item.source.loop = item.isLoop;
 
@@ -60,6 +61,13 @@ public class AudioSetting : MonoBehaviour
     {
         foreach (var sound in sounds)
         {
+
+            if (sound.isNotWithDistance)
+            {
+                sound.source.volume = sound.maxVolume;
+                return;
+            }
+
             if (Vector3.Distance(transform.position, _refPlayer.position) < sound.maxDistance)
             {
                 ModifyVolume(sound);
@@ -68,6 +76,7 @@ public class AudioSetting : MonoBehaviour
         }
     }
 
+    #region VOLUME
     private void ModifyVolume(Sound sound)
     {
         if (sound.isNotWithDistance)
@@ -88,9 +97,19 @@ public class AudioSetting : MonoBehaviour
         sound.source.volume = sound.maxVolume * normalizedDistance;
     }
 
+
+    public void SetVolume(int SoundId, float vol)
+    {
+       Sound item = sounds[SoundId];
+
+        if (item == null) return;
+
+        item.source.volume = vol;
+    }
+#endregion
+
     public void Play(SoundId soundId)
     {
-
         if (soundDict.TryGetValue(soundId, out Sound sound))
         {
             if (soundId != SoundId.Theme) sound.source.pitch = Random.Range(0.8f, 1.2f);
@@ -102,15 +121,6 @@ public class AudioSetting : MonoBehaviour
         {
             Debug.LogWarning($"No se encontró el sonido con ID: <color=yellow>{soundId}</color>");
         }
-    }
-
-    public void SetVolume(int SoundId, float vol)
-    {
-       Sound item = sounds[SoundId];
-
-        if (item == null) return;
-
-        item.source.volume = vol;
     }
 
     public void Stop(SoundId SoundId)

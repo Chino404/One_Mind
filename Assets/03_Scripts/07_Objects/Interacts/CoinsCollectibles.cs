@@ -15,6 +15,7 @@ public class CoinsCollectibles : MonoBehaviour
     private LevelData myCurrentLevel;
 
     private ParticleSystem _particlesCollect;
+
     private void Awake()
     {
         //Sumo el total de monedas que hay en el nivel
@@ -88,9 +89,9 @@ public class CoinsCollectibles : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void OnDisable()
-    {
-        gameObject.GetComponentInChildren<MeshRenderer>().gameObject.SetActive(true);
+    //private void OnDisable()
+    //{
+    //    gameObject.GetComponentInChildren<MeshRenderer>().gameObject.SetActive(true);
 
-    }
+    //}
 }

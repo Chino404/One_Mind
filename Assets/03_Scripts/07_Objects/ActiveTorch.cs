@@ -28,9 +28,12 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
     public bool iceTorch;
     private bool _isActive;
 
+    private AudioSetting _audioSetting;
+
     private void Awake()
     {
         myParticleSystem = GetComponentInChildren<ParticleSystem>();
+        _audioSetting = GetComponentInChildren<AudioSetting>();
 
         ChangeColorFire(_colorFire);
 
@@ -64,6 +67,9 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
         //if(!myParticleSystem.gameObject.activeInHierarchy) myParticleSystem.gameObject.SetActive(true);
 
         myParticleSystem?.Play();
+        _audioSetting?.Stop(SoundId.OnlyDeactive);
+        _audioSetting?.Stop(SoundId.Always);
+        _audioSetting?.Play(SoundId.OnlyActive);
 
         StartCoroutine(SpawnFire());
     }
@@ -89,6 +95,8 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
 
         var auxFire = _valueFireTreshold;
         var auxRange = _actualRangeLight;
+
+        _audioSetting?.Play(SoundId.Always);
 
         while (_timer < _timeToSpawn)
         {
@@ -123,6 +131,9 @@ public class ActiveTorch : MonoBehaviour, IInteracteable
     public void Deactive()
     {
         _timer = 0;
+        _audioSetting?.Stop(SoundId.OnlyActive);
+        _audioSetting?.Stop(SoundId.Always);
+        _audioSetting?.Play(SoundId.OnlyDeactive);
         StartCoroutine(DespawnFire());
     }
 
