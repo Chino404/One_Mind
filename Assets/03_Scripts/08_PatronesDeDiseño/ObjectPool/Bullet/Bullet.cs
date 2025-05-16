@@ -60,10 +60,11 @@ public class Bullet : MonoBehaviour
             damageable.DeadByShoot();
         }
 
-        else
-        {
-            StartCoroutine(DestroySnowBall());
-        }
+        StartCoroutine(DestroySnowBall());
+        //else
+        //{
+        //    StartCoroutine(DestroySnowBall());
+        //}
     }
 
     IEnumerator DestroySnowBall()

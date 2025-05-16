@@ -14,6 +14,7 @@ public class CoinsCollectibles : MonoBehaviour
     private UICoins uiPoints;
     private LevelData myCurrentLevel;
 
+    private ParticleSystem _particlesCollect;
     private void Awake()
     {
         //Sumo el total de monedas que hay en el nivel
@@ -39,6 +40,8 @@ public class CoinsCollectibles : MonoBehaviour
         else uiPoints = GameManager.instance.uiCoinFrank;
 
         _rotationSpeed = Random.Range(_minRotationSpeed, _maxRotationSpeed);
+
+        _particlesCollect = GetComponentInChildren<ParticleSystem>();
     }
 
     private void Update()
@@ -72,8 +75,22 @@ public class CoinsCollectibles : MonoBehaviour
                 //myCurrentLevel.currentCoinsFrankSide++;
             }
 
-            Destroy(gameObject);
+            StartCoroutine(DesactiveCollectible());
         }
+
+    }
+
+    private IEnumerator DesactiveCollectible()
+    {
+        gameObject.GetComponentInChildren<MeshRenderer>().gameObject.SetActive(false);
+        _particlesCollect.Play();
+        yield return new WaitForSeconds(1f);
+        gameObject.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        gameObject.GetComponentInChildren<MeshRenderer>().gameObject.SetActive(true);
 
     }
 }

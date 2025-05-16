@@ -75,6 +75,7 @@ public abstract class Characters : Entity, IDamageable
 
     [Header("--> PARTICLES")]
     [SerializeField] protected ParticleSystem _particleJump;
+    [SerializeField] protected ParticleSystem _particleDead;
 
     protected AudioSetting _audioSetting;
     
@@ -690,6 +691,7 @@ public abstract class Characters : Entity, IDamageable
     {
         _actualLife = 0;
         PauseManager.instance.GameOver();
+        _particleDead.Play();
 
         CamerasManager.instance.AliveCamera();
 
