@@ -41,11 +41,19 @@ public class SnowMan : MonoBehaviour
 
     private void Update()
     {
-        if (!_isInCoolDown)
+        if (!GameManager.instance.modelBongo.isDead && !GameManager.instance.modelFrank.isDead)
         {
-            Debug.Log("disparo");
-            StartCoroutine(Shoot());
+            if (!_isInCoolDown)
+            {
+                Debug.Log("disparo");
+                StartCoroutine(Shoot());
+            }
         }
+        else
+        {
+            _myAnimator.SetBool("Attack", false);
+        }
+        
     }
 
     IEnumerator Shoot()
