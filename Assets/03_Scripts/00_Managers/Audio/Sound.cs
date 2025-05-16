@@ -24,11 +24,14 @@ public enum SoundId
 public class Sound
 {
     //[Header("-> Settings")]
-    public string name;
-    public AudioClip clip;
-    public SoundId id;
     public CharacterTarget target;
     public AudioMixerGroup output;
+
+    public string name;
+    public AudioClip clip;
+
+    public SoundId id;
+    [Range(0, 10)]public int indexSound = 0;
 
     //[Header("-> Values Sliders")]
     [Range(0f, 1f)] public float maxVolume = 1f;

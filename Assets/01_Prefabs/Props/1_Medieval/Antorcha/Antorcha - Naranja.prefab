@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 1670270159586375}
   - component: {fileID: 2873604786188087437}
   - component: {fileID: 2579294482928428917}
+  - component: {fileID: 6961686208736136675}
   m_Layer: 0
   m_Name: Antorcha - Naranja
   m_TagString: Untagged
@@ -224,6 +225,147 @@ MonoBehaviour:
   myParticleSystem: {fileID: 458306597660216339}
   _myParticleAmber: {fileID: 2134331101338775691}
   iceTorch: 0
+--- !u!114 &6961686208736136675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4387038354486972760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4acadee499ca15469b383637098c33c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _refPlayer: {fileID: 0}
+  sounds:
+  - name: Turn On
+    clip: {fileID: 8300000, guid: 8bdab048178b4dd46a87b18727afb0fa, type: 3}
+    id: 3
+    target: 2
+    output: {fileID: -7543299602545284783, guid: e86c14edebd3fdc4d9a4b30f60285ecb,
+      type: 2}
+    maxVolume: 0.05
+    volumeCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    maxPitch: 1.2
+    minPitch: 0.8
+    isNotWithDistance: 0
+    maxDistance: 10
+    minDistance: 2
+    posSound: {x: 0, y: 0, z: 0}
+    currentDistance: 0
+    isLoop: 0
+    isPlayOnAwake: 0
+    source: {fileID: 0}
+    stereo: {fileID: 0}
+  - name: Static
+    clip: {fileID: 8300000, guid: 32ebbb105b8e1f8429c7d902ad2d75e4, type: 3}
+    id: 4
+    target: 2
+    output: {fileID: -7543299602545284783, guid: e86c14edebd3fdc4d9a4b30f60285ecb,
+      type: 2}
+    maxVolume: 0.05
+    volumeCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    maxPitch: 1.2
+    minPitch: 0.8
+    isNotWithDistance: 0
+    maxDistance: 10
+    minDistance: 2
+    posSound: {x: 0, y: 0, z: 0}
+    currentDistance: 0
+    isLoop: 1
+    isPlayOnAwake: 0
+    source: {fileID: 0}
+    stereo: {fileID: 0}
+  - name: Turn Off
+    clip: {fileID: 8300000, guid: 279228e7616c5484bbbfcdc61e5a39b8, type: 3}
+    id: 5
+    target: 2
+    output: {fileID: -7543299602545284783, guid: e86c14edebd3fdc4d9a4b30f60285ecb,
+      type: 2}
+    maxVolume: 0.05
+    volumeCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    maxPitch: 1.2
+    minPitch: 0.8
+    isNotWithDistance: 0
+    maxDistance: 10
+    minDistance: 2
+    posSound: {x: 0, y: 0, z: 0}
+    currentDistance: 0
+    isLoop: 0
+    isPlayOnAwake: 0
+    source: {fileID: 0}
+    stereo: {fileID: 0}
+  mixer: {fileID: 24100000, guid: e86c14edebd3fdc4d9a4b30f60285ecb, type: 2}
 --- !u!1 &4631757133650503153
 GameObject:
   m_ObjectHideFlags: 0

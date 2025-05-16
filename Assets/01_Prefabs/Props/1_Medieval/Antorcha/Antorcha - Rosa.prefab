@@ -9846,6 +9846,7 @@ GameObject:
   - component: {fileID: 4831584840214069859}
   - component: {fileID: 7271566935065605801}
   - component: {fileID: 3272653906776448705}
+  - component: {fileID: 1023426597102796557}
   m_Layer: 0
   m_Name: Antorcha - Rosa
   m_TagString: Untagged
@@ -9939,6 +9940,147 @@ MonoBehaviour:
   myParticleSystem: {fileID: 8520414482782622047}
   _myParticleAmber: {fileID: 2116846456061499202}
   iceTorch: 0
+--- !u!114 &1023426597102796557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9216959590210475900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4acadee499ca15469b383637098c33c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _refPlayer: {fileID: 0}
+  sounds:
+  - name: Turn On
+    clip: {fileID: 8300000, guid: 8bdab048178b4dd46a87b18727afb0fa, type: 3}
+    id: 3
+    target: 2
+    output: {fileID: -7543299602545284783, guid: e86c14edebd3fdc4d9a4b30f60285ecb,
+      type: 2}
+    maxVolume: 0.05
+    volumeCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    maxPitch: 1.2
+    minPitch: 0.8
+    isNotWithDistance: 0
+    maxDistance: 10
+    minDistance: 2
+    posSound: {x: 0, y: 0, z: 0}
+    currentDistance: 0
+    isLoop: 0
+    isPlayOnAwake: 0
+    source: {fileID: 0}
+    stereo: {fileID: 0}
+  - name: Static
+    clip: {fileID: 8300000, guid: 32ebbb105b8e1f8429c7d902ad2d75e4, type: 3}
+    id: 4
+    target: 2
+    output: {fileID: -7543299602545284783, guid: e86c14edebd3fdc4d9a4b30f60285ecb,
+      type: 2}
+    maxVolume: 0.05
+    volumeCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    maxPitch: 1.2
+    minPitch: 0.8
+    isNotWithDistance: 0
+    maxDistance: 10
+    minDistance: 2
+    posSound: {x: 0, y: 0, z: 0}
+    currentDistance: 0
+    isLoop: 1
+    isPlayOnAwake: 0
+    source: {fileID: 0}
+    stereo: {fileID: 0}
+  - name: Turn Off
+    clip: {fileID: 8300000, guid: 279228e7616c5484bbbfcdc61e5a39b8, type: 3}
+    id: 5
+    target: 2
+    output: {fileID: -7543299602545284783, guid: e86c14edebd3fdc4d9a4b30f60285ecb,
+      type: 2}
+    maxVolume: 0.05
+    volumeCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    maxPitch: 1.2
+    minPitch: 0.8
+    isNotWithDistance: 0
+    maxDistance: 10
+    minDistance: 2
+    posSound: {x: 0, y: 0, z: 0}
+    currentDistance: 0
+    isLoop: 0
+    isPlayOnAwake: 0
+    source: {fileID: 0}
+    stereo: {fileID: 0}
+  mixer: {fileID: 24100000, guid: e86c14edebd3fdc4d9a4b30f60285ecb, type: 2}
 --- !u!1001 &2894147249007704177
 PrefabInstance:
   m_ObjectHideFlags: 0
