@@ -65,12 +65,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _refPlayer: {fileID: 0}
   sounds:
-  - name: Cage 01
-    clip: {fileID: 8300000, guid: f06322ac6085eab47903e6cf680df2a0, type: 3}
-    id: 4
-    target: 2
+  - target: 2
     output: {fileID: -7543299602545284783, guid: e86c14edebd3fdc4d9a4b30f60285ecb,
       type: 2}
+    name: Cage 01
+    clip: {fileID: 8300000, guid: f06322ac6085eab47903e6cf680df2a0, type: 3}
+    id: 4
+    indexSound: 1
     maxVolume: 0.3
     volumeCurve:
       serializedVersion: 2
@@ -99,20 +100,21 @@ MonoBehaviour:
     maxPitch: 1.2
     minPitch: 0.8
     isNotWithDistance: 0
-    maxDistance: 16
-    minDistance: 6
+    maxDistance: 20
+    minDistance: 8
     posSound: {x: 0, y: 0, z: 0}
     currentDistance: 0
     isLoop: 0
     isPlayOnAwake: 0
     source: {fileID: 0}
     stereo: {fileID: 0}
-  - name: Cage 02
-    clip: {fileID: 8300000, guid: 8b18eed68942b884e82d1f0b0a07a1a7, type: 3}
-    id: 4
-    target: 2
+  - target: 2
     output: {fileID: -7543299602545284783, guid: e86c14edebd3fdc4d9a4b30f60285ecb,
       type: 2}
+    name: Cage 02
+    clip: {fileID: 8300000, guid: 8b18eed68942b884e82d1f0b0a07a1a7, type: 3}
+    id: 4
+    indexSound: 1
     maxVolume: 0.3
     volumeCurve:
       serializedVersion: 2
@@ -141,8 +143,8 @@ MonoBehaviour:
     maxPitch: 1.2
     minPitch: 0.8
     isNotWithDistance: 0
-    maxDistance: 16
-    minDistance: 6
+    maxDistance: 20
+    minDistance: 8
     posSound: {x: 0, y: 0, z: 0}
     currentDistance: 0
     isLoop: 0
