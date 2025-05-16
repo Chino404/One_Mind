@@ -17,13 +17,24 @@ public class UICoins : MonoBehaviour
     private enum TypeView { InGame, InPuase, InWin}
     [SerializeField] private TypeView _type;
 
+    private RectTransform _rectTransform;
+    public Vector2 hidePos;
+    public Vector2 showPos;
+    [SerializeField] private float _speed;
+    [SerializeField] private float _timeShow;
+    private bool _show;
+
     private void Awake()
     {
+        _rectTransform = GetComponent<RectTransform>();
         _textMesh = GetComponent<TextMeshProUGUI>();
         
         if(_targetCharacter == CharacterTarget.Bongo && GameManager.instance.uiCoinBongo == null) GameManager.instance.uiCoinBongo = this;
 
         else if(GameManager.instance.uiCoinFrank == null) GameManager.instance.uiCoinFrank = this;
+
+        //ShowUI();
+        _rectTransform.anchoredPosition = hidePos;
     }
 
     private void OnEnable()
@@ -83,5 +94,47 @@ public class UICoins : MonoBehaviour
         _textMesh.text = _points.ToString();
 
         _textMesh.text = $"{_points} / {totalPointInThisSide}";
+    }
+
+    public void ShowUI()
+    {
+        StopAllCoroutines();
+
+        
+        
+            
+            _show = true;
+
+            StartCoroutine(Show(_show));
+        
+    }
+
+    IEnumerator Show(bool active)
+    {
+        float elapsedTime = 0;
+
+        var actualPos = _rectTransform.anchoredPosition;
+
+        while (elapsedTime < _speed)
+        {
+            elapsedTime += Time.deltaTime;
+
+            float t = elapsedTime / _speed;
+
+            if (active) _rectTransform.anchoredPosition = Vector2.Lerp(actualPos, showPos, t);
+
+            else _rectTransform.anchoredPosition = Vector2.Lerp(actualPos, hidePos, t);
+
+            yield return null;
+        }
+
+        if (active)
+        {
+            yield return new WaitForSeconds(_timeShow);
+
+            StartCoroutine(Show(false));
+        }
+
+        else _show = false;
     }
 }

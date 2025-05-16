@@ -59,7 +59,8 @@ public class CoinsCollectibles : MonoBehaviour
 
             //Sumo un punto a la UI
             uiPoints.AddPoints(1);
-
+            uiPoints.ShowUI();
+            
             //myCurrentLevel.TakeMoneyLevelData(gameObject.name);
             GameManager.instance.coinsNameList.Add(gameObject.name);
 
