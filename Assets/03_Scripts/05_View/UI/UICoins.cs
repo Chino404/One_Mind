@@ -19,7 +19,7 @@ public class UICoins : MonoBehaviour
 
     private RectTransform _rectTransform;
     public Vector2 hidePos;
-    public Vector2 showPos;
+    private Vector2 _showPos;
     [SerializeField] private float _speed;
     [SerializeField] private float _timeShow;
     private bool _show;
@@ -34,7 +34,7 @@ public class UICoins : MonoBehaviour
         else if(GameManager.instance.uiCoinFrank == null) GameManager.instance.uiCoinFrank = this;
 
         //ShowUI();
-        _rectTransform.anchoredPosition = hidePos;
+        _showPos = _rectTransform.anchoredPosition;
     }
 
     private void OnEnable()
@@ -84,7 +84,9 @@ public class UICoins : MonoBehaviour
             totalPointInThisSide = GameManager.instance.totalCoinsFrankSide;
 
             AddPoints(GameManager.instance.currentLevel.coinsObtainedFrankSide);
-        }       
+        }     
+        _rectTransform.anchoredPosition = hidePos;
+
     }
 
     public void AddPoints(int newPoints)
@@ -121,7 +123,7 @@ public class UICoins : MonoBehaviour
 
             float t = elapsedTime / _speed;
 
-            if (active) _rectTransform.anchoredPosition = Vector2.Lerp(actualPos, showPos, t);
+            if (active) _rectTransform.anchoredPosition = Vector2.Lerp(actualPos, _showPos, t);
 
             else _rectTransform.anchoredPosition = Vector2.Lerp(actualPos, hidePos, t);
 
