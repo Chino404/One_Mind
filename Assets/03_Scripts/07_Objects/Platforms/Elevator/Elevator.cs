@@ -6,7 +6,7 @@ public class Elevator : Connected, IInteracteable
 {
     private Vector3 _velocity;
     private Rigidbody _rb;
-    private AudioSource _myAudioSource;
+    private AudioSetting _audioSetting;
 
     [Space(10)]
     [SerializeField, Tooltip("Puntos a los que va a ir")] Transform[] _waypoints;
@@ -29,7 +29,7 @@ public class Elevator : Connected, IInteracteable
     public override void Awake()
     {
         _rb = GetComponentInChildren<Rigidbody>();
-        _myAudioSource = GetComponent<AudioSource>();
+        _audioSetting = GetComponent<AudioSetting>();
 
         base.Awake();
     }
@@ -76,7 +76,7 @@ public class Elevator : Connected, IInteracteable
         if (!isPlaySound)
         {
             isPlaySound = true;
-            AudioManager.instance.Play(SoundId.OnlyActive);
+            _audioSetting.Play(SoundId.OnlyActive);
         }
 
         _isActiveElevator = true;

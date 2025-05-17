@@ -4424,13 +4424,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4acadee499ca15469b383637098c33c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: 1
   _refPlayer: {fileID: 0}
   sounds:
-  - name: Jump
+  - target: 1
+    output: {fileID: 336519010787691560, guid: e86c14edebd3fdc4d9a4b30f60285ecb, type: 2}
+    name: Jump
     clip: {fileID: 8300000, guid: 28c45284bfbebf345bb3c90078436fba, type: 3}
     id: 7
-    target: 1
-    output: {fileID: 336519010787691560, guid: e86c14edebd3fdc4d9a4b30f60285ecb, type: 2}
+    indexSound: 0
     maxVolume: 0.05
     volumeCurve:
       serializedVersion: 2
