@@ -8,7 +8,7 @@ public class DualPressurePlate : Rewind, IInteracteable
     [SerializeField] private CharacterTarget _player;
     [Space(10), SerializeField,Tooltip("Colocar la otra placa de presion en la cual va a estar vinculada")] private DualPressurePlate _otherDualPressurePlate;
     [SerializeField, Tooltip("Puerta al que se le va a ejecutar una acción")] private DualDoor _objectToInteract;
-    [Space(10), SerializeField, Tooltip("Objetos que sirven para indicar que esta placa de presion fue activada")] private ActiveTorch[] _indicators;
+    [Space(10), SerializeField, Tooltip("Objetos que sirven para indicar que esta placa de presion fue activada")] private TorchSwitch[] _indicators;
 
     private bool _activePressurePlate;
     public bool ActivePressurePlate { get { return _activePressurePlate; } }
