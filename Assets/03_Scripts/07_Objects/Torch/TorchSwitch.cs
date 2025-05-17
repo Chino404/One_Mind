@@ -23,11 +23,13 @@ public class TorchSwitch : MonoBehaviour, IInteracteable
     private bool _isActive;
 
     [Space(10), Header("-> Particles")]
-    [Space(5),SerializeField, Tooltip("Material del fuego")]private Renderer _fireMaterial;
+    [Space(5),SerializeField, Tooltip("Material del fuego/SHADER")] private Renderer _fireMaterial;
     private int _IdFireThreshold = Shader.PropertyToID("_FireThreshold");
+
     [Tooltip("valor del tamaño del fueho")] private float _valueFireTreshold = 0f;
+
     public ParticleSystem myParticleSystem;
-    [SerializeField] private ParticleSystem _myParticleAmber;
+    //[SerializeField] private ParticleSystem _myParticleAmber;
 
 
     private AudioSetting _audioSetting;
@@ -39,7 +41,7 @@ public class TorchSwitch : MonoBehaviour, IInteracteable
 
         ChangeColorFire(_colorFire);
 
-        if (_fireMaterial == null) Debug.LogWarning($"Falta el Renderer en: {gameObject.name}");
+        if (_fireMaterial == null) Debug.LogWarning($"Falta el Renderer/Shader en: {gameObject.name}");
 
         if (_light == null) Debug.LogWarning($"Poner una LIGHT en: {gameObject.name}");
         else _light.range = 0;
@@ -98,7 +100,7 @@ public class TorchSwitch : MonoBehaviour, IInteracteable
         var auxFire = _valueFireTreshold;
         var auxRange = _actualRangeLight;
 
-        _audioSetting?.Play(SoundId.Always);
+        _audioSetting.Play(SoundId.Always);
 
         while (_timer < _timeToSpawn)
         {

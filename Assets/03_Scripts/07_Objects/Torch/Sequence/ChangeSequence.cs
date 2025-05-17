@@ -23,7 +23,7 @@ public class ChangeSequence : MonoBehaviour, IInteracteable
 
         _torchSequence.sequenceList.Clear(); //Limpio la lista
 
-        _torchSequence.activeTime = _myActivedTime;
+        _torchSequence.delayActive = _myActivedTime;
 
         for (int i = 0; i < _mySequence.Length; i++)
         {

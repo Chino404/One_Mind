@@ -367,7 +367,7 @@ PrefabInstance:
     - target: {fileID: 4387038354486972760, guid: ea572cc3fa2fa74458d5ae5474f06b7e,
         type: 3}
       propertyPath: m_Name
-      value: Antorcha - Naranja (14)
+      value: Antorcha Encendida - Naranja (1)
       objectReference: {fileID: 0}
     - target: {fileID: 4448138686690592350, guid: ea572cc3fa2fa74458d5ae5474f06b7e,
         type: 3}
@@ -384,8 +384,7 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2579294482928428917, guid: ea572cc3fa2fa74458d5ae5474f06b7e, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -396,6 +395,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 64144865}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &64144867 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2579294482928428917, guid: ea572cc3fa2fa74458d5ae5474f06b7e,
+    type: 3}
+  m_PrefabInstance: {fileID: 64144865}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4645b64141f6fbc44a7aa166ce06049c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &148259878
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -962,6 +973,115 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 414724185}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &429985058
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 429985059}
+  m_Layer: 0
+  m_Name: ---> Colldiers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &429985059
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 429985058}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 443563654}
+  m_Father: {fileID: 1682866603}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &443563653
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 443563654}
+  - component: {fileID: 443563656}
+  - component: {fileID: 443563655}
+  m_Layer: 0
+  m_Name: -> Zone 4 - Active Torchs
+  m_TagString: Untagged
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &443563654
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 443563653}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -77.4, y: 4.8938274, z: 243.5}
+  m_LocalScale: {x: 12.838, y: 11.063, z: 2.7001}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 429985059}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &443563655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 443563653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 926240d3b4bc1314f938ecbfd189a525, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isOneActive: 1
+  _torchs:
+  - {fileID: 64144867}
+  - {fileID: 1918061453}
+  - {fileID: 1703517946}
+  - {fileID: 2011258007}
+  _isSequenceWithTwoTorches: 0
+  _isChangeColor: 0
+  _changeColorFire: {r: 0, g: 0, b: 0, a: 0}
+  sequenceList: 
+  delayActive: 1
+--- !u!65 &443563656
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 443563653}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &489688307
 GameObject:
   m_ObjectHideFlags: 0
@@ -2314,9 +2434,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 64144866}
-  - {fileID: 2011258006}
   - {fileID: 1918061452}
   - {fileID: 1703517945}
+  - {fileID: 2011258006}
   - {fileID: 1480949833}
   - {fileID: 583335547}
   - {fileID: 1256957143}
@@ -3575,6 +3695,7 @@ Transform:
   - {fileID: 1048887819}
   - {fileID: 1169064290}
   - {fileID: 1396411694}
+  - {fileID: 429985059}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1703517944
@@ -3653,7 +3774,7 @@ PrefabInstance:
     - target: {fileID: 4387038354486972760, guid: ea572cc3fa2fa74458d5ae5474f06b7e,
         type: 3}
       propertyPath: m_Name
-      value: Antorcha - Naranja (18)
+      value: Antorcha Encendida - Naranja (3)
       objectReference: {fileID: 0}
     - target: {fileID: 4448138686690592350, guid: ea572cc3fa2fa74458d5ae5474f06b7e,
         type: 3}
@@ -3670,8 +3791,7 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2579294482928428917, guid: ea572cc3fa2fa74458d5ae5474f06b7e, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -3682,6 +3802,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1703517944}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1703517946 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2579294482928428917, guid: ea572cc3fa2fa74458d5ae5474f06b7e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1703517944}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4645b64141f6fbc44a7aa166ce06049c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1728174469
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4346,7 +4478,7 @@ PrefabInstance:
     - target: {fileID: 4387038354486972760, guid: ea572cc3fa2fa74458d5ae5474f06b7e,
         type: 3}
       propertyPath: m_Name
-      value: Antorcha - Naranja (16)
+      value: Antorcha Encendida - Naranja (2)
       objectReference: {fileID: 0}
     - target: {fileID: 4448138686690592350, guid: ea572cc3fa2fa74458d5ae5474f06b7e,
         type: 3}
@@ -4363,8 +4495,7 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2579294482928428917, guid: ea572cc3fa2fa74458d5ae5474f06b7e, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -4375,6 +4506,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1918061451}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1918061453 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2579294482928428917, guid: ea572cc3fa2fa74458d5ae5474f06b7e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1918061451}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4645b64141f6fbc44a7aa166ce06049c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1980531274
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4535,7 +4678,7 @@ PrefabInstance:
     - target: {fileID: 4387038354486972760, guid: ea572cc3fa2fa74458d5ae5474f06b7e,
         type: 3}
       propertyPath: m_Name
-      value: Antorcha - Naranja (20)
+      value: Antorcha Encendida - Naranja (4)
       objectReference: {fileID: 0}
     - target: {fileID: 4448138686690592350, guid: ea572cc3fa2fa74458d5ae5474f06b7e,
         type: 3}
@@ -4552,8 +4695,7 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2579294482928428917, guid: ea572cc3fa2fa74458d5ae5474f06b7e, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -4564,6 +4706,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2011258005}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2011258007 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2579294482928428917, guid: ea572cc3fa2fa74458d5ae5474f06b7e,
+    type: 3}
+  m_PrefabInstance: {fileID: 2011258005}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4645b64141f6fbc44a7aa166ce06049c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2045080567
 PrefabInstance:
   m_ObjectHideFlags: 0
