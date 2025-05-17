@@ -6,8 +6,9 @@ using UnityEngine.Audio;
 public class AudioSetting : MonoBehaviour
 {
     public static AudioSetting instance;
-    [SerializeField] private Transform _refPlayer;
 
+    public CharacterTarget target = CharacterTarget.None;
+    [SerializeField] private Transform _refPlayer;
 
     [Space(5)]public Sound[] sounds;
 
@@ -33,6 +34,7 @@ public class AudioSetting : MonoBehaviour
 
             soundDict[item.id].Add(item);
 
+            item.target = target;
             item.source.playOnAwake = item.isPlayOnAwake;
             item.source.clip = item.clip;
             item.source.volume = 0;

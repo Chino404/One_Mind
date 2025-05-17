@@ -9,6 +9,7 @@ public class AudioSettingEditor : Editor
 {
     SerializedProperty soundsProp;
     SerializedProperty mixerProp;
+    SerializedProperty targetCharacter;
 
     [Tooltip("Si se debería resaltar.")]private bool _isShouldHighlight = false;
     [Tooltip("Si es todo válido.")]private bool _isAllValid = true;
@@ -17,6 +18,7 @@ public class AudioSettingEditor : Editor
     {
         soundsProp = serializedObject.FindProperty("sounds");
         mixerProp = serializedObject.FindProperty("mixer");
+        targetCharacter = serializedObject.FindProperty(nameof(AudioSetting.target));
 
         // -> 'serializedObject' es una representación de Unity del objeto (en este caso AudioSetting) que permite editar sus propiedades de forma segura. Es una versión editable del objeto.
         // -> 'soundsProp' obtiene una referencia al array 'sounds' usando FindProperty.
@@ -32,6 +34,7 @@ public class AudioSettingEditor : Editor
         EditorGUILayout.LabelField("Audio Setting", EditorStyles.boldLabel); //Muestra el título “Audio Setting” en negrita.
 
         EditorGUILayout.PropertyField(mixerProp); // Mostrar el AudioMixer en el inspector
+        EditorGUILayout.PropertyField(targetCharacter);
         EditorGUILayout.Space();
 
         for (int i = 0; i < soundsProp.arraySize; i++)
@@ -133,7 +136,7 @@ public class AudioSettingEditor : Editor
 
 
         GUILayout.Label("-> Seteo General", EditorStyles.boldLabel);
-        EditorGUILayout.PropertyField(sound.FindPropertyRelative(nameof(Sound.target)));
+        //EditorGUILayout.PropertyField(sound.FindPropertyRelative(nameof(Sound.target)));
 
         SerializedProperty outputProp = sound.FindPropertyRelative(nameof(Sound.output));
         ChangeColorVariable(outputProp);
