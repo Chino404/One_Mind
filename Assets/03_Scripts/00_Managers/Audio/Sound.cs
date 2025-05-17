@@ -46,7 +46,7 @@ public class Sound
     [Range(0,30)] public float maxDistance;
     [Range(0,20)] public float minDistance;
     public Vector3 posSound;
-    [HideInInspector,Tooltip("Distancia actual entre el personaje y el sonido")]public float currentDistance;
+    [HideInInspector,Tooltip("Distancia actual entre el personaje y el sonido")] public float currentDistance;
 
     //[Space(10), Header("-> Bools")]
     public bool isLoop;

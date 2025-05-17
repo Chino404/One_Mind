@@ -43,7 +43,7 @@ public class AudioSetting : MonoBehaviour
 
             item.source.outputAudioMixerGroup = item.output;
 
-            item.source.panStereo = item.target == CharacterTarget.Bongo ? -1 : 1;
+            item.source.panStereo = item.target == CharacterTarget.Bongo ? -1 : item.target == CharacterTarget.Frank ? 1 : 0;
 
             //item.posSound = transform.position;
         }
@@ -72,10 +72,10 @@ public class AudioSetting : MonoBehaviour
             if (sound.isNotWithDistance)
             {
                 sound.source.volume = sound.maxVolume;
-                return;
+                continue;
             }
 
-            if (Vector3.Distance(transform.position, _refPlayer.position) < sound.maxDistance)
+            else if (Vector3.Distance(transform.position, _refPlayer.position) < sound.maxDistance)
             {
                 ModifyVolume(sound);
             }
@@ -138,6 +138,7 @@ public class AudioSetting : MonoBehaviour
                     sound = item;
                     break;
                 }
+
                 else sound = soundList[0];
             }
 
