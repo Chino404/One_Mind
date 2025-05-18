@@ -332,8 +332,8 @@ GameObject:
   m_Component:
   - component: {fileID: 348319607591177790}
   - component: {fileID: -5763519829581624064}
-  - component: {fileID: 827275595720725771}
   - component: {fileID: 563984645204188868}
+  - component: {fileID: 80761619707052167}
   m_Layer: 0
   m_Name: RataGris
   m_TagString: Untagged
@@ -384,22 +384,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &827275595720725771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3837994588488960244}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 900870b0b2408de40815bd5e73e4dc57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waypoints: []
-  _maxVelocity: 7
-  _secondsWaiting: 1
-  _isActiveMove: 1
 --- !u!95 &563984645204188868
 Animator:
   serializedVersion: 5
@@ -421,6 +405,24 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &80761619707052167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3837994588488960244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7fe860dafe13524cb68442fb1781f80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waypoints:
+  - {fileID: 0}
+  _maxVelocity: 7
+  _secondsWaiting: 0
+  _isActiveMove: 1
+  canMove: 0
 --- !u!1 &3986041415013474634
 GameObject:
   m_ObjectHideFlags: 0

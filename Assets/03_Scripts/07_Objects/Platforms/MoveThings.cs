@@ -25,25 +25,7 @@ public class MoveThings : Rewind
     protected Rigidbody _rb;
     private Vector3 _startPos;
 
-    //private Animator _animator;
-    //[SerializeField] Vector3[] _positions;
-    //[SerializeField]private float _speed;
-    //private int _actualPosition;
-
-
-
-    //public Characters character;
-
-    //private bool _characterInPlataform;
-
-    //private bool _isObjectAttached;
-
-    //[SerializeField] Transform banana; 
-    //public ModelBanana modelBanana;
-
-    //private Ray _moveRay;
-    //private float _moveRange=0.75f;
-    //[SerializeField]private LayerMask _moveMask;
+    
 
     public override void Awake()
     {
@@ -62,36 +44,12 @@ public class MoveThings : Rewind
 
     
 
-    //private void Update()
-    //{
-    //    if(Vector3.Distance(transform.position, _waypoints[_actualPosition].position) <= 0.2f)
-    //    {
-    //        _actualPosition++;
-    //        if (_actualPosition >= _positions.Length)
-    //            _actualPosition = 0;
-    //    }
-
-    //}
-
-    //void FixedUpdate()
-    //{
-    //    ////if (IsBlocked(modelBanana.Velocity)) modelBanana.Velocity = Vector3.zero;
-
-    //    //if (_isObjectAttached && banana != null)
-    //    //{
-    //    //    _rb.MovePosition(transform.position + modelBanana.Velocity * Time.fixedDeltaTime);
-    //    //}
-
-
-
-    //}
-
-    //MATI GIL
+   
     public virtual void FixedUpdate()
     {
         if (!_isActiveMove) return;
 
-        if (Vector3.Distance(_rb.position, waypoints[_actualIndex].position) <= 1f)
+        if (Vector3.Distance(_rb.position, waypoints[_actualIndex].position) <= 0.5f)
         {
             StartCoroutine(WaitSeconds());
             _actualIndex++;
@@ -110,29 +68,7 @@ public class MoveThings : Rewind
 
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.GetComponent<Characters>())
-    //    {
-    //        Active();
-    //        Debug.Log("estoy arriba de la plataforma");
-    //    }
-    //}
-
-    //public void Active()
-    //{
-    //    if(!_isActiveMove) _isActiveMove = true;
-    //}
-
-    //public void Deactive()
-    //{
-        
-    //}
-
-    //void CharacterAttached() //Todo lo que quiero que pase cuando el player esta en la plataforma
-    //{
-    //    character.GetComponent<Rigidbody>().MovePosition(character.GetComponent<Rigidbody>().position + _velocity*0.01f );
-    //}
+   
 
     public virtual IEnumerator WaitSeconds()
     {
@@ -163,56 +99,7 @@ public class MoveThings : Rewind
         _velocity = Vector3.ClampMagnitude(_velocity, _currentVelocity);
     }
 
-    //private bool IsBlocked(Vector3 dir)
-    //{
-    //    _moveRay = new Ray(transform.position, dir);
-    //    Debug.DrawRay(transform.position, dir * _moveRange, Color.red);
-
-    //    return Physics.Raycast(_moveRay, _moveRange, _moveMask);
-    //}
-
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if (collision.gameObject.GetComponent<Characters>())
-    //    {
-    //        collision.transform.SetParent(transform);
-           
-            
-    //    }
-
-    //}
-
-    //private void OnCollisionExit(Collision collision)
-    //{
-    //    if (collision.gameObject.GetComponent<Characters>())
-    //    {
-    //        //collision.transform.SetParent(null);
-    //        _characterInPlataform = false;
-    //        character = null;
-
-    //    }
-    //}
-
-    //public void LeftClickAction()
-    //{
-
-    //}
-
-    //public void RightClickAction(Transform parent)
-    //{        
-    //    if (!_isObjectAttached)
-    //    {
-    //        //transform.SetParent(parent);
-    //        banana = parent;
-    //        _isObjectAttached = true;
-    //    }
-    //    else if (_isObjectAttached)
-    //    {
-    //        ReleaseObject();
-    //    }
-    //}
-
-
+    
 
     public override void Save()
     {
