@@ -6,6 +6,7 @@ using UnityEngine;
 public class LivingMovement : MoveThings
 {
     private Animator _animator;
+    public bool canMove;
 
     public override void Awake()
     {
@@ -21,27 +22,8 @@ public class LivingMovement : MoveThings
 
     public override void FixedUpdate()
     {
-        if (_actualIndex >= waypoints.Length)
-        {
-            _currentVelocity = 0f;
-            return;
-        }
-        
-
-        if (Vector3.Distance(_rb.position, waypoints[_actualIndex].position) <= 1f)
-        {
-            StartCoroutine(WaitSeconds());
-            _actualIndex++;
-
-            
-        }
-
-        _velocity = waypoints[_actualIndex].position - _rb.position;
-        _velocity.Normalize();
-        transform.LookAt(waypoints[_actualIndex].position);
-
-        //transform.position += _velocity*_maxVelocity * Time.deltaTime;
-        _rb.MovePosition(_rb.position + _velocity * _currentVelocity * Time.fixedDeltaTime);
+        if (canMove)
+            Movement();
     }
 
     public override IEnumerator WaitSeconds()
@@ -53,5 +35,30 @@ public class LivingMovement : MoveThings
         yield return new WaitForSeconds(_secondsWaiting);
         _currentVelocity = _maxVelocity;
         
+    }
+
+    public void Movement()
+    {
+        if (_actualIndex >= waypoints.Length)
+        {
+            _currentVelocity = 0f;
+            return;
+        }
+
+
+        if (Vector3.Distance(_rb.position, waypoints[_actualIndex].position) <= 1f)
+        {
+            StartCoroutine(WaitSeconds());
+            _actualIndex++;
+
+
+        }
+
+        _velocity = waypoints[_actualIndex].position - _rb.position;
+        _velocity.Normalize();
+        transform.LookAt(waypoints[_actualIndex].position);
+
+        //transform.position += _velocity*_maxVelocity * Time.deltaTime;
+        _rb.MovePosition(_rb.position + _velocity * _currentVelocity * Time.fixedDeltaTime);
     }
 }
