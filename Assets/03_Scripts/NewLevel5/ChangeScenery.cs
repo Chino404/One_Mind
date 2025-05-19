@@ -34,6 +34,7 @@ public class ChangeScenery : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.instance.modelBongo.isDead || GameManager.instance.modelFrank.isDead) return;
         if (!_isInZone) return;
 
         if (Input.GetKeyDown(keyForChangeScenery))
