@@ -28,14 +28,14 @@ public class FakePlataform : Rewind, IInteracteable
        // _valueDisolve = 0f;
     }
 
-    private void OnEnable()
-    {
-        if (_hasStarted) // Solo se ejecuta después del inicio
-        {
-            StartCoroutine(ShaderDisolve(false));
-        }
-        _hasStarted = true; // Marca que el juego ha iniciado
-    }
+    //private void OnEnable()
+    //{
+    //    if (_hasStarted) // Solo se ejecuta después del inicio
+    //    {
+    //        StartCoroutine(ShaderDisolve(false));
+    //    }
+    //    _hasStarted = true; // Marca que el juego ha iniciado
+    //}
 
 
 
