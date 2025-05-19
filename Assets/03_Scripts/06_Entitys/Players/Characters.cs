@@ -43,6 +43,7 @@ public abstract class Characters : Entity, IDamageable
     [Space(10), SerializeField, Tooltip("Fuerza de salto normal")] protected float _jumpForce = 25f;
     public bool isJumping;
     private bool _isImpulse;
+    public bool IsImpulse { set { _isImpulse = value; } }
     [SerializeField, Range(0, 0.4f), Tooltip("Tiempo para saltar cuando dejo de tocar el suelo")] protected float _coyoteTime = 0.15f;
     protected float _coyoteTimeCounter;
     [Space(10), SerializeField, Range(0, 0.1f), Tooltip("Cuanto mas alto el valor, mas se resbala")] private float _iceFriction = 0.65f;
@@ -599,6 +600,7 @@ public abstract class Characters : Entity, IDamageable
         if (interact != null) interact.Deactive();
 
         if (impulse != null) _isImpulse = false;
+        
     }
 
     private void OnCollisionEnter(Collision collision)
