@@ -20,7 +20,7 @@ public class Geiser : MonoBehaviour, IImpulse
     [SerializeField] private float _actualSpeedLifeTimeParticle;
     private float _iniSpeedParticle;
     private ParticleSystem _myParticle;
-    private Rigidbody _characterRb;
+    public Rigidbody _characterRb;
 
     public Rigidbody playerRb;
     
@@ -46,7 +46,10 @@ public class Geiser : MonoBehaviour, IImpulse
     {
         _forceGeiserOnPenguin = _actualForceGeiser / 1.5f;
         _characterRb = GameManager.instance.modelBongo.GetComponent<Rigidbody>();
+        Debug.Log(_characterRb.velocity);
     }
+
+    
 
     public void StartScale(float startScaleY, float startSpeedParticle, float starSpeedLifeTime)
     {
@@ -133,17 +136,18 @@ public class Geiser : MonoBehaviour, IImpulse
 
         if (bongo != null && bongo.IsFly) _actualForceGeiser = _forceGeiserOnPenguin;
         else _actualForceGeiser = _iniForceGeiser;
+        
 
         Action(rb);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        var rb = other.gameObject.GetComponent<Rigidbody>();
+        //var rb = other.gameObject.GetComponent<Rigidbody>();
         
-        if (other.GetComponent<Characters>())
+        if (other==playerRb)
         {
-            rb.velocity = _characterRb.velocity;
+            playerRb.velocity = _characterRb.velocity;
             playerRb = null;
 
         }
@@ -151,8 +155,13 @@ public class Geiser : MonoBehaviour, IImpulse
 
     private void OnDisable()
     {
+        
+        playerRb.GetComponent<Characters>().IsImpulse = false;
         playerRb.velocity = _characterRb.velocity;
         playerRb = null;
+        
+        Debug.Log($"characterRb" + _characterRb.velocity);
+        Debug.Log(playerRb.velocity);
     }
 
     public void Action(Rigidbody rb)
@@ -162,9 +171,11 @@ public class Geiser : MonoBehaviour, IImpulse
             //rb.AddForce(transform.up * _actualForceGeiser, ForceMode.Impulse);
 
             // Aplica la fuerza en la dirección del transform.up del géiser
+           
             Vector3 geiserForce = transform.up * _actualForceGeiser;
 
             rb.velocity = geiserForce;
+            
 
         }
     }
