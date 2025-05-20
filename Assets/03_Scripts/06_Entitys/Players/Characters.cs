@@ -91,7 +91,7 @@ public abstract class Characters : Entity, IDamageable
     public PlayableDirector[] cinematics;
 
     protected bool _isDoingAnimation;
-    //[Tooltip("Esta haciendo la animación")] public bool IsDoingAnimation { get { return _isDoingAnimation; } }
+    [Tooltip("Esta haciendo la animación")] public bool IsDoingAnimation { get { return _isDoingAnimation; } set { _isDoingAnimation = value; } }
 
     public override void Awake()
     {
@@ -213,6 +213,7 @@ public abstract class Characters : Entity, IDamageable
     #region MOVEMENT
     public virtual void Movement(Vector3 dirRaw = default)
     {
+        if (_isDoingAnimation) return;
 
         if (IsTouch(dirRaw.normalized, _moveMask)) //Si estoy tocando una pared
         {
@@ -232,7 +233,12 @@ public abstract class Characters : Entity, IDamageable
         
     }
 
-    public void Rotate(Vector3 dirForward) => transform.forward = dirForward;
+    public void Rotate(Vector3 dirForward)
+    {
+        dirForward.y = 0f; // Elimina inclinación vertical
+        if (dirForward.sqrMagnitude > 0.001f) // evita errores por dirección cero
+            transform.forward = dirForward.normalized;
+    }
 
     public void ApplyForce(float force, Vector3 dir)
     {
@@ -242,6 +248,22 @@ public abstract class Characters : Entity, IDamageable
     public void InverseMovement(Vector3 dirRaw)
     {
         NormalMovement(-dirRaw);
+    }
+
+    /// <summary>
+    /// Para movimientos de cinemáticas.
+    /// </summary>
+    /// <param name="dir"></param>
+    public void MoveCinematic(Vector3 dir)
+    {
+
+        Vector3 mov = new Vector3(dir.normalized.x, 0, dir.normalized.z);
+        _myVelocityCharacter = mov * actualSpeed; // o usa 'cinematicSpeed' si lo definiste
+        _myVelocityCharacter.y = _rbCharacter.velocity.y;
+
+        _rbCharacter.velocity = _myVelocityCharacter;
+
+        Rotate(mov);
     }
 
     private void NormalMovement(Vector3 dirRaw)

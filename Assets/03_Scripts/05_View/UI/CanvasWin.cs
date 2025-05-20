@@ -8,7 +8,8 @@ public class CanvasWin : MonoBehaviour
     [Header("-> Positions")]
     [SerializeField] private Vector2 _iniPos;
     [SerializeField] private Vector2 _endPos;
-    [SerializeField, Range(0.1f, 1)] private float _timeToShow;
+    [Space(5), SerializeField, Tooltip("Posicion hasta a dodne va a rebotar")] private Vector2 _reboundPos;
+    [Space(5), SerializeField, Range(0.1f, 1)] private float _timeToShow;
     [Tooltip("Es para la posicion en el canvas")] private RectTransform _rectTransform;
 
     [Space(7), Header("-> Config. Star Image")]
@@ -51,9 +52,9 @@ public class CanvasWin : MonoBehaviour
         yield return StartCoroutine(MoveOverTime(_rectTransform, _iniPos, _endPos, _timeToShow));
 
         // Mini rebote (como lo hacías antes)
-        yield return StartCoroutine(MoveOverTime(_rectTransform, _endPos, new Vector2(0, 143), 0.18f));
+        yield return StartCoroutine(MoveOverTime(_rectTransform, _endPos, _reboundPos, 0.18f));
         yield return new WaitForSecondsRealtime(0.05f);
-        yield return StartCoroutine(MoveOverTime(_rectTransform, new Vector2(0, 143), _endPos, 0.13f));
+        yield return StartCoroutine(MoveOverTime(_rectTransform, _reboundPos, _endPos, 0.13f));
 
         //Espero antes de hacer aparecer las estrellas
         yield return new WaitForSecondsRealtime(0.5f);
