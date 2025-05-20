@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TypeModifyParticleGeiser { overwirte, add, substract}
+public enum TypeModifyParticleGeiser { overwrite, add, substract}
 
 public class Geiser : MonoBehaviour, IImpulse
 {
@@ -59,7 +59,7 @@ public class Geiser : MonoBehaviour, IImpulse
         _actualSpeedParticle = startSpeedParticle;
         _actualSpeedLifeTimeParticle = starSpeedLifeTime;
 
-        ModifyParticle(startSpeedParticle, starSpeedLifeTime, TypeModifyParticleGeiser.overwirte);
+        ModifyParticle(startSpeedParticle, starSpeedLifeTime, TypeModifyParticleGeiser.overwrite);
     }
 
     /// <summary>
@@ -99,7 +99,7 @@ public class Geiser : MonoBehaviour, IImpulse
 
         var main = _myParticle.main; //Para poder llegar a sus variables
 
-        if(type == TypeModifyParticleGeiser.overwirte)
+        if(type == TypeModifyParticleGeiser.overwrite)
         {
             _actualSpeedParticle = valueSpeed;
             _actualSpeedLifeTimeParticle = valuSpeedLifeTime;
