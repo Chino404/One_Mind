@@ -75,14 +75,10 @@ public class ModelBongo : Characters
 
     public override void Update()
     {
+        if (GameManager.instance.isNotMoveThePlayer) return;
+
+        //Si Frank esta ahciendo laguna animacion pero yo no, me detengo igual.
         if (!IsDoingAnimation && GameManager.instance.modelFrank.IsDoingAnimation) _animPlayer.SetBool("Walk", false);
-
-        //if (_isDoingAnimation || GameManager.instance.modelFrank.IsDoingAnimation)
-        //{
-        //    _animPlayer.SetBool("Walk", false);
-
-        //    return;
-        //}
 
         foreach (var item in cinematics)
         {
@@ -103,8 +99,14 @@ public class ModelBongo : Characters
 
         base.FixedUpdate();
 
+        if (GameManager.instance.isNotMoveThePlayer)
+        {
+            _rbCharacter.velocity= new Vector3(0, _rbCharacter.velocity.y, 0);
+            return;
+        }
+
         //Si estoy en alguna cinematica / animacion, seteo la animacion de caminata.
-        if(_isDoingAnimation)
+        if(_isDoingAnimation || GameManager.instance.isNotMoveThePlayer)
         {
             if (_rbCharacter.velocity.x != 0 || _rbCharacter.velocity.z != 0) _view.Walking(true);
             else if (_rbCharacter.velocity.x == 0 && _rbCharacter.velocity.z == 0) _view.Walking(false);
@@ -118,6 +120,7 @@ public class ModelBongo : Characters
                 return;
             }
         }
+
 
         _controller.ListenFixedKeys();
     }
