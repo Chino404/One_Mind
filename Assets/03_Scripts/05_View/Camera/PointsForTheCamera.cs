@@ -9,7 +9,7 @@ public class PointsForTheCamera : MonoBehaviour
 
     private void Awake()
     {
-        GameManager.instance.points.Add(this);   
+        GameManager.instance.pointsNormalCamera.Add(this);   
     }
 
     private void Start()

@@ -45,7 +45,7 @@ public class SnowMan : MonoBehaviour
         {
             if (!_isInCoolDown)
             {
-                Debug.Log("disparo");
+                //Debug.Log("disparo");
                 StartCoroutine(Shoot());
             }
         }

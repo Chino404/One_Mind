@@ -94,7 +94,7 @@ public class WallHolograph : DesactiveWall
     {
         
         _currentState.Rec(gameObject.activeInHierarchy, _valueOpacity,_myCollider.enabled,_isActive);
-        Debug.Log("guardo wall holograph");
+        //Debug.Log("guardo wall holograph");
     }
 
     public override void Load()

@@ -46,7 +46,7 @@ public class Geiser : MonoBehaviour, IImpulse
     {
         _forceGeiserOnPenguin = _actualForceGeiser / 1.5f;
         _characterRb = GameManager.instance.modelBongo.GetComponent<Rigidbody>();
-        Debug.Log(_characterRb.velocity);
+        //Debug.Log(_characterRb.velocity);
     }
 
     
@@ -155,7 +155,8 @@ public class Geiser : MonoBehaviour, IImpulse
 
     private void OnDisable()
     {
-        
+        if (!playerRb) return;
+
         playerRb.GetComponent<Characters>().IsImpulse = false;
         playerRb.velocity = _characterRb.velocity;
         playerRb = null;

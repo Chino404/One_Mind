@@ -54,16 +54,19 @@ public class GameManager : MonoBehaviour
     [Tooltip("Monedas recolectadas actualmente del lado de Frank")] public int currentCollectedCoinsFrank;
 
 
-    [Space(10), Header("-> Camera Config.")]
-    public CameraTracker bongoNormalCamera;
-    public CameraRails bongoRailsCamera;
-    [HideInInspector] public ModelBongo modelBongo;
+    [Header("-> Player Confiog.")]
+    public ModelBongo modelBongo;
+    public ModelFrank modelFrank;
+    public bool isNotMoveThePlayer;
 
-    public CameraTracker frankNormalCamera;
-    public CameraRails frankRailsCamera;
-    [HideInInspector] public ModelFrank modelFrank;
+    //[Space(10), Header("-> Camera Config.")]
+    [HideInInspector] public CameraTracker bongoNormalCamera;
+    [HideInInspector] public CameraRails bongoRailsCamera;
 
-    public List<PointsForTheCamera> points = new ();
+    [HideInInspector]public CameraTracker frankNormalCamera;
+    [HideInInspector]public CameraRails frankRailsCamera;
+
+    [HideInInspector]public List<PointsForTheCamera> pointsNormalCamera = new ();
 
 
     //[Space(15)] public List<Enemy> enemies = new();

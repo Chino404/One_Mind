@@ -34,12 +34,14 @@ public class BreakablePlatform : Rewind
     private bool _isBreaking;
     private bool _isRecovering;
 
+    private AudioSetting _audioSetting;
 
     public override void Awake()
     {
         base.Awake();
         //_myCollider = GetComponent<Collider>();
         _myAnimator = GetComponentInChildren<Animator>();
+        _audioSetting = GetComponent<AudioSetting>();
         _startPos = transform.position;
 
     }
@@ -106,7 +108,8 @@ public class BreakablePlatform : Rewind
 
         _isRecovering = false;
         _myAnimator.SetTrigger("Warning");
-        AudioManager.instance.Play(SoundId.OnlyActive);
+        //AudioManager.instance.Play(SoundId.OnlyActive);
+        _audioSetting.Play(SoundId.OnlyActive);
 
 
         yield return new WaitForSeconds(_timeToWarning);
