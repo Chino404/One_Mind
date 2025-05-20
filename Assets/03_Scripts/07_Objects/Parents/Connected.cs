@@ -6,6 +6,6 @@ public abstract class Connected : Rewind
 {
     [SerializeField, Tooltip("Objeto conectado.")] protected Connected _connectedObject;
 
-    [SerializeField, Tooltip("Si el objeto está activado")] protected bool _isActive;
+    [Space(5), SerializeField, Tooltip("Si el objeto está activado")] protected bool _isActive;
     [Tooltip("Si el objeto está activado")]public bool IsActive {  get { return _isActive; } }
 }

@@ -38,7 +38,7 @@ public class ModelBongo : Characters
 
 
     public PenguinFly penguin;
-    [Tooltip("Esta haciendo la animación")] public bool IsDoingAnimation { get { return _isDoingAnimation; } set { _isDoingAnimation = value; } }
+    //[Tooltip("Esta haciendo la animación")] public bool IsDoingAnimation { get { return _isDoingAnimation; } set { _isDoingAnimation = value; } }
 
 
     public override void Awake()
@@ -102,6 +102,13 @@ public class ModelBongo : Characters
     {
 
         base.FixedUpdate();
+
+        //Si estoy en alguna cinematica / animacion, seteo la animacion de caminata.
+        if(_isDoingAnimation)
+        {
+            if (_rbCharacter.velocity.x != 0 || _rbCharacter.velocity.z != 0) _view.Walking(true);
+            else if (_rbCharacter.velocity.x == 0 && _rbCharacter.velocity.z == 0) _view.Walking(false);
+        }
 
         foreach (var item in cinematics)
         {

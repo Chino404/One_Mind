@@ -59,10 +59,10 @@ public class ControllerBongo
     public void ListenFixedKeys()
     {
         if (_model.IsDoingAnimation || GameManager.instance.modelFrank.IsDoingAnimation) return;
+
         if (_dirRaw.sqrMagnitude != 0)
         {
             _viewBongo.Walking(true);
-            //_model.Movement(_dirRaw);
             _model.Rotate(_dir.normalized);
         }
         else

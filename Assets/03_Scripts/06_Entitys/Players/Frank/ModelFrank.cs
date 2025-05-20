@@ -12,7 +12,7 @@ public class ModelFrank : Characters
     private ViewFrank _view;
     public static ModelFrank instance;
 
-    [Tooltip("Esta haciendo la animación")] public bool IsDoingAnimation { get { return _isDoingAnimation; } }
+    //[Tooltip("Esta haciendo la animación")] public bool IsDoingAnimation { get { return _isDoingAnimation; } }
 
     public override void Awake()
     {
@@ -64,6 +64,13 @@ public class ModelFrank : Characters
     {
 
         base.FixedUpdate();
+
+        //Si estoy en alguna cinematica / animacion, seteo la animacion de caminata.
+        if (_isDoingAnimation)
+        {
+            if (_rbCharacter.velocity.x != 0 || _rbCharacter.velocity.z != 0) _view.Walking(true);
+            else if (_rbCharacter.velocity.x == 0 && _rbCharacter.velocity.z == 0) _view.Walking(false);
+        }
 
         foreach (var item in cinematics)
         {

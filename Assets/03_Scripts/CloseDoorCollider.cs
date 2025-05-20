@@ -16,10 +16,20 @@ public class CloseDoorCollider : MonoBehaviour
     //public bool IsPlayerPassed { get { return _isPlayerPassed; } }
     public CloseDoorCollider otherCloseDoorCollider;
     private bool _isCLose;
+
+    private void Awake()
+    {
+        if (!door) Debug.LogError($"Falta mi referencia de door en: <color=yellow> {GetComponentInParent<DualDoor>().gameObject.name} </color>");
+
+        if (!otherCloseDoorCollider) Debug.LogError($"Falta mi referencia de OtherCloseDoorCollider en: <color=yellow> {GetComponentInParent<DualDoor>().gameObject.name} </color>");
+    }
+
     private void Update()
     {
         if (type == TypeCollider.Open) return;
+
         if (_isCLose) return;
+
         if (door.doorCanClose && otherCloseDoorCollider.door.doorCanClose)
         {
 
