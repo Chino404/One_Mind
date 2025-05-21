@@ -13,10 +13,9 @@ public class IceBox : Rewind
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 17||other.GetComponent<DeadInFall>())
-            transform.position = _position;
-        if (other.gameObject.layer == 19&&desiredPosition)
-            transform.position = desiredPosition.position;
+        if (other.gameObject.layer == 17||other.GetComponent<DeadInFall>()) transform.position = _position;
+
+        if (other.gameObject.layer == 19&&desiredPosition) transform.position = desiredPosition.position;
     }
 
     public override void Save()
@@ -33,5 +32,4 @@ public class IceBox : Rewind
         transform.position = (Vector3)col.parameters[1];
     }
 
-    
 }

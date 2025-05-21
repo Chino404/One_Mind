@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class NormalPressurePlate : Rewind, IInteracteable
+public class NormalPressurePlate : Rewind, IInteracteable, IObservableCamera
 {
     [Header("OBJECTS TO...")]
     [Space(5), SerializeField] private GameObject[] _active;
@@ -27,22 +27,10 @@ public class NormalPressurePlate : Rewind, IInteracteable
 
     public override void Awake()
     {
-        //_animator = GetComponent<Animator>();
         base.Awake();
 
         _audioSetting = GetComponent<AudioSetting>();
         //if (!_button) Debug.LogError($"Falta referencia de 'button' <color=yellow>{gameObject.name}</color>");
-    }
-
-    private void Start()
-    {
-        //for (int i = 0; i < _active.Length; i++)
-        //{
-        //    if (_active[i].activeInHierarchy) //Si los objetos a activar estan activos en la jerarquia, los apago
-        //    {
-        //        _active[i].gameObject.SetActive(false);
-        //    }
-        //}
     }
 
     private void Update()
@@ -59,17 +47,19 @@ public class NormalPressurePlate : Rewind, IInteracteable
         if (!_pressed)
         {
             if (!_isPressAgain) _pressed = true;
-            //_animator?.SetTrigger("Pressed");
 
-            //AudioManager.instance.Play(SoundId.OnlyActive);
             _audioSetting?.Play(SoundId.OnlyActive);
 
             for (int i = 0; i < _active.Length; i++) //Activo los objetos
             {
                 //_active[i].gameObject.SetActive(true);
 
-                if (!_active[i].GetComponent<DesactiveWall>()._isActing)
-                    _active[i].gameObject.GetComponent<DesactiveWall>().Active();
+                if (_camera.Count > 0)
+                {
+                    StartCoroutine(SwitchWall(i, true));
+                }
+
+                if (!_active[i].GetComponent<DesactiveWall>()._isActing) _active[i].gameObject.GetComponent<DesactiveWall>().Active();
                 else return;
 
             }
@@ -77,11 +67,17 @@ public class NormalPressurePlate : Rewind, IInteracteable
             for (int i = 0; i < _desactive.Length; i++) //Desactivo los objetos
             {
                 //_desactive[i].gameObject.SetActive(false);
-                if (!_desactive[i].GetComponent<DesactiveWall>()._isActing)
-                    _desactive[i].gameObject.GetComponent<DesactiveWall>().Desactive();
-                else return;
 
+                if(_camera.Count > 0)
+                {
+                    StartCoroutine(SwitchWall(i, false));
+                }
 
+                else
+                {
+                    if (!_desactive[i].GetComponent<DesactiveWall>()._isActing) _desactive[i].gameObject.GetComponent<DesactiveWall>().Desactive();
+                    else return;
+                }
             }
 
 
@@ -93,6 +89,7 @@ public class NormalPressurePlate : Rewind, IInteracteable
             }
 
             _isEmissiveOn = true;
+
             if (ButtonRender != null)
             {
                 Material mat = ButtonRender.material; // Instancia material para este renderer
@@ -106,7 +103,9 @@ public class NormalPressurePlate : Rewind, IInteracteable
     public void Deactive()
     {
         if (!_isPressAgain) return;
+
         _isEmissiveOn = false;
+
         if (ButtonRender != null)
         {
             Material mat = ButtonRender.material; // Instancia material para este renderer
@@ -116,6 +115,21 @@ public class NormalPressurePlate : Rewind, IInteracteable
         }
     }
 
+    IEnumerator SwitchWall(int index ,bool active)
+    {
+
+        _camera[index]?.Change();
+
+        yield return new WaitForSeconds(0.75f);
+
+        if (active && !_active[index].GetComponent<DesactiveWall>()._isActing) _active[index].gameObject.GetComponent<DesactiveWall>().Active();
+
+        if (!active && !_desactive[index].GetComponent<DesactiveWall>()._isActing) _desactive[index].gameObject.GetComponent<DesactiveWall>().Desactive();
+
+
+    }
+
+    #region Memento
     public override void Save()
     {
         if(!_button)
@@ -136,8 +150,6 @@ public class NormalPressurePlate : Rewind, IInteracteable
         _pressed = (bool)col.parameters[0];
         _button.transform.localPosition = (Vector3)col.parameters[1];
         _isEmissiveOn = (bool)col.parameters[2];
-        //if (_pressed == false)
-        //    _animator?.SetTrigger("Normal");
 
 
         if (ButtonRender.material != null)
@@ -154,5 +166,18 @@ public class NormalPressurePlate : Rewind, IInteracteable
 
             }
         }
+    }
+    #endregion
+
+    public List<IObserverCamera> _camera = new List<IObserverCamera>();
+
+    public void Suscribe(IObserverCamera obs)
+    {
+        if(!_camera.Contains(obs)) _camera.Add(obs);
+    }
+
+    public void Unsuscribe(IObserverCamera obs)
+    {
+        if (_camera.Contains(obs)) _camera.Remove(obs);
     }
 }
