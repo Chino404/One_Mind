@@ -160,7 +160,7 @@ public class BreakablePlatform : Rewind
 
     public override void Save()
     {
-        _currentState.Rec( _currentTrigger,_isBreaking);
+        _currentState.Rec( _currentTrigger);
     }
 
     public override void Load()
@@ -171,7 +171,7 @@ public class BreakablePlatform : Rewind
 
         //_myState = (BreakingState)col.parameters[0];
         //_currentTrigger = (string)col.parameters[1];
-        _isBreaking = (bool)col.parameters[1];
+        _isBreaking = false;
         transform.position = _startPos;
         //_isRecovering = (bool)col.parameters[4];
         StopAllCoroutines();

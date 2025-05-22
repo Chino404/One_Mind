@@ -161,6 +161,7 @@ GameObject:
   - component: {fileID: 6608365493966297804}
   - component: {fileID: 5044993417359829826}
   - component: {fileID: 8199839247432447005}
+  - component: {fileID: 6536328077894573117}
   m_Layer: 6
   m_Name: Plataform
   m_TagString: Untagged
@@ -269,10 +270,68 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentTrigger: 
   _timeToWarning: 0.6
-  _timeToBreaking: 0.3
   _timeToRecover: 2
   _waypoint: {fileID: 5392077517278858051}
   _speed: 5
+--- !u!114 &6536328077894573117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3674965309017733837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4acadee499ca15469b383637098c33c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: 2
+  _refPlayer: {fileID: 0}
+  sounds:
+  - target: 0
+    output: {fileID: -7543299602545284783, guid: e86c14edebd3fdc4d9a4b30f60285ecb,
+      type: 2}
+    name: Ice braking
+    clip: {fileID: 8300000, guid: 3e0f22177ab2a604bb8a0a50edd7c486, type: 3}
+    id: 3
+    indexSound: 0
+    maxVolume: 0.05
+    volumeCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    maxPitch: 1.2
+    minPitch: 0.8
+    isNotWithDistance: 0
+    maxDistance: 15
+    minDistance: 7
+    posSound: {x: 0, y: 0, z: 0}
+    currentDistance: 0
+    isLoop: 0
+    isPlayOnAwake: 0
+    source: {fileID: 0}
+    stereo: {fileID: 0}
+  mixer: {fileID: 24100000, guid: e86c14edebd3fdc4d9a4b30f60285ecb, type: 2}
 --- !u!1 &4777488895388385639
 GameObject:
   m_ObjectHideFlags: 0
