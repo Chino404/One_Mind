@@ -126,7 +126,7 @@ public class BreakablePlatform : Rewind
 
     void MoveTowardsWaypoint(Vector3 target)
     {
-        if (Vector3.Distance(transform.position, target) >= 0.5f)
+        if (Vector3.Distance(transform.position, target) >= 0.05f)
         {
             _velocity = target - transform.position;
             _velocity.Normalize();
