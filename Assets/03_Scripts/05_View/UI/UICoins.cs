@@ -84,7 +84,8 @@ public class UICoins : MonoBehaviour
             totalPointInThisSide = GameManager.instance.totalCoinsFrankSide;
 
             AddPoints(GameManager.instance.currentLevel.coinsObtainedFrankSide);
-        }     
+        }   
+        
         _rectTransform.anchoredPosition = hidePos;
 
     }
@@ -102,13 +103,10 @@ public class UICoins : MonoBehaviour
     {
         StopAllCoroutines();
 
-        
-        
-            
-            _show = true;
+        _show = true;
 
-            StartCoroutine(Show(_show));
-        
+        StartCoroutine(Show(_show));
+
     }
 
     IEnumerator Show(bool active)
