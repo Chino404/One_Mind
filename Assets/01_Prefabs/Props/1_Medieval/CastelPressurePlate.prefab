@@ -123,14 +123,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4acadee499ca15469b383637098c33c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: 2
   _refPlayer: {fileID: 0}
   sounds:
-  - name: Pressure
-    clip: {fileID: 8300000, guid: 9c4ed41ee774d6d4e80beb8ff6b55c6f, type: 3}
-    id: 3
-    target: 2
+  - target: 2
     output: {fileID: -7543299602545284783, guid: e86c14edebd3fdc4d9a4b30f60285ecb,
       type: 2}
+    name: Pressure
+    clip: {fileID: 8300000, guid: 9c4ed41ee774d6d4e80beb8ff6b55c6f, type: 3}
+    id: 3
+    indexSound: 0
     maxVolume: 0.1
     volumeCurve:
       serializedVersion: 2
@@ -386,7 +388,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5730741411819655784}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: d1f856333a145604d9009f55208d0822, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
