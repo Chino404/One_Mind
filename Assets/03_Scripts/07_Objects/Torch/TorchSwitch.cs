@@ -28,6 +28,8 @@ public class TorchSwitch : MonoBehaviour, IInteracteable
 
     [Tooltip("valor del tamaño del fueho")] private float _valueFireTreshold = 0f;
 
+    [SerializeField] private FireShader _fireShader;
+
     public ParticleSystem myParticleSystem;
     //[SerializeField] private ParticleSystem _myParticleAmber;
 
@@ -117,11 +119,16 @@ public class TorchSwitch : MonoBehaviour, IInteracteable
             _actualRangeLight = Mathf.Lerp(auxRange, _rangeLight,t);
             _light.range = _actualRangeLight;
 
+
             yield return null;
+
+            _fireShader.InterpolatShaderValue(true, t);
         }
 
         _fireMaterial.material.SetFloat(_IdFireThreshold, 1);
         _light.range = _rangeLight;
+
+        _fireShader.SetValueShader(true);
 
         if (_timer >= _timeToSpawn)
         {
@@ -161,11 +168,16 @@ public class TorchSwitch : MonoBehaviour, IInteracteable
             _actualRangeLight = Mathf.Lerp(auxRange, 0, t);
             _light.range = _actualRangeLight;
 
+
             yield return null;
+
+            _fireShader.InterpolatShaderValue(false, t);
         }
 
         _fireMaterial.material.SetFloat(_IdFireThreshold, 0);
         _light.range = 0;
+
+        _fireShader.SetValueShader(false);
 
         if (_timer >= _timeToSpawn)
         {

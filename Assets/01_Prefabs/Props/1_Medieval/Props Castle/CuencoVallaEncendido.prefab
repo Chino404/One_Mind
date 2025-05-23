@@ -98,7 +98,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5901169313099894495
 Transform:
   m_ObjectHideFlags: 0
@@ -5077,7 +5077,7 @@ GameObject:
   - component: {fileID: 4272484303827017118}
   - component: {fileID: 8849871647568646964}
   m_Layer: 0
-  m_Name: polySurface21
+  m_Name: Barandas Metalicas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5092,7 +5092,7 @@ Transform:
   m_GameObject: {fileID: 2094073007977515332}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.2632563e-16, y: 1.1097703, z: 0}
+  m_LocalPosition: {x: 0, y: 1.1097703, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5592,6 +5592,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5962309377022712654}
   - component: {fileID: 5172980405069042564}
+  - component: {fileID: 2723147675952226695}
   - component: {fileID: 2790099800158666514}
   m_Layer: 0
   m_Name: CuencoVallaEncendido
@@ -5613,9 +5614,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5901169313099894495}
   - {fileID: 9050153125663054750}
   - {fileID: 7573850453202381298}
+  - {fileID: 5901169313099894495}
   - {fileID: 7697110643573948284}
   - {fileID: 587625318489090904}
   - {fileID: 8279436921913054217}
@@ -5640,7 +5641,25 @@ MonoBehaviour:
   _rangeLight: 1.8
   iceTorch: 0
   _fireMaterial: {fileID: 8089088439362890637}
+  _fireShader: {fileID: 2723147675952226695}
   myParticleSystem: {fileID: 4255388846212327912}
+--- !u!114 &2723147675952226695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3757079604547234061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4d635142fcafe248b5468278bb53d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fireShader: {fileID: 3327527605209196583}
+  _shaderName: _Blend_Base_on
+  _maxValueShader: 0
+  _minValueShader: 0
+  _currentValueShader: 0
 --- !u!114 &2790099800158666514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6888,7 +6907,7 @@ GameObject:
   - component: {fileID: 1666341434111247192}
   - component: {fileID: 3327527605209196583}
   m_Layer: 0
-  m_Name: polySurface9
+  m_Name: Cuenco Metal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6903,7 +6922,7 @@ Transform:
   m_GameObject: {fileID: 7817501005687422466}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.00000022888183, y: 1.258509, z: -0.00057128904}
+  m_LocalPosition: {x: 0, y: 1.258509, z: -0.00057128904}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
