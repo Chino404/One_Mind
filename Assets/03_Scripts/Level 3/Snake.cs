@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum TypeOfSnake
+{
+    Eat,
+    Spit
+}
+
 public class Snake : MonoBehaviour
 {
     private Animator _animator;
@@ -10,7 +16,11 @@ public class Snake : MonoBehaviour
     private Vector3 _velocity;
     [SerializeField] private float _speed;
 
+
+    [SerializeField] private Snake _otherSnake;
+    [SerializeField] private TypeOfSnake _typeOfSnake;
     private bool _hasEaten;
+    public bool HasEaten { get { return _hasEaten; } }
 
     private void Start()
     {
