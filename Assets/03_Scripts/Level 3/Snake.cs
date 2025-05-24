@@ -29,14 +29,20 @@ public class Snake : MonoBehaviour
 
     private void Update()
     {
-        if (_hasEaten)
-            MoveTowardsWaypoint(_waypoint.position);
+        if (_typeOfSnake == TypeOfSnake.Eat)
+        {
+            if (_hasEaten)
+                MoveTowardsWaypoint(_waypoint.position);
+        }
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
-
-        StartCoroutine(Eat());
+        if (_typeOfSnake == TypeOfSnake.Eat)
+        {
+            StartCoroutine(Eat());
+        }
     }
 
     IEnumerator Eat()
